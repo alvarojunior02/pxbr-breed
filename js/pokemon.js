@@ -12,17 +12,12 @@ async function loadPokemonData() {
         pokemonData = data.map(
             pokemon => ({
                 id: pokemon.id,
-
                 name: pokemon.name.english,
-
-                eggGroups:
-                    pokemon.profile.egg,
-
-                thumbnail:
-                    pokemon.image.thumbnail,
-
-                evolution:
-                    pokemon.evolution || null
+                eggGroups: pokemon.profile.egg,
+                sprite: pokemon.image.sprite,
+                thumbnail: pokemon.image.thumbnail,
+                hires: pokemon.image.hires,
+                evolution: pokemon.evolution || null
             })
         );
 
@@ -42,13 +37,20 @@ function searchPokemon(searchTerm) {
         return [];
     }
 
+    const term =
+        searchTerm.toLowerCase();
+
     return pokemonData.filter(
         pokemon =>
             pokemon.name
                 .toLowerCase()
-                .includes(
-                    searchTerm.toLowerCase()
-                )
+                .includes(term)
+
+            ||
+
+            pokemon.id
+                .toString()
+                .includes(term)
     );
 }
 

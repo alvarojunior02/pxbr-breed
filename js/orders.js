@@ -98,8 +98,7 @@ function loadPlayersSelect() {
 }
 
 function createPokemonOrderRow() {
-    const row =
-        document.createElement("div");
+    const row = document.createElement("div");
 
     row.classList.add(
         "pokemon-order-row"
@@ -117,7 +116,17 @@ function createPokemonOrderRow() {
         <input
             type="text"
             class="pokemon-search"
-            placeholder="Digite o nome do Pokémon">
+            placeholder="Nome ou ID">
+
+        <div
+            class="pokemon-autocomplete">
+        </div>
+
+        <br>
+
+        <div
+            class="pokemon-selected-info">
+        </div>
 
         <br><br>
 
@@ -177,6 +186,44 @@ function createPokemonOrderRow() {
     const removeButton = row.querySelector(".btn-remove-pokemon");
     const natureSelect = row.querySelector(".pokemon-nature");
     const natureInfo =row.querySelector(".nature-info" );
+    const pokemonSearchInput = row.querySelector(".pokemon-search");
+    const pokemonAutocomplete =row.querySelector(".pokemon-autocomplete");
+    const pokemonSelectedInfo =row.querySelector(".pokemon-selected-info");
+
+    let selectedPokemon = null;
+
+    function renderPokemonInfo(pokemon) {
+        const basePokemon =
+            getBasePokemon(
+                pokemon.id
+            );
+
+        pokemonSelectedInfo.innerHTML = `
+        
+            <br>
+
+            <img
+                src="${pokemon.sprite}"
+                width="64">
+
+            <br>
+
+            <strong>
+                #${pokemon.id}
+                ${pokemon.name}
+            </strong>
+
+            <br>
+
+            Breed Base:
+            ${basePokemon.name}
+
+            <br>
+
+            Egg Groups:
+            ${pokemon.eggGroups.join(" | ")}
+        `;
+    }
 
     POKEMON_NATURES.forEach(
         nature => {
@@ -231,6 +278,105 @@ function createPokemonOrderRow() {
             <span style="color: red;">
                 -${selectedNature.negative}
             </span>
+        `;
+    }
+
+    pokemonSearchInput.addEventListener(
+        "input",
+        e => {
+            const searchTerm =
+                e.target.value.trim();
+
+            pokemonAutocomplete.innerHTML = "";
+
+            if (!searchTerm) {
+                return;
+            }
+
+            const results =
+                searchPokemon(searchTerm)
+                    .slice(0, 10);
+
+            results.forEach(
+                pokemon => {
+
+                    const item =
+                        document.createElement(
+                            "div"
+                        );
+
+                    item.innerHTML = `
+                    
+                        <img
+                            src="${pokemon.sprite}"
+                            width="32">
+
+                        #${pokemon.id}
+                        ${pokemon.name}
+
+                    `;
+
+                    item.style.cursor =
+                        "pointer";
+
+                    item.addEventListener(
+                        "click",
+                        () => {
+
+                            selectedPokemon =
+                                pokemon;
+
+                            pokemonSearchInput.value =
+                                pokemon.name;
+
+                            pokemonAutocomplete.innerHTML =
+                                "";
+
+                            renderPokemonInfo(
+                                pokemon
+                            );
+
+                        }
+                    );
+
+                    pokemonAutocomplete.appendChild(
+                        item
+                    );
+
+                }
+            );
+        }
+    );
+
+    function renderPokemonInfo(pokemon) {
+        const basePokemon =
+            getBasePokemon(
+                pokemon.id
+            );
+
+        pokemonSelectedInfo.innerHTML = `
+            <br>
+
+            <img
+                src="${pokemon.sprite}"
+                width="64">
+
+            <br>
+
+            <strong>
+                #${pokemon.id}
+                ${pokemon.name}
+            </strong>
+
+            <br>
+
+            Breed Base:
+            ${basePokemon?.name || "N/A"}
+
+            <br>
+
+            Egg Groups:
+            ${pokemon.eggGroups.join(" | ")}
         `;
     }
 
