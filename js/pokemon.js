@@ -8,14 +8,22 @@ async function loadPokemonData() {
         const data =
             await response.json();
 
-        pokemonData =
-            data.map(pokemon => ({
+        pokemonData = data.map(
+            pokemon => ({
                 id: pokemon.id,
+
                 name: pokemon.name.english,
-                eggGroups: pokemon.profile.egg,
+
+                eggGroups:
+                    pokemon.profile.egg,
+
                 thumbnail:
-                    pokemon.image.thumbnail
-            }));
+                    pokemon.image.thumbnail,
+
+                evolution:
+                    pokemon.evolution || null
+            })
+        );
 
         console.log(
             "Pokémons carregados:",
@@ -78,5 +86,34 @@ pokemonSearch.addEventListener(
         renderPokemonResults(results);
     }
 );
+
+function getPokemonById(id) {
+    return pokemonData.find(
+        pokemon => pokemon.id === Number(id)
+    );
+}
+
+function getBasePokemon(pokemonId) {
+    let pokemon =
+        getPokemonById(pokemonId);
+
+    while (
+        pokemon &&
+        pokemon.evolution &&
+        pokemon.evolution.prev
+    ) {
+
+        const previousId =
+            Number(
+                pokemon.evolution.prev[0]
+            );
+
+        pokemon =
+            getPokemonById(previousId);
+
+    }
+
+    return pokemon;
+}
 
 loadPokemonData();
