@@ -112,6 +112,21 @@ function calculateOrderTotal() {
         );
 }
 
+function updatePokemonRowLabels() {
+    const rows =
+        document.querySelectorAll(".pokemon-order-row");
+
+    rows.forEach((row, index) => {
+        const label =
+            row.querySelector(".pokemon-label");
+
+        if (label) {
+            label.textContent =
+                `Pokémon ${index + 1}`;
+        }
+    });
+}
+
 function loadPlayersSelect() {
 
     const players =
@@ -154,7 +169,7 @@ function createPokemonOrderRow() {
     row.innerHTML = `
         <hr>
 
-        <label>
+        <label class="pokemon-label">
             Pokémon
         </label>
 
@@ -241,8 +256,8 @@ function createPokemonOrderRow() {
     const natureSelect = row.querySelector(".pokemon-nature");
     const natureInfo = row.querySelector(".nature-info" );
     const pokemonSearchInput = row.querySelector(".pokemon-search");
-    const pokemonAutocomplete =row.querySelector(".pokemon-autocomplete");
-    const pokemonSelectedInfo =row.querySelector(".pokemon-selected-info");
+    const pokemonAutocomplete = row.querySelector(".pokemon-autocomplete");
+    const pokemonSelectedInfo = row.querySelector(".pokemon-selected-info");
 
     let selectedPokemon = null;
 
@@ -445,6 +460,7 @@ function createPokemonOrderRow() {
         "click",
         () => {
             row.remove();
+            updatePokemonRowLabels();
             calculateOrderTotal();
         }
     );
@@ -454,6 +470,10 @@ function createPokemonOrderRow() {
     pokemonOrderList.appendChild(
         row
     );
+
+    updatePokemonRowLabels();
+
+    calculateOrderTotal();
 }
 
 btnAddPokemon.addEventListener(
@@ -470,7 +490,7 @@ hasDiscount.addEventListener(
             hasDiscount.checked
                 ? "block"
                 : "none";
-                
+
         calculateOrderTotal();
     }
 );
