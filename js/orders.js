@@ -64,6 +64,7 @@ function createOrderPokemon({
 const orderPlayer = document.getElementById("orderPlayer");
 const pokemonOrderList = document.getElementById("pokemonOrderList");
 const btnAddPokemon = document.getElementById("btnAddPokemon");
+const btnCreateOrder =document.getElementById("btnCreateOrder");
 const hasDiscount = document.getElementById("hasDiscount");
 
 const discountValue = document.getElementById("discountValue");
@@ -154,6 +155,99 @@ function getPokemonRowData(row) {
     };
 }
 
+function getOrderPokemons() {
+    const rows =
+        document.querySelectorAll(
+            ".pokemon-order-row"
+        );
+
+    return Array.from(rows)
+        .map(getPokemonRowData);
+}
+
+function buildOrder() {
+    const pokemons =
+        getOrderPokemons();
+
+    const discount =
+        hasDiscount.checked
+            ? unformatMoney(
+                discountValue.value
+            )
+            : 0;
+
+    const subtotal =
+        pokemons.reduce(
+            (sum, pokemon) =>
+                sum + pokemon.value,
+            0
+        );
+
+    return {
+        id: generateUUID(),
+        playerId: orderPlayer.value,
+        pokemons,
+        subtotal,
+        discount,
+        total: subtotal - discount,
+        paid: false,
+        archived: false,
+        createdAt: new Date().toISOString()
+    };
+}
+
+function validateOrder(order) {
+    if (!order.playerId) {
+        alert(
+            "Selecione um player."
+        );
+
+        return false;
+    }
+
+    if (
+        order.pokemons.length === 0
+    ) {
+
+        alert(
+            "Adicione pelo menos um Pokémon."
+        );
+
+        return false;
+    }
+
+    const invalidPokemon =
+        order.pokemons.find(
+            pokemon =>
+                !pokemon.pokemonId
+        );
+
+    if (invalidPokemon) {
+
+        alert(
+            "Selecione todos os Pokémons."
+        );
+
+        return false;
+    }
+
+    const invalidValue =
+        order.pokemons.find(
+            pokemon =>
+                pokemon.value <= 0
+        );
+
+    if (invalidValue) {
+        alert(
+            "Todos os Pokémons devem possuir valor maior que zero."
+        );
+
+        return false;
+    }
+
+    return true;
+}
+
 function loadPlayersSelect() {
 
     const players =
@@ -225,8 +319,7 @@ function createPokemonOrderRow() {
 
         <br>
 
-        <select
-            class="pokemon-nature">
+        <select class="pokemon-nature">
 
         </select>
 
@@ -247,7 +340,8 @@ function createPokemonOrderRow() {
         <input
             type="text"
             class="pokemon-value"
-            value="$ 800.000">
+            value="$ 800.000"
+        >
 
         <br><br>
 
@@ -255,7 +349,8 @@ function createPokemonOrderRow() {
 
             <input
                 type="checkbox"
-                class="pokemon-breedable">
+                class="pokemon-breedable"
+            >
 
             Breedável
 
@@ -528,7 +623,21 @@ discountValue.addEventListener(
     calculateOrderTotal
 );
 
+btnCreateOrder.addEventListener(
+    "click",
+    () => {
+        const order =
+            buildOrder();
+
+        if (
+            !validateOrder(order)
+        ) {
+            return;
+        }
+
+        console.log(order);
+    }
+);
+
 loadPlayersSelect();
 createPokemonOrderRow();
-
-window.getPokemonRowData = getPokemonRowData;
