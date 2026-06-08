@@ -36,6 +36,10 @@ const orderPlayer = document.getElementById("orderPlayer");
 const pokemonOrderList = document.getElementById("pokemonOrderList");
 const btnAddPokemon = document.getElementById("btnAddPokemon");
 const btnCreateOrder =document.getElementById("btnCreateOrder");
+const orderModal = document.getElementById("orderModal");
+const orderSummary = document.getElementById("orderSummary");
+const btnCancelOrder = document.getElementById("btnCancelOrder");
+const btnConfirmOrder = document.getElementById("btnConfirmOrder");
 const hasDiscount = document.getElementById("hasDiscount");
 
 const discountValue = document.getElementById("discountValue");
@@ -109,10 +113,14 @@ function getPokemonRowData(row) {
     const natureSelect = row.querySelector(".pokemon-nature");
     const breedableToggle = row.querySelector(".pokemon-breedable");
 
+    const pokemon = getPokemonById(row.dataset.pokemonId);
+
     return {
         pokemonId: Number(row.dataset.pokemonId),
 
         pokemonName: row.dataset.pokemonName,
+
+        sprite: pokemon.sprite,
 
         breedPokemonId: Number(row.dataset.breedPokemonId),
 
@@ -217,6 +225,135 @@ function validateOrder(order) {
     }
 
     return true;
+}
+
+function renderOrderSummary(order) {
+
+    orderSummary.innerHTML =
+        "";
+
+    const player =
+        loadPlayers().find(
+            player =>
+                player.id ===
+                order.playerId
+        );
+
+    let html =
+        `
+        <p>
+            <strong>Player:</strong>
+            ${player.nick}
+        </p>
+    `;
+
+    order.pokemons.forEach(
+        pokemon => {
+            const nature = getNatureByName(
+                pokemon.nature
+            );
+
+            html +=
+                `
+                <hr>
+
+                <div class="modal-pokemon">
+
+                    <img
+                        src="${pokemon.sprite}"
+                        alt="${pokemon.pokemonName}"
+                        class="modal-pokemon-sprite">
+
+                    <div>
+
+                        <p>
+                            <strong>
+                                ${pokemon.pokemonName}
+                            </strong>
+                        </p>
+
+                        <p>
+                            Breed Base:
+                            ${pokemon.breedPokemonName}
+                        </p>
+
+                        <p>
+                            Nature:
+
+                            <strong>
+                                ${nature.name}
+                            </strong>
+
+                            ${
+                                nature.neutral
+
+                                    ? `
+                                        <span
+                                            class="nature-neutral">
+
+                                            (Neutral)
+
+                                        </span>
+                                    `
+
+                                    : `
+                                        <span
+                                            class="nature-positive">
+
+                                            (+${nature.positive})
+
+                                        </span>
+
+                                        <span
+                                            class="nature-negative">
+
+                                            (-${nature.negative})
+
+                                        </span>
+                                    `
+                            }
+
+                        </p>
+
+                        <p>
+                            ${
+                                pokemon.breedable
+                                    ? "Breedável"
+                                    : "Castrado"
+                            }
+                        </p>
+
+                        <p>
+                            Valor:
+                            ${formatMoney(
+                                pokemon.value
+                            )}
+                        </p>
+
+                    </div>
+
+                </div>
+                `;
+        }
+    );
+
+    html +=
+        `
+        <hr>
+
+        <p>
+            <strong>
+                Total:
+            </strong>
+
+            ${formatMoney(
+                order.total
+            )}
+        </p>
+    `;
+
+    orderSummary.innerHTML =
+        html;
 }
 
 function loadPlayersSelect() {
@@ -597,6 +734,7 @@ discountValue.addEventListener(
 btnCreateOrder.addEventListener(
     "click",
     () => {
+
         const order =
             buildOrder();
 
@@ -606,9 +744,55 @@ btnCreateOrder.addEventListener(
             return;
         }
 
-        console.log(order);
+        renderOrderSummary(
+            order
+        );
+
+        btnConfirmOrder.disabled =
+            true;
+
+        document
+            .querySelectorAll(
+                "input[name='needsFemale']"
+            )
+            .forEach(
+                radio =>
+                    radio.checked =
+                        false
+            );
+
+        orderModal.classList.remove(
+            "hidden"
+        );
     }
 );
+
+document
+    .querySelectorAll(
+        "input[name='needsFemale']"
+    )
+    .forEach(
+        radio => {
+
+            radio.addEventListener(
+                "change",
+                () => {
+
+                    btnConfirmOrder.disabled =
+                        false;
+
+                }
+            );
+
+        }
+    );
+
+btnCancelOrder.addEventListener(
+    "click",
+    () => {
+        orderModal.classList.add("hidden");
+    }
+);   
 
 loadPlayersSelect();
 createPokemonOrderRow();

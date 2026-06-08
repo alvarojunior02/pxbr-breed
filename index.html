@@ -3,7 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
+
     <title>PXBR Breed Manager</title>
+
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
@@ -140,7 +143,66 @@
 
             Criar Encomenda
         </button>
+        
+        <!-- Modal de Confirmação -->
+        <div 
+            id="orderModal"
+            class="modal hidden">
 
+            <div class="modal-content">
+
+                <h2>
+                    Confirmar Encomenda
+                </h2>
+
+                <div id="orderSummary"></div>
+
+                <hr>
+
+                <p>
+                    Precisa capturar alguma fêmea ainda?
+                </p>
+
+                <label>
+                    <input
+                        type="radio"
+                        name="needsFemale"
+                        value="yes">
+
+                    Sim
+                </label>
+
+                <label>
+                    <input
+                        type="radio"
+                        name="needsFemale"
+                        value="no">
+
+                    Não
+                </label>
+
+                <hr>
+
+                <button
+                    type="button"
+                    id="btnCancelOrder">
+
+                    Cancelar
+
+                </button>
+
+                <button
+                    type="button"
+                    id="btnConfirmOrder"
+                    disabled>
+
+                    Confirmar
+
+                </button>
+
+            </div>
+
+        </div>
     </div>
 
     <script src="js/storage.js"></script>

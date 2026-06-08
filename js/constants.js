@@ -66,6 +66,13 @@ function getStatusByValue(value) {
     );
 }
 
+function getNatureByName(name) {
+    return POKEMON_NATURES.find(
+        nature =>
+            nature.name === name
+    );
+}
+
 function getNextStatus(currentValue) {
 
     const currentIndex =
@@ -77,4 +84,26 @@ function getNextStatus(currentValue) {
     return ORDER_STATUS[
         currentIndex + 1
     ] || null;
+}
+
+function isLastStatus(value) {
+
+    const lastStatus =
+        ORDER_STATUS[
+            ORDER_STATUS.length - 1
+        ];
+
+    return value === lastStatus.value;
+}
+
+function getFirstStatus() {
+    return ORDER_STATUS[0];
+}
+
+function isFirstStatus(value) {
+
+    const firstStatus =
+        ORDER_STATUS[0];
+
+    return value === firstStatus.value;
 }
