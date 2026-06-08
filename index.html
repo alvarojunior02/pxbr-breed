@@ -10,6 +10,8 @@
 
     <h1>PXBR Breed Manager</h1>
 
+    <hr>
+
     <h2>Pesquisar Pokémon</h2>
 
     <input
@@ -18,6 +20,8 @@
         placeholder="Digite o nome">
 
     <ul id="pokemonResults"></ul>
+
+    <hr>
 
     <h2>Novo Player</h2>
 
@@ -30,6 +34,7 @@
         Salvar
     </button>
 
+    <hr>
 
     <h2>Players Cadastrados</h2>
     <p>
@@ -45,11 +50,103 @@
 
     <ul id="playersList"></ul>
 
+    <hr>
+
+    <h2>Nova Encomenda</h2>
+
+    <div id="orderForm">
+
+        <div>
+
+            <label for="orderPlayer">
+                Player
+            </label>
+
+            <br>
+
+            <select id="orderPlayer">
+
+                <option value="">
+                    Selecione um player
+                </option>
+
+            </select>
+
+        </div>
+
+        <br>
+
+        <div>
+
+            <h3>Pokémons</h3>
+
+            <div id="pokemonOrderList">
+
+            </div>
+
+            <button
+                type="button"
+                id="btnAddPokemon">
+
+                + Adicionar Pokémon
+
+            </button>
+
+        </div>
+
+        <br>
+
+        <div>
+
+            <label>
+                Desconto
+            </label>
+
+            <input
+                type="checkbox"
+                id="hasDiscount">
+
+            <br><br>
+
+            <input
+                type="number"
+                id="discountValue"
+                placeholder="Valor do desconto"
+                style="display:none;">
+
+        </div>
+
+        <br>
+
+        <div>
+
+            <strong>
+                Total:
+            </strong>
+
+            <span id="orderTotal">
+                0
+            </span>
+
+        </div>
+
+        <br>
+
+        <button
+            type="button"
+            id="btnCreateOrder">
+
+            Criar Encomenda
+
+        </button>
+
+    </div>
+
     <script src="js/storage.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/pokemon.js"></script>
     <script src="js/players.js"></script>
-
+    <script src="js/orders.js"></script>
 </body>
 
 </html>

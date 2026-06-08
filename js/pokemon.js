@@ -1,4 +1,5 @@
 let pokemonData = [];
+let pokemonLoaded = false;
 
 async function loadPokemonData() {
     try {
@@ -29,6 +30,8 @@ async function loadPokemonData() {
             "Pokémons carregados:",
             pokemonData.length
         );
+
+        pokemonLoaded = true;
     } catch (error) {
         console.log( "Erro ao carregar Pokédex:", error);
     }
@@ -114,6 +117,10 @@ function getBasePokemon(pokemonId) {
     }
 
     return pokemon;
+}
+
+function isPokemonDataLoaded() {
+    return pokemonLoaded;
 }
 
 loadPokemonData();
