@@ -64,6 +64,53 @@ function createOrderPokemon({
 const orderPlayer = document.getElementById("orderPlayer");
 const pokemonOrderList = document.getElementById("pokemonOrderList");
 const btnAddPokemon = document.getElementById("btnAddPokemon");
+const hasDiscount = document.getElementById("hasDiscount");
+const discountValue = document.getElementById("discountValue");
+const orderTotal = document.getElementById("orderTotal");
+
+function calculateOrderTotal() {
+    const rows =
+        document.querySelectorAll(
+            ".pokemon-order-row"
+        );
+
+    let subtotal = 0;
+
+    rows.forEach(row => {
+
+        const valueInput =
+            row.querySelector(
+                ".pokemon-value"
+            );
+
+        subtotal +=
+            Number(
+                valueInput.value
+            ) || 0;
+
+    });
+
+    let discount = 0;
+
+    if (
+        hasDiscount.checked
+    ) {
+
+        discount =
+            Number(
+                discountValue.value
+            ) || 0;
+
+    }
+
+    const total =
+        subtotal - discount;
+
+    orderTotal.textContent =
+        total.toLocaleString(
+            "pt-BR"
+        );
+}
 
 function loadPlayersSelect() {
 
@@ -183,9 +230,16 @@ function createPokemonOrderRow() {
         </button>
     `;
 
+    const valueInput =row.querySelector(".pokemon-value");
+
+    valueInput.addEventListener(
+        "input",
+        calculateOrderTotal
+    );
+
     const removeButton = row.querySelector(".btn-remove-pokemon");
     const natureSelect = row.querySelector(".pokemon-nature");
-    const natureInfo =row.querySelector(".nature-info" );
+    const natureInfo = row.querySelector(".nature-info" );
     const pokemonSearchInput = row.querySelector(".pokemon-search");
     const pokemonAutocomplete =row.querySelector(".pokemon-autocomplete");
     const pokemonSelectedInfo =row.querySelector(".pokemon-selected-info");
@@ -391,8 +445,11 @@ function createPokemonOrderRow() {
         "click",
         () => {
             row.remove();
+            calculateOrderTotal();
         }
     );
+
+    calculateOrderTotal();
 
     pokemonOrderList.appendChild(
         row
@@ -404,6 +461,23 @@ btnAddPokemon.addEventListener(
     () => {
         createPokemonOrderRow();
     }
+);
+
+hasDiscount.addEventListener(
+    "change",
+    () => {
+        discountValue.style.display =
+            hasDiscount.checked
+                ? "block"
+                : "none";
+                
+        calculateOrderTotal();
+    }
+);
+
+discountValue.addEventListener(
+    "input",
+    calculateOrderTotal
 );
 
 loadPlayersSelect();
