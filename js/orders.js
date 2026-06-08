@@ -2,8 +2,10 @@ function createOrder(playerId) {
     return {
         id: generateUUID(),
         playerId,
+        total: 0,
         discount: 0,
         paid: false,
+        needsFemale: false,
         archived: false,
         createdAt: new Date().toISOString(),
         pokemons: []
@@ -173,6 +175,63 @@ function buildOrder() {
         archived: false,
         createdAt: new Date().toISOString()
     };
+}
+
+function getInitialPokemonStatus() {
+    const selectedOption =
+        document.querySelector(
+            "input[name='needsFemale']:checked"
+        );
+
+    if (!selectedOption) {
+        return null;
+    }
+
+    return selectedOption.value === "yes"
+        ? ORDER_STATUS[0].value
+        : ORDER_STATUS[1].value;
+}
+
+function createPersistedOrder(orderData) {
+    const order = createOrder(orderData.playerId);
+
+    order.total = orderData.total;
+
+    order.discount = orderData.discount;
+
+    order.paid = false;
+
+    const initialStatus = getInitialPokemonStatus();
+
+    const needsFemale = 
+        initialStatus === ORDER_STATUS[0].value;  
+        
+    order.needsFemale = isFirstStatus(initialStatus);
+
+    order.pokemons =
+        orderData.pokemons.map(
+            pokemon => ({
+
+                ...pokemon,
+
+                id:
+                    generateUUID(),
+
+                status:
+                    initialStatus
+            })
+        );
+
+    return order;
+}
+
+function saveOrder(order) {
+    const orders =
+        loadOrders();
+
+    orders.push(order);
+
+    saveOrders(orders);
 }
 
 function validateOrder(order) {
@@ -792,7 +851,31 @@ btnCancelOrder.addEventListener(
     () => {
         orderModal.classList.add("hidden");
     }
-);   
+);
+
+btnConfirmOrder.addEventListener(
+    "click",
+    () => {
+        const orderData =
+            buildOrder();
+
+        const order =
+            createPersistedOrder(
+                orderData
+            );
+
+        saveOrder(order);
+
+        console.log(
+            "Encomenda salva:",
+            order
+        );
+
+        orderModal.classList.add(
+            "hidden"
+        );
+    }
+);
 
 loadPlayersSelect();
 createPokemonOrderRow();
