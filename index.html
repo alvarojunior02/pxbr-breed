@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PXBR Breed Manager</title>
+</head>
+
+<body>
+
+    <h1>PXBR Breed Manager</h1>
+
+    <h2>Pesquisar Pokémon</h2>
+
+    <input
+        type="text"
+        id="pokemonSearch"
+        placeholder="Digite o nome">
+
+    <ul id="pokemonResults"></ul>
+
+    <h2>Novo Player</h2>
+
+    <input
+        type="text"
+        id="playerNick"
+        placeholder="Nick do player">
+
+    <button id="btnSavePlayer">
+        Salvar
+    </button>
+
+
+    <h2>Players Cadastrados</h2>
+    <p>
+        Total de players:
+        <span id="playersCount">0</span>
+    </p>
+
+    <input
+        type="text"
+        id="searchPlayer"
+        placeholder="Pesquisar player"
+    >
+
+    <ul id="playersList"></ul>
+
+    <script src="js/storage.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/pokemon.js"></script>
+    <script src="js/players.js"></script>
+
+</body>
+
+</html>
