@@ -132,6 +132,28 @@ function updatePokemonRowLabels() {
     });
 }
 
+function getPokemonRowData(row) {
+    const valueInput = row.querySelector(".pokemon-value");
+    const natureSelect = row.querySelector(".pokemon-nature");
+    const breedableToggle = row.querySelector(".pokemon-breedable");
+
+    return {
+        pokemonId: Number(row.dataset.pokemonId),
+
+        pokemonName: row.dataset.pokemonName,
+
+        breedPokemonId: Number(row.dataset.breedPokemonId),
+
+        breedPokemonName: row.dataset.breedPokemonName,
+
+        nature: natureSelect.value,
+
+        value:unformatMoney(valueInput.value),
+
+        breedable:breedableToggle.checked
+    };
+}
+
 function loadPlayersSelect() {
 
     const players =
@@ -397,20 +419,20 @@ function createPokemonOrderRow() {
                     item.addEventListener(
                         "click",
                         () => {
+                            selectedPokemon = pokemon;
 
-                            selectedPokemon =
-                                pokemon;
+                            row.dataset.pokemonId = pokemon.id;
+                            row.dataset.pokemonName = pokemon.name;
 
-                            pokemonSearchInput.value =
-                                pokemon.name;
+                            const basePokemon = getBasePokemon(pokemon.id);
+                            row.dataset.breedPokemonId = basePokemon.id;
+                            row.dataset.breedPokemonName = basePokemon.name;
 
-                            pokemonAutocomplete.innerHTML =
-                                "";
+                            pokemonSearchInput.value = pokemon.name;
 
-                            renderPokemonInfo(
-                                pokemon
-                            );
+                            pokemonAutocomplete.innerHTML = "";
 
+                            renderPokemonInfo(pokemon);
                         }
                     );
 
@@ -508,3 +530,5 @@ discountValue.addEventListener(
 
 loadPlayersSelect();
 createPokemonOrderRow();
+
+window.getPokemonRowData = getPokemonRowData;
