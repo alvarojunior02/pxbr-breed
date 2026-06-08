@@ -202,9 +202,6 @@ function createPersistedOrder(orderData) {
     order.paid = false;
 
     const initialStatus = getInitialPokemonStatus();
-
-    const needsFemale = 
-        initialStatus === ORDER_STATUS[0].value;  
         
     order.needsFemale = isFirstStatus(initialStatus);
 
@@ -232,6 +229,155 @@ function saveOrder(order) {
     orders.push(order);
 
     saveOrders(orders);
+}
+
+function resetOrderForm() {
+    orderPlayer.value = "";
+
+    hasDiscount.checked = false;
+
+    discountValue.value = formatMoney(0);
+
+    discountValue.style.display = "none";
+
+    pokemonOrderList.innerHTML = "";
+
+    document
+        .querySelectorAll(
+            "input[name='needsFemale']"
+        )
+        .forEach(
+            radio =>
+                radio.checked =
+                    false
+        );
+
+    btnConfirmOrder.disabled = true;
+
+    createPokemonOrderRow();
+
+    calculateOrderTotal();
+}
+
+function renderOrdersList() {
+
+    const orders = loadOrders();
+
+    const ordersList = document.getElementById("ordersList");
+    const ordersCount = document.getElementById("ordersCount");
+
+    ordersCount.textContent = orders.length;
+
+    ordersList.innerHTML = "";
+
+    orders.forEach(order => {
+        const card =
+            document.createElement("div");
+
+        card.classList.add(
+            "order-card"
+        );
+
+        card.innerHTML =
+            createOrderCard(order);
+
+        ordersList.appendChild(card);
+    });
+}
+
+function getOrderStatusSummary(order) {
+    const summary = {};
+
+    order.pokemons.forEach(
+        pokemon => {
+
+            summary[
+                pokemon.status
+            ] =
+                (summary[
+                    pokemon.status
+                ] || 0) + 1;
+
+        }
+    );
+
+    return summary;
+}
+
+function createOrderCard(order) {
+    const player =
+        loadPlayers().find(
+            player =>
+                player.id ===
+                order.playerId
+        );
+
+    const statusSummary =
+        getOrderStatusSummary(
+            order
+        );
+
+    const statusHtml =
+        Object.entries(
+            statusSummary
+        )
+            .map(
+                ([status, count]) =>
+                    `
+                    <li>
+                        ${count}
+                        ${
+                            getStatusByValue(
+                                status
+                            ).name
+                        }
+                    </li>
+                    `
+            )
+            .join("");
+
+    return `
+        <h3>
+            Pedido #${order.id.slice(0, 8)}
+        </h3>
+
+        <p>
+            Player:
+            ${player?.nick ?? "-"}
+        </p>
+
+        <p>
+            Pokémons:
+            ${order.pokemons.length}
+        </p>
+
+        <p>
+            Total:
+            ${formatMoney(
+                order.total
+            )}
+        </p>
+
+        <p>
+            Criado em:
+            ${formatDate(
+                order.createdAt
+            )}
+        </p>
+
+        <strong>Status</strong>
+
+        <ul>
+            ${statusHtml}
+        </ul>
+
+        <button
+            type="button">
+
+            Ver Detalhes
+
+        </button>
+    `;
 }
 
 function validateOrder(order) {
@@ -551,39 +697,6 @@ function createPokemonOrderRow() {
 
     let selectedPokemon = null;
 
-    function renderPokemonInfo(pokemon) {
-        const basePokemon =
-            getBasePokemon(
-                pokemon.id
-            );
-
-        pokemonSelectedInfo.innerHTML = `
-        
-            <br>
-
-            <img
-                src="${pokemon.sprite}"
-                width="64">
-
-            <br>
-
-            <strong>
-                #${pokemon.id}
-                ${pokemon.name}
-            </strong>
-
-            <br>
-
-            Breed Base:
-            ${basePokemon.name}
-
-            <br>
-
-            Egg Groups:
-            ${pokemon.eggGroups.join(" | ")}
-        `;
-    }
-
     POKEMON_NATURES.forEach(
         nature => {
             const option =
@@ -866,6 +979,10 @@ btnConfirmOrder.addEventListener(
 
         saveOrder(order);
 
+        renderOrdersList();
+
+        resetOrderForm();
+
         console.log(
             "Encomenda salva:",
             order
@@ -879,3 +996,4 @@ btnConfirmOrder.addEventListener(
 
 loadPlayersSelect();
 createPokemonOrderRow();
+renderOrdersList();

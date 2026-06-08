@@ -76,3 +76,17 @@
 
     font-weight: bold;
 }
+
+.order-card {
+    border: 1px solid #ccc;
+
+    border-radius: 8px;
+
+    padding: 12px;
+
+    margin-bottom: 12px;
+}
+
+.order-card h3 {
+    margin-top: 0;
+}
