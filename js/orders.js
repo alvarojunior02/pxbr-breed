@@ -1,32 +1,3 @@
-const POKEMON_NATURES = [
-    { name: "Jolly", positive: "Spe", negative: "SpA", neutral: false },
-    { name: "Timid", positive: "Spe", negative: "Atk", neutral: false },
-    { name: "Adamant", positive: "Atk", negative: "SpA", neutral: false },
-    { name: "Modest", positive: "SpA", negative: "Atk", neutral: false },
-    { name: "Bold", positive: "Def", negative: "Atk", neutral: false },
-    { name: "Impish", positive: "Def", negative: "SpA", neutral: false },
-    { name: "Careful", positive: "SpD", negative: "SpA", neutral: false },
-
-    { name: "Brave", positive: "Atk", negative: "Spe", neutral: false },
-    { name: "Calm", positive: "SpD", negative: "Atk", neutral: false },
-    { name: "Gentle", positive: "SpD", negative: "Def", neutral: false },
-    { name: "Hasty", positive: "Spe", negative: "Def", neutral: false },
-    { name: "Lonely", positive: "Atk", negative: "Def", neutral: false },
-    { name: "Mild", positive: "SpA", negative: "Def", neutral: false },
-    { name: "Naive", positive: "Spe", negative: "SpD", neutral: false },
-    { name: "Naughty", positive: "Atk", negative: "SpD", neutral: false },
-    { name: "Quiet", positive: "SpA", negative: "Spe", neutral: false },
-    { name: "Rash", positive: "SpA", negative: "SpD", neutral: false },
-    { name: "Relaxed", positive: "Def", negative: "Spe", neutral: false },
-    { name: "Sassy", positive: "SpD", negative: "Spe", neutral: false },
-
-    { name: "Hardy", neutral: true },
-    { name: "Docile", neutral: true },
-    { name: "Serious", neutral: true },
-    { name: "Bashful", neutral: true },
-    { name: "Quirky", neutral: true }
-];
-
 function createOrder(playerId) {
     return {
         id: generateUUID(),
@@ -340,7 +311,7 @@ function createPokemonOrderRow() {
         <input
             type="text"
             class="pokemon-value"
-            value="$ 800.000"
+            value="$ ${DEFAULT_POKEMON_PRICE}"}"
         >
 
         <br><br>
