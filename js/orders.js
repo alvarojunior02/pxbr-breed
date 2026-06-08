@@ -65,51 +65,56 @@ const orderPlayer = document.getElementById("orderPlayer");
 const pokemonOrderList = document.getElementById("pokemonOrderList");
 const btnAddPokemon = document.getElementById("btnAddPokemon");
 const hasDiscount = document.getElementById("hasDiscount");
+
 const discountValue = document.getElementById("discountValue");
+applyMoneyMask(discountValue);
+
 const orderTotal = document.getElementById("orderTotal");
 
 function calculateOrderTotal() {
     const rows =
-        document.querySelectorAll(
-            ".pokemon-order-row"
-        );
+        document.querySelectorAll(".pokemon-order-row");
 
     let subtotal = 0;
 
     rows.forEach(row => {
-
         const valueInput =
-            row.querySelector(
-                ".pokemon-value"
-            );
+            row.querySelector(".pokemon-value");
 
         subtotal +=
-            Number(
+            unformatMoney(
                 valueInput.value
-            ) || 0;
-
+            );
     });
 
     let discount = 0;
 
-    if (
-        hasDiscount.checked
-    ) {
-
+    if (hasDiscount.checked) {
         discount =
-            Number(
+            unformatMoney(
                 discountValue.value
-            ) || 0;
-
+            );
     }
 
     const total =
         subtotal - discount;
 
     orderTotal.textContent =
-        total.toLocaleString(
-            "pt-BR"
-        );
+        formatMoney(total);
+}
+
+function applyMoneyMask(input) {
+    input.addEventListener("input", () => {
+        const value =
+            unformatMoney(
+                input.value
+            );
+
+        input.value =
+            formatMoney(value);
+
+        calculateOrderTotal();
+    });
 }
 
 function updatePokemonRowLabels() {
@@ -218,9 +223,9 @@ function createPokemonOrderRow() {
         <br>
 
         <input
-            type="number"
+            type="text"
             class="pokemon-value"
-            value="800000">
+            value="$ 800.000">
 
         <br><br>
 
@@ -245,7 +250,8 @@ function createPokemonOrderRow() {
         </button>
     `;
 
-    const valueInput =row.querySelector(".pokemon-value");
+    const valueInput = row.querySelector(".pokemon-value");
+    applyMoneyMask(valueInput);
 
     valueInput.addEventListener(
         "input",

@@ -9,3 +9,13 @@ function formatDate(date) {
 function formatCurrency(value) {
     return value.toLocaleString("pt-BR");
 }
+
+function formatMoney(value) {
+    return `$ ${Number(value).toLocaleString("pt-BR")}`;
+}
+
+function unformatMoney(value) {
+    return Number(
+        value.replace(/\D/g, "")
+    ) || 0;
+}
