@@ -99,6 +99,7 @@ function renderOrderDetails(order) {
                 ? `
                     <button
                         type="button"
+                        class="button-archive"
                         onclick="archiveOrder('${order.id}')">
 
                         Arquivar Encomenda
@@ -173,8 +174,13 @@ function createPokemonDetailsCard(
             >
 
             <h3>
-                #${pokemon.pokemonId}
-                ${pokemon.pokemonName}
+                <strong>
+                    ${pokemon.pokemonName}
+                </strong>
+
+                <span class="pokemon-summary-id">
+                    (#${String(pokemon.pokemonId).padStart(3, "0")})
+                </span>
             </h3>
 
             <p>

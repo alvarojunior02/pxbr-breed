@@ -909,37 +909,65 @@ button:disabled {
     margin-bottom: 12px;
 }
 
-.order-details-pokemon-grid {
-    display: grid;
-    grid-template-columns: repeat(
-        auto-fit,
-        minmax(260px, 1fr)
-    );
-    gap: 16px;
+#orderDetailsModal .modal-content {
+    width: 1040px;
 }
 
-.pokemon-details-card {
+.order-details-pokemon-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+}
+
+.order-details-pokemon-grid .pokemon-details-card {
+    width: 280px;
+    max-width: 280px;
+    min-height: 0;
     display: flex;
     flex-direction: column;
+    padding: 12px;
+}
+
+.order-details-pokemon-grid .pokemon-details-card img {
+    align-self: center;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 8px;
+}
+
+.order-details-pokemon-grid .pokemon-details-card h3 {
+    font-size: 1rem;
+    margin: 6px 0 10px;
+}
+
+.order-details-pokemon-grid .pokemon-details-card p {
+    margin: 5px 0;
+    line-height: 1.35;
+}
+
+.order-details-pokemon-grid .pokemon-details-card {
+    margin-top: auto;
+    padding-top: 10px;
 }
 
 .pokemon-details-status {
-    margin-top: auto;
-    padding-top: 12px;
+    margin-top: 0px;
 }
 
 .status-action-button {
     width: 100%;
     margin-top: 8px;
+    color: #0f172a;
+    font-weight: 700;
 }
 
 .status-action-button.status-ready {
-    background: #d4a017;
-    color: #111827;
+    background: #facc15;
 }
 
 .status-action-button.status-progress {
-    background: #0ea5e9;
+    background: #38bdf8;
 }
 
 .status-action-button.status-done {
@@ -947,7 +975,7 @@ button:disabled {
 }
 
 .status-action-button.status-delivered {
-    background: #64748b;
+    background: #94a3b8;
 }
 
 .breedable-yes {
