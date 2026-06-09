@@ -178,6 +178,25 @@ function populateAbilitySelect(select, abilities) {
         false;
 }
 
+function renderAbilityText(ability) {
+    if (!ability) {
+        return "-";
+    }
+
+    return `
+        ${ability.name}
+        ${
+            ability.isHA
+                ? `
+                    <span class="ability-ha">
+                        (HA)
+                    </span>
+                `
+                : ""
+        }
+    `;
+}
+
 function getPokemonRowData(row) {
     const valueInput = row.querySelector(".pokemon-value");
     const natureSelect = row.querySelector(".pokemon-nature");
@@ -621,6 +640,7 @@ function renderOrderDetails(order) {
     `;
 }
 
+// CREATE POKEMON DETAILS CARD
 function createPokemonDetailsCard(
     pokemon
 ) {
@@ -650,6 +670,11 @@ function createPokemonDetailsCard(
             <p>
                 Nature:
                 ${nature.name}
+            </p>
+
+            <p>
+                Ability:
+                ${renderAbilityText(pokemon.ability)}
             </p>
 
             <p>
@@ -861,6 +886,7 @@ function validateOrder(order) {
     return true;
 }
 
+// RENDER ORDER SUMMARY
 function renderOrderSummary(order) {
 
     orderSummary.innerHTML =
@@ -947,6 +973,11 @@ function renderOrderSummary(order) {
                                     `
                             }
 
+                        </p>
+
+                        <p>
+                            Ability:
+                            ${renderAbilityText(pokemon.ability)}
                         </p>
 
                         <p>
