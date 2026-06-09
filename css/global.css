@@ -1,0 +1,156 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #0f172a;
+    --sidebar-bg: #111827;
+    --surface: #1e293b;
+    --surface-hover: #334155;
+    --border: #334155;
+
+    --text: #f8fafc;
+    --text-muted: #cbd5e1;
+    --text-soft: #94a3b8;
+
+    --accent: #38bdf8;
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+
+    --success: #22c55e;
+    --warning: #facc15;
+    --danger: #ef4444;
+    --gold: #d4a017;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.hidden,
+.modal.hidden {
+    display: none;
+}
+
+h1,
+h2,
+h3 {
+    color: var(--text);
+}
+
+p {
+    color: var(--text-muted);
+}
+
+hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 20px 0;
+}
+
+.nature-positive {
+    color: var(--success);
+    font-weight: bold;
+}
+
+.nature-negative {
+    color: var(--danger);
+    font-weight: bold;
+}
+
+.nature-neutral {
+    color: var(--text-soft);
+    font-weight: bold;
+}
+
+.ability-ha {
+    color: var(--gold);
+    font-weight: bold;
+}
+
+.status-needs-female {
+    color: #f472b6;
+    font-weight: bold;
+}
+
+.status-ready {
+    color: var(--warning);
+    font-weight: bold;
+}
+
+.status-progress {
+    color: var(--accent);
+    font-weight: bold;
+}
+
+.status-done {
+    color: var(--success);
+    font-weight: bold;
+}
+
+.status-delivered {
+    color: var(--text-soft);
+    font-weight: bold;
+}
+
+.payment-paid {
+    color: var(--success);
+    font-weight: bold;
+}
+
+.payment-pending {
+    color: var(--danger);
+    font-weight: bold;
+}
+
+.payment-partial {
+    color: var(--gold);
+    font-weight: bold;
+}
+
+.payment-missing {
+    display: block;
+    margin-left: 16px;
+    color: var(--text-soft);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.payment-warning {
+    background: rgba(250, 204, 21, 0.12);
+    border: 1px solid var(--warning);
+    color: #fde68a;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.payment-warning strong {
+    font-size: 1.2rem;
+}
+
+.archive-ready {
+    color: var(--text-soft);
+    font-weight: bold;
+}
+
+.archived-label {
+    color: var(--text-soft);
+    font-weight: bold;
+    margin-top: 0;
+}
+
+.breedable-yes {
+    color: #86efac;
+    font-weight: bold;
+}
+
+.breedable-no {
+    color: #fca5a5;
+    font-weight: bold;
+}
