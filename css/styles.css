@@ -97,6 +97,12 @@ body {
     display: none;
 }
 
+.modal-footer {
+    margin-top: 20px;
+    display: flex;
+    gap: 8px;
+}
+
 h1,
 h2,
 h3 {
@@ -1096,4 +1102,14 @@ button:disabled {
     background: transparent;
     text-decoration: underline;
     color: #7dd3fc;
+}
+
+.player-card-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.player-card-actions button {
+    width: fit-content;
 }

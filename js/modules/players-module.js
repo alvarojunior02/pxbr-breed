@@ -9,6 +9,10 @@ const playerSummaryModal = document.getElementById("playerSummaryModal");
 const playerSummaryContent = document.getElementById("playerSummaryContent");
 const btnClosePlayerSummary = document.getElementById("btnClosePlayerSummary");
 
+const playerTransactionsModal = document.getElementById("playerTransactionsModal");
+const playerTransactionsContent = document.getElementById("playerTransactionsContent");
+const btnClosePlayerTransactions = document.getElementById("btnClosePlayerTransactions");
+
 function getPlayerOrders(playerId) {
     return loadOrders()
         .filter(order =>
@@ -96,13 +100,23 @@ function renderPlayersModule() {
                 </span>
             </p>
 
-            <button
-                type="button"
-                onclick="showPlayerOrders('${player.id}')">
+            <div class="player-card-actions">
+                <button
+                    type="button"
+                    onclick="showPlayerOrders('${player.id}')">
 
-                Ver Encomendas
+                    Encomendas
 
-            </button>
+                </button>
+
+                <button
+                    type="button"
+                    onclick="openPlayerTransactionsModal('${player.id}')">
+
+                    Transações
+
+                </button>
+            </div>
         `;
 
         playersCards.appendChild(card);
@@ -232,6 +246,82 @@ function openPlayerSummaryModal(playerId) {
     );
 }
 
+function openPlayerTransactionsModal(playerId) {
+    const player =
+        loadPlayers().find(
+            player =>
+                player.id === playerId
+        );
+
+    if (!player) {
+        return;
+    }
+
+    const transactions = getPlayerTransactions(playerId);
+
+    const rows =
+        transactions
+            .map(transaction => `
+                <tr>
+                    <td>
+                        ${formatDateTime(transaction.createdAt)}
+                    </td>
+
+                    <td>
+                        ${formatMoney(transaction.amount)}
+                    </td>
+
+                    <td>
+                        <button
+                            type="button"
+                            onclick="openOrderDetails('${transaction.orderId}')">
+
+                            Ver Encomenda
+
+                        </button>
+                    </td>
+                </tr>
+            `)
+            .join("");
+
+    playerTransactionsContent.innerHTML =
+        `
+        <h3>
+            ${player.nick}
+        </h3>
+
+        ${
+            transactions.length === 0
+                ? `
+                    <p>
+                        Nenhuma transação registrada para este player.
+                    </p>
+                `
+                : `
+                    <div class="table-wrapper">
+                        <table class="finance-table">
+                            <thead>
+                                <tr>
+                                    <th>Data/Hora</th>
+                                    <th>Valor</th>
+                                    <th>Encomenda</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                ${rows}
+                            </tbody>
+                        </table>
+                    </div>
+                `
+        }
+    `;
+
+    playerTransactionsModal.classList.remove(
+        "hidden"
+    );
+}
+
 btnOpenNewPlayerModal.addEventListener(
     "click",
     openNewPlayerModal
@@ -256,8 +346,18 @@ btnClosePlayerSummary.addEventListener(
     }
 );
 
+btnClosePlayerTransactions.addEventListener(
+    "click",
+    () => {
+        playerTransactionsModal.classList.add(
+            "hidden"
+        );
+    }
+);
+
 renderPlayersModule();
 
 window.renderPlayersModule = renderPlayersModule;
 window.showPlayerOrders = showPlayerOrders;
-window.openPlayerSummaryModal = openPlayerSummaryModal();
+window.openPlayerSummaryModal = openPlayerSummaryModal;
+window.openPlayerTransactionsModal = openPlayerTransactionsModal;
