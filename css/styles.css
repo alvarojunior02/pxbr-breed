@@ -232,3 +232,13 @@
 
     font-weight: bold;
 }
+
+.dashboard-card-button {
+    text-align: left;
+    cursor: pointer;
+    font: inherit;
+}
+
+.dashboard-card-button:hover {
+    transform: translateY(-2px);
+}

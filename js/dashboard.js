@@ -129,28 +129,20 @@ function renderDashboard() {
     const statusCards =
         ORDER_STATUS.map(
             status => `
-                <div
-                    class="dashboard-card">
+                <button
+                    type="button"
+                    class="dashboard-card dashboard-card-button"
+                    onclick="filterOrdersByStatus('${status.value}')">
 
-                    <strong
-                        class="${status.cssClass}">
-
+                    <strong class="${status.cssClass}">
                         ${status.name}
-
                     </strong>
 
                     <span>
-
-                        ${
-                            metrics
-                                .statusCounts[
-                                    status.value
-                                ]
-                        }
-
+                        ${metrics.statusCounts[status.value]}
                     </span>
 
-                </div>
+                </button>
             `
         ).join("");
 
@@ -252,6 +244,21 @@ function renderDashboard() {
     `;
 }
 
+function filterOrdersByStatus(statusValue) {
+    const orderStatusFilter =
+        document.getElementById("orderStatusFilter");
+
+    if (!orderStatusFilter) {
+        return;
+    }
+
+    orderStatusFilter.value =
+        statusValue;
+
+    renderOrdersList();
+}
+
 window.renderDashboard =renderDashboard;
+window.filterOrdersByStatus = filterOrdersByStatus;
 
 renderDashboard();
