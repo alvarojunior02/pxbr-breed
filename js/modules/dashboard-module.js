@@ -1,4 +1,5 @@
 const dashboardRecentOrders = document.getElementById("dashboardRecentOrders");
+const dashboardRecentTransactions = document.getElementById("dashboardRecentTransactions");
 
 function getPokemonStatusCounts(
     pokemons
@@ -264,6 +265,7 @@ function renderDashboard() {
         );
 
     renderDashboardRecentOrders();
+    renderDashboardRecentTransactions();
 }
 
 function getRecentOrders(limit = 5) {
@@ -389,6 +391,88 @@ function renderTopBuyers() {
                     `)
                     .join("")
             }
+        </div>
+    `;
+}
+
+function getRecentTransactions(limit = 5) {
+    return loadTransactions()
+        .sort(
+            (a, b) =>
+                new Date(b.createdAt) -
+                new Date(a.createdAt)
+        )
+        .slice(0, limit);
+}
+
+function renderDashboardRecentTransactions() {
+    const transactions = getRecentTransactions();
+
+    if (transactions.length === 0) {
+        dashboardRecentTransactions.innerHTML =
+            `
+            <p>
+                Nenhuma transação registrada ainda.
+            </p>
+        `;
+
+        return;
+    }
+
+    const rows =
+        transactions
+            .map(transaction => {
+                const player =
+                    loadPlayers().find(
+                        player =>
+                            player.id === transaction.playerId
+                    );
+
+                return `
+                    <tr>
+                        <td>
+                            ${formatDateTime(transaction.createdAt)}
+                        </td>
+
+                        <td>
+                            ${player?.nick || "-"}
+                        </td>
+
+                        <td class="finance-value">
+                            ${formatMoney(transaction.amount)}
+                        </td>
+
+                        <td>
+                            <button
+                                type="button"
+                                onclick="openOrderDetails('${transaction.orderId}')">
+
+                                Ver Encomenda
+
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            })
+            .join("");
+
+    dashboardRecentTransactions.innerHTML =
+        `
+        <div class="table-wrapper">
+            <table class="finance-table">
+                <thead>
+                    <tr>
+                        <th>Data/Hora</th>
+                        <th>Player</th>
+                        <th>Valor</th>
+                        <th>Encomenda</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    ${rows}
+                </tbody>
+            </table>
         </div>
     `;
 }

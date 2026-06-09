@@ -1175,3 +1175,7 @@ button:disabled {
 .quick-new-player-button {
     margin-top: 8px;
 }
+
+.dashboard-recent-transactions {
+    margin-top: 28px;
+}
