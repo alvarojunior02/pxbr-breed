@@ -60,6 +60,10 @@ function updateOrderFormAvailability() {
 
 // APPLY MONEY MASK
 function applyMoneyMask(input) {
+    if (!input) {
+        return;
+    }
+
     input.addEventListener("input", () => {
         const value =
             unformatMoney(
@@ -329,7 +333,9 @@ function resetOrderForm() {
     orderPaid.checked = false;
     orderPaidAmount.value = formatMoney(0);
     orderPaidAmount.style.display = "none";
-    orderPaidAmountLabel.style.display = "none";
+    orderPaidAmountWrapper
+        .classList
+        .add("hidden");
 
     pokemonOrderList.innerHTML = "";
 
@@ -1094,15 +1100,19 @@ orderPaid.addEventListener("change", () => {
         const total = unformatMoney(orderTotal.textContent);
 
         orderPaidAmount.value = formatMoney(total);
-        orderPaidAmount.style.display = "block";
-        orderPaidAmountLabel.style.display = "block";
+
+        orderPaidAmountWrapper
+            .classList
+            .remove("hidden");
 
         return;
     }
 
     orderPaidAmount.value = formatMoney(0);
-    orderPaidAmount.style.display = "none";
-    orderPaidAmountLabel.style.display = "none";
+
+    orderPaidAmountWrapper
+        .classList
+        .add("hidden");
 });
 
 orderPlayer.addEventListener(

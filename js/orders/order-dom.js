@@ -22,9 +22,9 @@ window.discountValue = document.getElementById("discountValue");
 
 window.orderPaid = document.getElementById("orderPaid");
 
-window.orderPaidAmountLabel = document.getElementById("orderPaidAmountLabel");
-
 window.orderPaidAmount = document.getElementById("orderPaidAmount");
+
+window.orderPaidAmountWrapper = document.getElementById("orderPaidAmountWrapper");
 
 window.orderTotal = document.getElementById("orderTotal");
 

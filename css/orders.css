@@ -289,13 +289,20 @@
     margin-bottom: 8px;
 }
 
-.paid-amount-label {
-    display: none;
+.paid-amount-wrapper {
     margin-top: 12px;
+}
+
+.paid-amount-label {
+    display: block;
     margin-bottom: 6px;
     font-size: 0.9rem;
     font-weight: 400;
     color: var(--text-muted);
+}
+
+.paid-amount-wrapper input {
+    max-width: none;
 }
 
 .order-details-section-title {
