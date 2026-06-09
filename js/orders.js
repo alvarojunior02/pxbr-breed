@@ -414,11 +414,9 @@ function createPokemonDetailsCard(
 
             <p>
                 Status:
-                ${
-                    getStatusByValue(
-                        pokemon.status
-                    ).name
-                }
+                <span class="${getOrderStatusClass(pokemon.status)}">
+                    ${getStatusByValue(pokemon.status).name}
+                </span>
             </p>
 
             <p>
@@ -482,11 +480,10 @@ function createOrderCard(order) {
                     `
                     <li>
                         ${count}
-                        ${
-                            getStatusByValue(
-                                status
-                            ).name
-                        }
+                        <span
+                            class="${getOrderStatusClass(status)}">
+                            ${getStatusByValue(status).name}
+                        </span>
                     </li>
                     `
             )

@@ -2,29 +2,33 @@ const ORDER_STATUS = [
     {
         id: 1,
         value: "NEEDS_FEMALE",
-        name: "Precisa Capturar Fêmea"
+        name: "Precisa Capturar Fêmea",
+        cssClass: "status-needs-female"
     },
     {
         id: 2,
         value: "READY_TO_START",
-        name: "A Começar"
+        name: "A Começar",
+        cssClass: "status-ready"
     },
     {
         id: 3,
         value: "IN_PROGRESS",
-        name: "Em Andamento"
+        name: "Em Andamento",
+        cssClass: "status-progress"
     },
     {
         id: 4,
         value: "READY",
-        name: "Pronto"
+        name: "Pronto",
+        cssClass: "status-done"
     },
     {
         id: 5,
         value: "DELIVERED",
-        name: "Entregue"
+        name: "Entregue",
+        cssClass: "status-delivered"
     }
-
 ];
 
 const DEFAULT_POKEMON_PRICE =
@@ -107,3 +111,13 @@ function isFirstStatus(value) {
 
     return value === firstStatus.value;
 }
+
+function getOrderStatusClass(
+    statusValue
+) {
+    return getStatusByValue(
+        statusValue
+    )?.cssClass ?? "";
+}
+
+window.getOrderStatusClass = getOrderStatusClass;
