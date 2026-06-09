@@ -2244,7 +2244,6 @@ loadOrderStatusFilter();
 createPokemonOrderRow();
 updateOrderFormAvailability();
 renderOrdersList();
-renderDashboard();
 
 window.openOrderDetails = openOrderDetails;
 window.openStatusConfirmModal = openStatusConfirmModal;
