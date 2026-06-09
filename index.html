@@ -325,7 +325,8 @@
                 <div class="form-actions">
                     <button
                         type="button"
-                        id="btnCancelCreateOrder">
+                        id="btnCancelCreateOrder"
+                        class="button-danger">
 
                         Cancelar
 
@@ -360,74 +361,85 @@
     <div id="orderModal" class="modal hidden">
         <div class="modal-content">
 
-            <h2>
-                Confirmar Encomenda
-            </h2>
-
             <div id="orderSummary"></div>
 
             <hr>
 
-            <p>
-                Precisa capturar alguma fêmea ainda?
-            </p>
+            <div class="needs-female-row">
 
-            <label>
-                <input
-                    type="radio"
-                    name="needsFemale"
-                    value="yes">
+                <strong>
+                    Precisa capturar alguma fêmea?
+                </strong>
 
-                Sim
-            </label>
+                <div class="radio-group">
+                    <label class="checkbox-row">
+                        <input
+                            type="radio"
+                            name="needsFemale"
+                            value="yes">
 
-            <label>
-                <input
-                    type="radio"
-                    name="needsFemale"
-                    value="no">
+                        Sim
+                    </label>
 
-                Não
-            </label>
+                    <label class="checkbox-row">
+                        <input
+                            type="radio"
+                            name="needsFemale"
+                            value="no">
 
-            <hr>
+                        Não
+                    </label>
+                </div>
 
-            <label for="orderObservations">
-                Observações
-            </label>
-
-            <br>
-
-            <textarea
-                id="orderObservations"
-                maxlength="500"
-                placeholder="Ex: cliente pediu HA, cobrar depois, entregar quando estiver online..."
-            ></textarea>
+            </div>
 
             <hr>
 
-            <label>
-                <input
-                    type="checkbox"
-                    id="orderPaid">
+            <div class="order-summary-extra-grid">
 
-                Já foi pago
-            </label>
+                <div class="form-field">
+                    <label for="orderObservations">
+                        Observações
+                    </label>
 
-            <br><br>
+                    <textarea
+                        id="orderObservations"
+                        maxlength="500"
+                        placeholder="Ex: cliente pediu HA, cobrar depois, entregar quando estiver online..."></textarea>
+                </div>
 
-            <input
-                type="text"
-                id="orderPaidAmount"
-                placeholder="Valor pago"
-                style="display:none;"
-            >
+                <div class="form-field">
+                    <label class="checkbox-row">
+                        <input
+                            type="checkbox"
+                            id="orderPaid">
+
+                        Já foi pago?
+                    </label>
+
+                    <label
+                        for="orderPaidAmount"
+                        class="paid-amount-label">
+
+                        Qual valor?
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="orderPaidAmount"
+                        placeholder="Valor pago"
+                        style="display:none;">
+                </div>
+
+            </div>
 
             <hr>
 
             <button
                 type="button"
-                id="btnCancelOrder">
+                id="btnCancelOrder"
+                class="button-danger">
 
                 Cancelar
 
@@ -436,6 +448,7 @@
             <button
                 type="button"
                 id="btnConfirmOrder"
+                class="button-success"
                 disabled>
 
                 Confirmar
@@ -458,7 +471,8 @@
 
             <button
                 type="button"
-                id="btnCloseOrderDetails">
+                id="btnCloseOrderDetails"
+                class="button-danger">
 
                 Fechar
 
@@ -493,7 +507,8 @@
 
             <button
                 type="button"
-                id="btnCancelPayment">
+                id="btnCancelPayment"
+                class="button-danger">
 
                 Cancelar
 
@@ -501,7 +516,8 @@
 
             <button
                 type="button"
-                id="btnConfirmPayment">
+                id="btnConfirmPayment"
+                class="button-success">
 
                 Registrar
 
@@ -536,7 +552,8 @@
 
             <button
                 type="button"
-                id="btnCancelPaymentConfirm">
+                id="btnCancelPaymentConfirm"
+                class="button-danger">
 
                 Cancelar
 
@@ -544,7 +561,8 @@
 
             <button
                 type="button"
-                id="btnConfirmPaymentRegister">
+                id="btnConfirmPaymentRegister"
+                class="button-success">
 
                 Confirmar Registro
 
@@ -567,7 +585,8 @@
 
                 <button
                     type="button"
-                    id="btnCancelStatusChange">
+                    id="btnCancelStatusChange"
+                    class="button-danger">
 
                     Cancelar
 
@@ -575,7 +594,8 @@
 
                 <button
                     type="button"
-                    id="btnConfirmStatusChange">
+                    id="btnConfirmStatusChange"
+                    class="button-success">
 
                     Confirmar
 
@@ -609,7 +629,8 @@
 
             <button
                 type="button"
-                id="btnCancelArchive">
+                id="btnCancelArchive"
+                class="button-danger">
 
                 Cancelar
 
@@ -617,7 +638,8 @@
 
             <button
                 type="button"
-                id="btnConfirmArchive">
+                id="btnConfirmArchive"
+                class="button-success">
 
                 Confirmar Arquivamento
 
@@ -649,7 +671,8 @@
 
             <button
                 type="button"
-                id="btnCancelNewPlayer">
+                id="btnCancelNewPlayer"
+                class="button-danger">
 
                 Cancelar
 
@@ -657,7 +680,8 @@
 
             <button
                 type="button"
-                id="btnConfirmNewPlayer">
+                id="btnConfirmNewPlayer"
+                class="button-success">
 
                 Salvar Player
 

@@ -607,7 +607,7 @@ button:disabled {
     display: grid;
     grid-template-columns: repeat(
         auto-fit,
-        minmax(260px, 1fr)
+        minmax(320px, 1fr)
     );
     gap: 14px;
 }
@@ -647,4 +647,165 @@ button:disabled {
 
 .order-card-actions button {
     margin: 0;
+}
+
+#playersCards {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(280px, 1fr)
+    );
+    gap: 16px;
+}
+
+#playersCards .order-card {
+    margin-bottom: 0;
+}
+
+#playersCards .order-card button {
+    width: fit-content;
+}
+
+.pokemon-summary-id {
+    font-weight: normal;
+    color: var(--text-soft);
+}
+
+.radio-group {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.radio-group input[type="radio"],
+.checkbox-row input[type="checkbox"] {
+    width: auto;
+    max-width: none;
+}
+
+#orderModal .modal-content {
+    width: 1040px;
+}
+
+.order-summary-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.order-summary-header h2 {
+    margin: 0;
+}
+
+.order-summary-header p {
+    margin: 0;
+    color: var(--text-muted);
+}
+
+.order-summary-section-title {
+    margin: 0 0 12px 0;
+}
+
+.order-summary-pokemon-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin: 16px 0;
+}
+
+.order-summary-pokemon-grid .modal-pokemon {
+    width: 280px;
+    max-width: 280px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    background: rgba(15, 23, 42, 0.35);
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+}
+
+.order-summary-pokemon-grid .modal-pokemon > div {
+    width: 100%;
+}
+
+.order-summary-pokemon-grid .modal-pokemon p {
+    margin: 6px 0;
+}
+
+.order-summary-pokemon-grid .modal-pokemon-sprite {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 8px;
+}
+
+.order-summary-totals {
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+}
+
+.order-summary-totals p {
+    font-size: 1.15rem;
+    margin: 0;
+}
+
+.order-summary-totals strong {
+    font-size: 1.2rem;
+}
+
+.needs-female-row {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.needs-female-row .radio-group {
+    margin-top: 0;
+}
+
+.order-summary-extra-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 22px 0;
+    align-items: start;
+}
+
+.order-summary-extra-grid textarea,
+.order-summary-extra-grid input {
+    max-width: none;
+}
+
+.order-summary-extra-grid label {
+    margin-bottom: 8px;
+}
+
+.paid-amount-label {
+    display: block;
+    margin-top: 12px;
+}
+
+@media (max-width: 900px) {
+    #orderModal .modal-content {
+        width: calc(100vw - 24px);
+    }
+
+    .order-summary-extra-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .order-summary-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
 }

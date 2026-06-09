@@ -92,7 +92,7 @@ function updatePokemonRowLabels() {
 
         if (removeButton) {
             removeButton.textContent =
-                "- Remover";
+                "Remover";
         }
     });
 }
@@ -351,23 +351,21 @@ function resetOrderForm() {
 
 // RENDER PLAYER SEARCH RESULTS
 function renderPlayerSearchResults(searchTerm = "") {
-    const players =
-        loadPlayers();
+    const players = loadPlayers();
 
-    orderPlayerResults.innerHTML =
-        "";
+    orderPlayerResults.innerHTML = "";
 
-    if (!searchTerm.trim()) {
-        return;
-    }
+    const normalizedSearch =
+        searchTerm
+            .trim()
+            .toLowerCase();
 
     const filteredPlayers =
         players.filter(player =>
+            !normalizedSearch ||
             player.nick
                 .toLowerCase()
-                .includes(
-                    searchTerm.toLowerCase()
-                )
+                .includes(normalizedSearch)
         );
 
     filteredPlayers
@@ -426,7 +424,7 @@ function createPokemonOrderRow() {
                     type="button"
                     class="btn-remove-pokemon button-danger hidden">
 
-                    - Remover
+                    Remover
 
                 </button>
             </div>
@@ -759,13 +757,24 @@ function renderOrderSummary(order) {
                 order.playerId
         );
 
-    let html =
-        `
-        <p>
-            <strong>Player:</strong>
-            ${player.nick}
-        </p>
+    let html = `
+        <div class="order-summary-header">
+            <h2>
+                Confirmar Encomenda
+            </h2>
+
+            <p>
+                <strong>Player:</strong>
+                ${player.nick}
+            </p>
+        </div>
+
+        <h3 class="order-summary-section-title">
+            Pokémons
+        </h3>
     `;
+
+    html += `<div class="order-summary-pokemon-grid">`;
 
     order.pokemons.forEach(
         pokemon => {
@@ -775,8 +784,6 @@ function renderOrderSummary(order) {
 
             html +=
                 `
-                <hr>
-
                 <div class="modal-pokemon">
 
                     <img
@@ -790,6 +797,10 @@ function renderOrderSummary(order) {
                             <strong>
                                 ${pokemon.pokemonName}
                             </strong>
+
+                            <span class="pokemon-summary-id">
+                                (#${String(pokemon.pokemonId).padStart(3, "0")})
+                            </span>
                         </p>
 
                         <p>
@@ -862,35 +873,36 @@ function renderOrderSummary(order) {
         }
     );
 
-   html +=
-        `
-        <hr>
+    html += `</div>`;
 
-        ${
-            order.discount > 0
-                ? `
-                    <p>
-                        <strong>Subtotal:</strong>
-                        ${formatMoney(order.subtotal)}
-                    </p>
+    html += `
+        <div class="order-summary-totals">
+            ${
+                order.discount > 0
+                    ? `
+                        <p>
+                            <strong>Subtotal:</strong>
+                            ${formatMoney(order.subtotal)}
+                        </p>
 
-                    <p>
-                        <strong>Desconto:</strong>
-                        ${formatMoney(order.discount)}
-                    </p>
+                        <p>
+                            <strong>Desconto:</strong>
+                            ${formatMoney(order.discount)}
+                        </p>
 
-                    <p>
-                        <strong>Total:</strong>
-                        ${formatMoney(order.total)}
-                    </p>
-                `
-                : `
-                    <p>
-                        <strong>Total:</strong>
-                        ${formatMoney(order.total)}
-                    </p>
-                `
-        }
+                        <p>
+                            <strong>Total:</strong>
+                            ${formatMoney(order.total)}
+                        </p>
+                    `
+                    : `
+                        <p>
+                            <strong>Total:</strong>
+                            ${formatMoney(order.total)}
+                        </p>
+                    `
+            }
+        </div>
     `;
 
     orderSummary.innerHTML =
@@ -1036,6 +1048,15 @@ orderPlayerSearch.addEventListener(
 
         renderPlayerSearchResults(
             e.target.value
+        );
+    }
+);
+
+orderPlayerSearch.addEventListener(
+    "focus",
+    () => {
+        renderPlayerSearchResults(
+            orderPlayerSearch.value
         );
     }
 );
