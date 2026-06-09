@@ -1,0 +1,74 @@
+button {
+    padding: 10px 14px;
+    border: none;
+    border-radius: 8px;
+    background: var(--primary);
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+button:hover {
+    background: var(--primary-hover);
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.button-secondary {
+    background: #475569;
+    margin-left: auto;
+}
+
+.button-secondary:hover {
+    background: #334155;
+}
+
+.button-success {
+    background: #16a34a;
+}
+
+.button-success:hover {
+    background: #15803d;
+}
+
+.button-danger {
+    background: #dc2626;
+}
+
+.button-danger:hover {
+    background: #b91c1c;
+}
+
+.button-archive {
+    background: #64748b;
+}
+
+.button-archive:hover {
+    background: #475569;
+}
+
+.status-action-button {
+    width: 100%;
+    margin-top: 8px;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.status-action-button.status-ready {
+    background: #facc15;
+}
+
+.status-action-button.status-progress {
+    background: #38bdf8;
+}
+
+.status-action-button.status-done {
+    background: #22c55e;
+}
+
+.status-action-button.status-delivered {
+    background: #94a3b8;
+}

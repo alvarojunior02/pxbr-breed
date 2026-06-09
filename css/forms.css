@@ -1,0 +1,98 @@
+label {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    max-width: 420px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--text);
+    outline: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: var(--accent);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--text-soft);
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 420px;
+}
+
+.checkbox-row input[type="checkbox"] {
+    width: auto;
+    max-width: none;
+}
+
+.radio-group {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.radio-group input[type="radio"],
+.checkbox-row input[type="checkbox"] {
+    width: auto;
+    max-width: none;
+}
+
+.form-field label,
+.pokemon-extra-fields label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    color: var(--text);
+}
+
+.form-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.form-section-title {
+    font-size: 1.25rem;
+    color: var(--text);
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+#orderPlayerResults,
+.pokemon-autocomplete {
+    max-width: 420px;
+    background: var(--surface);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#orderPlayerResults:not(:empty),
+.pokemon-autocomplete:not(:empty) {
+    border: 1px solid var(--border);
+}
+
+.autocomplete-item {
+    padding: 8px;
+    cursor: pointer;
+    color: var(--text);
+    background: var(--surface);
+}
+
+.autocomplete-item:hover {
+    background: var(--surface-hover);
+}
