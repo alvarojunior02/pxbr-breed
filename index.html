@@ -11,485 +11,530 @@
 
 <body>
 
-    <h1>PXBR Breed Manager</h1>
-
-    <section id="dashboard">
-
-        <h2>Dashboard</h2>
-
-        <div id="dashboardCards"></div>
-
-    </section>
-
-    <hr>
-
-    <hr>
-
-    <h2>Pesquisar Pokémon</h2>
+    <!-- <h2>Pesquisar Pokémon</h2> -->
 
     <input
         type="text"
         id="pokemonSearch"
-        placeholder="Digite o nome">
+        placeholder="Digite o nome" hidden>
 
-    <ul id="pokemonResults"></ul>
+    <ul id="pokemonResults" hidden></ul>
 
-    <hr>
+    <div class="app-layout">
 
-    <h2>Novo Player</h2>
+        <aside class="sidebar">
 
-    <input
-        type="text"
-        id="playerNick"
-        placeholder="Nick do player">
+            <h1 class="sidebar-title">
+                PXBR Breed
+            </h1>
 
-    <button id="btnSavePlayer">
-        Salvar
-    </button>
+            <nav class="sidebar-nav">
 
-    <hr>
+                <button class="nav-link active" data-section="dashboardSection">
+                    Dashboard
+                </button>
 
-    <h2>Players Cadastrados</h2>
-    <p>
-        Total de players:
-        <span id="playersCount">0</span>
-    </p>
+                <button class="nav-link" data-section="ordersSection">
+                    Encomendas
+                </button>
 
-    <input
-        type="text"
-        id="searchPlayer"
-        placeholder="Pesquisar player"
-    >
+                <button class="nav-link" data-section="playersSection">
+                    Players
+                </button>
 
-    <ul id="playersList"></ul>
+                <button class="nav-link" data-section="financeSection">
+                    Financeiro
+                </button>
 
-    <hr>
+            </nav>
 
-    <h2>Nova Encomenda</h2>
+        </aside>
 
-    <div id="orderForm">
+        <main class="main-content">
 
-        <div>
-            <label for="orderPlayerSearch">
-                Player
-            </label>
+            <section id="dashboardSection" class="app-section active-section">
 
-            <br>
+                <h2>Dashboard</h2>
 
-            <input
-                type="text"
-                id="orderPlayerSearch"
-                placeholder="Digite o nick do player">
+                <div id="dashboardCards"></div>
 
-            <input
-                type="hidden"
-                id="orderPlayer">
+            </section>
 
-            <div id="orderPlayerResults"></div>
-        </div>
+            <section  id="ordersSection" class="app-section">
 
-        <br>
+                <h2>Nova Encomenda</h2>
 
-        <div>
+                <div id="orderForm">
 
-            <h3>Pokémons</h3>
+                    <div>
+                        <label for="orderPlayerSearch">
+                            Player
+                        </label>
 
-            <div id="pokemonOrderList">
+                        <br>
 
-            </div>
+                        <input
+                            type="text"
+                            id="orderPlayerSearch"
+                            placeholder="Digite o nick do player">
 
-            <button
-                type="button"
-                id="btnAddPokemon">
+                        <input
+                            type="hidden"
+                            id="orderPlayer">
 
-                + Adicionar Pokémon
+                        <div id="orderPlayerResults"></div>
+                    </div>
 
-            </button>
+                    <br>
 
-        </div>
+                    <div>
 
-        <br>
+                        <h3>Pokémons</h3>
 
-        <div>
+                        <div id="pokemonOrderList">
 
-            <label>
-                Desconto
-            </label>
+                        </div>
 
-            <input
-                type="checkbox"
-                id="hasDiscount">
+                        <button
+                            type="button"
+                            id="btnAddPokemon">
 
-            <br><br>
+                            + Adicionar Pokémon
 
-            <input
-                type="text"
-                id="discountValue"
-                placeholder="Valor do desconto"
-                value="0"
-                style="display:none;"
-            >
+                        </button>
 
-        </div>
+                    </div>
 
-        <br>
+                    <br>
 
-        <div>
+                    <div>
 
-            <strong>
-                Total:
-            </strong>
+                        <label>
+                            Desconto
+                        </label>
 
-            <span id="orderTotal">
-                $ 0
-            </span>
+                        <input
+                            type="checkbox"
+                            id="hasDiscount">
 
-        </div>
+                        <br><br>
 
-        <br>
+                        <input
+                            type="text"
+                            id="discountValue"
+                            placeholder="Valor do desconto"
+                            value="0"
+                            style="display:none;"
+                        >
 
-        <button
-            type="button"
-            id="btnCreateOrder">
+                    </div>
 
-            Criar Encomenda
-        </button>
-        
-        <!-- Modal de Confirmação de Nova Encomenda -->
-        <div id="orderModal" class="modal hidden">
-            <div class="modal-content">
+                    <br>
 
-                <h2>
-                    Confirmar Encomenda
-                </h2>
+                    <div>
 
-                <div id="orderSummary"></div>
+                        <strong>
+                            Total:
+                        </strong>
 
-                <hr>
+                        <span id="orderTotal">
+                            $ 0
+                        </span>
+
+                    </div>
+
+                    <br>
+
+                    <button
+                        type="button"
+                        id="btnCreateOrder">
+
+                        Criar Encomenda
+                    </button>
+                    
+                    <!-- Modal de Confirmação de Nova Encomenda -->
+                    <div id="orderModal" class="modal hidden">
+                        <div class="modal-content">
+
+                            <h2>
+                                Confirmar Encomenda
+                            </h2>
+
+                            <div id="orderSummary"></div>
+
+                            <hr>
+
+                            <p>
+                                Precisa capturar alguma fêmea ainda?
+                            </p>
+
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="needsFemale"
+                                    value="yes">
+
+                                Sim
+                            </label>
+
+                            <label>
+                                <input
+                                    type="radio"
+                                    name="needsFemale"
+                                    value="no">
+
+                                Não
+                            </label>
+
+                            <hr>
+
+                            <label for="orderObservations">
+                                Observações
+                            </label>
+
+                            <br>
+
+                            <textarea
+                                id="orderObservations"
+                                maxlength="500"
+                                placeholder="Ex: cliente pediu HA, cobrar depois, entregar quando estiver online..."
+                            ></textarea>
+
+                            <hr>
+
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    id="orderPaid">
+
+                                Já foi pago
+                            </label>
+
+                            <br><br>
+
+                            <input
+                                type="text"
+                                id="orderPaidAmount"
+                                placeholder="Valor pago"
+                                style="display:none;"
+                            >
+
+                            <hr>
+
+                            <button
+                                type="button"
+                                id="btnCancelOrder">
+
+                                Cancelar
+
+                            </button>
+
+                            <button
+                                type="button"
+                                id="btnConfirmOrder"
+                                disabled>
+
+                                Confirmar
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Modal de Detalhes da Encomenda -->
+                    <div id="orderDetailsModal" class="modal hidden">
+                        <div class="modal-content">
+
+                            <h2>
+                                Detalhes da Encomenda
+                            </h2>
+
+                            <div id="orderDetailsContent"></div>
+
+                            <button
+                                type="button"
+                                id="btnCloseOrderDetails">
+
+                                Fechar
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Modal de Registrar Pagamento -->
+                    <div id="paymentModal" class="modal hidden">
+                        <div class="modal-content">
+
+                            <h2>
+                                Registrar Pagamento
+                            </h2>
+
+                            <div id="paymentSummary"></div>
+
+                            <label for="paymentAmount">
+                                Valor pago agora
+                            </label>
+
+                            <br>
+
+                            <input
+                                type="text"
+                                id="paymentAmount"
+                                placeholder="Valor pago">
+
+                            <br><br>
+
+                            <button
+                                type="button"
+                                id="btnCancelPayment">
+
+                                Cancelar
+
+                            </button>
+
+                            <button
+                                type="button"
+                                id="btnConfirmPayment">
+
+                                Registrar
+
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <!-- Modal de Confirmação do Registro de Pagamento -->
+                    <div id="paymentConfirmModal" class="modal hidden">
+                        <div class="modal-content">
+
+                            <h2>
+                                Confirmar Registro de Pagamento
+                            </h2>
+
+                            <div class="payment-warning">
+                                <strong>
+                                    ⚠ Atenção - Tem certeza que deseja registrar este pagamento?
+                                </strong>
+
+                                <br><br>
+
+                                Confira todos os valores antes de confirmar.
+
+                                <br><br>
+
+                                Esta ação não poderá ser desfeita!
+                            </div>
+
+                            <div id="paymentConfirmSummary"></div>
+
+                            <button
+                                type="button"
+                                id="btnCancelPaymentConfirm">
+
+                                Cancelar
+
+                            </button>
+
+                            <button
+                                type="button"
+                                id="btnConfirmPaymentRegister">
+
+                                Confirmar Registro
+
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <!-- Modal de Confirmação para Avançar Status -->
+                    <div id="statusConfirmModal" class="modal hidden">
+                        <div class="modal-content">
+
+                            <h2>
+                                Confirmar Alteração
+                            </h2>
+
+                            <div id="statusConfirmContent"></div>
+
+                            <div class="modal-actions">
+
+                                <button
+                                    type="button"
+                                    id="btnCancelStatusChange">
+
+                                    Cancelar
+
+                                </button>
+
+                                <button
+                                    type="button"
+                                    id="btnConfirmStatusChange">
+
+                                    Confirmar
+
+                                </button>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Modal de Confirmação para Arquivar Encomenda -->
+                    <div
+                        id="archiveConfirmModal"
+                        class="modal hidden">
+
+                        <div class="modal-content">
+
+                            <h2>
+                                Confirmar Arquivamento
+                            </h2>
+
+                            <div class="payment-warning">
+                                <strong>⚠ Atenção</strong>
+
+                                <br><br>
+
+                                Tem certeza que deseja arquivar esta encomenda?
+
+                                <br><br>
+
+                                Ela não será excluída, apenas removida da lista principal.
+                            </div>
+
+                            <button
+                                type="button"
+                                id="btnCancelArchive">
+
+                                Cancelar
+
+                            </button>
+
+                            <button
+                                type="button"
+                                id="btnConfirmArchive">
+
+                                Confirmar Arquivamento
+
+                            </button>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <h2>Encomendas</h2>
+
+                <div>
+                    <label for="orderSearchPlayer">
+                        Buscar por player
+                    </label>
+
+                    <br>
+
+                    <input
+                        type="text"
+                        id="orderSearchPlayer"
+                        placeholder="Digite o nick do player">
+                </div>
+
+                <br>
+
+                <div>
+                    <label for="orderStatusFilter">
+                        Filtrar por status de breed
+                    </label>
+
+                    <br>
+
+                    <select id="orderStatusFilter">
+                        <option value="">
+                            Todos
+                        </option>
+                    </select>
+                </div>
+
+                <br>
+
+                <div>
+                    <label for="orderArchiveFilter">
+                        Filtrar por arquivamento
+                    </label>
+
+                    <br>
+
+                    <select id="orderArchiveFilter">
+                        <option value="active">
+                            Ativas
+                        </option>
+
+                        <option value="archived">
+                            Arquivadas
+                        </option>
+
+                        <option value="all">
+                            Todas
+                        </option>
+                    </select>
+                </div>
 
                 <p>
-                    Precisa capturar alguma fêmea ainda?
+                    Total:
+                    <span id="ordersCount">0</span>
                 </p>
 
-                <label>
-                    <input
-                        type="radio"
-                        name="needsFemale"
-                        value="yes">
+                <div id="ordersList"></div>
+            </section>
 
-                    Sim
-                </label>
+            <section id="playersSection" class="app-section">
 
-                <label>
-                    <input
-                        type="radio"
-                        name="needsFemale"
-                        value="no">
+                <h2>Players</h2>
 
-                    Não
-                </label>
-
-                <hr>
-
-                <label for="orderObservations">
-                    Observações
-                </label>
-
-                <br>
-
-                <textarea
-                    id="orderObservations"
-                    maxlength="500"
-                    placeholder="Ex: cliente pediu HA, cobrar depois, entregar quando estiver online..."
-                ></textarea>
-
-                <hr>
-
-                <label>
-                    <input
-                        type="checkbox"
-                        id="orderPaid">
-
-                    Já foi pago
-                </label>
-
-                <br><br>
+                <h2>Novo Player</h2>
 
                 <input
                     type="text"
-                    id="orderPaidAmount"
-                    placeholder="Valor pago"
-                    style="display:none;"
+                    id="playerNick"
+                    placeholder="Nick do player">
+
+                <button id="btnSavePlayer">
+                    Salvar
+                </button>
+
+                <hr>
+
+                <h2>Players Cadastrados</h2>
+                <p>
+                    Total de players:
+                    <span id="playersCount">0</span>
+                </p>
+
+                <input
+                    type="text"
+                    id="searchPlayer"
+                    placeholder="Pesquisar player"
                 >
 
-                <hr>
+                <ul id="playersList"></ul>
 
-                <button
-                    type="button"
-                    id="btnCancelOrder">
+            </section>
 
-                    Cancelar
+            <section id="financeSection" class="app-section">
 
-                </button>
+                <h2>Financeiro</h2>
 
-                <button
-                    type="button"
-                    id="btnConfirmOrder"
-                    disabled>
+                <p>
+                    Em breve: histórico de movimentações financeiras.
+                </p>
 
-                    Confirmar
+            </section>
 
-                </button>
+        </main>
 
-            </div>
-
-        </div>
-
-        <!-- Modal de Detalhes da Encomenda -->
-        <div id="orderDetailsModal" class="modal hidden">
-            <div class="modal-content">
-
-                <h2>
-                    Detalhes da Encomenda
-                </h2>
-
-                <div id="orderDetailsContent"></div>
-
-                <button
-                    type="button"
-                    id="btnCloseOrderDetails">
-
-                    Fechar
-
-                </button>
-
-            </div>
-
-        </div>
-
-        <!-- Modal de Registrar Pagamento -->
-        <div id="paymentModal" class="modal hidden">
-            <div class="modal-content">
-
-                <h2>
-                    Registrar Pagamento
-                </h2>
-
-                <div id="paymentSummary"></div>
-
-                <label for="paymentAmount">
-                    Valor pago agora
-                </label>
-
-                <br>
-
-                <input
-                    type="text"
-                    id="paymentAmount"
-                    placeholder="Valor pago">
-
-                <br><br>
-
-                <button
-                    type="button"
-                    id="btnCancelPayment">
-
-                    Cancelar
-
-                </button>
-
-                <button
-                    type="button"
-                    id="btnConfirmPayment">
-
-                    Registrar
-
-                </button>
-
-            </div>
-        </div>
-
-        <!-- Modal de Confirmação do Registro de Pagamento -->
-        <div id="paymentConfirmModal" class="modal hidden">
-            <div class="modal-content">
-
-                <h2>
-                    Confirmar Registro de Pagamento
-                </h2>
-
-                <div class="payment-warning">
-                    <strong>
-                        ⚠ Atenção - Tem certeza que deseja registrar este pagamento?
-                    </strong>
-
-                    <br><br>
-
-                    Confira todos os valores antes de confirmar.
-
-                    <br><br>
-
-                    Esta ação não poderá ser desfeita!
-                </div>
-
-                <div id="paymentConfirmSummary"></div>
-
-                <button
-                    type="button"
-                    id="btnCancelPaymentConfirm">
-
-                    Cancelar
-
-                </button>
-
-                <button
-                    type="button"
-                    id="btnConfirmPaymentRegister">
-
-                    Confirmar Registro
-
-                </button>
-
-            </div>
-        </div>
-
-        <!-- Modal de Confirmação para Avançar Status -->
-        <div id="statusConfirmModal" class="modal hidden">
-            <div class="modal-content">
-
-                <h2>
-                    Confirmar Alteração
-                </h2>
-
-                <div id="statusConfirmContent"></div>
-
-                <div class="modal-actions">
-
-                    <button
-                        type="button"
-                        id="btnCancelStatusChange">
-
-                        Cancelar
-
-                    </button>
-
-                    <button
-                        type="button"
-                        id="btnConfirmStatusChange">
-
-                        Confirmar
-
-                    </button>
-
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Modal de Confirmação para Arquivar Encomenda -->
-        <div
-            id="archiveConfirmModal"
-            class="modal hidden">
-
-            <div class="modal-content">
-
-                <h2>
-                    Confirmar Arquivamento
-                </h2>
-
-                <div class="payment-warning">
-                    <strong>⚠ Atenção</strong>
-
-                    <br><br>
-
-                    Tem certeza que deseja arquivar esta encomenda?
-
-                    <br><br>
-
-                    Ela não será excluída, apenas removida da lista principal.
-                </div>
-
-                <button
-                    type="button"
-                    id="btnCancelArchive">
-
-                    Cancelar
-
-                </button>
-
-                <button
-                    type="button"
-                    id="btnConfirmArchive">
-
-                    Confirmar Arquivamento
-
-                </button>
-
-            </div>
-
-        </div>
     </div>
-
-    <h2>Encomendas</h2>
-
-    <div>
-        <label for="orderSearchPlayer">
-            Buscar por player
-        </label>
-
-        <br>
-
-        <input
-            type="text"
-            id="orderSearchPlayer"
-            placeholder="Digite o nick do player">
-    </div>
-
-    <br>
-
-    <div>
-        <label for="orderStatusFilter">
-            Filtrar por status de breed
-        </label>
-
-        <br>
-
-        <select id="orderStatusFilter">
-            <option value="">
-                Todos
-            </option>
-        </select>
-    </div>
-
-    <br>
-
-    <div>
-        <label for="orderArchiveFilter">
-            Filtrar por arquivamento
-        </label>
-
-        <br>
-
-        <select id="orderArchiveFilter">
-            <option value="active">
-                Ativas
-            </option>
-
-            <option value="archived">
-                Arquivadas
-            </option>
-
-            <option value="all">
-                Todas
-            </option>
-        </select>
-    </div>
-
-    <p>
-        Total:
-        <span id="ordersCount">0</span>
-    </p>
-
-    <div id="ordersList"></div>
 
     <script src="js/storage.js"></script>
     <script src="js/utils.js"></script>
@@ -498,6 +543,7 @@
     <script src="js/players.js"></script>
     <script src="js/orders.js"></script>
     <script src="js/dashboard.js"></script>
+    <script src="js/navigation.js"></script>
 </body>
 
 </html>
