@@ -80,8 +80,9 @@ btnConfirmArchive.addEventListener(
         selectedArchiveOrderId =
             null;
 
-        renderOrdersList();
         renderDashboard();
+        renderOrdersList();
+        renderFinanceModule();
     }
 );
 

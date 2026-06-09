@@ -154,8 +154,10 @@ btnConfirmStatusChange.addEventListener(
                 "hidden"
             );
 
-        renderOrdersList();
         renderDashboard();
+        renderOrdersList();
+        renderFinanceModule();
+        renderPlayersModule();
 
         openOrderDetails(selectedOrderId);
     }

@@ -196,8 +196,10 @@ btnConfirmPaymentRegister.addEventListener(
 
         pendingPaymentAmount = 0;
 
-        renderOrdersList();
         renderDashboard();
+        renderOrdersList();
+        renderPlayersModule();
+        renderFinanceModule();
 
         openOrderDetails(selectedPaymentOrderId);
     }

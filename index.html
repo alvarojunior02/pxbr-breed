@@ -83,7 +83,7 @@
                             </h2>
 
                             <p>
-                                Veja rapidamente os pedidos mais recentes cadastrados.
+                                Veja rapidamente os pedidos mais recentes cadastrados, que estão ativos.
                             </p>
                         </div>
                     </div>
@@ -218,11 +218,21 @@
 
             <section id="financeSection" class="app-section">
 
-                <h2>Financeiro</h2>
+                <div class="section-header">
+                    <div>
+                        <h2>
+                            Financeiro
+                        </h2>
 
-                <p>
-                    Em breve: histórico de movimentações financeiras.
-                </p>
+                        <p>
+                            Acompanhe todas as movimentações financeiras.
+                        </p>
+                    </div>
+                </div>
+
+                <div id="financeSummaryCards"></div>
+
+                <div id="financeTransactionsList"></div>
 
             </section>
 
@@ -692,6 +702,30 @@
 
     </div>
 
+    <!-- Modal de Resumo do Player -->
+     <div id="playerSummaryModal" class="modal hidden">
+
+        <div class="modal-content">
+
+            <h2>
+                Resumo do Player
+            </h2>
+
+            <div id="playerSummaryContent"></div>
+
+            <button
+                type="button"
+                id="btnClosePlayerSummary"
+                class="button-danger">
+
+                Fechar
+
+            </button>
+
+        </div>
+
+    </div>
+
     <script src="js/storage.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/finance.js"></script>
@@ -712,6 +746,7 @@
 
     <script src="js/dashboard.js"></script>
     <script src="js/playersModule.js"></script>
+    <script src="js/finance-module.js"></script>
     <script src="js/navigation.js"></script>
 </body>
 

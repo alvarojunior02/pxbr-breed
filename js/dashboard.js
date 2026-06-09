@@ -283,7 +283,7 @@ function renderDashboardRecentOrders() {
         dashboardRecentOrders.innerHTML =
             `
             <p>
-                Nenhuma encomenda cadastrada ainda.
+                Nenhuma encomenda recém cadastrada encontra-se ativa.
             </p>
         `;
 

@@ -1,14 +1,13 @@
 const playersCards = document.getElementById("playersCards");
-
 const btnOpenNewPlayerModal = document.getElementById("btnOpenNewPlayerModal");
-
 const newPlayerModal = document.getElementById("newPlayerModal");
-
 const newPlayerNick = document.getElementById("newPlayerNick");
-
 const btnCancelNewPlayer = document.getElementById("btnCancelNewPlayer");
-
 const btnConfirmNewPlayer = document.getElementById("btnConfirmNewPlayer");
+
+const playerSummaryModal = document.getElementById("playerSummaryModal");
+const playerSummaryContent = document.getElementById("playerSummaryContent");
+const btnClosePlayerSummary = document.getElementById("btnClosePlayerSummary");
 
 function getPlayerOrders(playerId) {
     return loadOrders()
@@ -168,6 +167,71 @@ function showPlayerOrders(playerId) {
     renderOrdersList();
 }
 
+function openPlayerSummaryModal(playerId) {
+    const player =
+        loadPlayers().find(
+            player =>
+                player.id === playerId
+        );
+
+    if (!player) {
+        return;
+    }
+
+    const summary =
+        getPlayerFinancialSummary(player.id);
+
+    const lastOrder =
+        getPlayerLastOrder(player.id);
+
+    playerSummaryContent.innerHTML =
+        `
+        <h3>
+            ${player.nick}
+        </h3>
+
+        <p>
+            Encomendas:
+            ${summary.ordersCount}
+        </p>
+
+        <p>
+            Última encomenda:
+            ${
+                lastOrder
+                    ? `
+                        ${formatDate(lastOrder.createdAt)}
+                        (${getDaysSince(lastOrder.createdAt)} dias atrás)
+                    `
+                    : "Nenhuma"
+            }
+        </p>
+
+        <p>
+            Total vendido:
+            ${formatMoney(summary.total)}
+        </p>
+
+        <p>
+            Recebido:
+            <span class="payment-paid">
+                ${formatMoney(summary.paid)}
+            </span>
+        </p>
+
+        <p>
+            Pendente:
+            <span class="payment-pending">
+                ${formatMoney(summary.pending)}
+            </span>
+        </p>
+    `;
+
+    playerSummaryModal.classList.remove(
+        "hidden"
+    );
+}
+
 btnOpenNewPlayerModal.addEventListener(
     "click",
     openNewPlayerModal
@@ -183,7 +247,17 @@ btnConfirmNewPlayer.addEventListener(
     saveNewPlayerFromModal
 );
 
+btnClosePlayerSummary.addEventListener(
+    "click",
+    () => {
+        playerSummaryModal.classList.add(
+            "hidden"
+        );
+    }
+);
+
 renderPlayersModule();
 
 window.renderPlayersModule = renderPlayersModule;
 window.showPlayerOrders = showPlayerOrders;
+window.openPlayerSummaryModal = openPlayerSummaryModal();

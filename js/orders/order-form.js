@@ -1034,12 +1034,11 @@ btnConfirmOrder.addEventListener(
                 transaction
             );
         }
-
-        renderOrdersList();
-
+        
         renderDashboard();
-
+        renderOrdersList();
         renderPlayersModule();
+        renderFinanceModule();
 
         resetOrderForm();
 
