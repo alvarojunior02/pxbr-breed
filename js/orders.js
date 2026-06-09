@@ -59,8 +59,10 @@ const btnCancelStatusChange = document.getElementById("btnCancelStatusChange");
 const btnConfirmStatusChange = document.getElementById("btnConfirmStatusChange");
 
 let selectedOrderId = null;
-
 let selectedPokemonId = null;
+
+const orderSearchPlayer = document.getElementById("orderSearchPlayer");
+const orderStatusFilter = document.getElementById("orderStatusFilter");
 
 function calculateOrderTotal() {
     const rows =
@@ -272,9 +274,48 @@ function resetOrderForm() {
     calculateOrderTotal();
 }
 
+function getFilteredOrders() {
+    const orders =
+        loadOrders();
+
+    const players =
+        loadPlayers();
+
+    const searchTerm =
+        orderSearchPlayer.value
+            .trim()
+            .toLowerCase();
+
+    const selectedStatus =
+        orderStatusFilter.value;
+
+    return orders.filter(order => {
+        const player =
+            players.find(
+                player =>
+                    player.id === order.playerId
+            );
+
+        const matchesPlayer =
+            !searchTerm ||
+            player?.nick
+                .toLowerCase()
+                .includes(searchTerm);
+
+        const matchesStatus =
+            !selectedStatus ||
+            order.pokemons.some(
+                pokemon =>
+                    pokemon.status === selectedStatus
+            );
+
+        return matchesPlayer && matchesStatus;
+    });
+}
+
 function renderOrdersList() {
 
-    const orders = loadOrders();
+    const orders = getFilteredOrders();
 
     const ordersList = document.getElementById("ordersList");
     const ordersCount = document.getElementById("ordersCount");
@@ -874,6 +915,21 @@ function loadPlayersSelect() {
 
 }
 
+function loadOrderStatusFilter() {
+    ORDER_STATUS.forEach(status => {
+        const option =
+            document.createElement("option");
+
+        option.value =
+            status.value;
+
+        option.textContent =
+            status.name;
+
+        orderStatusFilter.appendChild(option);
+    });
+}
+
 function createPokemonOrderRow() {
     const row = document.createElement("div");
 
@@ -1349,8 +1405,20 @@ btnConfirmStatusChange.addEventListener(
     }
 );
 
+orderSearchPlayer.addEventListener(
+    "input",
+    renderOrdersList
+);
+
+orderStatusFilter.addEventListener(
+    "change",
+    renderOrdersList
+);
+
 loadPlayersSelect();
+loadOrderStatusFilter();
 createPokemonOrderRow();
 renderOrdersList();
+
 window.openOrderDetails = openOrderDetails;
 window.openStatusConfirmModal = openStatusConfirmModal;
