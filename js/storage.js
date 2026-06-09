@@ -1,6 +1,7 @@
 const STORAGE_KEYS = {
     PLAYERS: "players",
-    ORDERS: "orders"
+    ORDERS: "orders",
+    TRANSACTIONS: "transactions"
 };
 
 function savePlayers(players) {
@@ -33,5 +34,29 @@ function loadOrders() {
     return data ? JSON.parse(data) : [];
 }
 
-window.loadPlayers =loadPlayers;
-window.loadOrders =loadOrders;
+function saveTransactions(transactions) {
+    localStorage.setItem(
+        STORAGE_KEYS.TRANSACTIONS,
+        JSON.stringify(transactions)
+    );
+}
+
+function loadTransactions() {
+    const data =
+        localStorage.getItem(
+            STORAGE_KEYS.TRANSACTIONS
+        );
+
+    return data
+        ? JSON.parse(data)
+        : [];
+}
+
+window.savePlayers = savePlayers; 
+window.loadPlayers = loadPlayers;
+
+window.saveOrders = saveOrders;
+window.loadOrders = loadOrders;
+
+window.saveTransactions = saveTransactions;
+window.loadTransactions = loadTransactions;
