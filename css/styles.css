@@ -147,3 +147,18 @@
     opacity: 0.6;
     cursor: not-allowed;
 }
+
+.payment-paid {
+    color: #198754;
+    font-weight: bold;
+}
+
+.payment-pending {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.payment-partial {
+    color: #d4a017;
+    font-weight: bold;
+}

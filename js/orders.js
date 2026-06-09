@@ -4,6 +4,7 @@ function createOrder(playerId) {
         playerId,
         total: 0,
         discount: 0,
+        paidAmount: 0,
         paid: false,
         needsFemale: false,
         observations: "",
@@ -45,6 +46,8 @@ const btnCancelOrder = document.getElementById("btnCancelOrder");
 const btnConfirmOrder = document.getElementById("btnConfirmOrder");
 const hasDiscount = document.getElementById("hasDiscount");
 const orderPaid = document.getElementById("orderPaid");
+const orderPaidAmount = document.getElementById("orderPaidAmount");
+applyMoneyMask(orderPaidAmount);
 
 const orderDetailsModal = document.getElementById("orderDetailsModal");
 const orderDetailsContent = document.getElementById("orderDetailsContent");
@@ -264,6 +267,11 @@ function buildOrder() {
 
     const observationsInput = document.getElementById("orderObservations");
 
+    const paidAmount =
+        orderPaid.checked
+            ? unformatMoney(orderPaidAmount.value)
+            : 0;
+
     return {
         id: generateUUID(),
         playerId: orderPlayer.value,
@@ -274,7 +282,8 @@ function buildOrder() {
         observations: observationsInput
             ? observationsInput.value.trim()
             : "",
-        paid: orderPaid?.checked ?? false,
+        paidAmount,
+        paid: paidAmount >= subtotal - discount,
         archived: false,
         createdAt: new Date().toISOString()
     };
@@ -303,6 +312,8 @@ function createPersistedOrder(orderData) {
     order.total = orderData.total;
 
     order.discount = orderData.discount;
+
+    order.paidAmount = orderData.paidAmount;
 
     order.paid = orderData.paid;
 
@@ -339,6 +350,45 @@ function saveOrder(order) {
     saveOrders(orders);
 }
 
+function getPaymentStatusHtml(order) {
+    const paidAmount =
+        order.paidAmount || 0;
+
+    const remaining =
+        order.total - paidAmount;
+
+    if (paidAmount >= order.total) {
+        return `
+            <span class="payment-paid">
+                Pago
+            </span>
+        `;
+    }
+
+    if (paidAmount > 0) {
+        return `
+            <span class="payment-partial">
+                Pago Parcialmente:
+                ${formatMoney(paidAmount)}
+            </span>
+
+            <br>
+
+            <span class="payment-pending">
+                A Pagar:
+                ${formatMoney(remaining)}
+            </span>
+        `;
+    }
+
+    return `
+        <span class="payment-pending">
+            A Pagar:
+            ${formatMoney(order.total)}
+        </span>
+    `;
+}
+
 // RESET ORDER FORM
 function resetOrderForm() {
     orderPlayer.value = "";
@@ -366,6 +416,8 @@ function resetOrderForm() {
     document.getElementById("orderObservations").value = "";
 
     orderPaid.checked = false;
+    orderPaidAmount.value = formatMoney(0);
+    orderPaidAmount.style.display = "none";
 
     createPokemonOrderRow();
 
@@ -411,6 +463,7 @@ function getFilteredOrders() {
     });
 }
 
+// RENDER ORDERS LIST
 function renderOrdersList() {
 
     const orders = getFilteredOrders();
@@ -437,6 +490,7 @@ function renderOrdersList() {
     });
 }
 
+// OPEN ORDER DETAILS
 function openOrderDetails(orderId) {
     const order =
         loadOrders().find(
@@ -460,6 +514,7 @@ function openOrderDetails(orderId) {
         );
 }
 
+// OPEN STATUS CONFIRM MODAL
 function openStatusConfirmModal(
     orderId,
     pokemonId
@@ -582,13 +637,8 @@ function renderOrderDetails(order) {
     orderDetailsContent.innerHTML =
         `
         <p>
-            <strong>Pedido:</strong>
+            <strong>ID do Pedido:</strong>
             ${order.id}
-        </p>
-
-        <p>
-            <strong>Player:</strong>
-            ${player?.nick ?? "-"}
         </p>
 
         <p>
@@ -596,6 +646,11 @@ function renderOrderDetails(order) {
             ${formatDate(
                 order.createdAt
             )}
+        </p>
+
+        <p>
+            <strong>Player:</strong>
+            ${player?.nick ?? "-"}
         </p>
 
         ${
@@ -625,12 +680,7 @@ function renderOrderDetails(order) {
         }
 
         <p>
-            <strong>Pago:</strong>
-            ${
-                order.paid
-                    ? "Sim"
-                    : "Não"
-            }
+            ${getPaymentStatusHtml(order)}
         </p>
 
         <p>
@@ -757,6 +807,7 @@ function getOrderStatusSummary(order) {
     return summary;
 }
 
+// CREATE ORDER CARD
 function createOrderCard(order) {
     const player =
         loadPlayers().find(
@@ -791,6 +842,9 @@ function createOrderCard(order) {
     return `
         <h3>
             Pedido #${order.id.slice(0, 8)}
+            <span style="font-weight: normal;">
+                - ${formatDate(order.createdAt)}
+            </span>
         </h3>
 
         <p>
@@ -811,13 +865,10 @@ function createOrderCard(order) {
         </p>
 
         <p>
-            Criado em:
-            ${formatDate(
-                order.createdAt
-            )}
+            ${getPaymentStatusHtml(order)}
         </p>
 
-        <strong>Status</strong>
+        <strong>Status de Breeds</strong>
 
         <ul>
             ${statusHtml}
@@ -900,6 +951,30 @@ function validateOrder(order) {
     if (order.discount > order.subtotal) {
         alert(
             "O desconto não pode ser maior que o subtotal da encomenda."
+        );
+
+        return false;
+    }
+
+    if (order.paidAmount < 0) {
+        alert(
+            "O valor pago não pode ser negativo."
+        );
+
+        return false;
+    }
+
+    if (orderPaid.checked && order.paidAmount <= 0) {
+        alert(
+            "Informe um valor pago maior que zero."
+        );
+
+        return false;
+    }
+
+    if (order.paidAmount > order.total) {
+        alert(
+            "O valor pago não pode ser maior que o total da encomenda."
         );
 
         return false;
@@ -1647,6 +1722,27 @@ orderPlayer.addEventListener(
     "change",
     updateOrderFormAvailability
 );
+
+orderPaid.addEventListener("change", () => {
+    if (orderPaid.checked) {
+        const order =
+            buildOrder();
+
+        orderPaidAmount.value =
+            formatMoney(order.total);
+
+        orderPaidAmount.style.display =
+            "block";
+
+        return;
+    }
+
+    orderPaidAmount.value =
+        formatMoney(0);
+
+    orderPaidAmount.style.display =
+        "none";
+});
 
 loadPlayersSelect();
 loadOrderStatusFilter();
