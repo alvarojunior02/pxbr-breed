@@ -162,3 +162,27 @@
     color: #d4a017;
     font-weight: bold;
 }
+
+.payment-warning {
+
+    background-color: #fff3cd;
+
+    border: 1px solid #ffc107;
+
+    color: #856404;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    margin-bottom: 16px;
+
+    font-size: 1.1rem;
+
+    line-height: 1.5;
+}
+
+.payment-warning strong {
+
+    font-size: 1.2rem;
+}

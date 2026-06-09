@@ -291,7 +291,50 @@
                     type="button"
                     id="btnConfirmPayment">
 
-                    Confirmar
+                    Registrar
+
+                </button>
+
+            </div>
+        </div>
+
+        <!-- Modal de Confirmação do Registro de Pagamento -->
+        <div id="paymentConfirmModal" class="modal hidden">
+            <div class="modal-content">
+
+                <h2>
+                    Confirmar Registro de Pagamento
+                </h2>
+
+                <div class="payment-warning">
+                    <strong>
+                        ⚠ Atenção - Tem certeza que deseja registrar este pagamento?
+                    </strong>
+
+                    <br><br>
+
+                    Confira todos os valores antes de confirmar.
+
+                    <br><br>
+
+                    Esta ação não poderá ser desfeita!
+                </div>
+
+                <div id="paymentConfirmSummary"></div>
+
+                <button
+                    type="button"
+                    id="btnCancelPaymentConfirm">
+
+                    Cancelar
+
+                </button>
+
+                <button
+                    type="button"
+                    id="btnConfirmPaymentRegister">
+
+                    Confirmar Registro
 
                 </button>
 

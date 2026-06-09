@@ -63,20 +63,25 @@ const statusConfirmContent = document.getElementById("statusConfirmContent");
 const btnCancelStatusChange = document.getElementById("btnCancelStatusChange");
 const btnConfirmStatusChange = document.getElementById("btnConfirmStatusChange");
 
+const orderSearchPlayer = document.getElementById("orderSearchPlayer");
+const orderStatusFilter = document.getElementById("orderStatusFilter");
+
 const paymentModal = document.getElementById("paymentModal");
 const paymentSummary = document.getElementById("paymentSummary");
 const paymentAmount = document.getElementById("paymentAmount");
 applyMoneyMask(paymentAmount);
-
 const btnCancelPayment = document.getElementById("btnCancelPayment");
 const btnConfirmPayment = document.getElementById("btnConfirmPayment");
 
-const orderSearchPlayer = document.getElementById("orderSearchPlayer");
-const orderStatusFilter = document.getElementById("orderStatusFilter");
+const paymentConfirmModal = document.getElementById("paymentConfirmModal");
+const paymentConfirmSummary = document.getElementById("paymentConfirmSummary");
+const btnCancelPaymentConfirm = document.getElementById("btnCancelPaymentConfirm");
+const btnConfirmPaymentRegister = document.getElementById("btnConfirmPaymentRegister");
 
 let selectedOrderId = null;
 let selectedPokemonId = null;
 let selectedPaymentOrderId = null;
+let pendingPaymentAmount = 0;
 
 function calculateOrderTotal() {
     const rows =
@@ -399,8 +404,36 @@ function getPaymentStatusHtml(order) {
     `;
 }
 
+// CAN REGISTER PAYMENT
 function canRegisterPayment(order) {
     return (order.paidAmount || 0) < order.total;
+}
+
+// VALIDATE PAYMENT AMOUNT
+function validatePaymentAmount(order, amount) {
+    const currentPaid =
+        order.paidAmount || 0;
+
+    const remaining =
+        order.total - currentPaid;
+
+    if (amount <= 0) {
+        alert(
+            "Informe um valor maior que zero."
+        );
+
+        return false;
+    }
+
+    if (amount > remaining) {
+        alert(
+            "O valor pago não pode ser maior que o valor restante."
+        );
+
+        return false;
+    }
+
+    return true;
 }
 
 // RESET ORDER FORM
@@ -540,6 +573,13 @@ function openPaymentModal(orderId) {
         return;
     }
 
+    const player =
+        loadPlayers().find(
+            player =>
+                player.id ===
+                order.playerId
+        );
+
     const paidAmount =
         order.paidAmount || 0;
 
@@ -549,8 +589,12 @@ function openPaymentModal(orderId) {
     selectedPaymentOrderId =
         orderId;
 
-    paymentSummary.innerHTML =
-        `
+    paymentSummary.innerHTML = `
+        <h3>
+            Player:
+            ${player?.nick ?? "Player"}
+        </h3>
+
         <p>
             <strong>Total:</strong>
             ${formatMoney(order.total)}
@@ -947,6 +991,20 @@ function createOrderCard(order) {
             Ver Detalhes
 
         </button>
+        
+        ${
+            canRegisterPayment(order)
+                ? `
+                    <button
+                        type="button"
+                        onclick="openPaymentModal('${order.id}')">
+
+                        Registrar Pagamento
+
+                    </button>
+                `
+                : ""
+        }
     `;
 }
 
@@ -1835,35 +1893,102 @@ btnConfirmPayment.addEventListener(
             return;
         }
 
-        const currentPaid =
-            order.paidAmount || 0;
-
-        const remaining =
-            order.total - currentPaid;
+        const player =
+            loadPlayers().find(
+                player =>
+                    player.id ===
+                    order.playerId
+            );
 
         const amount =
             unformatMoney(
                 paymentAmount.value
             );
 
-        if (amount <= 0) {
-            alert(
-                "Informe um valor maior que zero."
-            );
-
+        if (!validatePaymentAmount(order, amount)) {
             return;
         }
 
-        if (amount > remaining) {
-            alert(
-                "O valor pago não pode ser maior que o valor restante."
+        const currentPaid =
+            order.paidAmount || 0;
+
+        const remaining =
+            order.total - currentPaid;
+
+        pendingPaymentAmount =
+            amount;
+
+        paymentConfirmSummary.innerHTML = `
+            <h3>
+                Player:
+                ${player?.nick ?? "Player"}
+            </h3>
+
+            <p>
+                <strong>Total:</strong>
+                ${formatMoney(order.total)}
+            </p>
+
+            <p>
+                <strong>Já pago:</strong>
+                ${formatMoney(currentPaid)}
+            </p>
+
+            <p>
+                <strong>Restante antes do pagamento:</strong>
+                ${formatMoney(remaining)}
+            </p>
+
+            <p>
+                <strong>Valor a registrar agora:</strong>
+                ${formatMoney(amount)}
+            </p>
+
+            <p>
+                <strong>Restante após pagamento:</strong>
+                ${formatMoney(
+                    remaining - amount
+                )}
+            </p>
+        `;
+
+        paymentConfirmModal.classList.remove(
+            "hidden"
+        );
+    }
+);
+
+btnCancelPaymentConfirm.addEventListener(
+    "click",
+    () => {
+        paymentConfirmModal.classList.add(
+            "hidden"
+        );
+    }
+);
+
+btnConfirmPaymentRegister.addEventListener(
+    "click",
+    () => {
+        const orders =
+            loadOrders();
+
+        const order =
+            orders.find(
+                order =>
+                    order.id === selectedPaymentOrderId
             );
 
+        if (!order) {
+            return;
+        }
+
+        if (!validatePaymentAmount(order, pendingPaymentAmount)) {
             return;
         }
 
         order.paidAmount =
-            currentPaid + amount;
+            (order.paidAmount || 0) + pendingPaymentAmount;
 
         order.paid =
             order.paidAmount >= order.total;
@@ -1872,9 +1997,16 @@ btnConfirmPayment.addEventListener(
             orders
         );
 
+        paymentConfirmModal.classList.add(
+            "hidden"
+        );
+
         paymentModal.classList.add(
             "hidden"
         );
+
+        pendingPaymentAmount =
+            0;
 
         renderOrdersList();
 
