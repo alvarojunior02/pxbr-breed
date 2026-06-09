@@ -1037,14 +1037,27 @@ button:disabled {
 
 #financeSummaryCards {
     display: grid;
-    grid-template-columns: repeat(
-        auto-fit,
-        minmax(220px, 1fr)
-    );
-
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px;
-
     margin-bottom: 20px;
+}
+
+@media (max-width: 600px) {
+    #financeSummaryCards {
+        gap: 6px;
+    }
+
+    #financeSummaryCards .dashboard-card {
+        padding: 8px 4px;
+    }
+
+    #financeSummaryCards .dashboard-card strong {
+        font-size: 0.55rem;
+    }
+
+    #financeSummaryCards .dashboard-card span {
+        font-size: 0.75rem;
+    }
 }
 
 #financeTransactionsList {

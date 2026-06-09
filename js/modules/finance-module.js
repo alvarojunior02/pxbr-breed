@@ -12,26 +12,82 @@ function renderFinanceModule() {
 function renderFinanceSummary() {
     const transactions = loadTransactions();
 
-    const totalReceived =
+    const today = new Date();
+
+    const currentMonth = today.getMonth();
+
+    const currentYear = today.getFullYear();
+
+    const totalRevenue =
         transactions.reduce(
-            (
-                total,
-                transaction
-            ) =>
-                total +
-                transaction.amount,
+            (total, transaction) =>
+                total + transaction.amount,
             0
         );
+
+    const monthlyRevenue =
+        transactions
+            .filter(transaction => {
+                const date =
+                    new Date(transaction.createdAt);
+
+                return (
+                    date.getMonth() === currentMonth &&
+                    date.getFullYear() === currentYear
+                );
+            })
+            .reduce(
+                (total, transaction) =>
+                    total + transaction.amount,
+                0
+            );
+
+    const dailyRevenue =
+        transactions
+            .filter(transaction => {
+                const date =
+                    new Date(transaction.createdAt);
+
+                return (
+                    date.toDateString() ===
+                    today.toDateString()
+                );
+            })
+            .reduce(
+                (total, transaction) =>
+                    total + transaction.amount,
+                0
+            );
 
     financeSummaryCards.innerHTML =
         `
         <div class="dashboard-card">
             <strong>
-                Total Recebido
+                Receita Total
             </strong>
 
             <span>
-                ${formatMoney(totalReceived)}
+                ${formatMoney(totalRevenue)}
+            </span>
+        </div>
+
+        <div class="dashboard-card">
+            <strong>
+                Receita do Mês
+            </strong>
+
+            <span>
+                ${formatMoney(monthlyRevenue)}
+            </span>
+        </div>
+
+        <div class="dashboard-card">
+            <strong>
+                Receita Hoje
+            </strong>
+
+            <span>
+                ${formatMoney(dailyRevenue)}
             </span>
         </div>
 
