@@ -185,6 +185,22 @@ btnConfirmPaymentRegister.addEventListener(
             orders
         );
 
+        const transaction =
+            createOrderPaymentTransaction({
+
+                amount,
+
+                playerId:
+                    order.playerId,
+
+                orderId:
+                    order.id
+            });
+
+        saveTransaction(
+            transaction
+        );
+
         paymentConfirmModal.classList.add(
             "hidden"
         );

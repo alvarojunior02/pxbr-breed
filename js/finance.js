@@ -69,9 +69,26 @@ function getPlayerTransactions(playerId) {
         );
 }
 
+function getTransactionTotalByOrder(
+    orderId
+) {
+    return getOrderTransactions(
+        orderId
+    ).reduce(
+        (
+            total,
+            transaction
+        ) =>
+            total +
+            transaction.amount,
+        0
+    );
+}
+
 window.TRANSACTION_TYPES = TRANSACTION_TYPES;
 
 window.createOrderPaymentTransaction = createOrderPaymentTransaction;
 window.saveTransaction = saveTransaction;
 window.getOrderTransactions = getOrderTransactions;
 window.getPlayerTransactions = getPlayerTransactions;
+window.getTransactionTotalByOrder = getTransactionTotalByOrder;

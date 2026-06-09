@@ -944,8 +944,7 @@ btnCreateOrder.addEventListener(
     "click",
     () => {
 
-        const order =
-            buildOrder();
+        const order = buildOrder();
 
         if (
             !validateOrder(order)
@@ -1015,6 +1014,26 @@ btnConfirmOrder.addEventListener(
             );
 
         saveOrder(order);
+
+        if (order.paidAmount > 0) {
+
+            const transaction =
+                createOrderPaymentTransaction({
+
+                    amount:
+                        order.paidAmount,
+
+                    playerId:
+                        order.playerId,
+
+                    orderId:
+                        order.id
+                });
+
+            saveTransaction(
+                transaction
+            );
+        }
 
         renderOrdersList();
 
