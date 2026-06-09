@@ -1151,3 +1151,23 @@ button:disabled {
     color: var(--success);
     font-weight: bold;
 }
+
+.player-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.player-card-header h3 {
+    margin: 0;
+}
+
+.player-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    image-rendering: pixelated;
+    border: 1px solid var(--border);
+    background: var(--sidebar-bg);
+}

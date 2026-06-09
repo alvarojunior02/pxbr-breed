@@ -2,6 +2,7 @@ function createPlayer(nick) {
     return {
         id: generateUUID(),
         nick,
+        avatarUrl: getMinecraftAvatarUrl(nick),
         createdAt: new Date().toISOString()
     };
 }
@@ -41,3 +42,14 @@ function addPlayer(nick) {
 
     return player;
 }
+
+function getMinecraftAvatarUrl(nick) {
+    return `https://mc-heads.net/avatar/${encodeURIComponent(nick)}`;
+}
+
+function getDefaultMinecraftAvatarUrl() {
+    return "https://mc-heads.net/avatar/Steve";
+}
+
+window.getMinecraftAvatarUrl = getMinecraftAvatarUrl;
+window.getDefaultMinecraftAvatarUrl = getDefaultMinecraftAvatarUrl;

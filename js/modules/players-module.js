@@ -60,9 +60,18 @@ function renderPlayersModule() {
 
         card.classList.add("order-card");
 
-        card.innerHTML =
-            `
-            <h3>${player.nick}</h3>
+        card.innerHTML = `
+            <div class="player-card-header">
+                <img
+                    src="${player.avatarUrl || getMinecraftAvatarUrl(player.nick)}"
+                    alt="${player.nick}"
+                    class="player-avatar"
+                    onerror="this.src='${getDefaultMinecraftAvatarUrl()}'">
+
+                <h3>
+                    ${player.nick}
+                </h3>
+            </div>
 
             <p>
                 Encomendas:
@@ -198,11 +207,18 @@ function openPlayerSummaryModal(playerId) {
     const lastOrder =
         getPlayerLastOrder(player.id);
 
-    playerSummaryContent.innerHTML =
-        `
-        <h3>
-            ${player.nick}
-        </h3>
+    playerSummaryContent.innerHTML = `
+        <div class="player-card-header">
+            <img
+                src="${player.avatarUrl || getMinecraftAvatarUrl(player.nick)}"
+                alt="${player.nick}"
+                class="player-avatar"
+                onerror="this.src='${getDefaultMinecraftAvatarUrl()}'">
+
+            <h3>
+                ${player.nick}
+            </h3>
+        </div>
 
         <p>
             Encomendas:
