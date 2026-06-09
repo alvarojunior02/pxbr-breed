@@ -534,3 +534,36 @@ button:disabled {
         margin-top: 0;
     }
 }
+
+.form-field label,
+.pokemon-extra-fields label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    color: var(--text);
+}
+
+.form-section-title {
+    font-size: 1.25rem;
+    color: var(--text);
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.selected-player-card {
+    margin-top: 12px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: rgba(15, 23, 42, 0.35);
+    max-width: 720px;
+}
+
+.selected-player-card h3 {
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.selected-player-card p {
+    margin: 6px 0;
+}

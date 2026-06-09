@@ -39,6 +39,7 @@ function createOrderPokemon({
 const orderPlayer = document.getElementById("orderPlayer");
 const orderPlayerSearch = document.getElementById("orderPlayerSearch");
 const orderPlayerResults = document.getElementById("orderPlayerResults");
+const selectedPlayerInfo = document.getElementById("selectedPlayerInfo");
 
 const pokemonOrderList = document.getElementById("pokemonOrderList");
 const btnAddPokemon = document.getElementById("btnAddPokemon");
@@ -543,6 +544,8 @@ function resetOrderForm() {
 
     updateOrderFormAvailability();
 
+    renderSelectedPlayerInfo(null);
+
     calculateOrderTotal();
 }
 
@@ -596,7 +599,13 @@ function getFilteredOrders() {
 // RENDER ORDERS LIST
 function renderOrdersList() {
 
-    const orders = getFilteredOrders();
+    const orders =
+        getFilteredOrders()
+            .sort(
+                (a, b) =>
+                    new Date(b.createdAt) -
+                    new Date(a.createdAt)
+            );
 
     const ordersList = document.getElementById("ordersList");
     const ordersCount = document.getElementById("ordersCount");
@@ -1441,6 +1450,7 @@ function renderPlayerSearchResults(searchTerm = "") {
                         "";
 
                     updateOrderFormAvailability();
+                    renderSelectedPlayerInfo(player);
                 }
             );
 
@@ -1450,6 +1460,7 @@ function renderPlayerSearchResults(searchTerm = "") {
         });
 }
 
+// LOAD ORDER STATUS FILTER
 function loadOrderStatusFilter() {
     ORDER_STATUS.forEach(status => {
         const option =
@@ -1751,6 +1762,92 @@ function createPokemonOrderRow() {
     calculateOrderTotal();
 }
 
+// GET PLAYER LAST ORDER
+function getPlayerLastOrder(playerId) {
+    const orders =
+        loadOrders()
+            .filter(order =>
+                order.playerId === playerId
+            )
+            .sort(
+                (a, b) =>
+                    new Date(b.createdAt) -
+                    new Date(a.createdAt)
+            );
+
+    return orders[0] || null;
+}
+
+// GET DAYS SINCE
+function getDaysSince(date) {
+    const today =
+        new Date();
+
+    const targetDate =
+        new Date(date);
+
+    const diffInMs =
+        today - targetDate;
+
+    return Math.floor(
+        diffInMs / (1000 * 60 * 60 * 24)
+    );
+}
+
+// RENDER SELECTED PLAYER INFO
+function renderSelectedPlayerInfo(player) {
+    if (!player) {
+        selectedPlayerInfo.innerHTML = "";
+        return;
+    }
+
+    const summary =
+        getPlayerFinancialSummary(player.id);
+
+    const lastOrder =
+        getPlayerLastOrder(player.id);
+
+    selectedPlayerInfo.innerHTML =
+        `
+        <div class="selected-player-card">
+            <h3>
+                ${player.nick}
+            </h3>
+
+            <p>
+                Última Encomenda:
+                ${
+                    lastOrder
+                        ? `
+                            ${formatDate(lastOrder.createdAt)}
+                            (${getDaysSince(lastOrder.createdAt)} dias atrás)
+                        `
+                        : "Nenhuma encomenda registrada"
+                }
+            </p>
+
+            <p>
+                Total Vendido:
+                ${formatMoney(summary.total)}
+            </p>
+
+            <p>
+                Recebido:
+                <span class="payment-paid">
+                    ${formatMoney(summary.paid)}
+                </span>
+            </p>
+
+            <p>
+                Pendente:
+                <span class="payment-pending">
+                    ${formatMoney(summary.pending)}
+                </span>
+            </p>
+        </div>
+    `;
+}
+
 btnAddPokemon.addEventListener(
     "click",
     () => {
@@ -1982,8 +2079,9 @@ orderPlayer.addEventListener(
 orderPlayerSearch.addEventListener(
     "input",
     e => {
-        orderPlayer.value =
-            "";
+        orderPlayer.value = "";
+
+        renderSelectedPlayerInfo(null);
 
         updateOrderFormAvailability();
 
@@ -1995,23 +2093,18 @@ orderPlayerSearch.addEventListener(
 
 orderPaid.addEventListener("change", () => {
     if (orderPaid.checked) {
-        const order =
-            buildOrder();
+        const total = unformatMoney(orderTotal.textContent);
 
-        orderPaidAmount.value =
-            formatMoney(order.total);
+        orderPaidAmount.value = formatMoney(total);
 
-        orderPaidAmount.style.display =
-            "block";
+        orderPaidAmount.style.display = "block";
 
         return;
     }
 
-    orderPaidAmount.value =
-        formatMoney(0);
+    orderPaidAmount.value = formatMoney(0);
 
-    orderPaidAmount.style.display =
-        "none";
+    orderPaidAmount.style.display = "none";
 });
 
 btnCancelPayment.addEventListener(
