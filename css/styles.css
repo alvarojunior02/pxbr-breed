@@ -567,3 +567,12 @@ button:disabled {
 .selected-player-card p {
     margin: 6px 0;
 }
+
+.dashboard-recent-orders {
+    margin-top: 28px;
+}
+
+#dashboardRecentOrders {
+    display: grid;
+    gap: 12px;
+}

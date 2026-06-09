@@ -1,3 +1,5 @@
+const dashboardRecentOrders = document.getElementById("dashboardRecentOrders");
+
 function getPokemonStatusCounts(
     pokemons
 ) {
@@ -242,6 +244,54 @@ function renderDashboard() {
 
         ${statusCards}
     `;
+
+    renderDashboardRecentOrders();
+}
+
+function getRecentOrders(limit = 5) {
+    return loadOrders()
+        .filter(order =>
+            !order.archived
+        )
+        .sort(
+            (a, b) =>
+                new Date(b.createdAt) -
+                new Date(a.createdAt)
+        )
+        .slice(0, limit);
+}
+
+function renderDashboardRecentOrders() {
+    const recentOrders =
+        getRecentOrders();
+
+    dashboardRecentOrders.innerHTML =
+        "";
+
+    if (recentOrders.length === 0) {
+        dashboardRecentOrders.innerHTML =
+            `
+            <p>
+                Nenhuma encomenda cadastrada ainda.
+            </p>
+        `;
+
+        return;
+    }
+
+    recentOrders.forEach(order => {
+        const card =
+            document.createElement("div");
+
+        card.classList.add(
+            "order-card"
+        );
+
+        card.innerHTML =
+            createOrderCard(order);
+
+        dashboardRecentOrders.appendChild(card);
+    });
 }
 
 function filterOrdersByStatus(statusValue) {
