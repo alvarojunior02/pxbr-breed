@@ -144,6 +144,7 @@ function createDashboardGroup(
     `;
 }
 
+// RENDER DASHBOARD
 function renderDashboard() {
     const dashboardCards = document.getElementById("dashboardCards");
 
@@ -172,8 +173,7 @@ function renderDashboard() {
         </div>
     `;
 
-    const financeCards =
-        `
+    const financeCards = `
         <div class="dashboard-card">
             <strong>Ativas</strong>
             <span>${formatMoney(metrics.activeOrdersValue)}</span>
@@ -241,6 +241,8 @@ function renderDashboard() {
             `;
         }).join("");
 
+    
+
     dashboardCards.innerHTML =
         createDashboardGroup(
             "Resumo geral",
@@ -254,6 +256,11 @@ function renderDashboard() {
             "Status das Breeds",
             statusCards,
             "dashboard-status-group"
+        ) +
+        createDashboardGroup(
+            "Top Compradores",
+            renderTopBuyers(),
+            "dashboard-top-buyers-group"
         );
 
     renderDashboardRecentOrders();
@@ -317,6 +324,73 @@ function filterOrdersByStatus(statusValue) {
         statusValue;
 
     renderOrdersList();
+}
+
+function getTopBuyers(limit = 5) {
+    const players = loadPlayers();
+
+    const transactions = loadTransactions();
+
+    return players
+        .map(player => {
+            const totalPaid =
+                transactions
+                    .filter(transaction =>
+                        transaction.playerId === player.id
+                    )
+                    .reduce(
+                        (total, transaction) =>
+                            total + transaction.amount,
+                        0
+                    );
+
+            return {
+                player,
+                totalPaid
+            };
+        })
+        .filter(item =>
+            item.totalPaid > 0
+        )
+        .sort(
+            (a, b) =>
+                b.totalPaid - a.totalPaid
+        )
+        .slice(0, limit);
+}
+
+function renderTopBuyers() {
+    const topBuyers =
+        getTopBuyers();
+
+    if (topBuyers.length === 0) {
+        return `
+            <p>
+                Nenhum comprador com pagamento registrado ainda.
+            </p>
+        `;
+    }
+
+    return `
+        <div class="top-buyers-list">
+            ${
+                topBuyers
+                    .map((item, index) => `
+                        <div class="top-buyer-item">
+                            <strong>
+                                ${index + 1}º
+                                ${item.player.nick}
+                            </strong>
+
+                            <span>
+                                ${formatMoney(item.totalPaid)}
+                            </span>
+                        </div>
+                    `)
+                    .join("")
+            }
+        </div>
+    `;
 }
 
 window.renderDashboard =renderDashboard;

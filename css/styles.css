@@ -1126,3 +1126,28 @@ button:disabled {
 .player-card-actions button {
     width: fit-content;
 }
+
+.dashboard-top-buyers-group .dashboard-group-grid {
+    display: block;
+}
+
+.top-buyers-list {
+    display: grid;
+    gap: 8px;
+}
+
+.top-buyer-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+}
+
+.top-buyer-item span {
+    color: var(--success);
+    font-weight: bold;
+}
