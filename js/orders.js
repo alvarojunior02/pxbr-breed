@@ -1846,6 +1846,7 @@ btnConfirmOrder.addEventListener(
         saveOrder(order);
 
         renderOrdersList();
+        renderDashboard();
 
         resetOrderForm();
 
@@ -1924,6 +1925,7 @@ btnConfirmStatusChange.addEventListener(
             );
 
         renderOrdersList();
+        renderDashboard();
 
         openOrderDetails(selectedOrderId);
     }
@@ -2106,6 +2108,7 @@ btnConfirmPaymentRegister.addEventListener(
             0;
 
         renderOrdersList();
+        renderDashboard();
 
         openOrderDetails(
             selectedPaymentOrderId
@@ -2168,6 +2171,7 @@ btnConfirmArchive.addEventListener(
             null;
 
         renderOrdersList();
+        renderDashboard();
     }
 );
 

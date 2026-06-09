@@ -191,3 +191,44 @@
     color: #198754;
     font-weight: bold;
 }
+
+#dashboardCards {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(
+                180px,
+                1fr
+            )
+        );
+
+    gap: 12px;
+}
+
+.dashboard-card {
+
+    border: 1px solid #ccc;
+
+    border-radius: 8px;
+
+    padding: 12px;
+
+    background: #fff;
+}
+
+.dashboard-card strong {
+
+    display: block;
+
+    margin-bottom: 8px;
+}
+
+.dashboard-card span {
+
+    font-size: 1.4rem;
+
+    font-weight: bold;
+}
