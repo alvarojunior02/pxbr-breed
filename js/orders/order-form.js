@@ -1,3 +1,7 @@
+applyMoneyMask(orderPaidAmount);
+applyMoneyMask(discountValue);
+applyMoneyMask(paymentAmount);
+
 // CALCULATE ORDER TOTAL
 function calculateOrderTotal() {
     const rows =
@@ -963,10 +967,12 @@ btnCreateOrder.addEventListener(
     }
 );
 
-btnOpenCreateOrderModal.addEventListener(
-    "click",
-    openCreateOrderModal
-);
+btnOpenCreateOrderModal.forEach(button => {
+    button.addEventListener(
+        "click",
+        openCreateOrderModal
+    );
+});
 
 btnCancelCreateOrder.addEventListener(
     "click",
@@ -1046,6 +1052,11 @@ orderPaid.addEventListener("change", () => {
 
     orderPaidAmount.style.display = "none";
 });
+
+orderPlayer.addEventListener(
+    "change",
+    updateOrderFormAvailability
+);
 
 document 
     .querySelectorAll(

@@ -218,4 +218,15 @@ function createPokemonDetailsCard(
     `;
 }
 
+btnCloseOrderDetails.addEventListener(
+    "click",
+    () => {
+        orderDetailsModal
+            .classList
+            .add(
+                "hidden"
+            );
+    }
+);
+
 window.openOrderDetails = openOrderDetails;

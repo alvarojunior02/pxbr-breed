@@ -195,4 +195,19 @@ function createOrderCard(order) {
     `;
 }
 
+orderSearchPlayer.addEventListener(
+    "input",
+    renderOrdersList
+);
+
+orderStatusFilter.addEventListener(
+    "change",
+    renderOrdersList
+);
+
+orderArchiveFilter.addEventListener(
+    "change",
+    renderOrdersList
+);
+
 window.renderOrdersList = renderOrdersList;
