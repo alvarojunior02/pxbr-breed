@@ -1,0 +1,46 @@
+#playersCards {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(280px, 1fr)
+    );
+    gap: 16px;
+}
+
+#playersCards .order-card {
+    margin-bottom: 0;
+}
+
+#playersCards .order-card button {
+    width: fit-content;
+}
+
+.player-card-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.player-card-actions button {
+    width: fit-content;
+}
+
+.player-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.player-card-header h3 {
+    margin: 0;
+}
+
+.player-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    image-rendering: pixelated;
+    border: 1px solid var(--border);
+    background: var(--sidebar-bg);
+}

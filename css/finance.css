@@ -1,0 +1,16 @@
+#financeSummaryCards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+#financeTransactionsList {
+    display: grid;
+    gap: 12px;
+}
+
+.finance-value {
+    color: var(--success);
+    font-weight: bold;
+}
