@@ -29,11 +29,6 @@ async function loadPokemonData() {
             })
         );
 
-        console.log(
-            "Pokémons carregados:",
-            pokemonData.length
-        );
-
         pokemonLoaded = true;
     } catch (error) {
         console.log( "Erro ao carregar Pokédex:", error);
