@@ -63,11 +63,20 @@ const statusConfirmContent = document.getElementById("statusConfirmContent");
 const btnCancelStatusChange = document.getElementById("btnCancelStatusChange");
 const btnConfirmStatusChange = document.getElementById("btnConfirmStatusChange");
 
-let selectedOrderId = null;
-let selectedPokemonId = null;
+const paymentModal = document.getElementById("paymentModal");
+const paymentSummary = document.getElementById("paymentSummary");
+const paymentAmount = document.getElementById("paymentAmount");
+applyMoneyMask(paymentAmount);
+
+const btnCancelPayment = document.getElementById("btnCancelPayment");
+const btnConfirmPayment = document.getElementById("btnConfirmPayment");
 
 const orderSearchPlayer = document.getElementById("orderSearchPlayer");
 const orderStatusFilter = document.getElementById("orderStatusFilter");
+
+let selectedOrderId = null;
+let selectedPokemonId = null;
+let selectedPaymentOrderId = null;
 
 function calculateOrderTotal() {
     const rows =
@@ -350,6 +359,7 @@ function saveOrder(order) {
     saveOrders(orders);
 }
 
+// GET PAYMENT STATUS HTML
 function getPaymentStatusHtml(order) {
     const paidAmount =
         order.paidAmount || 0;
@@ -387,6 +397,10 @@ function getPaymentStatusHtml(order) {
             ${formatMoney(order.total)}
         </span>
     `;
+}
+
+function canRegisterPayment(order) {
+    return (order.paidAmount || 0) < order.total;
 }
 
 // RESET ORDER FORM
@@ -512,6 +526,53 @@ function openOrderDetails(orderId) {
         .remove(
             "hidden"
         );
+}
+
+// OPEN PAYMENT MODAL
+function openPaymentModal(orderId) {
+    const order =
+        loadOrders().find(
+            order =>
+                order.id === orderId
+        );
+
+    if (!order) {
+        return;
+    }
+
+    const paidAmount =
+        order.paidAmount || 0;
+
+    const remaining =
+        order.total - paidAmount;
+
+    selectedPaymentOrderId =
+        orderId;
+
+    paymentSummary.innerHTML =
+        `
+        <p>
+            <strong>Total:</strong>
+            ${formatMoney(order.total)}
+        </p>
+
+        <p>
+            <strong>Já pago:</strong>
+            ${formatMoney(paidAmount)}
+        </p>
+
+        <p>
+            <strong>Restante:</strong>
+            ${formatMoney(remaining)}
+        </p>
+    `;
+
+    paymentAmount.value =
+        formatMoney(remaining);
+
+    paymentModal.classList.remove(
+        "hidden"
+    );
 }
 
 // OPEN STATUS CONFIRM MODAL
@@ -683,14 +744,19 @@ function renderOrderDetails(order) {
             ${getPaymentStatusHtml(order)}
         </p>
 
-        <p>
-            <strong>Precisa capturar fêmea:</strong>
-            ${
-                order.needsFemale
-                    ? "Sim"
-                    : "Não"
-            }
-        </p>
+        ${
+            canRegisterPayment(order)
+                ? `
+                    <button
+                        type="button"
+                        onclick="openPaymentModal('${order.id}')">
+
+                        Registrar Pagamento
+
+                    </button>
+                `
+                : ""
+        }
 
         ${
             order.observations?.trim()
@@ -1744,6 +1810,80 @@ orderPaid.addEventListener("change", () => {
         "none";
 });
 
+btnCancelPayment.addEventListener(
+    "click",
+    () => {
+        paymentModal.classList.add(
+            "hidden"
+        );
+    }
+);
+
+btnConfirmPayment.addEventListener(
+    "click",
+    () => {
+        const orders =
+            loadOrders();
+
+        const order =
+            orders.find(
+                order =>
+                    order.id === selectedPaymentOrderId
+            );
+
+        if (!order) {
+            return;
+        }
+
+        const currentPaid =
+            order.paidAmount || 0;
+
+        const remaining =
+            order.total - currentPaid;
+
+        const amount =
+            unformatMoney(
+                paymentAmount.value
+            );
+
+        if (amount <= 0) {
+            alert(
+                "Informe um valor maior que zero."
+            );
+
+            return;
+        }
+
+        if (amount > remaining) {
+            alert(
+                "O valor pago não pode ser maior que o valor restante."
+            );
+
+            return;
+        }
+
+        order.paidAmount =
+            currentPaid + amount;
+
+        order.paid =
+            order.paidAmount >= order.total;
+
+        saveOrders(
+            orders
+        );
+
+        paymentModal.classList.add(
+            "hidden"
+        );
+
+        renderOrdersList();
+
+        openOrderDetails(
+            selectedPaymentOrderId
+        );
+    }
+);
+
 loadPlayersSelect();
 loadOrderStatusFilter();
 createPokemonOrderRow();
@@ -1752,3 +1892,4 @@ renderOrdersList();
 
 window.openOrderDetails = openOrderDetails;
 window.openStatusConfirmModal = openStatusConfirmModal;
+window.openPaymentModal = openPaymentModal;
