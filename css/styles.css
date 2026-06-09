@@ -77,6 +77,11 @@
     font-weight: bold;
 }
 
+.ability-ha {
+    color: #d4a017;
+    font-weight: bold;
+}
+
 .order-card {
     border: 1px solid #ccc;
 

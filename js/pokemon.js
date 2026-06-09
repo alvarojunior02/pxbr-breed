@@ -1,6 +1,10 @@
 let pokemonData = [];
 let pokemonLoaded = false;
 
+function formatAbilityName(abilityName) {
+    return abilityName.replaceAll("-", " ");
+}
+
 async function loadPokemonData() {
     try {
         const response =
@@ -14,6 +18,10 @@ async function loadPokemonData() {
                 id: pokemon.id,
                 name: pokemon.name.english,
                 eggGroups: pokemon.profile.egg,
+                abilities: pokemon.profile.ability.map(ability => ({
+                    name: formatAbilityName(ability[0]),
+                    isHA: ability[1] === "true"
+                })),
                 sprite: pokemon.image.sprite,
                 thumbnail: pokemon.image.thumbnail,
                 hires: pokemon.image.hires,

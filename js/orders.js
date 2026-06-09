@@ -126,9 +126,40 @@ function updatePokemonRowLabels() {
     });
 }
 
+function populateAbilitySelect(select, abilities) {
+    if (!select) {
+        console.error("Ability select não encontrado.");
+        return;
+    }
+
+    select.innerHTML = "";
+
+    abilities.forEach(ability => {
+        const option =
+            document.createElement("option");
+
+        option.value =
+            ability.name;
+
+        option.textContent =
+            ability.isHA
+                ? `${ability.name} (HA)`
+                : ability.name;
+
+        option.dataset.isHa =
+            ability.isHA;
+
+        select.appendChild(option);
+    });
+
+    select.disabled =
+        false;
+}
+
 function getPokemonRowData(row) {
     const valueInput = row.querySelector(".pokemon-value");
     const natureSelect = row.querySelector(".pokemon-nature");
+    const abilitySelect = row.querySelector(".pokemon-ability");
     const breedableToggle = row.querySelector(".pokemon-breedable");
 
     const pokemon = getPokemonById(row.dataset.pokemonId);
@@ -145,6 +176,14 @@ function getPokemonRowData(row) {
         breedPokemonName: row.dataset.breedPokemonName,
 
         nature: natureSelect.value,
+
+        ability: {
+            name: abilitySelect.value,
+            isHA: abilitySelect
+                .selectedOptions[0]
+                ?.dataset
+                .isHa === "true"
+        },
 
         value:unformatMoney(valueInput.value),
 
@@ -774,6 +813,20 @@ function validateOrder(order) {
         return false;
     }
 
+    const invalidAbility =
+        order.pokemons.find(
+            pokemon =>
+                !pokemon.ability?.name
+        );
+
+    if (invalidAbility) {
+        alert(
+            "Selecione a habilidade de todos os Pokémons."
+        );
+
+        return false;
+    }
+
     return true;
 }
 
@@ -984,7 +1037,7 @@ function createPokemonOrderRow() {
             class="pokemon-selected-info">
         </div>
 
-        <br><br>
+        <br>
 
         <label>
             Nature
@@ -996,11 +1049,29 @@ function createPokemonOrderRow() {
 
         </select>
 
-        <br><br>
+        <br>
 
         <div class="nature-info">
 
         </div>
+    
+        <br>
+
+        <label>
+            Ability
+        </label>
+
+        <br>
+
+        <select
+            class="pokemon-ability"
+            disabled>
+
+            <option value="">
+                Selecione um Pokémon primeiro
+            </option>
+
+        </select>
 
         <br><br>
 
@@ -1054,6 +1125,7 @@ function createPokemonOrderRow() {
     const pokemonSearchInput = row.querySelector(".pokemon-search");
     const pokemonAutocomplete = row.querySelector(".pokemon-autocomplete");
     const pokemonSelectedInfo = row.querySelector(".pokemon-selected-info");
+    const abilitySelect = row.querySelector(".pokemon-ability");
 
     let selectedPokemon = null;
 
@@ -1168,6 +1240,10 @@ function createPokemonOrderRow() {
                             pokemonAutocomplete.innerHTML = "";
 
                             renderPokemonInfo(pokemon);
+                            populateAbilitySelect(
+                                abilitySelect,
+                                pokemon.abilities
+                            );
                         }
                     );
 
