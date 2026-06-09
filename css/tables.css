@@ -49,3 +49,32 @@
     text-decoration: underline;
     color: #7dd3fc;
 }
+
+.order-transactions {
+    margin: 16px 0;
+}
+
+.order-transactions h3 {
+    margin-bottom: 8px;
+}
+
+.order-transactions table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-transactions th,
+.order-transactions td {
+    padding: 8px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+}
+
+.order-transactions th {
+    color: var(--text-soft);
+    font-size: 0.9rem;
+}
+
+.order-transactions td {
+    color: var(--text-muted);
+}

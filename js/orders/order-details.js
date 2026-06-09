@@ -282,23 +282,25 @@ function renderOrderTransactionsTable(orderId) {
                 Transações
             </h3>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>
-                            Data/Hora
-                        </th>
+            <div class="table-wrapper">
+                <table class="finance-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Data/Hora
+                            </th>
 
-                        <th>
-                            Valor
-                        </th>
-                    </tr>
-                </thead>
+                            <th>
+                                Valor
+                            </th>
+                        </tr>
+                    </thead>
 
-                <tbody>
-                    ${rows}
-                </tbody>
-            </table>
+                    <tbody>
+                        ${rows}
+                    </tbody>
+                </table>
+            </div>
         </div>
     `;
 }
