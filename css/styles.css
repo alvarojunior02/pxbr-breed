@@ -247,3 +247,23 @@
 .dashboard-card-button:hover {
     transform: translateY(-2px);
 }
+
+#orderPlayerResults {
+    max-width: 300px;
+    background: white;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+#orderPlayerResults:not(:empty) {
+    border: 1px solid #ccc;
+}
+
+.autocomplete-item {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.autocomplete-item:hover {
+    background: #f1f1f1;
+}

@@ -37,6 +37,9 @@ function createOrderPokemon({
 }
 
 const orderPlayer = document.getElementById("orderPlayer");
+const orderPlayerSearch = document.getElementById("orderPlayerSearch");
+const orderPlayerResults = document.getElementById("orderPlayerResults");
+
 const pokemonOrderList = document.getElementById("pokemonOrderList");
 const btnAddPokemon = document.getElementById("btnAddPokemon");
 const btnCreateOrder =document.getElementById("btnCreateOrder");
@@ -500,6 +503,10 @@ function validatePaymentAmount(order, amount) {
 // RESET ORDER FORM
 function resetOrderForm() {
     orderPlayer.value = "";
+
+    orderPlayerSearch.value = "";
+
+    orderPlayerResults.innerHTML = "";
 
     hasDiscount.checked = false;
 
@@ -1370,36 +1377,60 @@ function renderOrderSummary(order) {
         html;
 }
 
-function loadPlayersSelect() {
-
+// RENDER PLAYER SEARCH RESULTS
+function renderPlayerSearchResults(searchTerm = "") {
     const players =
         loadPlayers();
 
-    orderPlayer.innerHTML = `
-        <option value="">
-            Selecione um player
-        </option>
-    `;
+    orderPlayerResults.innerHTML =
+        "";
 
-    players.forEach(player => {
+    if (!searchTerm.trim()) {
+        return;
+    }
 
-        const option =
-            document.createElement(
-                "option"
-            );
-
-        option.value =
-            player.id;
-
-        option.textContent =
-            player.nick;
-
-        orderPlayer.appendChild(
-            option
+    const filteredPlayers =
+        players.filter(player =>
+            player.nick
+                .toLowerCase()
+                .includes(
+                    searchTerm.toLowerCase()
+                )
         );
 
-    });
+    filteredPlayers
+        .slice(0, 10)
+        .forEach(player => {
+            const item =
+                document.createElement("div");
 
+            item.textContent =
+                player.nick;
+
+            item.classList.add(
+                "autocomplete-item"
+            );
+
+            item.addEventListener(
+                "click",
+                () => {
+                    orderPlayer.value =
+                        player.id;
+
+                    orderPlayerSearch.value =
+                        player.nick;
+
+                    orderPlayerResults.innerHTML =
+                        "";
+
+                    updateOrderFormAvailability();
+                }
+            );
+
+            orderPlayerResults.appendChild(
+                item
+            );
+        });
 }
 
 function loadOrderStatusFilter() {
@@ -1966,6 +1997,20 @@ orderPlayer.addEventListener(
     updateOrderFormAvailability
 );
 
+orderPlayerSearch.addEventListener(
+    "input",
+    e => {
+        orderPlayer.value =
+            "";
+
+        updateOrderFormAvailability();
+
+        renderPlayerSearchResults(
+            e.target.value
+        );
+    }
+);
+
 orderPaid.addEventListener("change", () => {
     if (orderPaid.checked) {
         const order =
@@ -2195,11 +2240,11 @@ btnConfirmArchive.addEventListener(
     }
 );
 
-loadPlayersSelect();
 loadOrderStatusFilter();
 createPokemonOrderRow();
 updateOrderFormAvailability();
 renderOrdersList();
+renderDashboard();
 
 window.openOrderDetails = openOrderDetails;
 window.openStatusConfirmModal = openStatusConfirmModal;

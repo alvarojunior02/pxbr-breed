@@ -70,21 +70,22 @@
     <div id="orderForm">
 
         <div>
-
-            <label for="orderPlayer">
+            <label for="orderPlayerSearch">
                 Player
             </label>
 
             <br>
 
-            <select id="orderPlayer">
+            <input
+                type="text"
+                id="orderPlayerSearch"
+                placeholder="Digite o nick do player">
 
-                <option value="">
-                    Selecione um player
-                </option>
+            <input
+                type="hidden"
+                id="orderPlayer">
 
-            </select>
-
+            <div id="orderPlayerResults"></div>
         </div>
 
         <br>
