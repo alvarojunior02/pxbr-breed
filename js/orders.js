@@ -44,6 +44,7 @@ const orderSummary = document.getElementById("orderSummary");
 const btnCancelOrder = document.getElementById("btnCancelOrder");
 const btnConfirmOrder = document.getElementById("btnConfirmOrder");
 const hasDiscount = document.getElementById("hasDiscount");
+const orderPaid = document.getElementById("orderPaid");
 
 const orderDetailsModal = document.getElementById("orderDetailsModal");
 const orderDetailsContent = document.getElementById("orderDetailsContent");
@@ -232,6 +233,7 @@ function getPokemonRowData(row) {
     };
 }
 
+// GET ORDER POKEMONS
 function getOrderPokemons() {
     const rows =
         document.querySelectorAll(
@@ -242,6 +244,7 @@ function getOrderPokemons() {
         .map(getPokemonRowData);
 }
 
+// BUILD ORDER
 function buildOrder() {
     const pokemons = getOrderPokemons();
 
@@ -271,12 +274,13 @@ function buildOrder() {
         observations: observationsInput
             ? observationsInput.value.trim()
             : "",
-        paid: false,
+        paid: orderPaid?.checked ?? false,
         archived: false,
         createdAt: new Date().toISOString()
     };
 }
 
+// GET INITIAL POKEMON STATUS
 function getInitialPokemonStatus() {
     const selectedOption =
         document.querySelector(
@@ -292,6 +296,7 @@ function getInitialPokemonStatus() {
         : ORDER_STATUS[1].value;
 }
 
+// CREATE PERSISTED ORDER
 function createPersistedOrder(orderData) {
     const order = createOrder(orderData.playerId);
 
@@ -299,7 +304,7 @@ function createPersistedOrder(orderData) {
 
     order.discount = orderData.discount;
 
-    order.paid = false;
+    order.paid = orderData.paid;
 
     const initialStatus = getInitialPokemonStatus();
         
@@ -324,6 +329,7 @@ function createPersistedOrder(orderData) {
     return order;
 }
 
+// SAVE ORDER
 function saveOrder(order) {
     const orders =
         loadOrders();
@@ -333,6 +339,7 @@ function saveOrder(order) {
     saveOrders(orders);
 }
 
+// RESET ORDER FORM
 function resetOrderForm() {
     orderPlayer.value = "";
 
@@ -357,6 +364,8 @@ function resetOrderForm() {
     btnConfirmOrder.disabled = true;
 
     document.getElementById("orderObservations").value = "";
+
+    orderPaid.checked = false;
 
     createPokemonOrderRow();
 
@@ -549,6 +558,7 @@ function openStatusConfirmModal(
         );
 }
 
+// RENDER ORDER DETAILS
 function renderOrderDetails(order) {
     window.currentOrderId = order.id;
 
@@ -588,19 +598,31 @@ function renderOrderDetails(order) {
             )}
         </p>
 
-        <p>
-            <strong>Total:</strong>
-            ${formatMoney(
-                order.total
-            )}
-        </p>
+        ${
+            order.discount > 0
+                ? `
+                    <p>
+                        <strong>Subtotal:</strong>
+                        ${formatMoney(order.subtotal ?? order.total + order.discount)}
+                    </p>
 
-        <p>
-            <strong>Desconto:</strong>
-            ${formatMoney(
-                order.discount
-            )}
-        </p>
+                    <p>
+                        <strong>Desconto:</strong>
+                        ${formatMoney(order.discount)}
+                    </p>
+
+                    <p>
+                        <strong>Total:</strong>
+                        ${formatMoney(order.total)}
+                    </p>
+                `
+                : `
+                    <p>
+                        <strong>Total:</strong>
+                        ${formatMoney(order.total)}
+                    </p>
+                `
+        }
 
         <p>
             <strong>Pago:</strong>
