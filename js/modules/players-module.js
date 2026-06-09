@@ -305,9 +305,7 @@ function openPlayerTransactionsModal(playerId) {
                     <td>
                         <button
                             type="button"
-                            onclick="openOrderDetailsFromPlayerTransactions('
-                                ${transaction.orderId}
-                            ')">
+                            onclick="openOrderDetailsFromPlayerTransactions('${transaction.orderId}')">
 
                             Ver Encomenda
 

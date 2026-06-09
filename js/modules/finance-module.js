@@ -177,7 +177,7 @@ function renderFinanceTransactions() {
                 <thead>
                     <tr>
                         <th>Data/Hora</th>
-                        <th>Player</th>
+                        <th>Cliente</th>
                         <th>Valor</th>
                         <th>Encomenda</th>
                     </tr>
