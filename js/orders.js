@@ -43,6 +43,9 @@ const orderSummary = document.getElementById("orderSummary");
 const btnCancelOrder = document.getElementById("btnCancelOrder");
 const btnConfirmOrder = document.getElementById("btnConfirmOrder");
 const hasDiscount = document.getElementById("hasDiscount");
+const orderDetailsModal = document.getElementById("orderDetailsModal");
+const orderDetailsContent = document.getElementById("orderDetailsContent");
+const btnCloseOrderDetails =document.getElementById("btnCloseOrderDetails");
 
 const discountValue = document.getElementById("discountValue");
 applyMoneyMask(discountValue);
@@ -285,6 +288,159 @@ function renderOrdersList() {
     });
 }
 
+function openOrderDetails(orderId) {
+    const order =
+        loadOrders().find(
+            order =>
+                order.id ===
+                orderId
+        );
+
+    if (!order) {
+        return;
+    }
+
+    renderOrderDetails(
+        order
+    );
+
+    orderDetailsModal
+        .classList
+        .remove(
+            "hidden"
+        );
+}
+
+function renderOrderDetails(order) {
+    const player =
+        loadPlayers().find(
+            player =>
+                player.id ===
+                order.playerId
+        );
+
+    const pokemonHtml =
+        order.pokemons
+            .map(
+                pokemon =>
+                    createPokemonDetailsCard(
+                        pokemon
+                    )
+            )
+            .join("");
+
+    orderDetailsContent.innerHTML =
+        `
+        <p>
+            <strong>Pedido:</strong>
+            ${order.id}
+        </p>
+
+        <p>
+            <strong>Player:</strong>
+            ${player?.nick ?? "-"}
+        </p>
+
+        <p>
+            <strong>Criado em:</strong>
+            ${formatDate(
+                order.createdAt
+            )}
+        </p>
+
+        <p>
+            <strong>Total:</strong>
+            ${formatMoney(
+                order.total
+            )}
+        </p>
+
+        <p>
+            <strong>Desconto:</strong>
+            ${formatMoney(
+                order.discount
+            )}
+        </p>
+
+        <p>
+            <strong>Pago:</strong>
+            ${
+                order.paid
+                    ? "Sim"
+                    : "Não"
+            }
+        </p>
+
+        <p>
+            <strong>Precisa capturar fêmea:</strong>
+            ${
+                order.needsFemale
+                    ? "Sim"
+                    : "Não"
+            }
+        </p>
+
+        <hr>
+
+        ${pokemonHtml}
+    `;
+}
+
+function createPokemonDetailsCard(
+    pokemon
+) {
+    const nature = getNatureByName(pokemon.nature);
+
+    const thumbnail = getPokemonThumbnail(pokemon.pokemonId);
+
+    return `
+        <div
+            class="pokemon-details-card">
+
+            <img
+                src="${thumbnail}"
+                alt="${pokemon.pokemonName}"
+            >
+
+            <h3>
+                #${pokemon.pokemonId}
+                ${pokemon.pokemonName}
+            </h3>
+
+            <p>
+                Nature:
+                ${nature.name}
+            </p>
+
+            <p>
+                Status:
+                ${
+                    getStatusByValue(
+                        pokemon.status
+                    ).name
+                }
+            </p>
+
+            <p>
+                Valor:
+                ${formatMoney(
+                    pokemon.value
+                )}
+            </p>
+
+            <p>
+                Breedável:
+                ${
+                    pokemon.breedable
+                        ? "Sim"
+                        : "Não"
+                }
+            </p>
+
+        </div>
+    `;
+}
+
 function getOrderStatusSummary(order) {
     const summary = {};
 
@@ -372,7 +528,8 @@ function createOrderCard(order) {
         </ul>
 
         <button
-            type="button">
+            type="button"
+            onclick="openOrderDetails('${order.id}')">
 
             Ver Detalhes
 
@@ -994,6 +1151,18 @@ btnConfirmOrder.addEventListener(
     }
 );
 
+btnCloseOrderDetails.addEventListener(
+    "click",
+    () => {
+        orderDetailsModal
+            .classList
+            .add(
+                "hidden"
+            );
+    }
+);
+
 loadPlayersSelect();
 createPokemonOrderRow();
 renderOrdersList();
+window.openOrderDetails = openOrderDetails;

@@ -98,6 +98,19 @@ function getPokemonById(id) {
     );
 }
 
+function getPokemonThumbnail(
+    pokemonId
+) {
+    const pokemon =
+        getPokemonById(
+            pokemonId
+        );
+
+    return pokemon
+        ? pokemon.thumbnail
+        : "";
+}
+
 function getBasePokemon(pokemonId) {
     let pokemon =
         getPokemonById(pokemonId);
@@ -126,3 +139,4 @@ function isPokemonDataLoaded() {
 }
 
 loadPokemonData();
+window.getPokemonThumbnail = getPokemonThumbnail;

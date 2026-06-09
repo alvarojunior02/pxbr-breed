@@ -90,3 +90,19 @@
 .order-card h3 {
     margin-top: 0;
 }
+
+.pokemon-details-card {
+    border: 1px solid #ccc;
+
+    padding: 10px;
+
+    margin-bottom: 10px;
+
+    border-radius: 8px;
+}
+
+.pokemon-details-card img {
+    width: 64px;
+
+    height: 64px;
+}
