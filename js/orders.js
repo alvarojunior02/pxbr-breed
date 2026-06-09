@@ -1045,7 +1045,13 @@ function createPokemonOrderRow() {
 
         <br>
 
-        <select class="pokemon-nature">
+        <select
+            class="pokemon-nature"
+            disabled>
+
+            <option value="">
+                Selecione um Pokémon primeiro
+            </option>
 
         </select>
 
@@ -1085,6 +1091,7 @@ function createPokemonOrderRow() {
             type="text"
             class="pokemon-value"
             value="$ ${DEFAULT_POKEMON_PRICE}"}"
+            disabled
         >
 
         <br><br>
@@ -1094,6 +1101,7 @@ function createPokemonOrderRow() {
             <input
                 type="checkbox"
                 class="pokemon-breedable"
+                disabled
             >
 
             Breedável
@@ -1120,21 +1128,29 @@ function createPokemonOrderRow() {
     );
 
     const removeButton = row.querySelector(".btn-remove-pokemon");
+    const abilitySelect = row.querySelector(".pokemon-ability");
     const natureSelect = row.querySelector(".pokemon-nature");
     const natureInfo = row.querySelector(".nature-info" );
+    const breedableToggle = row.querySelector(".pokemon-breedable");
     const pokemonSearchInput = row.querySelector(".pokemon-search");
     const pokemonAutocomplete = row.querySelector(".pokemon-autocomplete");
     const pokemonSelectedInfo = row.querySelector(".pokemon-selected-info");
-    const abilitySelect = row.querySelector(".pokemon-ability");
 
     let selectedPokemon = null;
 
-    POKEMON_NATURES.forEach(
-        nature => {
+    function enablePokemonFields() {
+        abilitySelect.disabled = false;
+        natureSelect.disabled = false;
+        valueInput.disabled = false;
+        breedableToggle.disabled = false;
+    }
+
+    function populateNatureSelect() {
+        natureSelect.innerHTML = "";
+
+        POKEMON_NATURES.forEach(nature => {
             const option =
-                document.createElement(
-                    "option"
-                );
+                document.createElement("option");
 
             option.value =
                 nature.name;
@@ -1144,13 +1160,23 @@ function createPokemonOrderRow() {
                     ? `${nature.name} (Neutral)`
                     : `${nature.name} (+${nature.positive}, -${nature.negative})`;
 
-            natureSelect.appendChild(
-                option
-            );
-        }
-    );
+            natureSelect.appendChild(option);
+        });
+
+        natureSelect.value =
+            POKEMON_NATURES[0].name;
+
+        updateNatureInfo();
+    }
 
     function updateNatureInfo() {
+        if (!natureSelect.value) {
+            natureInfo.innerHTML =
+                "";
+
+            return;
+        }
+
         const selectedNature =
             POKEMON_NATURES.find(
                 nature =>
@@ -1240,10 +1266,17 @@ function createPokemonOrderRow() {
                             pokemonAutocomplete.innerHTML = "";
 
                             renderPokemonInfo(pokemon);
+
                             populateAbilitySelect(
                                 abilitySelect,
                                 pokemon.abilities
                             );
+
+                            populateNatureSelect();
+
+                            enablePokemonFields();
+
+                            calculateOrderTotal();
                         }
                     );
 

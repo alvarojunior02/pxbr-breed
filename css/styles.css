@@ -141,3 +141,9 @@
 
     font-weight: bold;
 }
+
+.pokemon-order-row input:disabled,
+.pokemon-order-row select:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
