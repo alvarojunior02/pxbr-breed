@@ -175,11 +175,17 @@ function createOrderCard(order) {
             )}
         </p>
 
+        <br>
+
+        <strong>Pagamento:</strong>
+
         <p>
             ${getPaymentStatusHtml(order)}
         </p>
 
-        <strong>Status de Breeds</strong>
+        <br>
+
+        <strong>Status de Breeds:</strong>
 
         <ul>
             ${statusHtml}
@@ -187,41 +193,45 @@ function createOrderCard(order) {
 
         ${getArchiveReadyHtml(order)}
 
-        <button
-            type="button"
-            onclick="openOrderDetails('${order.id}')">
+        <div class="order-card-actions">
 
-            Ver Detalhes
+            <button
+                type="button"
+                onclick="openOrderDetails('${order.id}')">
 
-        </button>
-        
-        ${
-            canRegisterPayment(order)
-                ? `
-                    <button
-                        type="button"
-                        onclick="openPaymentModal('${order.id}')">
+                Detalhes
 
-                        Registrar Pagamento
+            </button>
 
-                    </button>
-                `
-                : ""
-        }
+            ${
+                canRegisterPayment(order)
+                    ? `
+                        <button
+                            type="button"
+                            onclick="openPaymentModal('${order.id}')">
 
-        ${
-            canArchiveOrder(order)
-                ? `
-                    <button
-                        type="button"
-                        onclick="archiveOrder('${order.id}')">
+                            Pagamento
 
-                        Arquivar Encomenda
+                        </button>
+                    `
+                    : ""
+            }
 
-                    </button>
-                `
-                : ""
-        }
+            ${
+                canArchiveOrder(order)
+                    ? `
+                        <button
+                            type="button"
+                            onclick="archiveOrder('${order.id}')">
+
+                            Arquivar
+
+                        </button>
+                    `
+                    : ""
+            }
+
+        </div>
     `;
 }
 
