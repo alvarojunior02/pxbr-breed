@@ -97,6 +97,28 @@ function calculateOrderTotal() {
         formatMoney(total);
 }
 
+function updateOrderFormAvailability() {
+    const hasSelectedPlayer =
+        Boolean(orderPlayer.value);
+
+    btnAddPokemon.disabled =
+        !hasSelectedPlayer;
+
+    document
+        .querySelectorAll(".pokemon-search")
+        .forEach(input => {
+            input.disabled =
+                !hasSelectedPlayer;
+        });
+
+    document
+        .querySelectorAll(".btn-remove-pokemon")
+        .forEach(button => {
+            button.disabled =
+                !hasSelectedPlayer;
+        });
+}
+
 function applyMoneyMask(input) {
     input.addEventListener("input", () => {
         const value =
@@ -764,6 +786,7 @@ function createOrderCard(order) {
     `;
 }
 
+// VALIDATE ORDER
 function validateOrder(order) {
     if (!order.playerId) {
         alert(
@@ -822,6 +845,14 @@ function validateOrder(order) {
     if (invalidAbility) {
         alert(
             "Selecione a habilidade de todos os Pokémons."
+        );
+
+        return false;
+    }
+
+    if (order.discount > order.subtotal) {
+        alert(
+            "O desconto não pode ser maior que o subtotal da encomenda."
         );
 
         return false;
@@ -940,19 +971,35 @@ function renderOrderSummary(order) {
         }
     );
 
-    html +=
+   html +=
         `
         <hr>
 
-        <p>
-            <strong>
-                Total:
-            </strong>
+        ${
+            order.discount > 0
+                ? `
+                    <p>
+                        <strong>Subtotal:</strong>
+                        ${formatMoney(order.subtotal)}
+                    </p>
 
-            ${formatMoney(
-                order.total
-            )}
-        </p>
+                    <p>
+                        <strong>Desconto:</strong>
+                        ${formatMoney(order.discount)}
+                    </p>
+
+                    <p>
+                        <strong>Total:</strong>
+                        ${formatMoney(order.total)}
+                    </p>
+                `
+                : `
+                    <p>
+                        <strong>Total:</strong>
+                        ${formatMoney(order.total)}
+                    </p>
+                `
+        }
     `;
 
     orderSummary.innerHTML =
@@ -1006,6 +1053,7 @@ function loadOrderStatusFilter() {
     });
 }
 
+// CREATE POKEMON ORDER ROW
 function createPokemonOrderRow() {
     const row = document.createElement("div");
 
@@ -1030,8 +1078,6 @@ function createPokemonOrderRow() {
         <div
             class="pokemon-autocomplete">
         </div>
-
-        <br>
 
         <div
             class="pokemon-selected-info">
@@ -1339,6 +1385,8 @@ function createPokemonOrderRow() {
 
     calculateOrderTotal();
 
+    updateOrderFormAvailability();
+
     pokemonOrderList.appendChild(
         row
     );
@@ -1542,9 +1590,15 @@ orderStatusFilter.addEventListener(
     renderOrdersList
 );
 
+orderPlayer.addEventListener(
+    "change",
+    updateOrderFormAvailability
+);
+
 loadPlayersSelect();
 loadOrderStatusFilter();
 createPokemonOrderRow();
+updateOrderFormAvailability();
 renderOrdersList();
 
 window.openOrderDetails = openOrderDetails;
