@@ -131,8 +131,6 @@ function saveNewPlayerFromModal() {
 }
 
 function showPlayerOrders(playerId) {
-    showSection("ordersSection");
-
     const player =
         loadPlayers().find(player =>
             player.id === playerId
@@ -145,8 +143,22 @@ function showPlayerOrders(playerId) {
     const orderSearchPlayer =
         document.getElementById("orderSearchPlayer");
 
+    const orderStatusFilter =
+        document.getElementById("orderStatusFilter");
+
+    const orderArchiveFilter =
+        document.getElementById("orderArchiveFilter");
+
     orderSearchPlayer.value =
         player.nick;
+
+    orderStatusFilter.value =
+        "";
+
+    orderArchiveFilter.value =
+        "all";
+
+    showSection("ordersSection");
 
     renderOrdersList();
 }
@@ -166,7 +178,7 @@ btnConfirmNewPlayer.addEventListener(
     saveNewPlayerFromModal
 );
 
-window.renderPlayersModule =
-    renderPlayersModule;
-
 renderPlayersModule();
+
+window.renderPlayersModule = renderPlayersModule;
+window.showPlayerOrders = showPlayerOrders;
