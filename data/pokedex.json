@@ -48326,5 +48326,6526 @@
       "Sp. Defense": 80,
       "Speed": 80
     }
+  },
+  {
+    "id": 899,
+    "name": {
+      "english": "Wyrdeer",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Normal",
+      "Psychic"
+    ],
+    "base": {
+      "HP": 103,
+      "Attack": 105,
+      "Defense": 72,
+      "Sp. Attack": 105,
+      "Sp. Defense": 75,
+      "Speed": 65
+    },
+    "species": "Big Horn Pokémon",
+    "description": "The black orbs shine with an uncanny light when the Pokémon is erecting invisible barriers. The fur shed from its beard retains heat well and is a highly useful material for winter clothing.",
+    "evolution": {
+      "prev": [
+        "234",
+        "Agile Style Move"
+      ]
+    },
+    "profile": {
+      "height": "1.8 m",
+      "weight": "95.1 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Intimidate",
+          "false"
+        ],
+        [
+          "Frisk",
+          "false"
+        ],
+        [
+          "Sap Sipper",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/899.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/899.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/899.png"
+    }
+  },
+  {
+    "id": 900,
+    "name": {
+      "english": "Kleavor",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Bug",
+      "Rock"
+    ],
+    "base": {
+      "HP": 70,
+      "Attack": 135,
+      "Defense": 95,
+      "Sp. Attack": 45,
+      "Sp. Defense": 70,
+      "Speed": 85
+    },
+    "species": "Axe Pokémon",
+    "description": "A violent creature that fells towering trees with its crude axes and shields itself with hard stone. If one should chance upon this Pokémon in the wilds, one's only recourse is to flee.",
+    "evolution": {
+      "prev": [
+        "123",
+        "use Black Augurite"
+      ]
+    },
+    "profile": {
+      "height": "1.8 m",
+      "weight": "89 kg",
+      "egg": [
+        "Bug"
+      ],
+      "ability": [
+        [
+          "Swarm",
+          "false"
+        ],
+        [
+          "Sheer Force",
+          "false"
+        ],
+        [
+          "Sharpness",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/900.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/900.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/900.png"
+    }
+  },
+  {
+    "id": 901,
+    "name": {
+      "english": "Ursaluna",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Ground",
+      "Normal"
+    ],
+    "base": {
+      "HP": 130,
+      "Attack": 140,
+      "Defense": 105,
+      "Sp. Attack": 45,
+      "Sp. Defense": 80,
+      "Speed": 50
+    },
+    "species": "Peat Pokémon",
+    "description": "I believe it was Hisui's swampy terrain that gave Ursaluna its burly physique and newfound capacity to manipulate peat at will.",
+    "evolution": {
+      "prev": [
+        "217",
+        "use Peat Block"
+      ]
+    },
+    "profile": {
+      "height": "2.4 m",
+      "weight": "290 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Guts",
+          "false"
+        ],
+        [
+          "Bulletproof",
+          "false"
+        ],
+        [
+          "Unnerve",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/901.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/901.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/901.png"
+    }
+  },
+  {
+    "id": 902,
+    "name": {
+      "english": "Basculegion Male",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Water",
+      "Ghost"
+    ],
+    "base": {
+      "HP": 120,
+      "Attack": 112,
+      "Defense": 65,
+      "Sp. Attack": 80,
+      "Sp. Defense": 75,
+      "Speed": 78
+    },
+    "species": "Big Fish Pokémon",
+    "description": "Clads itself in the souls of comrades that perished before fulfilling their goals of journeying upstream. No other species throughout all Hisui's rivers is Basculegion's equal.",
+    "evolution": {},
+    "profile": {
+      "height": "3 m",
+      "weight": "110 kg",
+      "egg": [
+        "Water2"
+      ],
+      "ability": [
+        [
+          "Swift Swim",
+          "false"
+        ],
+        [
+          "Adaptability",
+          "false"
+        ],
+        [
+          "Mold Breaker",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/902.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/902.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/902.png"
+    }
+  },
+  {
+    "id": 903,
+    "name": {
+      "english": "Sneasler",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Fighting",
+      "Poison"
+    ],
+    "base": {
+      "HP": 80,
+      "Attack": 130,
+      "Defense": 60,
+      "Sp. Attack": 40,
+      "Sp. Defense": 80,
+      "Speed": 120
+    },
+    "species": "Free Climb Pokémon",
+    "description": "Because of Sneasler's virulent poison and daunting physical prowess, no other species could hope to best it on the frozen highlands. Preferring solitude, this species does not form packs.",
+    "evolution": {
+      "prev": [
+        "215",
+        "Level Up"
+      ]
+    },
+    "profile": {
+      "height": "1.3 m",
+      "weight": "43 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Pressure",
+          "false"
+        ],
+        [
+          "Unburden",
+          "false"
+        ],
+        [
+          "Poison Touch",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/903.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/903.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/903.png"
+    }
+  },
+  {
+    "id": 904,
+    "name": {
+      "english": "Overqwil",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Dark",
+      "Poison"
+    ],
+    "base": {
+      "HP": 85,
+      "Attack": 115,
+      "Defense": 95,
+      "Sp. Attack": 65,
+      "Sp. Defense": 65,
+      "Speed": 85
+    },
+    "species": "Pin Cluster Pokémon",
+    "description": "Its lancelike spikes and savage temperament have earned it the nickname ”sea fiend.” It slurps up poison to nourish itself.",
+    "evolution": {
+      "prev": [
+        "211",
+        "Strong Style Move"
+      ]
+    },
+    "profile": {
+      "height": "2.5 m",
+      "weight": "60.5 kg",
+      "egg": [
+        "Water2"
+      ],
+      "ability": [
+        [
+          "Poison Point",
+          "false"
+        ],
+        [
+          "Swift Swim",
+          "false"
+        ],
+        [
+          "Intimidate",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/904.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/904.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/904.png"
+    }
+  },
+  {
+    "id": 905,
+    "name": {
+      "english": "Enamorus Incarnate",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Fairy",
+      "Flying"
+    ],
+    "base": {
+      "HP": 74,
+      "Attack": 115,
+      "Defense": 70,
+      "Sp. Attack": 135,
+      "Sp. Defense": 80,
+      "Speed": 106
+    },
+    "species": "Love-Hate Pokémon",
+    "description": "When it flies to this land from across the sea, the bitter winter comes to an end. According to legend, this Pokémon's love gives rise to the budding of fresh life across Hisui.",
+    "evolution": {},
+    "profile": {
+      "height": "1.6 m",
+      "weight": "48 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Cute Charm",
+          "false"
+        ],
+        [
+          "Contrary",
+          "true"
+        ]
+      ],
+      "gender": "0:100"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/905.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/905.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/905.png"
+    }
+  },
+  {
+    "id": 906,
+    "name": {
+      "english": "Sprigatito",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Grass"
+    ],
+    "base": {
+      "HP": 40,
+      "Attack": 61,
+      "Defense": 54,
+      "Sp. Attack": 45,
+      "Sp. Defense": 45,
+      "Speed": 65
+    },
+    "species": "Grass Cat Pokémon",
+    "description": "Its fluffy fur is similar in composition to plants. This Pokémon frequently washes its face to keep it from drying out.",
+    "evolution": {
+      "next": [
+        [
+          "907",
+          "Level 16"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.4 m",
+      "weight": "4.1 kg",
+      "egg": [
+        "Ground",
+        "Plant"
+      ],
+      "ability": [
+        [
+          "Overgrow",
+          "false"
+        ],
+        [
+          "Protean",
+          "true"
+        ]
+      ],
+      "gender": "87.5:12.5"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/906.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/906.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/906.png"
+    }
+  },
+  {
+    "id": 907,
+    "name": {
+      "english": "Floragato",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Grass"
+    ],
+    "base": {
+      "HP": 61,
+      "Attack": 80,
+      "Defense": 63,
+      "Sp. Attack": 60,
+      "Sp. Defense": 63,
+      "Speed": 83
+    },
+    "species": "Grass Cat Pokémon",
+    "description": "Floragato deftly wields the vine hidden beneath its long fur, slamming the hard flower bud against its opponents.",
+    "evolution": {
+      "prev": [
+        "906",
+        "Level 16"
+      ],
+      "next": [
+        [
+          "908",
+          "Level 36"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.9 m",
+      "weight": "12.2 kg",
+      "egg": [
+        "Ground",
+        "Plant"
+      ],
+      "ability": [
+        [
+          "Overgrow",
+          "false"
+        ],
+        [
+          "Protean",
+          "true"
+        ]
+      ],
+      "gender": "87.5:12.5"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/907.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/907.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/907.png"
+    }
+  },
+  {
+    "id": 908,
+    "name": {
+      "english": "Meowscarada",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Grass",
+      "Dark"
+    ],
+    "base": {
+      "HP": 76,
+      "Attack": 110,
+      "Defense": 70,
+      "Sp. Attack": 81,
+      "Sp. Defense": 70,
+      "Speed": 123
+    },
+    "species": "Magician Pokémon",
+    "description": "This Pokémon uses the reflective fur lining its cape to camouflage the stem of its flower, creating the illusion that the flower is floating.",
+    "evolution": {
+      "prev": [
+        "907",
+        "Level 36"
+      ]
+    },
+    "profile": {
+      "height": "1.5 m",
+      "weight": "31.2 kg",
+      "egg": [
+        "Ground",
+        "Plant"
+      ],
+      "ability": [
+        [
+          "Overgrow",
+          "false"
+        ],
+        [
+          "Protean",
+          "true"
+        ]
+      ],
+      "gender": "87.5:12.5"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/908.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/908.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/908.png"
+    }
+  },
+  {
+    "id": 909,
+    "name": {
+      "english": "Fuecoco",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Fire"
+    ],
+    "base": {
+      "HP": 67,
+      "Attack": 45,
+      "Defense": 59,
+      "Sp. Attack": 63,
+      "Sp. Defense": 40,
+      "Speed": 36
+    },
+    "species": "Fire Croc Pokémon",
+    "description": "It lies on warm rocks and uses the heat absorbed by its square-shaped scales to create fire energy.",
+    "evolution": {
+      "next": [
+        [
+          "910",
+          "Level 16"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.4 m",
+      "weight": "9.8 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Blaze",
+          "false"
+        ],
+        [
+          "Unaware",
+          "true"
+        ]
+      ],
+      "gender": "87.5:12.5"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/909.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/909.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/909.png"
+    }
+  },
+  {
+    "id": 910,
+    "name": {
+      "english": "Crocalor",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Fire"
+    ],
+    "base": {
+      "HP": 81,
+      "Attack": 55,
+      "Defense": 78,
+      "Sp. Attack": 90,
+      "Sp. Defense": 58,
+      "Speed": 49
+    },
+    "species": "Fire Croc Pokémon",
+    "description": "The combination of Crocalor’s fire energy and overflowing vitality has caused an egg-shaped fireball to appear on the Pokémon’s head.",
+    "evolution": {
+      "prev": [
+        "909",
+        "Level 16"
+      ],
+      "next": [
+        [
+          "911",
+          "Level 36"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "1 m",
+      "weight": "30.7 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Blaze",
+          "false"
+        ],
+        [
+          "Unaware",
+          "true"
+        ]
+      ],
+      "gender": "87.5:12.5"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/910.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/910.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/910.png"
+    }
+  },
+  {
+    "id": 911,
+    "name": {
+      "english": "Skeledirge",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Fire",
+      "Ghost"
+    ],
+    "base": {
+      "HP": 104,
+      "Attack": 75,
+      "Defense": 100,
+      "Sp. Attack": 110,
+      "Sp. Defense": 75,
+      "Speed": 66
+    },
+    "species": "Singer Pokémon",
+    "description": "The fiery bird changes shape when Skeledirge sings. Rumor has it that the bird was born when the fireball on Skeledirge’s head gained a soul.",
+    "evolution": {
+      "prev": [
+        "910",
+        "Level 36"
+      ]
+    },
+    "profile": {
+      "height": "1.6 m",
+      "weight": "326.5 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Blaze",
+          "false"
+        ],
+        [
+          "Unaware",
+          "true"
+        ]
+      ],
+      "gender": "87.5:12.5"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/911.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/911.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/911.png"
+    }
+  },
+  {
+    "id": 912,
+    "name": {
+      "english": "Quaxly",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Water"
+    ],
+    "base": {
+      "HP": 55,
+      "Attack": 65,
+      "Defense": 45,
+      "Sp. Attack": 50,
+      "Sp. Defense": 45,
+      "Speed": 50
+    },
+    "species": "Duckling Pokémon",
+    "description": "This Pokémon migrated to Paldea from distant lands long ago. The gel secreted by its feathers repels water and grime.",
+    "evolution": {
+      "next": [
+        [
+          "913",
+          "Level 16"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.5 m",
+      "weight": "6.1 kg",
+      "egg": [
+        "Flying",
+        "Water1"
+      ],
+      "ability": [
+        [
+          "Torrent",
+          "false"
+        ],
+        [
+          "Moxie",
+          "true"
+        ]
+      ],
+      "gender": "87.5:12.5"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/912.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/912.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/912.png"
+    }
+  },
+  {
+    "id": 913,
+    "name": {
+      "english": "Quaxwell",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Water"
+    ],
+    "base": {
+      "HP": 70,
+      "Attack": 85,
+      "Defense": 65,
+      "Sp. Attack": 65,
+      "Sp. Defense": 60,
+      "Speed": 65
+    },
+    "species": "Practicing Pokémon",
+    "description": "These Pokémon constantly run through shallow waters to train their legs, then compete with each other to see which of them kicks most gracefully.",
+    "evolution": {
+      "prev": [
+        "912",
+        "Level 16"
+      ],
+      "next": [
+        [
+          "914",
+          "Level 36"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "1.2 m",
+      "weight": "21.5 kg",
+      "egg": [
+        "Flying",
+        "Water1"
+      ],
+      "ability": [
+        [
+          "Torrent",
+          "false"
+        ],
+        [
+          "Moxie",
+          "true"
+        ]
+      ],
+      "gender": "87.5:12.5"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/913.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/913.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/913.png"
+    }
+  },
+  {
+    "id": 914,
+    "name": {
+      "english": "Quaquaval",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Water",
+      "Fighting"
+    ],
+    "base": {
+      "HP": 85,
+      "Attack": 120,
+      "Defense": 80,
+      "Sp. Attack": 85,
+      "Sp. Defense": 75,
+      "Speed": 85
+    },
+    "species": "Dancer Pokémon",
+    "description": "A single kick from a Quaquaval can send a truck rolling. This Pokémon uses its powerful legs to perform striking dances from far-off lands.",
+    "evolution": {
+      "prev": [
+        "913",
+        "Level 36"
+      ]
+    },
+    "profile": {
+      "height": "1.8 m",
+      "weight": "61.9 kg",
+      "egg": [
+        "Flying",
+        "Water1"
+      ],
+      "ability": [
+        [
+          "Torrent",
+          "false"
+        ],
+        [
+          "Moxie",
+          "true"
+        ]
+      ],
+      "gender": "87.5:12.5"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/914.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/914.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/914.png"
+    }
+  },
+  {
+    "id": 915,
+    "name": {
+      "english": "Lechonk",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Normal"
+    ],
+    "base": {
+      "HP": 54,
+      "Attack": 45,
+      "Defense": 40,
+      "Sp. Attack": 35,
+      "Sp. Defense": 45,
+      "Speed": 35
+    },
+    "species": "Hog Pokémon",
+    "description": "It searches for food all day. It possesses a keen sense of smell but doesn’t use it for anything other than foraging.",
+    "evolution": {
+      "next": [
+        [
+          "916",
+          "Level 18"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.5 m",
+      "weight": "10.2 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Aroma Veil",
+          "false"
+        ],
+        [
+          "Gluttony",
+          "false"
+        ],
+        [
+          "Thick Fat",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/915.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/915.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/915.png"
+    }
+  },
+  {
+    "id": 916,
+    "name": {
+      "english": "Oinkologne Male",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Normal"
+    ],
+    "base": {
+      "HP": 110,
+      "Attack": 100,
+      "Defense": 75,
+      "Sp. Attack": 59,
+      "Sp. Defense": 80,
+      "Speed": 65
+    },
+    "species": "Hog Pokémon",
+    "description": "Oinkologne is proud of its fine, glossy skin. It emits a concentrated scent from the tip of its tail.",
+    "evolution": {},
+    "profile": {
+      "height": "1 m",
+      "weight": "120 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Lingering Aroma",
+          "false"
+        ],
+        [
+          "Gluttony",
+          "false"
+        ],
+        [
+          "Thick Fat",
+          "true"
+        ]
+      ],
+      "gender": "100:0"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/916.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/916.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/916.png"
+    }
+  },
+  {
+    "id": 917,
+    "name": {
+      "english": "Tarountula",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Bug"
+    ],
+    "base": {
+      "HP": 35,
+      "Attack": 41,
+      "Defense": 45,
+      "Sp. Attack": 29,
+      "Sp. Defense": 40,
+      "Speed": 20
+    },
+    "species": "String Ball Pokémon",
+    "description": "The ball of threads wrapped around its body is elastic enough to deflect the scythes of Scyther, this Pokémon’s natural enemy.",
+    "evolution": {
+      "next": [
+        [
+          "918",
+          "Level 15"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.3 m",
+      "weight": "4 kg",
+      "egg": [
+        "Bug"
+      ],
+      "ability": [
+        [
+          "Insomnia",
+          "false"
+        ],
+        [
+          "Stakeout",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/917.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/917.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/917.png"
+    }
+  },
+  {
+    "id": 918,
+    "name": {
+      "english": "Spidops",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Bug"
+    ],
+    "base": {
+      "HP": 60,
+      "Attack": 79,
+      "Defense": 92,
+      "Sp. Attack": 52,
+      "Sp. Defense": 86,
+      "Speed": 35
+    },
+    "species": "Trap Pokémon",
+    "description": "It clings to branches and ceilings using its threads and moves without a sound. It takes out its prey before the prey even notices it.",
+    "evolution": {
+      "prev": [
+        "917",
+        "Level 15"
+      ]
+    },
+    "profile": {
+      "height": "1 m",
+      "weight": "16.5 kg",
+      "egg": [
+        "Bug"
+      ],
+      "ability": [
+        [
+          "Insomnia",
+          "false"
+        ],
+        [
+          "Stakeout",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/918.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/918.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/918.png"
+    }
+  },
+  {
+    "id": 919,
+    "name": {
+      "english": "Nymble",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Bug"
+    ],
+    "base": {
+      "HP": 33,
+      "Attack": 46,
+      "Defense": 40,
+      "Sp. Attack": 21,
+      "Sp. Defense": 25,
+      "Speed": 45
+    },
+    "species": "Grasshopper Pokémon",
+    "description": "It has its third set of legs folded up. When it’s in a tough spot, this Pokémon jumps over 30 feet using the strength of its legs.",
+    "evolution": {
+      "next": [
+        [
+          "920",
+          "Level 24"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.2 m",
+      "weight": "1 kg",
+      "egg": [
+        "Bug"
+      ],
+      "ability": [
+        [
+          "Swarm",
+          "false"
+        ],
+        [
+          "Tinted Lens",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/919.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/919.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/919.png"
+    }
+  },
+  {
+    "id": 920,
+    "name": {
+      "english": "Lokix",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Bug",
+      "Dark"
+    ],
+    "base": {
+      "HP": 71,
+      "Attack": 102,
+      "Defense": 78,
+      "Sp. Attack": 52,
+      "Sp. Defense": 55,
+      "Speed": 92
+    },
+    "species": "Grasshopper Pokémon",
+    "description": "When it decides to fight all out, it stands on its previously folded legs to enter Showdown Mode. It neutralizes its enemies in short order.",
+    "evolution": {
+      "prev": [
+        "919",
+        "Level 24"
+      ]
+    },
+    "profile": {
+      "height": "1 m",
+      "weight": "17.5 kg",
+      "egg": [
+        "Bug"
+      ],
+      "ability": [
+        [
+          "Swarm",
+          "false"
+        ],
+        [
+          "Tinted Lens",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/920.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/920.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/920.png"
+    }
+  },
+  {
+    "id": 921,
+    "name": {
+      "english": "Pawmi",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Electric"
+    ],
+    "base": {
+      "HP": 45,
+      "Attack": 50,
+      "Defense": 20,
+      "Sp. Attack": 40,
+      "Sp. Defense": 25,
+      "Speed": 60
+    },
+    "species": "Mouse Pokémon",
+    "description": "It has underdeveloped electric sacs on its cheeks. These sacs can produce electricity only if Pawmi rubs them furiously with the pads on its forepaws.",
+    "evolution": {
+      "next": [
+        [
+          "922",
+          "Level 18"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.3 m",
+      "weight": "2.5 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Static",
+          "false"
+        ],
+        [
+          "Natural Cure",
+          "false"
+        ],
+        [
+          "Iron Fist",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/921.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/921.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/921.png"
+    }
+  },
+  {
+    "id": 922,
+    "name": {
+      "english": "Pawmo",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Electric",
+      "Fighting"
+    ],
+    "base": {
+      "HP": 60,
+      "Attack": 75,
+      "Defense": 40,
+      "Sp. Attack": 50,
+      "Sp. Defense": 40,
+      "Speed": 85
+    },
+    "species": "Mouse Pokémon",
+    "description": "When its group is attacked, Pawmo is the first to leap into battle, defeating enemies with a fighting technique that utilizes electric shocks.",
+    "evolution": {
+      "prev": [
+        "921",
+        "Level 18"
+      ],
+      "next": [
+        [
+          "923",
+          "Level Up"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.4 m",
+      "weight": "6.5 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Volt Absorb",
+          "false"
+        ],
+        [
+          "Natural Cure",
+          "false"
+        ],
+        [
+          "Iron Fist",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/922.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/922.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/922.png"
+    }
+  },
+  {
+    "id": 923,
+    "name": {
+      "english": "Pawmot",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Electric",
+      "Fighting"
+    ],
+    "base": {
+      "HP": 70,
+      "Attack": 115,
+      "Defense": 70,
+      "Sp. Attack": 70,
+      "Sp. Defense": 60,
+      "Speed": 105
+    },
+    "species": "Hands-On Pokémon",
+    "description": "This Pokémon normally is slow to react, but once it enters battle, it will strike down its enemies with lightning-fast movements.",
+    "evolution": {
+      "prev": [
+        "922",
+        "Level Up"
+      ]
+    },
+    "profile": {
+      "height": "0.9 m",
+      "weight": "41 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Volt Absorb",
+          "false"
+        ],
+        [
+          "Natural Cure",
+          "false"
+        ],
+        [
+          "Iron Fist",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/923.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/923.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/923.png"
+    }
+  },
+  {
+    "id": 924,
+    "name": {
+      "english": "Tandemaus",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Normal"
+    ],
+    "base": {
+      "HP": 50,
+      "Attack": 50,
+      "Defense": 45,
+      "Sp. Attack": 40,
+      "Sp. Defense": 45,
+      "Speed": 75
+    },
+    "species": "Couple Pokémon",
+    "description": "Exhibiting great teamwork, they use their incisors to cut pieces out of any material that might be useful for a nest, then make off with them.",
+    "evolution": {
+      "next": [
+        [
+          "925",
+          "Level 25"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.3 m",
+      "weight": "1.8 kg",
+      "egg": [
+        "Ground",
+        "Fairy"
+      ],
+      "ability": [
+        [
+          "Run Away",
+          "false"
+        ],
+        [
+          "Pickup",
+          "false"
+        ],
+        [
+          "Own Tempo",
+          "true"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/924.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/924.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/924.png"
+    }
+  },
+  {
+    "id": 925,
+    "name": {
+      "english": "Maushold Family Of Four",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Normal"
+    ],
+    "base": {
+      "HP": 74,
+      "Attack": 75,
+      "Defense": 70,
+      "Sp. Attack": 65,
+      "Sp. Defense": 75,
+      "Speed": 111
+    },
+    "species": "Family Pokémon",
+    "description": "The two little ones just appeared one day. The group might be a family of related Pokémon, but nobody knows for sure.",
+    "evolution": {},
+    "profile": {
+      "height": "0.3 m",
+      "weight": "2.8 kg",
+      "egg": [
+        "Ground",
+        "Fairy"
+      ],
+      "ability": [
+        [
+          "Friend Guard",
+          "false"
+        ],
+        [
+          "Cheek Pouch",
+          "false"
+        ],
+        [
+          "Technician",
+          "true"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/925.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/925.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/925.png"
+    }
+  },
+  {
+    "id": 926,
+    "name": {
+      "english": "Fidough",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Fairy"
+    ],
+    "base": {
+      "HP": 37,
+      "Attack": 55,
+      "Defense": 70,
+      "Sp. Attack": 30,
+      "Sp. Defense": 55,
+      "Speed": 65
+    },
+    "species": "Puppy Pokémon",
+    "description": "This Pokémon is smooth and moist to the touch. Yeast in Fidough’s breath induces fermentation in the Pokémon’s vicinity.",
+    "evolution": {
+      "next": [
+        [
+          "927",
+          "Level 26"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.3 m",
+      "weight": "10.9 kg",
+      "egg": [
+        "Ground",
+        "Mineral"
+      ],
+      "ability": [
+        [
+          "Own Tempo",
+          "false"
+        ],
+        [
+          "Klutz",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/926.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/926.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/926.png"
+    }
+  },
+  {
+    "id": 927,
+    "name": {
+      "english": "Dachsbun",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Fairy"
+    ],
+    "base": {
+      "HP": 57,
+      "Attack": 80,
+      "Defense": 115,
+      "Sp. Attack": 50,
+      "Sp. Defense": 80,
+      "Speed": 95
+    },
+    "species": "Dog Pokémon",
+    "description": "The pleasant aroma that emanates from this Pokémon’s body helps wheat grow, so Dachsbun has been treasured by farming villages.",
+    "evolution": {
+      "prev": [
+        "926",
+        "Level 26"
+      ]
+    },
+    "profile": {
+      "height": "0.5 m",
+      "weight": "14.9 kg",
+      "egg": [
+        "Ground",
+        "Mineral"
+      ],
+      "ability": [
+        [
+          "Well Baked Body",
+          "false"
+        ],
+        [
+          "Aroma Veil",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/927.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/927.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/927.png"
+    }
+  },
+  {
+    "id": 928,
+    "name": {
+      "english": "Smoliv",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Grass",
+      "Normal"
+    ],
+    "base": {
+      "HP": 41,
+      "Attack": 35,
+      "Defense": 45,
+      "Sp. Attack": 58,
+      "Sp. Defense": 51,
+      "Speed": 30
+    },
+    "species": "Olive Pokémon",
+    "description": "It protects itself from enemies by emitting oil from the fruit on its head. This oil is bitter and astringent enough to make someone flinch.",
+    "evolution": {
+      "next": [
+        [
+          "929",
+          "Level 25"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.3 m",
+      "weight": "6.5 kg",
+      "egg": [
+        "Plant"
+      ],
+      "ability": [
+        [
+          "Early Bird",
+          "false"
+        ],
+        [
+          "Harvest",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/928.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/928.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/928.png"
+    }
+  },
+  {
+    "id": 929,
+    "name": {
+      "english": "Dolliv",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Grass",
+      "Normal"
+    ],
+    "base": {
+      "HP": 52,
+      "Attack": 53,
+      "Defense": 60,
+      "Sp. Attack": 78,
+      "Sp. Defense": 78,
+      "Speed": 33
+    },
+    "species": "Olive Pokémon",
+    "description": "Dolliv shares its tasty, fresh-scented oil with others. This species has coexisted with humans since times long gone.",
+    "evolution": {
+      "prev": [
+        "928",
+        "Level 25"
+      ],
+      "next": [
+        [
+          "930",
+          "Level 35"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.6 m",
+      "weight": "11.9 kg",
+      "egg": [
+        "Plant"
+      ],
+      "ability": [
+        [
+          "Early Bird",
+          "false"
+        ],
+        [
+          "Harvest",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/929.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/929.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/929.png"
+    }
+  },
+  {
+    "id": 930,
+    "name": {
+      "english": "Arboliva",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Grass",
+      "Normal"
+    ],
+    "base": {
+      "HP": 78,
+      "Attack": 69,
+      "Defense": 90,
+      "Sp. Attack": 125,
+      "Sp. Defense": 109,
+      "Speed": 39
+    },
+    "species": "Olive Pokémon",
+    "description": "This calm Pokémon is very compassionate. It will share its delicious, nutrient-rich oil with weakened Pokémon.",
+    "evolution": {
+      "prev": [
+        "929",
+        "Level 35"
+      ]
+    },
+    "profile": {
+      "height": "1.4 m",
+      "weight": "48.2 kg",
+      "egg": [
+        "Plant"
+      ],
+      "ability": [
+        [
+          "Seed Sower",
+          "false"
+        ],
+        [
+          "Harvest",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/930.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/930.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/930.png"
+    }
+  },
+  {
+    "id": 931,
+    "name": {
+      "english": "Squawkabilly Green Plumage",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Normal",
+      "Flying"
+    ],
+    "base": {
+      "HP": 82,
+      "Attack": 96,
+      "Defense": 51,
+      "Sp. Attack": 45,
+      "Sp. Defense": 51,
+      "Speed": 92
+    },
+    "species": "Parrot Pokémon",
+    "description": "These Pokémon prefer to live in cities. They form flocks based on the color of their feathers, and they fight over territory.",
+    "evolution": {},
+    "profile": {
+      "height": "0.6 m",
+      "weight": "2.4 kg",
+      "egg": [
+        "Flying"
+      ],
+      "ability": [
+        [
+          "Intimidate",
+          "false"
+        ],
+        [
+          "Hustle",
+          "false"
+        ],
+        [
+          "Guts",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/931.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/931.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/931.png"
+    }
+  },
+  {
+    "id": 932,
+    "name": {
+      "english": "Nacli",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Rock"
+    ],
+    "base": {
+      "HP": 55,
+      "Attack": 55,
+      "Defense": 75,
+      "Sp. Attack": 35,
+      "Sp. Defense": 35,
+      "Speed": 25
+    },
+    "species": "Rock Salt Pokémon",
+    "description": "It was born in a layer of rock salt deep under the earth. This species was particularly treasured in the old days, as they would share precious salt.",
+    "evolution": {
+      "next": [
+        [
+          "933",
+          "Level 24"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.4 m",
+      "weight": "16 kg",
+      "egg": [
+        "Mineral"
+      ],
+      "ability": [
+        [
+          "Purifying Salt",
+          "false"
+        ],
+        [
+          "Sturdy",
+          "false"
+        ],
+        [
+          "Clear Body",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/932.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/932.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/932.png"
+    }
+  },
+  {
+    "id": 933,
+    "name": {
+      "english": "Naclstack",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Rock"
+    ],
+    "base": {
+      "HP": 60,
+      "Attack": 60,
+      "Defense": 100,
+      "Sp. Attack": 35,
+      "Sp. Defense": 65,
+      "Speed": 35
+    },
+    "species": "Rock Salt Pokémon",
+    "description": "This Pokémon dry cures its prey by spraying salt over them. The curing process steals away the water in the prey’s body.",
+    "evolution": {
+      "prev": [
+        "932",
+        "Level 24"
+      ],
+      "next": [
+        [
+          "934",
+          "Level 38"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.6 m",
+      "weight": "105 kg",
+      "egg": [
+        "Mineral"
+      ],
+      "ability": [
+        [
+          "Purifying Salt",
+          "false"
+        ],
+        [
+          "Sturdy",
+          "false"
+        ],
+        [
+          "Clear Body",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/933.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/933.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/933.png"
+    }
+  },
+  {
+    "id": 934,
+    "name": {
+      "english": "Garganacl",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Rock"
+    ],
+    "base": {
+      "HP": 100,
+      "Attack": 100,
+      "Defense": 130,
+      "Sp. Attack": 45,
+      "Sp. Defense": 90,
+      "Speed": 35
+    },
+    "species": "Rock Salt Pokémon",
+    "description": "Garganacl will rub its fingertips together and sprinkle injured Pokémon with salt. Even severe wounds will promptly heal afterward.",
+    "evolution": {
+      "prev": [
+        "933",
+        "Level 38"
+      ]
+    },
+    "profile": {
+      "height": "2.3 m",
+      "weight": "240 kg",
+      "egg": [
+        "Mineral"
+      ],
+      "ability": [
+        [
+          "Purifying Salt",
+          "false"
+        ],
+        [
+          "Sturdy",
+          "false"
+        ],
+        [
+          "Clear Body",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/934.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/934.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/934.png"
+    }
+  },
+  {
+    "id": 935,
+    "name": {
+      "english": "Charcadet",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Fire"
+    ],
+    "base": {
+      "HP": 40,
+      "Attack": 50,
+      "Defense": 40,
+      "Sp. Attack": 50,
+      "Sp. Defense": 40,
+      "Speed": 35
+    },
+    "species": "Fire Child Pokémon",
+    "description": "Burnt charcoal came to life and became a Pokémon. Possessing a fiery fighting spirit, Charcadet will battle even tough opponents.",
+    "evolution": {
+      "next": [
+        [
+          "936",
+          "use Auspicious Armor"
+        ],
+        [
+          "937",
+          "use Malicious Armor"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.6 m",
+      "weight": "10.5 kg",
+      "egg": [
+        "Humanshape"
+      ],
+      "ability": [
+        [
+          "Flash Fire",
+          "false"
+        ],
+        [
+          "Flame Body",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/935.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/935.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/935.png"
+    }
+  },
+  {
+    "id": 936,
+    "name": {
+      "english": "Armarouge",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Fire",
+      "Psychic"
+    ],
+    "base": {
+      "HP": 85,
+      "Attack": 60,
+      "Defense": 100,
+      "Sp. Attack": 125,
+      "Sp. Defense": 80,
+      "Speed": 75
+    },
+    "species": "Fire Warrior Pokémon",
+    "description": "Armarouge evolved through the use of a set of armor that belonged to a distinguished warrior. This Pokémon is incredibly loyal.",
+    "evolution": {
+      "prev": [
+        "935",
+        "use Auspicious Armor"
+      ]
+    },
+    "profile": {
+      "height": "1.5 m",
+      "weight": "85 kg",
+      "egg": [
+        "Humanshape"
+      ],
+      "ability": [
+        [
+          "Flash Fire",
+          "false"
+        ],
+        [
+          "Weak Armor",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/936.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/936.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/936.png"
+    }
+  },
+  {
+    "id": 937,
+    "name": {
+      "english": "Ceruledge",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Fire",
+      "Ghost"
+    ],
+    "base": {
+      "HP": 75,
+      "Attack": 125,
+      "Defense": 80,
+      "Sp. Attack": 60,
+      "Sp. Defense": 100,
+      "Speed": 85
+    },
+    "species": "Fire Blades Pokémon",
+    "description": "The fiery blades on its arms burn fiercely with the lingering resentment of a sword wielder who fell before accomplishing their goal.",
+    "evolution": {
+      "prev": [
+        "935",
+        "use Malicious Armor"
+      ]
+    },
+    "profile": {
+      "height": "1.6 m",
+      "weight": "62 kg",
+      "egg": [
+        "Humanshape"
+      ],
+      "ability": [
+        [
+          "Flash Fire",
+          "false"
+        ],
+        [
+          "Weak Armor",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/937.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/937.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/937.png"
+    }
+  },
+  {
+    "id": 938,
+    "name": {
+      "english": "Tadbulb",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Electric"
+    ],
+    "base": {
+      "HP": 61,
+      "Attack": 31,
+      "Defense": 41,
+      "Sp. Attack": 59,
+      "Sp. Defense": 35,
+      "Speed": 45
+    },
+    "species": "EleTadpole Pokémon",
+    "description": "Tadbulb shakes its tail to generate electricity. If it senses danger, it will make its head blink on and off to alert its allies.",
+    "evolution": {
+      "next": [
+        [
+          "939",
+          "use Thunder Stone"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.3 m",
+      "weight": "0.4 kg",
+      "egg": [
+        "Water1"
+      ],
+      "ability": [
+        [
+          "Own Tempo",
+          "false"
+        ],
+        [
+          "Static",
+          "false"
+        ],
+        [
+          "Damp",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/938.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/938.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/938.png"
+    }
+  },
+  {
+    "id": 939,
+    "name": {
+      "english": "Bellibolt",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Electric"
+    ],
+    "base": {
+      "HP": 109,
+      "Attack": 64,
+      "Defense": 91,
+      "Sp. Attack": 103,
+      "Sp. Defense": 83,
+      "Speed": 45
+    },
+    "species": "EleFrog Pokémon",
+    "description": "When this Pokémon expands and contracts its wobbly body, the belly-button dynamo in its stomach produces a huge amount of electricity.",
+    "evolution": {
+      "prev": [
+        "938",
+        "use Thunder Stone"
+      ]
+    },
+    "profile": {
+      "height": "1.2 m",
+      "weight": "113 kg",
+      "egg": [
+        "Water1"
+      ],
+      "ability": [
+        [
+          "Electromorphosis",
+          "false"
+        ],
+        [
+          "Static",
+          "false"
+        ],
+        [
+          "Damp",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/939.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/939.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/939.png"
+    }
+  },
+  {
+    "id": 940,
+    "name": {
+      "english": "Wattrel",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Electric",
+      "Flying"
+    ],
+    "base": {
+      "HP": 40,
+      "Attack": 40,
+      "Defense": 35,
+      "Sp. Attack": 55,
+      "Sp. Defense": 40,
+      "Speed": 70
+    },
+    "species": "Storm Petrel Pokémon",
+    "description": "When its wings catch the wind, the bones within produce electricity. This Pokémon dives into the ocean, catching prey by electrocuting them.",
+    "evolution": {
+      "next": [
+        [
+          "941",
+          "Level 25"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.4 m",
+      "weight": "3.6 kg",
+      "egg": [
+        "Water1",
+        "Flying"
+      ],
+      "ability": [
+        [
+          "Wind Power",
+          "false"
+        ],
+        [
+          "Volt Absorb",
+          "false"
+        ],
+        [
+          "Competitive",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/940.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/940.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/940.png"
+    }
+  },
+  {
+    "id": 941,
+    "name": {
+      "english": "Kilowattrel",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Electric",
+      "Flying"
+    ],
+    "base": {
+      "HP": 70,
+      "Attack": 70,
+      "Defense": 60,
+      "Sp. Attack": 105,
+      "Sp. Defense": 60,
+      "Speed": 125
+    },
+    "species": "Frigatebird Pokémon",
+    "description": "Kilowattrel inflates its throat sac to amplify its electricity. By riding the wind, this Pokémon can fly over 430 miles in a day.",
+    "evolution": {
+      "prev": [
+        "940",
+        "Level 25"
+      ]
+    },
+    "profile": {
+      "height": "1.4 m",
+      "weight": "38.6 kg",
+      "egg": [
+        "Water1",
+        "Flying"
+      ],
+      "ability": [
+        [
+          "Wind Power",
+          "false"
+        ],
+        [
+          "Volt Absorb",
+          "false"
+        ],
+        [
+          "Competitive",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/941.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/941.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/941.png"
+    }
+  },
+  {
+    "id": 942,
+    "name": {
+      "english": "Maschiff",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Dark"
+    ],
+    "base": {
+      "HP": 60,
+      "Attack": 78,
+      "Defense": 60,
+      "Sp. Attack": 40,
+      "Sp. Defense": 51,
+      "Speed": 51
+    },
+    "species": "Rascal Pokémon",
+    "description": "It always scowls in an attempt to make opponents take it seriously, but even crying children will burst into laughter when they see Maschiff’s face.",
+    "evolution": {
+      "next": [
+        [
+          "943",
+          "Level 30"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.5 m",
+      "weight": "16 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Intimidate",
+          "false"
+        ],
+        [
+          "Run Away",
+          "false"
+        ],
+        [
+          "Stakeout",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/942.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/942.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/942.png"
+    }
+  },
+  {
+    "id": 943,
+    "name": {
+      "english": "Mabosstiff",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Dark"
+    ],
+    "base": {
+      "HP": 80,
+      "Attack": 120,
+      "Defense": 90,
+      "Sp. Attack": 60,
+      "Sp. Defense": 70,
+      "Speed": 85
+    },
+    "species": "Boss Pokémon",
+    "description": "This Pokémon can store energy in its large dewlap. Mabosstiff unleashes this energy all at once to blow away enemies.",
+    "evolution": {
+      "prev": [
+        "942",
+        "Level 30"
+      ]
+    },
+    "profile": {
+      "height": "1.1 m",
+      "weight": "61 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Intimidate",
+          "false"
+        ],
+        [
+          "Guard Dog",
+          "false"
+        ],
+        [
+          "Stakeout",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/943.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/943.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/943.png"
+    }
+  },
+  {
+    "id": 944,
+    "name": {
+      "english": "Shroodle",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Poison",
+      "Normal"
+    ],
+    "base": {
+      "HP": 40,
+      "Attack": 65,
+      "Defense": 35,
+      "Sp. Attack": 40,
+      "Sp. Defense": 35,
+      "Speed": 75
+    },
+    "species": "Toxic Mouse Pokémon",
+    "description": "Though usually a mellow Pokémon, it will sink its sharp, poison-soaked front teeth into any that anger it, causing paralysis in the object of its ire.",
+    "evolution": {
+      "next": [
+        [
+          "945",
+          "Level 28"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.2 m",
+      "weight": "0.7 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Unburden",
+          "false"
+        ],
+        [
+          "Pickpocket",
+          "false"
+        ],
+        [
+          "Prankster",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/944.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/944.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/944.png"
+    }
+  },
+  {
+    "id": 945,
+    "name": {
+      "english": "Grafaiai",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Poison",
+      "Normal"
+    ],
+    "base": {
+      "HP": 63,
+      "Attack": 95,
+      "Defense": 65,
+      "Sp. Attack": 80,
+      "Sp. Defense": 72,
+      "Speed": 110
+    },
+    "species": "Toxic Monkey Pokémon",
+    "description": "The color of the poisonous saliva depends on what the Pokémon eats. Grafaiai covers its fingers in its saliva and draws patterns on trees in forests.",
+    "evolution": {
+      "prev": [
+        "944",
+        "Level 28"
+      ]
+    },
+    "profile": {
+      "height": "0.7 m",
+      "weight": "27.2 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Unburden",
+          "false"
+        ],
+        [
+          "Poison Touch",
+          "false"
+        ],
+        [
+          "Prankster",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/945.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/945.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/945.png"
+    }
+  },
+  {
+    "id": 946,
+    "name": {
+      "english": "Bramblin",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Grass",
+      "Ghost"
+    ],
+    "base": {
+      "HP": 40,
+      "Attack": 65,
+      "Defense": 30,
+      "Sp. Attack": 45,
+      "Sp. Defense": 35,
+      "Speed": 60
+    },
+    "species": "Tumbleweed Pokémon",
+    "description": "A soul unable to move on to the afterlife was blown around by the wind until it got tangled up with dried grass and became a Pokémon.",
+    "evolution": {
+      "next": [
+        [
+          "947",
+          "Level Up"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.6 m",
+      "weight": "0.6 kg",
+      "egg": [
+        "Plant"
+      ],
+      "ability": [
+        [
+          "Wind Rider",
+          "false"
+        ],
+        [
+          "Infiltrator",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/946.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/946.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/946.png"
+    }
+  },
+  {
+    "id": 947,
+    "name": {
+      "english": "Brambleghast",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Grass",
+      "Ghost"
+    ],
+    "base": {
+      "HP": 55,
+      "Attack": 115,
+      "Defense": 70,
+      "Sp. Attack": 80,
+      "Sp. Defense": 70,
+      "Speed": 90
+    },
+    "species": "Tumbleweed Pokémon",
+    "description": "It will open the branches of its head to envelop its prey. Once it absorbs all the life energy it needs, it expels the prey and discards it.",
+    "evolution": {
+      "prev": [
+        "946",
+        "Level Up"
+      ]
+    },
+    "profile": {
+      "height": "1.2 m",
+      "weight": "6 kg",
+      "egg": [
+        "Plant"
+      ],
+      "ability": [
+        [
+          "Wind Rider",
+          "false"
+        ],
+        [
+          "Infiltrator",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/947.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/947.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/947.png"
+    }
+  },
+  {
+    "id": 948,
+    "name": {
+      "english": "Toedscool",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Ground",
+      "Grass"
+    ],
+    "base": {
+      "HP": 40,
+      "Attack": 40,
+      "Defense": 35,
+      "Sp. Attack": 50,
+      "Sp. Defense": 100,
+      "Speed": 70
+    },
+    "species": "Woodear Pokémon",
+    "description": "Toedscool lives in muggy forests. The flaps that fall from its body are chewy and very delicious.",
+    "evolution": {
+      "next": [
+        [
+          "949",
+          "Level 30"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.9 m",
+      "weight": "33 kg",
+      "egg": [
+        "Plant"
+      ],
+      "ability": [
+        [
+          "Mycelium Might",
+          "false"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/948.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/948.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/948.png"
+    }
+  },
+  {
+    "id": 949,
+    "name": {
+      "english": "Toedscruel",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Ground",
+      "Grass"
+    ],
+    "base": {
+      "HP": 80,
+      "Attack": 70,
+      "Defense": 65,
+      "Sp. Attack": 80,
+      "Sp. Defense": 120,
+      "Speed": 100
+    },
+    "species": "Woodear Pokémon",
+    "description": "These Pokémon gather into groups and form colonies deep within forests. They absolutely hate it when strangers approach.",
+    "evolution": {
+      "prev": [
+        "948",
+        "Level 30"
+      ]
+    },
+    "profile": {
+      "height": "1.9 m",
+      "weight": "58 kg",
+      "egg": [
+        "Plant"
+      ],
+      "ability": [
+        [
+          "Mycelium Might",
+          "false"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/949.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/949.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/949.png"
+    }
+  },
+  {
+    "id": 950,
+    "name": {
+      "english": "Klawf",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Rock"
+    ],
+    "base": {
+      "HP": 70,
+      "Attack": 100,
+      "Defense": 115,
+      "Sp. Attack": 35,
+      "Sp. Defense": 55,
+      "Speed": 75
+    },
+    "species": "Ambush Pokémon",
+    "description": "Klawf hangs upside-down from cliffs, waiting for prey. But Klawf can’t remain in this position for long because its blood rushes to its head.",
+    "evolution": {},
+    "profile": {
+      "height": "1.3 m",
+      "weight": "79 kg",
+      "egg": [
+        "Water3"
+      ],
+      "ability": [
+        [
+          "Anger Shell",
+          "false"
+        ],
+        [
+          "Shell Armor",
+          "false"
+        ],
+        [
+          "Regenerator",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/950.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/950.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/950.png"
+    }
+  },
+  {
+    "id": 951,
+    "name": {
+      "english": "Capsakid",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Grass"
+    ],
+    "base": {
+      "HP": 50,
+      "Attack": 62,
+      "Defense": 40,
+      "Sp. Attack": 62,
+      "Sp. Defense": 40,
+      "Speed": 50
+    },
+    "species": "Spicy Pepper Pokémon",
+    "description": "The more sunlight this Pokémon bathes in, the more spicy chemicals are produced by its body, and thus the spicier its moves become.",
+    "evolution": {
+      "next": [
+        [
+          "952",
+          "use Fire Stone"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.3 m",
+      "weight": "3 kg",
+      "egg": [
+        "Plant"
+      ],
+      "ability": [
+        [
+          "Chlorophyll",
+          "false"
+        ],
+        [
+          "Insomnia",
+          "false"
+        ],
+        [
+          "Klutz",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/951.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/951.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/951.png"
+    }
+  },
+  {
+    "id": 952,
+    "name": {
+      "english": "Scovillain",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Grass",
+      "Fire"
+    ],
+    "base": {
+      "HP": 65,
+      "Attack": 108,
+      "Defense": 65,
+      "Sp. Attack": 108,
+      "Sp. Defense": 65,
+      "Speed": 75
+    },
+    "species": "Spicy Pepper Pokémon",
+    "description": "The red head converts spicy chemicals into fire energy and blasts the surrounding area with a super spicy stream of flame.",
+    "evolution": {
+      "prev": [
+        "951",
+        "use Fire Stone"
+      ]
+    },
+    "profile": {
+      "height": "0.9 m",
+      "weight": "15 kg",
+      "egg": [
+        "Plant"
+      ],
+      "ability": [
+        [
+          "Chlorophyll",
+          "false"
+        ],
+        [
+          "Insomnia",
+          "false"
+        ],
+        [
+          "Moody",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/952.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/952.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/952.png"
+    }
+  },
+  {
+    "id": 953,
+    "name": {
+      "english": "Rellor",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Bug"
+    ],
+    "base": {
+      "HP": 41,
+      "Attack": 50,
+      "Defense": 60,
+      "Sp. Attack": 31,
+      "Sp. Defense": 58,
+      "Speed": 30
+    },
+    "species": "Rolling Pokémon",
+    "description": "This Pokémon creates a mud ball by mixing sand and dirt with psychic energy. It treasures its mud ball more than its own life.",
+    "evolution": {
+      "next": [
+        [
+          "954",
+          "Level Up"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.2 m",
+      "weight": "1 kg",
+      "egg": [
+        "Bug"
+      ],
+      "ability": [
+        [
+          "Compound Eyes",
+          "false"
+        ],
+        [
+          "Shed Skin",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/953.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/953.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/953.png"
+    }
+  },
+  {
+    "id": 954,
+    "name": {
+      "english": "Rabsca",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Bug",
+      "Psychic"
+    ],
+    "base": {
+      "HP": 75,
+      "Attack": 50,
+      "Defense": 85,
+      "Sp. Attack": 115,
+      "Sp. Defense": 100,
+      "Speed": 45
+    },
+    "species": "Rolling Pokémon",
+    "description": "The body that supports the ball barely moves. Therefore, it is thought that the true body of this Pokémon is actually inside the ball.",
+    "evolution": {
+      "prev": [
+        "953",
+        "Level Up"
+      ]
+    },
+    "profile": {
+      "height": "0.3 m",
+      "weight": "3.5 kg",
+      "egg": [
+        "Bug"
+      ],
+      "ability": [
+        [
+          "Synchronize",
+          "false"
+        ],
+        [
+          "Telepathy",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/954.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/954.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/954.png"
+    }
+  },
+  {
+    "id": 955,
+    "name": {
+      "english": "Flittle",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Psychic"
+    ],
+    "base": {
+      "HP": 30,
+      "Attack": 35,
+      "Defense": 30,
+      "Sp. Attack": 55,
+      "Sp. Defense": 30,
+      "Speed": 75
+    },
+    "species": "Frill Pokémon",
+    "description": "Flittle’s toes levitate about half an inch above the ground because of the psychic power emitted from the frills on the Pokémon’s belly.",
+    "evolution": {
+      "next": [
+        [
+          "956",
+          "Level 35"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.2 m",
+      "weight": "1.5 kg",
+      "egg": [
+        "Flying"
+      ],
+      "ability": [
+        [
+          "Anticipation",
+          "false"
+        ],
+        [
+          "Frisk",
+          "false"
+        ],
+        [
+          "Speed Boost",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/955.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/955.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/955.png"
+    }
+  },
+  {
+    "id": 956,
+    "name": {
+      "english": "Espathra",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Psychic"
+    ],
+    "base": {
+      "HP": 95,
+      "Attack": 60,
+      "Defense": 60,
+      "Sp. Attack": 101,
+      "Sp. Defense": 60,
+      "Speed": 105
+    },
+    "species": "Ostrich Pokémon",
+    "description": "It immobilizes opponents by bathing them in psychic power from its large eyes. Despite its appearance, it has a vicious temperament.",
+    "evolution": {
+      "prev": [
+        "955",
+        "Level 35"
+      ]
+    },
+    "profile": {
+      "height": "1.9 m",
+      "weight": "90 kg",
+      "egg": [
+        "Flying"
+      ],
+      "ability": [
+        [
+          "Opportunist",
+          "false"
+        ],
+        [
+          "Frisk",
+          "false"
+        ],
+        [
+          "Speed Boost",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/956.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/956.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/956.png"
+    }
+  },
+  {
+    "id": 957,
+    "name": {
+      "english": "Tinkatink",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Fairy",
+      "Steel"
+    ],
+    "base": {
+      "HP": 50,
+      "Attack": 45,
+      "Defense": 45,
+      "Sp. Attack": 35,
+      "Sp. Defense": 64,
+      "Speed": 58
+    },
+    "species": "Metalsmith Pokémon",
+    "description": "It swings its handmade hammer around to protect itself, but the hammer is often stolen by Pokémon that eat metal.",
+    "evolution": {
+      "next": [
+        [
+          "958",
+          "Level 24"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.4 m",
+      "weight": "8.9 kg",
+      "egg": [
+        "Fairy"
+      ],
+      "ability": [
+        [
+          "Mold Breaker",
+          "false"
+        ],
+        [
+          "Own Tempo",
+          "false"
+        ],
+        [
+          "Pickpocket",
+          "true"
+        ]
+      ],
+      "gender": "0:100"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/957.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/957.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/957.png"
+    }
+  },
+  {
+    "id": 958,
+    "name": {
+      "english": "Tinkatuff",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Fairy",
+      "Steel"
+    ],
+    "base": {
+      "HP": 65,
+      "Attack": 55,
+      "Defense": 55,
+      "Sp. Attack": 45,
+      "Sp. Defense": 82,
+      "Speed": 78
+    },
+    "species": "Hammer Pokémon",
+    "description": "This Pokémon will attack groups of Pawniard and Bisharp, gathering metal from them in order to create a large and sturdy hammer.",
+    "evolution": {
+      "prev": [
+        "957",
+        "Level 24"
+      ],
+      "next": [
+        [
+          "959",
+          "Level 38"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.7 m",
+      "weight": "59.1 kg",
+      "egg": [
+        "Fairy"
+      ],
+      "ability": [
+        [
+          "Mold Breaker",
+          "false"
+        ],
+        [
+          "Own Tempo",
+          "false"
+        ],
+        [
+          "Pickpocket",
+          "true"
+        ]
+      ],
+      "gender": "0:100"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/958.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/958.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/958.png"
+    }
+  },
+  {
+    "id": 959,
+    "name": {
+      "english": "Tinkaton",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Fairy",
+      "Steel"
+    ],
+    "base": {
+      "HP": 85,
+      "Attack": 75,
+      "Defense": 77,
+      "Sp. Attack": 70,
+      "Sp. Defense": 105,
+      "Speed": 94
+    },
+    "species": "Hammer Pokémon",
+    "description": "This intelligent Pokémon has a very daring disposition. It knocks rocks into the sky with its hammer, aiming for flying Corviknight.",
+    "evolution": {
+      "prev": [
+        "958",
+        "Level 38"
+      ]
+    },
+    "profile": {
+      "height": "0.7 m",
+      "weight": "112.8 kg",
+      "egg": [
+        "Fairy"
+      ],
+      "ability": [
+        [
+          "Mold Breaker",
+          "false"
+        ],
+        [
+          "Own Tempo",
+          "false"
+        ],
+        [
+          "Pickpocket",
+          "true"
+        ]
+      ],
+      "gender": "0:100"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/959.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/959.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/959.png"
+    }
+  },
+  {
+    "id": 960,
+    "name": {
+      "english": "Wiglett",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Water"
+    ],
+    "base": {
+      "HP": 10,
+      "Attack": 55,
+      "Defense": 25,
+      "Sp. Attack": 35,
+      "Sp. Defense": 25,
+      "Speed": 95
+    },
+    "species": "Garden Eel Pokémon",
+    "description": "This Pokémon can pick up the scent of a Veluza just over 65 feet away and will hide itself in the sand.",
+    "evolution": {
+      "next": [
+        [
+          "961",
+          "Level 26"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "1.2 m",
+      "weight": "1.8 kg",
+      "egg": [
+        "Water3"
+      ],
+      "ability": [
+        [
+          "Gooey",
+          "false"
+        ],
+        [
+          "Rattled",
+          "false"
+        ],
+        [
+          "Sand Veil",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/960.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/960.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/960.png"
+    }
+  },
+  {
+    "id": 961,
+    "name": {
+      "english": "Wugtrio",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Water"
+    ],
+    "base": {
+      "HP": 35,
+      "Attack": 100,
+      "Defense": 50,
+      "Sp. Attack": 50,
+      "Sp. Defense": 70,
+      "Speed": 120
+    },
+    "species": "Garden Eel Pokémon",
+    "description": "It has a vicious temperament, contrary to what its appearance may suggest. It wraps its long bodies around prey, then drags the prey into its den.",
+    "evolution": {
+      "prev": [
+        "960",
+        "Level 26"
+      ]
+    },
+    "profile": {
+      "height": "1.2 m",
+      "weight": "5.4 kg",
+      "egg": [
+        "Water3"
+      ],
+      "ability": [
+        [
+          "Gooey",
+          "false"
+        ],
+        [
+          "Rattled",
+          "false"
+        ],
+        [
+          "Sand Veil",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/961.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/961.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/961.png"
+    }
+  },
+  {
+    "id": 962,
+    "name": {
+      "english": "Bombirdier",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Flying",
+      "Dark"
+    ],
+    "base": {
+      "HP": 70,
+      "Attack": 103,
+      "Defense": 85,
+      "Sp. Attack": 60,
+      "Sp. Defense": 85,
+      "Speed": 82
+    },
+    "species": "Item Drop Pokémon",
+    "description": "It gathers things up in an apron made from shed feathers added to the Pokémon’s chest feathers, then drops those things from high places for fun.",
+    "evolution": {},
+    "profile": {
+      "height": "1.5 m",
+      "weight": "42.9 kg",
+      "egg": [
+        "Flying"
+      ],
+      "ability": [
+        [
+          "Big Pecks",
+          "false"
+        ],
+        [
+          "Keen Eye",
+          "false"
+        ],
+        [
+          "Rocky Payload",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/962.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/962.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/962.png"
+    }
+  },
+  {
+    "id": 963,
+    "name": {
+      "english": "Finizen",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Water"
+    ],
+    "base": {
+      "HP": 70,
+      "Attack": 45,
+      "Defense": 40,
+      "Sp. Attack": 45,
+      "Sp. Defense": 40,
+      "Speed": 75
+    },
+    "species": "Dolphin Pokémon",
+    "description": "It likes playing with others of its kind using the water ring on its tail. It uses ultrasonic waves to sense the emotions of other living creatures.",
+    "evolution": {
+      "next": [
+        [
+          "964",
+          "Level 38"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "1.3 m",
+      "weight": "60.2 kg",
+      "egg": [
+        "Ground",
+        "Water2"
+      ],
+      "ability": [
+        [
+          "Water Veil",
+          "false"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/963.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/963.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/963.png"
+    }
+  },
+  {
+    "id": 964,
+    "name": {
+      "english": "Palafin Zero",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Water"
+    ],
+    "base": {
+      "HP": 100,
+      "Attack": 70,
+      "Defense": 72,
+      "Sp. Attack": 53,
+      "Sp. Defense": 62,
+      "Speed": 100
+    },
+    "species": "Dolphin Pokémon",
+    "description": "This Pokémon changes its appearance if it hears its allies calling for help. Palafin will never show anybody its moment of transformation.",
+    "evolution": {},
+    "profile": {
+      "height": "1.3 m",
+      "weight": "60.2 kg",
+      "egg": [
+        "Ground",
+        "Water2"
+      ],
+      "ability": [
+        [
+          "Zero To Hero",
+          "false"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/964.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/964.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/964.png"
+    }
+  },
+  {
+    "id": 965,
+    "name": {
+      "english": "Varoom",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Steel",
+      "Poison"
+    ],
+    "base": {
+      "HP": 45,
+      "Attack": 70,
+      "Defense": 63,
+      "Sp. Attack": 30,
+      "Sp. Defense": 45,
+      "Speed": 47
+    },
+    "species": "Single-Cyl Pokémon",
+    "description": "It is said that this Pokémon was born when an unknown poison Pokémon entered and inspirited an engine left at a scrap-processing factory.",
+    "evolution": {
+      "next": [
+        [
+          "966",
+          "Level 40"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "1 m",
+      "weight": "35 kg",
+      "egg": [
+        "Mineral"
+      ],
+      "ability": [
+        [
+          "Overcoat",
+          "false"
+        ],
+        [
+          "Slow Start",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/965.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/965.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/965.png"
+    }
+  },
+  {
+    "id": 966,
+    "name": {
+      "english": "Revavroom",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Steel",
+      "Poison"
+    ],
+    "base": {
+      "HP": 80,
+      "Attack": 119,
+      "Defense": 90,
+      "Sp. Attack": 54,
+      "Sp. Defense": 67,
+      "Speed": 90
+    },
+    "species": "Multi-Cyl Pokémon",
+    "description": "It creates a gas out of poison and minerals from rocks. It then detonates the gas in its cylinders—now numbering eight—to generate energy.",
+    "evolution": {
+      "prev": [
+        "965",
+        "Level 40"
+      ]
+    },
+    "profile": {
+      "height": "1.8 m",
+      "weight": "120 kg",
+      "egg": [
+        "Mineral"
+      ],
+      "ability": [
+        [
+          "Overcoat",
+          "false"
+        ],
+        [
+          "Filter",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/966.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/966.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/966.png"
+    }
+  },
+  {
+    "id": 967,
+    "name": {
+      "english": "Cyclizar",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Dragon",
+      "Normal"
+    ],
+    "base": {
+      "HP": 70,
+      "Attack": 95,
+      "Defense": 65,
+      "Sp. Attack": 85,
+      "Sp. Defense": 65,
+      "Speed": 121
+    },
+    "species": "Mount Pokémon",
+    "description": "Apparently Cyclizar has been allowing people to ride on its back since ancient times. Depictions of this have been found in 10,000-year-old murals.",
+    "evolution": {},
+    "profile": {
+      "height": "1.6 m",
+      "weight": "63 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Shed Skin",
+          "false"
+        ],
+        [
+          "Regenerator",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/967.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/967.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/967.png"
+    }
+  },
+  {
+    "id": 968,
+    "name": {
+      "english": "Orthworm",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Steel"
+    ],
+    "base": {
+      "HP": 70,
+      "Attack": 85,
+      "Defense": 145,
+      "Sp. Attack": 60,
+      "Sp. Defense": 55,
+      "Speed": 65
+    },
+    "species": "Earthworm Pokémon",
+    "description": "When attacked, this Pokémon will wield the tendrils on its body like fists and pelt the opponent with a storm of punches.",
+    "evolution": {},
+    "profile": {
+      "height": "2.5 m",
+      "weight": "310 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Earth Eater",
+          "false"
+        ],
+        [
+          "Sand Veil",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/968.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/968.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/968.png"
+    }
+  },
+  {
+    "id": 969,
+    "name": {
+      "english": "Glimmet",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Rock",
+      "Poison"
+    ],
+    "base": {
+      "HP": 48,
+      "Attack": 35,
+      "Defense": 42,
+      "Sp. Attack": 105,
+      "Sp. Defense": 60,
+      "Speed": 60
+    },
+    "species": "Ore Pokémon",
+    "description": "It absorbs nutrients from cave walls. The petals it wears are made of crystallized poison.",
+    "evolution": {
+      "next": [
+        [
+          "970",
+          "Level 35"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.7 m",
+      "weight": "8 kg",
+      "egg": [
+        "Mineral"
+      ],
+      "ability": [
+        [
+          "Toxic Debris",
+          "false"
+        ],
+        [
+          "Corrosion",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/969.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/969.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/969.png"
+    }
+  },
+  {
+    "id": 970,
+    "name": {
+      "english": "Glimmora",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Rock",
+      "Poison"
+    ],
+    "base": {
+      "HP": 83,
+      "Attack": 55,
+      "Defense": 90,
+      "Sp. Attack": 130,
+      "Sp. Defense": 81,
+      "Speed": 86
+    },
+    "species": "Ore Pokémon",
+    "description": "When this Pokémon detects danger, it will open up its crystalline petals and fire beams from its conical body.",
+    "evolution": {
+      "prev": [
+        "969",
+        "Level 35"
+      ]
+    },
+    "profile": {
+      "height": "1.5 m",
+      "weight": "45 kg",
+      "egg": [
+        "Mineral"
+      ],
+      "ability": [
+        [
+          "Toxic Debris",
+          "false"
+        ],
+        [
+          "Corrosion",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/970.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/970.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/970.png"
+    }
+  },
+  {
+    "id": 971,
+    "name": {
+      "english": "Greavard",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Ghost"
+    ],
+    "base": {
+      "HP": 50,
+      "Attack": 61,
+      "Defense": 60,
+      "Sp. Attack": 30,
+      "Sp. Defense": 55,
+      "Speed": 34
+    },
+    "species": "Ghost Dog Pokémon",
+    "description": "It is said that a dog Pokémon that died in the wild without ever interacting with a human was reborn as this Pokémon.",
+    "evolution": {
+      "next": [
+        [
+          "972",
+          "Level 30"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.6 m",
+      "weight": "35 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Pickup",
+          "false"
+        ],
+        [
+          "Fluffy",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/971.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/971.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/971.png"
+    }
+  },
+  {
+    "id": 972,
+    "name": {
+      "english": "Houndstone",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Ghost"
+    ],
+    "base": {
+      "HP": 72,
+      "Attack": 101,
+      "Defense": 100,
+      "Sp. Attack": 50,
+      "Sp. Defense": 97,
+      "Speed": 68
+    },
+    "species": "Ghost Dog Pokémon",
+    "description": "Houndstone spends most of its time sleeping in graveyards. Among all the dog Pokémon, this one is most loyal to its master.",
+    "evolution": {
+      "prev": [
+        "971",
+        "Level 30"
+      ]
+    },
+    "profile": {
+      "height": "2 m",
+      "weight": "15 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Sand Rush",
+          "false"
+        ],
+        [
+          "Fluffy",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/972.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/972.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/972.png"
+    }
+  },
+  {
+    "id": 973,
+    "name": {
+      "english": "Flamigo",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Flying",
+      "Fighting"
+    ],
+    "base": {
+      "HP": 82,
+      "Attack": 115,
+      "Defense": 74,
+      "Sp. Attack": 75,
+      "Sp. Defense": 64,
+      "Speed": 90
+    },
+    "species": "Synchronize Pokémon",
+    "description": "This Pokémon apparently ties the base of its neck into a knot so that energy stored in its belly does not escape from its beak.",
+    "evolution": {},
+    "profile": {
+      "height": "1.6 m",
+      "weight": "37 kg",
+      "egg": [
+        "Flying"
+      ],
+      "ability": [
+        [
+          "Scrappy",
+          "false"
+        ],
+        [
+          "Tangled Feet",
+          "false"
+        ],
+        [
+          "Costar",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/973.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/973.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/973.png"
+    }
+  },
+  {
+    "id": 974,
+    "name": {
+      "english": "Cetoddle",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Ice"
+    ],
+    "base": {
+      "HP": 108,
+      "Attack": 68,
+      "Defense": 45,
+      "Sp. Attack": 30,
+      "Sp. Defense": 40,
+      "Speed": 43
+    },
+    "species": "Terra Whale Pokémon",
+    "description": "This species left the ocean and began living on land a very long time ago. It seems to be closely related to Wailmer.",
+    "evolution": {
+      "next": [
+        [
+          "975",
+          "use Ice Stone"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "1.2 m",
+      "weight": "45 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Thick Fat",
+          "false"
+        ],
+        [
+          "Snow Cloak",
+          "false"
+        ],
+        [
+          "Sheer Force",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/974.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/974.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/974.png"
+    }
+  },
+  {
+    "id": 975,
+    "name": {
+      "english": "Cetitan",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Ice"
+    ],
+    "base": {
+      "HP": 170,
+      "Attack": 113,
+      "Defense": 65,
+      "Sp. Attack": 45,
+      "Sp. Defense": 55,
+      "Speed": 73
+    },
+    "species": "Terra Whale Pokémon",
+    "description": "This Pokémon wanders around snowy, icy areas. It protects its body with powerful muscles and a thick layer of fat under its skin.",
+    "evolution": {
+      "prev": [
+        "974",
+        "use Ice Stone"
+      ]
+    },
+    "profile": {
+      "height": "4.5 m",
+      "weight": "700 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Thick Fat",
+          "false"
+        ],
+        [
+          "Slush Rush",
+          "false"
+        ],
+        [
+          "Sheer Force",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/975.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/975.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/975.png"
+    }
+  },
+  {
+    "id": 976,
+    "name": {
+      "english": "Veluza",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Water",
+      "Psychic"
+    ],
+    "base": {
+      "HP": 90,
+      "Attack": 102,
+      "Defense": 73,
+      "Sp. Attack": 78,
+      "Sp. Defense": 65,
+      "Speed": 70
+    },
+    "species": "Jettison Pokémon",
+    "description": "When Veluza discards unnecessary flesh, its mind becomes honed and its psychic power increases. The spare flesh has a mild but delicious flavor.",
+    "evolution": {},
+    "profile": {
+      "height": "2.5 m",
+      "weight": "90 kg",
+      "egg": [
+        "Water2"
+      ],
+      "ability": [
+        [
+          "Mold Breaker",
+          "false"
+        ],
+        [
+          "Sharpness",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/976.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/976.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/976.png"
+    }
+  },
+  {
+    "id": 977,
+    "name": {
+      "english": "Dondozo",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Water"
+    ],
+    "base": {
+      "HP": 150,
+      "Attack": 100,
+      "Defense": 115,
+      "Sp. Attack": 65,
+      "Sp. Defense": 65,
+      "Speed": 35
+    },
+    "species": "Big Catfish Pokémon",
+    "description": "This Pokémon is a glutton, but it’s bad at getting food. It teams up with a Tatsugiri to catch prey.",
+    "evolution": {},
+    "profile": {
+      "height": "12 m",
+      "weight": "220 kg",
+      "egg": [
+        "Water2"
+      ],
+      "ability": [
+        [
+          "Unaware",
+          "false"
+        ],
+        [
+          "Oblivious",
+          "false"
+        ],
+        [
+          "Water Veil",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/977.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/977.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/977.png"
+    }
+  },
+  {
+    "id": 978,
+    "name": {
+      "english": "Tatsugiri Curly",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Dragon",
+      "Water"
+    ],
+    "base": {
+      "HP": 68,
+      "Attack": 50,
+      "Defense": 60,
+      "Sp. Attack": 120,
+      "Sp. Defense": 95,
+      "Speed": 82
+    },
+    "species": "Mimicry Pokémon",
+    "description": "This is a small dragon Pokémon. It lives inside the mouth of Dondozo to protect itself from enemies on the outside.",
+    "evolution": {},
+    "profile": {
+      "height": "0.3 m",
+      "weight": "8 kg",
+      "egg": [
+        "Water2"
+      ],
+      "ability": [
+        [
+          "Commander",
+          "false"
+        ],
+        [
+          "Storm Drain",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/978.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/978.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/978.png"
+    }
+  },
+  {
+    "id": 979,
+    "name": {
+      "english": "Annihilape",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Fighting",
+      "Ghost"
+    ],
+    "base": {
+      "HP": 110,
+      "Attack": 115,
+      "Defense": 80,
+      "Sp. Attack": 50,
+      "Sp. Defense": 90,
+      "Speed": 90
+    },
+    "species": "Rage Monkey Pokémon",
+    "description": "When its anger rose beyond a critical point, this Pokémon gained power that is unfettered by the limits of its physical body.",
+    "evolution": {
+      "prev": [
+        "57",
+        "Use Move"
+      ]
+    },
+    "profile": {
+      "height": "1.2 m",
+      "weight": "56 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Vital Spirit",
+          "false"
+        ],
+        [
+          "Inner Focus",
+          "false"
+        ],
+        [
+          "Defiant",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/979.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/979.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/979.png"
+    }
+  },
+  {
+    "id": 980,
+    "name": {
+      "english": "Clodsire",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Poison",
+      "Ground"
+    ],
+    "base": {
+      "HP": 130,
+      "Attack": 75,
+      "Defense": 60,
+      "Sp. Attack": 45,
+      "Sp. Defense": 100,
+      "Speed": 20
+    },
+    "species": "Spiny Fish Pokémon",
+    "description": "When attacked, this Pokémon will retaliate by sticking thick spines out from its body. It’s a risky move that puts everything on the line.",
+    "evolution": {
+      "prev": [
+        "194",
+        "Level 20"
+      ]
+    },
+    "profile": {
+      "height": "1.8 m",
+      "weight": "223 kg",
+      "egg": [
+        "Water1",
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Poison Point",
+          "false"
+        ],
+        [
+          "Water Absorb",
+          "false"
+        ],
+        [
+          "Unaware",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/980.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/980.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/980.png"
+    }
+  },
+  {
+    "id": 981,
+    "name": {
+      "english": "Farigiraf",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Normal",
+      "Psychic"
+    ],
+    "base": {
+      "HP": 120,
+      "Attack": 90,
+      "Defense": 70,
+      "Sp. Attack": 110,
+      "Sp. Defense": 70,
+      "Speed": 60
+    },
+    "species": "Long Neck Pokémon",
+    "description": "Now that the brain waves from the head and tail are synced up, the psychic power of this Pokémon is 10 times stronger than Girafarig’s.",
+    "evolution": {
+      "prev": [
+        "203",
+        "Level Up"
+      ]
+    },
+    "profile": {
+      "height": "3.2 m",
+      "weight": "160 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Cud Chew",
+          "false"
+        ],
+        [
+          "Armor Tail",
+          "false"
+        ],
+        [
+          "Sap Sipper",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/981.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/981.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/981.png"
+    }
+  },
+  {
+    "id": 982,
+    "name": {
+      "english": "Dudunsparce Two Segment",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Normal"
+    ],
+    "base": {
+      "HP": 125,
+      "Attack": 100,
+      "Defense": 80,
+      "Sp. Attack": 85,
+      "Sp. Defense": 75,
+      "Speed": 55
+    },
+    "species": "Land Snake Pokémon",
+    "description": "This Pokémon uses its hard tail to make its nest by boring holes into bedrock deep underground. The nest can reach lengths of over six miles.",
+    "evolution": {},
+    "profile": {
+      "height": "3.6 m",
+      "weight": "39.2 kg",
+      "egg": [
+        "Ground"
+      ],
+      "ability": [
+        [
+          "Serene Grace",
+          "false"
+        ],
+        [
+          "Run Away",
+          "false"
+        ],
+        [
+          "Rattled",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/982.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/982.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/982.png"
+    }
+  },
+  {
+    "id": 983,
+    "name": {
+      "english": "Kingambit",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Dark",
+      "Steel"
+    ],
+    "base": {
+      "HP": 100,
+      "Attack": 135,
+      "Defense": 120,
+      "Sp. Attack": 60,
+      "Sp. Defense": 85,
+      "Speed": 50
+    },
+    "species": "Big Blade Pokémon",
+    "description": "Only a Bisharp that stands above all others in its vast army can evolve into Kingambit.",
+    "evolution": {
+      "prev": [
+        "625",
+        "Three Defeated Bisharp"
+      ]
+    },
+    "profile": {
+      "height": "2 m",
+      "weight": "120 kg",
+      "egg": [
+        "Humanshape"
+      ],
+      "ability": [
+        [
+          "Defiant",
+          "false"
+        ],
+        [
+          "Supreme Overlord",
+          "false"
+        ],
+        [
+          "Pressure",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/983.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/983.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/983.png"
+    }
+  },
+  {
+    "id": 984,
+    "name": {
+      "english": "Great Tusk",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Ground",
+      "Fighting"
+    ],
+    "base": {
+      "HP": 115,
+      "Attack": 131,
+      "Defense": 131,
+      "Sp. Attack": 53,
+      "Sp. Defense": 53,
+      "Speed": 87
+    },
+    "species": "Paradox Pokémon",
+    "description": "Sightings of this Pokémon have occurred in recent years. The name Great Tusk was taken from a creature listed in a certain book.",
+    "evolution": {},
+    "profile": {
+      "height": "2.2 m",
+      "weight": "320 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Protosynthesis",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/984.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/984.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/984.png"
+    }
+  },
+  {
+    "id": 985,
+    "name": {
+      "english": "Scream Tail",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Fairy",
+      "Psychic"
+    ],
+    "base": {
+      "HP": 115,
+      "Attack": 65,
+      "Defense": 99,
+      "Sp. Attack": 65,
+      "Sp. Defense": 115,
+      "Speed": 111
+    },
+    "species": "Paradox Pokémon",
+    "description": "There has been only one reported sighting of this Pokémon. It resembles a mysterious creature depicted in an old expedition journal.",
+    "evolution": {},
+    "profile": {
+      "height": "1.2 m",
+      "weight": "8 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Protosynthesis",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/985.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/985.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/985.png"
+    }
+  },
+  {
+    "id": 986,
+    "name": {
+      "english": "Brute Bonnet",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Grass",
+      "Dark"
+    ],
+    "base": {
+      "HP": 111,
+      "Attack": 127,
+      "Defense": 99,
+      "Sp. Attack": 79,
+      "Sp. Defense": 99,
+      "Speed": 55
+    },
+    "species": "Paradox Pokémon",
+    "description": "It is possible that the creature listed as Brute Bonnet in a certain book could actually be this Pokémon.",
+    "evolution": {},
+    "profile": {
+      "height": "1.2 m",
+      "weight": "21 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Protosynthesis",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/986.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/986.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/986.png"
+    }
+  },
+  {
+    "id": 987,
+    "name": {
+      "english": "Flutter Mane",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Ghost",
+      "Fairy"
+    ],
+    "base": {
+      "HP": 55,
+      "Attack": 55,
+      "Defense": 55,
+      "Sp. Attack": 135,
+      "Sp. Defense": 135,
+      "Speed": 135
+    },
+    "species": "Paradox Pokémon",
+    "description": "This Pokémon has characteristics similar to those of Flutter Mane, a creature mentioned in a certain book.",
+    "evolution": {},
+    "profile": {
+      "height": "1.4 m",
+      "weight": "4 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Protosynthesis",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/987.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/987.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/987.png"
+    }
+  },
+  {
+    "id": 988,
+    "name": {
+      "english": "Slither Wing",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Bug",
+      "Fighting"
+    ],
+    "base": {
+      "HP": 85,
+      "Attack": 135,
+      "Defense": 79,
+      "Sp. Attack": 85,
+      "Sp. Defense": 105,
+      "Speed": 81
+    },
+    "species": "Paradox Pokémon",
+    "description": "This mysterious Pokémon has some similarities to a creature that an old book introduced as Slither Wing.",
+    "evolution": {},
+    "profile": {
+      "height": "3.2 m",
+      "weight": "92 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Protosynthesis",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/988.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/988.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/988.png"
+    }
+  },
+  {
+    "id": 989,
+    "name": {
+      "english": "Sandy Shocks",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Electric",
+      "Ground"
+    ],
+    "base": {
+      "HP": 85,
+      "Attack": 81,
+      "Defense": 97,
+      "Sp. Attack": 121,
+      "Sp. Defense": 85,
+      "Speed": 101
+    },
+    "species": "Paradox Pokémon",
+    "description": "No records exist of this Pokémon being caught. Data is lacking, but the Pokémon’s traits match up with a creature shown in an expedition journal.",
+    "evolution": {},
+    "profile": {
+      "height": "2.3 m",
+      "weight": "60 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Protosynthesis",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/989.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/989.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/989.png"
+    }
+  },
+  {
+    "id": 990,
+    "name": {
+      "english": "Iron Treads",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Ground",
+      "Steel"
+    ],
+    "base": {
+      "HP": 90,
+      "Attack": 112,
+      "Defense": 120,
+      "Sp. Attack": 72,
+      "Sp. Defense": 70,
+      "Speed": 106
+    },
+    "species": "Paradox Pokémon",
+    "description": "This Pokémon closely resembles a scientific weapon that a paranormal magazine claimed was sent to this planet by aliens.",
+    "evolution": {},
+    "profile": {
+      "height": "0.9 m",
+      "weight": "240 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Quark Drive",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/990.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/990.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/990.png"
+    }
+  },
+  {
+    "id": 991,
+    "name": {
+      "english": "Iron Bundle",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Ice",
+      "Water"
+    ],
+    "base": {
+      "HP": 56,
+      "Attack": 80,
+      "Defense": 114,
+      "Sp. Attack": 124,
+      "Sp. Defense": 60,
+      "Speed": 136
+    },
+    "species": "Paradox Pokémon",
+    "description": "Its shape is similar to a robot featured in a paranormal magazine article. The robot was said to have been created by an ancient civilization.",
+    "evolution": {},
+    "profile": {
+      "height": "0.6 m",
+      "weight": "11 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Quark Drive",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/991.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/991.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/991.png"
+    }
+  },
+  {
+    "id": 992,
+    "name": {
+      "english": "Iron Hands",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Fighting",
+      "Electric"
+    ],
+    "base": {
+      "HP": 154,
+      "Attack": 140,
+      "Defense": 108,
+      "Sp. Attack": 50,
+      "Sp. Defense": 68,
+      "Speed": 50
+    },
+    "species": "Paradox Pokémon",
+    "description": "It is very similar to a cyborg covered exclusively by a paranormal magazine. The cyborg was said to be the modified form of a certain athlete.",
+    "evolution": {},
+    "profile": {
+      "height": "1.8 m",
+      "weight": "380.7 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Quark Drive",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/992.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/992.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/992.png"
+    }
+  },
+  {
+    "id": 993,
+    "name": {
+      "english": "Iron Jugulis",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Dark",
+      "Flying"
+    ],
+    "base": {
+      "HP": 94,
+      "Attack": 80,
+      "Defense": 86,
+      "Sp. Attack": 122,
+      "Sp. Defense": 80,
+      "Speed": 108
+    },
+    "species": "Paradox Pokémon",
+    "description": "It resembles a certain Pokémon introduced in a paranormal magazine, described as the offspring of a Hydreigon that fell in love with a robot.",
+    "evolution": {},
+    "profile": {
+      "height": "1.3 m",
+      "weight": "111 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Quark Drive",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/993.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/993.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/993.png"
+    }
+  },
+  {
+    "id": 994,
+    "name": {
+      "english": "Iron Moth",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Fire",
+      "Poison"
+    ],
+    "base": {
+      "HP": 80,
+      "Attack": 70,
+      "Defense": 60,
+      "Sp. Attack": 140,
+      "Sp. Defense": 110,
+      "Speed": 110
+    },
+    "species": "Paradox Pokémon",
+    "description": "This Pokémon resembles an unknown object described in a paranormal magazine as a UFO sent to observe humanity.",
+    "evolution": {},
+    "profile": {
+      "height": "1.2 m",
+      "weight": "36 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Quark Drive",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/994.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/994.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/994.png"
+    }
+  },
+  {
+    "id": 995,
+    "name": {
+      "english": "Iron Thorns",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Rock",
+      "Electric"
+    ],
+    "base": {
+      "HP": 100,
+      "Attack": 134,
+      "Defense": 110,
+      "Sp. Attack": 70,
+      "Sp. Defense": 84,
+      "Speed": 72
+    },
+    "species": "Paradox Pokémon",
+    "description": "It has some similarities to a Pokémon introduced in a dubious magazine as a Tyranitar from one billion years into the future.",
+    "evolution": {},
+    "profile": {
+      "height": "1.6 m",
+      "weight": "303 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Quark Drive",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/995.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/995.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/995.png"
+    }
+  },
+  {
+    "id": 996,
+    "name": {
+      "english": "Frigibax",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Dragon",
+      "Ice"
+    ],
+    "base": {
+      "HP": 65,
+      "Attack": 75,
+      "Defense": 45,
+      "Sp. Attack": 35,
+      "Sp. Defense": 45,
+      "Speed": 55
+    },
+    "species": "Ice Fin Pokémon",
+    "description": "Frigibax absorbs heat through its dorsal fin and converts the heat into ice energy. The higher the temperature, the more energy Frigibax stores.",
+    "evolution": {
+      "next": [
+        [
+          "997",
+          "Level 35"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.5 m",
+      "weight": "17 kg",
+      "egg": [
+        "Dragon",
+        "Mineral"
+      ],
+      "ability": [
+        [
+          "Thermal Exchange",
+          "false"
+        ],
+        [
+          "Ice Body",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/996.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/996.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/996.png"
+    }
+  },
+  {
+    "id": 997,
+    "name": {
+      "english": "Arctibax",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Dragon",
+      "Ice"
+    ],
+    "base": {
+      "HP": 90,
+      "Attack": 95,
+      "Defense": 66,
+      "Sp. Attack": 45,
+      "Sp. Defense": 65,
+      "Speed": 62
+    },
+    "species": "Ice Fin Pokémon",
+    "description": "Arctibax freezes the air around it, protecting its face with an ice mask and turning its dorsal fin into a blade of ice.",
+    "evolution": {
+      "prev": [
+        "996",
+        "Level 35"
+      ],
+      "next": [
+        [
+          "998",
+          "Level 54"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.8 m",
+      "weight": "30 kg",
+      "egg": [
+        "Dragon",
+        "Mineral"
+      ],
+      "ability": [
+        [
+          "Thermal Exchange",
+          "false"
+        ],
+        [
+          "Ice Body",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/997.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/997.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/997.png"
+    }
+  },
+  {
+    "id": 998,
+    "name": {
+      "english": "Baxcalibur",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Dragon",
+      "Ice"
+    ],
+    "base": {
+      "HP": 115,
+      "Attack": 145,
+      "Defense": 92,
+      "Sp. Attack": 75,
+      "Sp. Defense": 86,
+      "Speed": 87
+    },
+    "species": "Ice Dragon Pokémon",
+    "description": "This Pokémon blasts cryogenic air out from its mouth. This air can instantly freeze even liquid-hot lava.",
+    "evolution": {
+      "prev": [
+        "997",
+        "Level 54"
+      ]
+    },
+    "profile": {
+      "height": "2.1 m",
+      "weight": "210 kg",
+      "egg": [
+        "Dragon",
+        "Mineral"
+      ],
+      "ability": [
+        [
+          "Thermal Exchange",
+          "false"
+        ],
+        [
+          "Ice Body",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/998.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/998.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/998.png"
+    }
+  },
+  {
+    "id": 999,
+    "name": {
+      "english": "Gimmighoul",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Ghost"
+    ],
+    "base": {
+      "HP": 45,
+      "Attack": 30,
+      "Defense": 70,
+      "Sp. Attack": 75,
+      "Sp. Defense": 70,
+      "Speed": 10
+    },
+    "species": "Coin Chest Pokémon",
+    "description": "This Pokémon was born inside a treasure chest about 1,500 years ago. It sucks the life-force out of scoundrels who try to steal the treasure.",
+    "evolution": {
+      "next": [
+        [
+          "1000",
+          "Gimmighoul Coins"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.3 m",
+      "weight": "5 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Rattled",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/999.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/999.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/999.png"
+    }
+  },
+  {
+    "id": 1000,
+    "name": {
+      "english": "Gholdengo",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Steel",
+      "Ghost"
+    ],
+    "base": {
+      "HP": 87,
+      "Attack": 60,
+      "Defense": 95,
+      "Sp. Attack": 133,
+      "Sp. Defense": 91,
+      "Speed": 84
+    },
+    "species": "Coin Entity Pokémon",
+    "description": "Its body seems to be made up of 1,000 coins. This Pokémon gets along well with others and is quick to make friends with anybody.",
+    "evolution": {
+      "prev": [
+        "999",
+        "Gimmighoul Coins"
+      ]
+    },
+    "profile": {
+      "height": "1.2 m",
+      "weight": "30 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Good As Gold",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1000.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1000.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1000.png"
+    }
+  },
+  {
+    "id": 1001,
+    "name": {
+      "english": "Wo Chien",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Dark",
+      "Grass"
+    ],
+    "base": {
+      "HP": 85,
+      "Attack": 85,
+      "Defense": 100,
+      "Sp. Attack": 95,
+      "Sp. Defense": 135,
+      "Speed": 70
+    },
+    "species": "Ruinous Pokémon",
+    "description": "The grudge of a person punished for writing the king’s evil deeds upon wooden tablets has clad itself in dead leaves to become a Pokémon.",
+    "evolution": {},
+    "profile": {
+      "height": "1.5 m",
+      "weight": "74.2 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Tablets Of Ruin",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1001.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1001.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1001.png"
+    }
+  },
+  {
+    "id": 1002,
+    "name": {
+      "english": "Chien Pao",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Dark",
+      "Ice"
+    ],
+    "base": {
+      "HP": 80,
+      "Attack": 120,
+      "Defense": 80,
+      "Sp. Attack": 90,
+      "Sp. Defense": 65,
+      "Speed": 135
+    },
+    "species": "Ruinous Pokémon",
+    "description": "This Pokémon can control 100 tons of fallen snow. It plays around innocently by leaping in and out of avalanches it has caused.",
+    "evolution": {},
+    "profile": {
+      "height": "1.9 m",
+      "weight": "152.2 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Sword Of Ruin",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1002.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1002.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1002.png"
+    }
+  },
+  {
+    "id": 1003,
+    "name": {
+      "english": "Ting Lu",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Dark",
+      "Ground"
+    ],
+    "base": {
+      "HP": 155,
+      "Attack": 110,
+      "Defense": 125,
+      "Sp. Attack": 55,
+      "Sp. Defense": 80,
+      "Speed": 45
+    },
+    "species": "Ruinous Pokémon",
+    "description": "The fear poured into an ancient ritual vessel has clad itself in rocks and dirt to become a Pokémon.",
+    "evolution": {},
+    "profile": {
+      "height": "2.7 m",
+      "weight": "699.7 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Vessel Of Ruin",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1003.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1003.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1003.png"
+    }
+  },
+  {
+    "id": 1004,
+    "name": {
+      "english": "Chi Yu",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Dark",
+      "Fire"
+    ],
+    "base": {
+      "HP": 55,
+      "Attack": 80,
+      "Defense": 80,
+      "Sp. Attack": 135,
+      "Sp. Defense": 120,
+      "Speed": 100
+    },
+    "species": "Ruinous Pokémon",
+    "description": "It controls flames burning at over 5,400 degrees Fahrenheit. It casually swims through the sea of lava it creates by melting rock and sand.",
+    "evolution": {},
+    "profile": {
+      "height": "0.4 m",
+      "weight": "4.9 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Beads Of Ruin",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1004.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1004.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1004.png"
+    }
+  },
+  {
+    "id": 1005,
+    "name": {
+      "english": "Roaring Moon",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Dragon",
+      "Dark"
+    ],
+    "base": {
+      "HP": 105,
+      "Attack": 139,
+      "Defense": 71,
+      "Sp. Attack": 55,
+      "Sp. Defense": 101,
+      "Speed": 119
+    },
+    "species": "Paradox Pokémon",
+    "description": "It is possible that this is the creature listed as Roaring Moon in an expedition journal that still holds many mysteries.",
+    "evolution": {},
+    "profile": {
+      "height": "2 m",
+      "weight": "380 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Protosynthesis",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1005.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1005.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1005.png"
+    }
+  },
+  {
+    "id": 1006,
+    "name": {
+      "english": "Iron Valiant",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Fairy",
+      "Fighting"
+    ],
+    "base": {
+      "HP": 74,
+      "Attack": 130,
+      "Defense": 90,
+      "Sp. Attack": 120,
+      "Sp. Defense": 60,
+      "Speed": 116
+    },
+    "species": "Paradox Pokémon",
+    "description": "It has some similarities to a mad scientist’s invention covered in a paranormal magazine.",
+    "evolution": {},
+    "profile": {
+      "height": "1.4 m",
+      "weight": "35 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Quark Drive",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1006.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1006.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1006.png"
+    }
+  },
+  {
+    "id": 1007,
+    "name": {
+      "english": "Koraidon",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Fighting",
+      "Dragon"
+    ],
+    "base": {
+      "HP": 100,
+      "Attack": 135,
+      "Defense": 115,
+      "Sp. Attack": 85,
+      "Sp. Defense": 100,
+      "Speed": 135
+    },
+    "species": "Paradox Pokémon",
+    "description": "This seems to be the Winged King mentioned in an old expedition journal. It was said to have split the land with its bare fists.",
+    "evolution": {},
+    "profile": {
+      "height": "2.5 m",
+      "weight": "303 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Orichalcum Pulse",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1007.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1007.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1007.png"
+    }
+  },
+  {
+    "id": 1008,
+    "name": {
+      "english": "Miraidon",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Electric",
+      "Dragon"
+    ],
+    "base": {
+      "HP": 100,
+      "Attack": 85,
+      "Defense": 100,
+      "Sp. Attack": 135,
+      "Sp. Defense": 115,
+      "Speed": 135
+    },
+    "species": "Paradox Pokémon",
+    "description": "Much remains unknown about this creature. It resembles Cyclizar, but it is far more ruthless and powerful.",
+    "evolution": {},
+    "profile": {
+      "height": "3.5 m",
+      "weight": "240 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Hadron Engine",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1008.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1008.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1008.png"
+    }
+  },
+  {
+    "id": 1009,
+    "name": {
+      "english": "Walking Wake",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Water",
+      "Dragon"
+    ],
+    "base": {
+      "HP": 99,
+      "Attack": 83,
+      "Defense": 91,
+      "Sp. Attack": 125,
+      "Sp. Defense": 83,
+      "Speed": 109
+    },
+    "species": "Paradox Pokémon",
+    "description": "This ferocious creature is shrouded in mystery. It's named after an aquatic monster mentioned in an old expedition journal.",
+    "evolution": {},
+    "profile": {
+      "height": "3.5 m",
+      "weight": "280 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Protosynthesis",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1009.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1009.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1009.png"
+    }
+  },
+  {
+    "id": 1010,
+    "name": {
+      "english": "Iron Leaves",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Grass",
+      "Psychic"
+    ],
+    "base": {
+      "HP": 90,
+      "Attack": 130,
+      "Defense": 88,
+      "Sp. Attack": 70,
+      "Sp. Defense": 108,
+      "Speed": 104
+    },
+    "species": "Paradox Pokémon",
+    "description": "Many of its physical characteristics match those of a Virizion from the future that was covered in a paranormal magazine.",
+    "evolution": {},
+    "profile": {
+      "height": "1.5 m",
+      "weight": "125 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Quark Drive",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1010.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1010.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1010.png"
+    }
+  },
+  {
+    "id": 1011,
+    "name": {
+      "english": "Dipplin",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Grass",
+      "Dragon"
+    ],
+    "base": {
+      "HP": 80,
+      "Attack": 80,
+      "Defense": 110,
+      "Sp. Attack": 95,
+      "Sp. Defense": 80,
+      "Speed": 40
+    },
+    "species": "Candy Apple Pokémon",
+    "description": "Dipplin is two creatures in one Pokémon. Its evolution was triggered by a special apple grown only in one place.",
+    "evolution": {
+      "prev": [
+        "840",
+        "use Syrupy Apple"
+      ],
+      "next": [
+        [
+          "1019",
+          "Level Up"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.4 m",
+      "weight": "9.7 kg",
+      "egg": [
+        "Plant",
+        "Dragon"
+      ],
+      "ability": [
+        [
+          "Supersweet Syrup",
+          "false"
+        ],
+        [
+          "Gluttony",
+          "false"
+        ],
+        [
+          "Sticky Hold",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1011.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1011.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1011.png"
+    }
+  },
+  {
+    "id": 1012,
+    "name": {
+      "english": "Poltchageist",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Grass",
+      "Ghost"
+    ],
+    "base": {
+      "HP": 40,
+      "Attack": 45,
+      "Defense": 45,
+      "Sp. Attack": 74,
+      "Sp. Defense": 54,
+      "Speed": 50
+    },
+    "species": "Matcha Pokémon",
+    "description": "Supposedly, the regrets of a tea ceremony master who died before perfecting his craft lingered in some matcha and became a Pokémon.",
+    "evolution": {
+      "next": [
+        [
+          "1013",
+          "use Unremarkable Teacup"
+        ]
+      ]
+    },
+    "profile": {
+      "height": "0.1 m",
+      "weight": "1.1 kg",
+      "egg": [
+        "Mineral",
+        "Indeterminate"
+      ],
+      "ability": [
+        [
+          "Hospitality",
+          "false"
+        ],
+        [
+          "Heatproof",
+          "true"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1012.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1012.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1012.png"
+    }
+  },
+  {
+    "id": 1013,
+    "name": {
+      "english": "Sinistcha",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Grass",
+      "Ghost"
+    ],
+    "base": {
+      "HP": 71,
+      "Attack": 60,
+      "Defense": 106,
+      "Sp. Attack": 121,
+      "Sp. Defense": 80,
+      "Speed": 70
+    },
+    "species": "Matcha Pokémon",
+    "description": "It pretends to be tea, trying to fool people into drinking it so it can drain their life-force. Its ruse is generally unsuccessful.",
+    "evolution": {
+      "prev": [
+        "1012",
+        "use Unremarkable Teacup"
+      ]
+    },
+    "profile": {
+      "height": "0.2 m",
+      "weight": "2.2 kg",
+      "egg": [
+        "Mineral",
+        "Indeterminate"
+      ],
+      "ability": [
+        [
+          "Hospitality",
+          "false"
+        ],
+        [
+          "Heatproof",
+          "true"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1013.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1013.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1013.png"
+    }
+  },
+  {
+    "id": 1014,
+    "name": {
+      "english": "Okidogi",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Poison",
+      "Fighting"
+    ],
+    "base": {
+      "HP": 88,
+      "Attack": 128,
+      "Defense": 115,
+      "Sp. Attack": 58,
+      "Sp. Defense": 86,
+      "Speed": 80
+    },
+    "species": "Retainer Pokémon",
+    "description": "After all its muscles were stimulated by the toxic chain around its neck, Okidogi transformed and gained a powerful physique.",
+    "evolution": {},
+    "profile": {
+      "height": "1.8 m",
+      "weight": "92.2 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Toxic Chain",
+          "false"
+        ],
+        [
+          "Guard Dog",
+          "true"
+        ]
+      ],
+      "gender": "100:0"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1014.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1014.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1014.png"
+    }
+  },
+  {
+    "id": 1015,
+    "name": {
+      "english": "Munkidori",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Poison",
+      "Psychic"
+    ],
+    "base": {
+      "HP": 88,
+      "Attack": 75,
+      "Defense": 66,
+      "Sp. Attack": 130,
+      "Sp. Defense": 90,
+      "Speed": 106
+    },
+    "species": "Retainer Pokémon",
+    "description": "The chain is made from toxins that enhance capabilities. It stimulated Munkidori's brain and caused the Pokémon's psychic powers to bloom.",
+    "evolution": {},
+    "profile": {
+      "height": "1 m",
+      "weight": "12.2 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Toxic Chain",
+          "false"
+        ],
+        [
+          "Frisk",
+          "true"
+        ]
+      ],
+      "gender": "100:0"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1015.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1015.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1015.png"
+    }
+  },
+  {
+    "id": 1016,
+    "name": {
+      "english": "Fezandipiti",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Poison",
+      "Fairy"
+    ],
+    "base": {
+      "HP": 88,
+      "Attack": 91,
+      "Defense": 82,
+      "Sp. Attack": 70,
+      "Sp. Defense": 125,
+      "Speed": 99
+    },
+    "species": "Retainer Pokémon",
+    "description": "Fezandipiti owes its beautiful looks and lovely voice to the toxic stimulants emanating from the chain wrapped around its body.",
+    "evolution": {},
+    "profile": {
+      "height": "1.4 m",
+      "weight": "30.1 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Toxic Chain",
+          "false"
+        ],
+        [
+          "Technician",
+          "true"
+        ]
+      ],
+      "gender": "100:0"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1016.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1016.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1016.png"
+    }
+  },
+  {
+    "id": 1017,
+    "name": {
+      "english": "Ogerpon",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Grass"
+    ],
+    "base": {
+      "HP": 80,
+      "Attack": 120,
+      "Defense": 84,
+      "Sp. Attack": 60,
+      "Sp. Defense": 96,
+      "Speed": 110
+    },
+    "species": "Mask Pokémon",
+    "description": "This Pokémon's type changes based on which mask it's wearing. It confounds its enemies with nimble movements and kicks.",
+    "evolution": {},
+    "profile": {
+      "height": "1.2 m",
+      "weight": "39.8 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Defiant",
+          "false"
+        ]
+      ],
+      "gender": "0:100"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1017.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1017.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1017.png"
+    }
+  },
+  {
+    "id": 1018,
+    "name": {
+      "english": "Archaludon",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Steel",
+      "Dragon"
+    ],
+    "base": {
+      "HP": 90,
+      "Attack": 105,
+      "Defense": 130,
+      "Sp. Attack": 125,
+      "Sp. Defense": 65,
+      "Speed": 85
+    },
+    "species": "Alloy Pokémon",
+    "description": "It gathers static electricity from its surroundings. The beams it launches when down on all fours are tremendously powerful.",
+    "evolution": {
+      "prev": [
+        "884",
+        "use Metal Alloy"
+      ]
+    },
+    "profile": {
+      "height": "2 m",
+      "weight": "60 kg",
+      "egg": [
+        "Mineral",
+        "Dragon"
+      ],
+      "ability": [
+        [
+          "Stamina",
+          "false"
+        ],
+        [
+          "Sturdy",
+          "false"
+        ],
+        [
+          "Stalwart",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1018.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1018.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1018.png"
+    }
+  },
+  {
+    "id": 1019,
+    "name": {
+      "english": "Hydrapple",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Grass",
+      "Dragon"
+    ],
+    "base": {
+      "HP": 106,
+      "Attack": 80,
+      "Defense": 110,
+      "Sp. Attack": 120,
+      "Sp. Defense": 80,
+      "Speed": 44
+    },
+    "species": "Apple Hydra Pokémon",
+    "description": "Seven syrpents live inside an apple made of syrup. The syrpent in the center is the commander.",
+    "evolution": {
+      "prev": [
+        "1011",
+        "Level Up"
+      ]
+    },
+    "profile": {
+      "height": "1.8 m",
+      "weight": "93 kg",
+      "egg": [
+        "Plant",
+        "Dragon"
+      ],
+      "ability": [
+        [
+          "Supersweet Syrup",
+          "false"
+        ],
+        [
+          "Regenerator",
+          "false"
+        ],
+        [
+          "Sticky Hold",
+          "true"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1019.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1019.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1019.png"
+    }
+  },
+  {
+    "id": 1020,
+    "name": {
+      "english": "Gouging Fire",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Fire",
+      "Dragon"
+    ],
+    "base": {
+      "HP": 105,
+      "Attack": 115,
+      "Defense": 121,
+      "Sp. Attack": 65,
+      "Sp. Defense": 93,
+      "Speed": 91
+    },
+    "species": "Paradox Pokémon",
+    "description": "There are scant few reports of this creature being sighted. One short video shows it rampaging and spouting pillars of flame.",
+    "evolution": {},
+    "profile": {
+      "height": "3.5 m",
+      "weight": "590 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Protosynthesis",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1020.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1020.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1020.png"
+    }
+  },
+  {
+    "id": 1021,
+    "name": {
+      "english": "Raging Bolt",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Electric",
+      "Dragon"
+    ],
+    "base": {
+      "HP": 125,
+      "Attack": 73,
+      "Defense": 91,
+      "Sp. Attack": 137,
+      "Sp. Defense": 89,
+      "Speed": 75
+    },
+    "species": "Paradox Pokémon",
+    "description": "It's said to incinerate everything around it with lightning launched from its fur. Very little is known about this creature.",
+    "evolution": {},
+    "profile": {
+      "height": "5.2 m",
+      "weight": "480 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Protosynthesis",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1021.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1021.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1021.png"
+    }
+  },
+  {
+    "id": 1022,
+    "name": {
+      "english": "Iron Boulder",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Rock",
+      "Psychic"
+    ],
+    "base": {
+      "HP": 90,
+      "Attack": 120,
+      "Defense": 80,
+      "Sp. Attack": 68,
+      "Sp. Defense": 108,
+      "Speed": 124
+    },
+    "species": "Paradox Pokémon",
+    "description": "It resembles a Pokémon described in a dubious magazine as a Terrakion that had been modified by an evil organization.",
+    "evolution": {},
+    "profile": {
+      "height": "1.5 m",
+      "weight": "162.5 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Quark Drive",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1022.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1022.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1022.png"
+    }
+  },
+  {
+    "id": 1023,
+    "name": {
+      "english": "Iron Crown",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Steel",
+      "Psychic"
+    ],
+    "base": {
+      "HP": 90,
+      "Attack": 72,
+      "Defense": 100,
+      "Sp. Attack": 122,
+      "Sp. Defense": 108,
+      "Speed": 98
+    },
+    "species": "Paradox Pokémon",
+    "description": "It resembles a mysterious object introduced in a paranormal magazine as a cutting-edge weapon shaped like a Cobalion.",
+    "evolution": {},
+    "profile": {
+      "height": "1.6 m",
+      "weight": "156 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Quark Drive",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1023.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1023.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1023.png"
+    }
+  },
+  {
+    "id": 1024,
+    "name": {
+      "english": "Terapagos",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Normal"
+    ],
+    "base": {
+      "HP": 90,
+      "Attack": 65,
+      "Defense": 85,
+      "Sp. Attack": 65,
+      "Sp. Defense": 85,
+      "Speed": 60
+    },
+    "species": "Tera Pokémon",
+    "description": "Terapagos protects itself using its power to transform energy into hard crystals. This Pokémon is the source of the Terastal phenomenon.",
+    "evolution": {},
+    "profile": {
+      "height": "0.2 m",
+      "weight": "6.5 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Tera Shift",
+          "false"
+        ]
+      ],
+      "gender": "50:50"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1024.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1024.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1024.png"
+    }
+  },
+  {
+    "id": 1025,
+    "name": {
+      "english": "Pecharunt",
+      "japanese": "",
+      "chinese": "",
+      "french": ""
+    },
+    "type": [
+      "Poison",
+      "Ghost"
+    ],
+    "base": {
+      "HP": 88,
+      "Attack": 88,
+      "Defense": 160,
+      "Sp. Attack": 88,
+      "Sp. Defense": 88,
+      "Speed": 88
+    },
+    "species": "Subjugation Pokémon",
+    "description": "It feeds others toxic mochi that draw out desires and capabilities. Those who eat the mochi fall under Pecharunt’s control, chained to its will.",
+    "evolution": {},
+    "profile": {
+      "height": "0.3 m",
+      "weight": "0.3 kg",
+      "egg": [
+        "No Eggs"
+      ],
+      "ability": [
+        [
+          "Poison Puppeteer",
+          "false"
+        ]
+      ],
+      "gender": "Genderless"
+    },
+    "image": {
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1025.png",
+      "thumbnail": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1025.png",
+      "hires": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1025.png"
+    }
   }
 ]
