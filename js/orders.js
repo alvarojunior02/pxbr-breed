@@ -55,6 +55,7 @@ applyMoneyMask(orderPaidAmount);
 const createOrderModal = document.getElementById("createOrderModal");
 const btnOpenCreateOrderModal = document.getElementById("btnOpenCreateOrderModal");
 const btnCancelCreateOrder = document.getElementById("btnCancelCreateOrder");
+const btnClearCreateOrder = document.getElementById("btnClearCreateOrder");
 
 const orderDetailsModal = document.getElementById("orderDetailsModal");
 const orderDetailsContent = document.getElementById("orderDetailsContent");
@@ -164,6 +165,7 @@ function applyMoneyMask(input) {
     });
 }
 
+// UPDATE POKEMON ROW LABELS
 function updatePokemonRowLabels() {
     const rows =
         document.querySelectorAll(".pokemon-order-row");
@@ -172,9 +174,17 @@ function updatePokemonRowLabels() {
         const label =
             row.querySelector(".pokemon-label");
 
+        const removeButton =
+            row.querySelector(".btn-remove-pokemon");
+
         if (label) {
             label.textContent =
                 `Pokémon ${index + 1}`;
+        }
+
+        if (removeButton) {
+            removeButton.textContent =
+                `Remover Pokémon ${index + 1}`;
         }
     });
 }
@@ -1551,25 +1561,22 @@ function createPokemonOrderRow() {
 
         <br><br>
 
-        <label>
-
+        <label class="checkbox-row">
             <input
                 type="checkbox"
                 class="pokemon-breedable"
-                disabled
-            >
+                disabled>
 
             Breedável
-
         </label>
 
         <br><br>
 
         <button
             type="button"
-            class="btn-remove-pokemon">
+            class="btn-remove-pokemon button-danger">
 
-            Remover
+            Remover Pokémon
 
         </button>
     `;
@@ -1892,7 +1899,15 @@ btnOpenCreateOrderModal.addEventListener(
 
 btnCancelCreateOrder.addEventListener(
     "click",
-    closeCreateOrderModal
+    () => {
+        resetOrderForm();
+        closeCreateOrderModal();
+    }
+);
+
+btnClearCreateOrder.addEventListener(
+    "click",
+    resetOrderForm
 );
 
 btnCancelOrder.addEventListener(

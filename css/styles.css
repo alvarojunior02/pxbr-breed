@@ -403,3 +403,54 @@ button:disabled {
 #createOrderModal .modal-content {
     width: 900px;
 }
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 420px;
+}
+
+.checkbox-row input[type="checkbox"] {
+    width: auto;
+    max-width: none;
+}
+
+.form-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.button-secondary {
+    background: #475569;
+    margin-left: auto;
+}
+
+.button-secondary:hover {
+    background: #334155;
+}
+
+.button-success {
+    background: #16a34a;
+}
+
+.button-success:hover {
+    background: #15803d;
+}
+
+.button-danger {
+    background: #dc2626;
+}
+
+.button-danger:hover {
+    background: #b91c1c;
+}
+
+.btn-remove-pokemon {
+    margin-bottom: 12px;
+}
+
+#btnAddPokemon {
+    margin-top: 8px;
+}

@@ -59,7 +59,7 @@
                         <h2>Dashboard</h2>
 
                         <p>
-                            Gerencie métricas.
+                            Acompanhe métricas, status das breeds e valores das encomendas.
                         </p>
                     </div>
 
@@ -251,15 +251,15 @@
 
                 <div>
 
-                    <label>
+                    <label class="checkbox-row">
+                        <input
+                            type="checkbox"
+                            id="hasDiscount">
+
                         Desconto
                     </label>
 
-                    <input
-                        type="checkbox"
-                        id="hasDiscount">
-
-                    <br><br>
+                    <br>
 
                     <input
                         type="text"
@@ -287,20 +287,33 @@
 
                 <br>
 
-                <button
-                    type="button"
-                    id="btnCancelCreateOrder">
+                <div class="form-actions">
+                    <button
+                        type="button"
+                        id="btnCancelCreateOrder">
 
-                    Cancelar
+                        Cancelar
 
-                </button>
+                    </button>
 
-                <button
-                    type="button"
-                    id="btnCreateOrder">
+                    <button
+                        type="button"
+                        id="btnCreateOrder"
+                        class="button-success">
 
-                    Criar Encomenda
-                </button>
+                        Criar Encomenda
+
+                    </button>
+
+                    <button
+                        type="button"
+                        id="btnClearCreateOrder"
+                        class="button-secondary">
+
+                        Limpar
+
+                    </button>
+                </div>
                 
             </div>
 
