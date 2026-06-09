@@ -138,7 +138,13 @@ function renderOrderDetails(order) {
 
         <hr>
 
-        ${pokemonHtml}
+        <h3 class="order-details-section-title">
+            Pokémons
+        </h3>
+
+        <div class="order-details-pokemon-grid">
+            ${pokemonHtml}
+        </div>
     `;
 }
 
@@ -147,6 +153,8 @@ function createPokemonDetailsCard(
     pokemon
 ) {
     const nature = getNatureByName(pokemon.nature);
+
+    const nextStatus = getNextStatus(pokemon.status);
 
     const thumbnail = getPokemonThumbnail(pokemon.pokemonId);
 
@@ -171,19 +179,30 @@ function createPokemonDetailsCard(
 
             <p>
                 Nature:
-                ${nature.name}
+                <strong>${nature.name}</strong>
+
+                ${
+                    nature.neutral
+                        ? `
+                            <span class="nature-neutral">
+                                (Neutral)
+                            </span>
+                        `
+                        : `
+                            <span class="nature-positive">
+                                (+${nature.positive})
+                            </span>
+
+                            <span class="nature-negative">
+                                (-${nature.negative})
+                            </span>
+                        `
+                }
             </p>
 
             <p>
                 Ability:
                 ${renderAbilityText(pokemon.ability)}
-            </p>
-
-            <p>
-                Status:
-                <span class="${getOrderStatusClass(pokemon.status)}">
-                    ${getStatusByValue(pokemon.status).name}
-                </span>
             </p>
 
             <p>
@@ -194,27 +213,33 @@ function createPokemonDetailsCard(
             </p>
 
             <p>
-                Breedável:
-                ${
-                    pokemon.breedable
-                        ? "Sim"
-                        : "Não"
-                }
+                ${renderBreedableText(pokemon.breedable)}
             </p>
 
-        </div>
+            <div class="pokemon-details-status">
+                <p>
+                    Status:
+                    <span class="${getOrderStatusClass(pokemon.status)}">
+                        ${getStatusByValue(pokemon.status).name}
+                    </span>
+                </p>
 
-        ${
-            canAdvanceStatus
-                ? `
-                <button
-                    type="button"
-                    onclick="openStatusConfirmModal(window.currentOrderId, '${pokemon.id}')">
-                    Avançar Status
-                </button>
-                `
-                : ""
-        }
+                ${
+                    canAdvanceStatus
+                        ? `
+                            <button
+                                type="button"
+                                class="status-action-button ${nextStatus.cssClass}"
+                                onclick="openStatusConfirmModal(window.currentOrderId, '${pokemon.id}')">
+
+                                ${getNextStatusButtonText(pokemon.status)}
+
+                            </button>
+                        `
+                        : ""
+                }
+            </div>
+        </div>
     `;
 }
 

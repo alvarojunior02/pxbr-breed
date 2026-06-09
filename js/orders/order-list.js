@@ -208,7 +208,8 @@ function createOrderCard(order) {
                     ? `
                         <button
                             type="button"
-                            onclick="openPaymentModal('${order.id}')">
+                            onclick="openPaymentModal('${order.id}')"
+                            class="button-success">
 
                             Pagamento
 
@@ -222,7 +223,8 @@ function createOrderCard(order) {
                     ? `
                         <button
                             type="button"
-                            onclick="archiveOrder('${order.id}')">
+                            onclick="archiveOrder('${order.id}')"
+                            class="button-archive">
 
                             Arquivar
 

@@ -853,11 +853,7 @@ function renderOrderSummary(order) {
                         </p>
 
                         <p>
-                            ${
-                                pokemon.breedable
-                                    ? "Breedável"
-                                    : "Castrado"
-                            }
+                            ${renderBreedableText(pokemon.breedable)}
                         </p>
 
                         <p>

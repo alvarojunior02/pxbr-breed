@@ -63,7 +63,7 @@ function getArchiveReadyHtml(order) {
 
     return `
         <p class="archive-ready">
-            Encomenda totalmente concluída — pode ser arquivada.
+            Encomenda concluída, pronta para ser arquivada.
         </p>
     `;
 }
@@ -165,4 +165,35 @@ function renderAbilityText(ability) {
                 : ""
         }
     `;
+}
+
+// RENDER BREEDABLE TEXT
+function renderBreedableText(isBreedable) {
+    return isBreedable
+        ? `
+            <span class="breedable-yes">
+                Breedável
+            </span>
+        `
+        : `
+            <span class="breedable-no">
+                Castrado
+            </span>
+        `;
+}
+
+// GET NEXT STATUS BUTTON TEXT
+function getNextStatusButtonText(statusValue) {
+    const nextStatus =
+        getNextStatus(statusValue);
+
+    if (!nextStatus) {
+        return "";
+    }
+
+    if (nextStatus.value === "DELIVERED") {
+        return "Marcar como Entregue";
+    }
+
+    return `Avançar para ${nextStatus.name}`;
 }

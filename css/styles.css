@@ -455,7 +455,7 @@ button:disabled {
 }
 
 .archive-ready {
-    color: var(--success);
+    color: var(--text-soft);
     font-weight: bold;
 }
 
@@ -902,4 +902,72 @@ button:disabled {
         align-items: flex-start;
         flex-direction: column;
     }
+}
+
+.order-details-section-title {
+    margin-top: 20px;
+    margin-bottom: 12px;
+}
+
+.order-details-pokemon-grid {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(260px, 1fr)
+    );
+    gap: 16px;
+}
+
+.pokemon-details-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.pokemon-details-status {
+    margin-top: auto;
+    padding-top: 12px;
+}
+
+.status-action-button {
+    width: 100%;
+    margin-top: 8px;
+}
+
+.status-action-button.status-ready {
+    background: #d4a017;
+    color: #111827;
+}
+
+.status-action-button.status-progress {
+    background: #0ea5e9;
+}
+
+.status-action-button.status-done {
+    background: #22c55e;
+}
+
+.status-action-button.status-delivered {
+    background: #64748b;
+}
+
+.breedable-yes {
+    color: #86efac;
+    font-weight: bold;
+}
+
+.breedable-no {
+    color: #fca5a5;
+    font-weight: bold;
+}
+
+.button-archive {
+    background: #64748b;
+}
+
+.button-archive:hover {
+    background: #475569;
+}
+
+#paymentAmount {
+    margin-top: 8px;
 }
