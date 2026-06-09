@@ -65,6 +65,7 @@ const btnConfirmStatusChange = document.getElementById("btnConfirmStatusChange")
 
 const orderSearchPlayer = document.getElementById("orderSearchPlayer");
 const orderStatusFilter = document.getElementById("orderStatusFilter");
+const orderArchiveFilter = document.getElementById("orderArchiveFilter");
 
 const paymentModal = document.getElementById("paymentModal");
 const paymentSummary = document.getElementById("paymentSummary");
@@ -456,6 +457,7 @@ function canArchiveOrder(order) {
     return isPaid && allPokemonsDelivered && !order.archived;
 }
 
+// GET ARCHIVE READY HTML
 function getArchiveReadyHtml(order) {
     if (!canArchiveOrder(order)) {
         return "";
@@ -532,22 +534,25 @@ function resetOrderForm() {
 
 // GET FILTERED ORDERS
 function getFilteredOrders() {
-    const orders =
-        loadOrders();
+    const orders = loadOrders();
 
-    const players =
-        loadPlayers();
+    const players = loadPlayers();
 
     const searchTerm =
         orderSearchPlayer.value
             .trim()
             .toLowerCase();
 
-    const selectedStatus =
-        orderStatusFilter.value;
+    const selectedStatus = orderStatusFilter.value;
+
+    const archiveFilter = orderArchiveFilter.value;
 
     return orders.filter(order => {
-        if (order.archived) {
+        if (archiveFilter === "active" && order.archived) {
+            return false;
+        }
+
+        if (archiveFilter === "archived" && !order.archived) {
             return false;
         }
 
@@ -1031,6 +1036,16 @@ function createOrderCard(order) {
             .join("");
 
     return `
+        ${
+            order.archived
+                ? `
+                    <p class="archived-label">
+                        Arquivada
+                    </p>
+                `
+                : ""
+        }
+        
         <h3>
             Pedido #${order.id.slice(0, 8)}
             <span style="font-weight: normal;">
@@ -1937,6 +1952,11 @@ orderSearchPlayer.addEventListener(
 );
 
 orderStatusFilter.addEventListener(
+    "change",
+    renderOrdersList
+);
+
+orderArchiveFilter.addEventListener(
     "change",
     renderOrdersList
 );

@@ -192,8 +192,13 @@
     font-weight: bold;
 }
 
-#dashboardCards {
+.archived-label {
+    color: #495057;
+    font-weight: bold;
+    margin-top: 0;
+}
 
+#dashboardCards {
     display: grid;
 
     grid-template-columns:
