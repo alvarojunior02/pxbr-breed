@@ -28,7 +28,7 @@ window.orderPaidAmount = document.getElementById("orderPaidAmount");
 
 window.orderTotal = document.getElementById("orderTotal");
 
-window.btnOpenCreateOrderModal =
+window.btnOpenCreateOrderModal = 
     document.querySelectorAll(".btn-open-create-order-modal");
 
 window.createOrderModal = document.getElementById("createOrderModal");
@@ -36,6 +36,8 @@ window.createOrderModal = document.getElementById("createOrderModal");
 window.btnCancelCreateOrder = document.getElementById("btnCancelCreateOrder");
 
 window.btnClearCreateOrder = document.getElementById("btnClearCreateOrder");
+
+window.btnQuickNewPlayer = document.getElementById("btnQuickNewPlayer");
 
 
 // ==============================

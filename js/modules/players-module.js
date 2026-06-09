@@ -13,6 +13,8 @@ const playerTransactionsModal = document.getElementById("playerTransactionsModal
 const playerTransactionsContent = document.getElementById("playerTransactionsContent");
 const btnClosePlayerTransactions = document.getElementById("btnClosePlayerTransactions");
 
+let shouldSelectCreatedPlayerOnOrderForm = false;
+
 function getPlayerOrders(playerId) {
     return loadOrders()
         .filter(order =>
@@ -132,7 +134,11 @@ function renderPlayersModule() {
     });
 }
 
-function openNewPlayerModal() {
+function openNewPlayerModal(
+    selectOnOrderForm = false
+) {
+    shouldSelectCreatedPlayerOnOrderForm = selectOnOrderForm;
+
     newPlayerNick.value = "";
 
     newPlayerModal.classList.remove("hidden");
@@ -149,9 +155,18 @@ function saveNewPlayerFromModal() {
         newPlayerNick.value.trim();
 
     try {
-        addPlayer(nick);
+        const player = addPlayer(nick);
+
+        if (
+            shouldSelectCreatedPlayerOnOrderForm &&
+            typeof selectOrderPlayer === "function"
+        ) {
+            selectOrderPlayer(player);
+        }
 
         closeNewPlayerModal();
+
+        shouldSelectCreatedPlayerOnOrderForm = false;
 
         renderPlayersModule();
 
@@ -377,3 +392,4 @@ window.renderPlayersModule = renderPlayersModule;
 window.showPlayerOrders = showPlayerOrders;
 window.openPlayerSummaryModal = openPlayerSummaryModal;
 window.openPlayerTransactionsModal = openPlayerTransactionsModal;
+window.openNewPlayerModal = openNewPlayerModal;

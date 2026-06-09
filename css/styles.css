@@ -1171,3 +1171,7 @@ button:disabled {
     border: 1px solid var(--border);
     background: var(--sidebar-bg);
 }
+
+.quick-new-player-button {
+    margin-top: 8px;
+}

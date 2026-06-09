@@ -916,6 +916,19 @@ function closeCreateOrderModal() {
     createOrderModal.classList.add("hidden");
 }
 
+// SELECT ORDER PLAYER
+function selectOrderPlayer(player) {
+    orderPlayer.value = player.id;
+
+    orderPlayerSearch.value = player.nick;
+
+    orderPlayerResults.innerHTML = "";
+
+    renderSelectedPlayerInfo(player);
+
+    updateOrderFormAvailability();
+}
+
 btnAddPokemon.addEventListener(
     "click",
     () => {
@@ -1097,6 +1110,13 @@ orderPlayer.addEventListener(
     updateOrderFormAvailability
 );
 
+btnQuickNewPlayer.addEventListener(
+    "click",
+    () => {
+        openNewPlayerModal(true);
+    }
+);
+
 document 
     .querySelectorAll(
         "input[name='needsFemale']"
@@ -1118,3 +1138,4 @@ document
     );
 
 window.openCreateOrderModal = openCreateOrderModal;
+window.selectOrderPlayer = selectOrderPlayer;
