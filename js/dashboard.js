@@ -30,8 +30,9 @@ function getPokemonStatusCounts(
 }
 
 function getDashboardMetrics() {
-    const orders =
-        loadOrders();
+    const orders = loadOrders();
+
+    const players = loadPlayers();
 
     const activeOrders =
         orders.filter(
@@ -45,38 +46,30 @@ function getDashboardMetrics() {
                 order.archived
         );
 
-    const allActivePokemons =
+    const activePokemons =
         activeOrders.flatMap(
+            order =>
+                order.pokemons
+        );
+
+    const archivedPokemons =
+        archivedOrders.flatMap(
             order =>
                 order.pokemons
         );
 
     const totalReceived =
         orders.reduce(
-            (
-                sum,
-                order
-            ) =>
-                sum +
-                (
-                    order.paidAmount || 0
-                ),
+            (sum, order) =>
+                sum + (order.paidAmount || 0),
             0
         );
 
     const totalPending =
         activeOrders.reduce(
-            (
-                sum,
-                order
-            ) =>
-                sum +
-                Math.max(
-                    order.total -
-                    (
-                        order.paidAmount ||
-                        0
-                    ),
+            (sum, order) =>
+                sum + Math.max(
+                    order.total - (order.paidAmount || 0),
                     0
                 ),
             0
@@ -84,166 +77,184 @@ function getDashboardMetrics() {
 
     const activeOrdersValue =
         activeOrders.reduce(
-            (
-                sum,
-                order
-            ) =>
-                sum +
-                order.total,
+            (sum, order) =>
+                sum + order.total,
+            0
+        );
+
+    const archivedOrdersValue =
+        archivedOrders.reduce(
+            (sum, order) =>
+                sum + order.total,
             0
         );
 
     return {
-
         activeOrders:
             activeOrders.length,
+
+        activePokemons:
+            activePokemons.length,
+
+        players:
+            players.length,
 
         archivedOrders:
             archivedOrders.length,
 
-        activePokemons:
-            allActivePokemons.length,
+        activeOrdersValue,
 
         totalReceived,
 
         totalPending,
 
-        activeOrdersValue,
+        archivedOrdersValue,
 
-        statusCounts:
+        activeStatusCounts:
             getPokemonStatusCounts(
-                allActivePokemons
-            )
+                activePokemons
+            ),
 
+        archivedStatusCounts:
+            getPokemonStatusCounts(
+                archivedPokemons
+            )
     };
 }
 
+function createDashboardGroup(
+    title,
+    content,
+    extraClass = ""
+) {
+    return `
+        <section class="dashboard-group ${extraClass}">
+            <div class="dashboard-group-title">
+                <h3>
+                    ${title}
+                </h3>
+
+                <span></span>
+            </div>
+
+            <div class="dashboard-group-grid">
+                ${content}
+            </div>
+        </section>
+    `;
+}
+
 function renderDashboard() {
+    const dashboardCards = document.getElementById("dashboardCards");
 
-    const dashboardCards =
-        document.getElementById(
-            "dashboardCards"
-        );
+    const metrics = getDashboardMetrics();
 
-    const metrics =
-        getDashboardMetrics();
+    const overviewCards =
+        `
+        <div class="dashboard-card">
+            <strong>Ativas</strong>
+            <span>${metrics.activeOrders}</span>
+        </div>
+
+        <div class="dashboard-card">
+            <strong>Pokémons em Breed</strong>
+            <span>${metrics.activePokemons}</span>
+        </div>
+
+        <div class="dashboard-card">
+            <strong>Players</strong>
+            <span>${metrics.players}</span>
+        </div>
+
+        <div class="dashboard-card">
+            <strong>Arquivadas</strong>
+            <span>${metrics.archivedOrders}</span>
+        </div>
+    `;
+
+    const financeCards =
+        `
+        <div class="dashboard-card">
+            <strong>Ativas</strong>
+            <span>${formatMoney(metrics.activeOrdersValue)}</span>
+        </div>
+
+        <div class="dashboard-card">
+            <strong>Recebido</strong>
+            <span>${formatMoney(metrics.totalReceived)}</span>
+        </div>
+
+        <div class="dashboard-card">
+            <strong>A Receber</strong>
+            <span>${formatMoney(metrics.totalPending)}</span>
+        </div>
+
+        <div class="dashboard-card">
+            <strong>Arquivadas</strong>
+            <span>${formatMoney(metrics.archivedOrdersValue)}</span>
+        </div>
+    `;
 
     const statusCards =
-        ORDER_STATUS.map(
-            status => `
+        ORDER_STATUS.map(status => {
+            const activeCount =
+                metrics.activeStatusCounts[
+                    status.value
+                ];
+
+            const archivedCount =
+                metrics.archivedStatusCounts[
+                    status.value
+                ];
+
+            const archivedHtml =
+                status.value === "DELIVERED" &&
+                archivedCount > 0
+                    ? `
+                        <small class="dashboard-archived-count">
+                            (+${archivedCount} Arquiv.)
+                        </small>
+                    `
+                    : "";
+
+            const statusLabel =
+                status.value === "NEEDS_FEMALE"
+                    ? "Precisa Cap. F"
+                    : status.name;   
+
+            return `
                 <button
                     type="button"
                     class="dashboard-card dashboard-card-button"
                     onclick="filterOrdersByStatus('${status.value}')">
 
                     <strong class="${status.cssClass}">
-                        ${status.name}
+                        ${statusLabel}
                     </strong>
 
                     <span>
-                        ${metrics.statusCounts[status.value]}
+                        ${activeCount}
+                        ${archivedHtml}
                     </span>
 
                 </button>
-            `
-        ).join("");
+            `;
+        }).join("");
 
     dashboardCards.innerHTML =
-        `
-        <div
-            class="dashboard-card">
-
-            <strong>
-                Encomendas Ativas
-            </strong>
-
-            <span>
-                ${metrics.activeOrders}
-            </span>
-
-        </div>
-
-        <div
-            class="dashboard-card">
-
-            <strong>
-                Pokémons Ativos
-            </strong>
-
-            <span>
-                ${metrics.activePokemons}
-            </span>
-
-        </div>
-
-        <div
-            class="dashboard-card">
-
-            <strong>
-                Valor em Encomendas
-            </strong>
-
-            <span>
-                ${
-                    formatMoney(
-                        metrics.activeOrdersValue
-                    )
-                }
-            </span>
-
-        </div>
-
-        <div
-            class="dashboard-card">
-
-            <strong>
-                Total Recebido
-            </strong>
-
-            <span>
-                ${
-                    formatMoney(
-                        metrics.totalReceived
-                    )
-                }
-            </span>
-
-        </div>
-
-        <div
-            class="dashboard-card">
-
-            <strong>
-                Total A Receber
-            </strong>
-
-            <span>
-                ${
-                    formatMoney(
-                        metrics.totalPending
-                    )
-                }
-            </span>
-
-        </div>
-
-        <div
-            class="dashboard-card">
-
-            <strong>
-                Arquivadas
-            </strong>
-
-            <span>
-                ${
-                    metrics.archivedOrders
-                }
-            </span>
-
-        </div>
-
-        ${statusCards}
-    `;
+        createDashboardGroup(
+            "Resumo geral",
+            overviewCards
+        ) +
+        createDashboardGroup(
+            "Valores",
+            financeCards
+        ) +
+        createDashboardGroup(
+            "Status das Breeds",
+            statusCards,
+            "dashboard-status-group"
+        );
 
     renderDashboardRecentOrders();
 }

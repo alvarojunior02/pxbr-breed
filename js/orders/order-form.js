@@ -329,6 +329,7 @@ function resetOrderForm() {
     orderPaid.checked = false;
     orderPaidAmount.value = formatMoney(0);
     orderPaidAmount.style.display = "none";
+    orderPaidAmountLabel.style.display = "none";
 
     pokemonOrderList.innerHTML = "";
 
@@ -1066,15 +1067,15 @@ orderPaid.addEventListener("change", () => {
         const total = unformatMoney(orderTotal.textContent);
 
         orderPaidAmount.value = formatMoney(total);
-
         orderPaidAmount.style.display = "block";
+        orderPaidAmountLabel.style.display = "block";
 
         return;
     }
 
     orderPaidAmount.value = formatMoney(0);
-
     orderPaidAmount.style.display = "none";
+    orderPaidAmountLabel.style.display = "none";
 });
 
 orderPlayer.addEventListener(
