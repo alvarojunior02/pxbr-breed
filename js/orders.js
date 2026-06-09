@@ -184,7 +184,7 @@ function updatePokemonRowLabels() {
 
         if (removeButton) {
             removeButton.textContent =
-                `Remover Pokémon ${index + 1}`;
+                "- Remover";
         }
     });
 }
@@ -238,6 +238,7 @@ function renderAbilityText(ability) {
     `;
 }
 
+// GET POKEMON DATA ROW DATA
 function getPokemonRowData(row) {
     const valueInput = row.querySelector(".pokemon-value");
     const natureSelect = row.querySelector(".pokemon-nature");
@@ -517,38 +518,30 @@ function validatePaymentAmount(order, amount) {
 // RESET ORDER FORM
 function resetOrderForm() {
     orderPlayer.value = "";
-
     orderPlayerSearch.value = "";
-
     orderPlayerResults.innerHTML = "";
 
     hasDiscount.checked = false;
-
     discountValue.value = formatMoney(0);
-
     discountValue.style.display = "none";
-
-    pokemonOrderList.innerHTML = "";
-
-    document
-        .querySelectorAll(
-            "input[name='needsFemale']"
-        )
-        .forEach(
-            radio =>
-                radio.checked =
-                    false
-        );
-
-    btnConfirmOrder.disabled = true;
-
-    document.getElementById("orderObservations").value = "";
 
     orderPaid.checked = false;
     orderPaidAmount.value = formatMoney(0);
     orderPaidAmount.style.display = "none";
 
+    pokemonOrderList.innerHTML = "";
+
+    document
+        .querySelectorAll("input[name='needsFemale']")
+        .forEach(radio => {
+            radio.checked = false;
+        });
+
+    btnConfirmOrder.disabled = true;
+
     createPokemonOrderRow();
+
+    updateOrderFormAvailability();
 
     calculateOrderTotal();
 }
@@ -1481,104 +1474,95 @@ function createPokemonOrderRow() {
     );
 
     row.innerHTML = `
-        <hr>
+        <div class="pokemon-row-card">
 
-        <label class="pokemon-label">
-            Pokémon
-        </label>
+            <div class="pokemon-row-header">
+                <label class="pokemon-label">
+                    Pokémon
+                </label>
 
-        <br>
+                <button
+                    type="button"
+                    class="btn-remove-pokemon button-danger hidden">
 
-        <input
-            type="text"
-            class="pokemon-search"
-            placeholder="Nome ou ID">
+                    - Remover
 
-        <div
-            class="pokemon-autocomplete">
+                </button>
+            </div>
+
+            <div class="pokemon-main-grid">
+                <div>
+                    <input
+                        type="text"
+                        class="pokemon-search"
+                        placeholder="Nome ou ID">
+
+                    <div class="pokemon-autocomplete"></div>
+                </div>
+
+                <label class="checkbox-row pokemon-breedable-wrapper hidden">
+                    <input
+                        type="checkbox"
+                        class="pokemon-breedable"
+                        disabled>
+
+                    Breedável
+                </label>
+            </div>
+
+            <div
+                class="pokemon-selected-info">
+            </div>
+
+            <div class="pokemon-extra-fields hidden">
+
+                <div>
+                    <label>
+                        Nature
+                    </label>
+
+                    <select
+                        class="pokemon-nature"
+                        disabled>
+
+                        <option value="">
+                            Selecione um Pokémon primeiro
+                        </option>
+
+                    </select>
+                </div>
+
+                <div>
+                    <label>
+                        Ability
+                    </label>
+
+                    <select
+                        class="pokemon-ability"
+                        disabled>
+
+                        <option value="">
+                            Selecione um Pokémon primeiro
+                        </option>
+
+                    </select>
+                </div>
+
+                <div>
+                    <label>
+                        Valor
+                    </label>
+
+                    <input
+                        type="text"
+                        class="pokemon-value"
+                        value="${formatMoney(DEFAULT_POKEMON_PRICE)}"
+                        disabled>
+                </div>
+
+            </div>
+
         </div>
-
-        <div
-            class="pokemon-selected-info">
-        </div>
-
-        <br>
-
-        <label>
-            Nature
-        </label>
-
-        <br>
-
-        <select
-            class="pokemon-nature"
-            disabled>
-
-            <option value="">
-                Selecione um Pokémon primeiro
-            </option>
-
-        </select>
-
-        <br>
-
-        <div class="nature-info">
-
-        </div>
-    
-        <br>
-
-        <label>
-            Ability
-        </label>
-
-        <br>
-
-        <select
-            class="pokemon-ability"
-            disabled>
-
-            <option value="">
-                Selecione um Pokémon primeiro
-            </option>
-
-        </select>
-
-        <br><br>
-
-        <label>
-            Valor
-        </label>
-
-        <br>
-
-        <input
-            type="text"
-            class="pokemon-value"
-            value="$ ${DEFAULT_POKEMON_PRICE}"}"
-            disabled
-        >
-
-        <br><br>
-
-        <label class="checkbox-row">
-            <input
-                type="checkbox"
-                class="pokemon-breedable"
-                disabled>
-
-            Breedável
-        </label>
-
-        <br><br>
-
-        <button
-            type="button"
-            class="btn-remove-pokemon button-danger">
-
-            Remover Pokémon
-
-        </button>
     `;
 
     const valueInput = row.querySelector(".pokemon-value");
@@ -1592,11 +1576,13 @@ function createPokemonOrderRow() {
     const removeButton = row.querySelector(".btn-remove-pokemon");
     const abilitySelect = row.querySelector(".pokemon-ability");
     const natureSelect = row.querySelector(".pokemon-nature");
-    const natureInfo = row.querySelector(".nature-info" );
     const breedableToggle = row.querySelector(".pokemon-breedable");
     const pokemonSearchInput = row.querySelector(".pokemon-search");
     const pokemonAutocomplete = row.querySelector(".pokemon-autocomplete");
     const pokemonSelectedInfo = row.querySelector(".pokemon-selected-info");
+
+    const pokemonExtraFields = row.querySelector(".pokemon-extra-fields");
+    const breedableWrapper = row.querySelector(".pokemon-breedable-wrapper");
 
     let selectedPokemon = null;
 
@@ -1605,6 +1591,10 @@ function createPokemonOrderRow() {
         natureSelect.disabled = false;
         valueInput.disabled = false;
         breedableToggle.disabled = false;
+
+        pokemonExtraFields.classList.remove("hidden");
+        breedableWrapper.classList.remove("hidden");
+        removeButton.classList.remove("hidden");
     }
 
     function populateNatureSelect() {
@@ -1627,50 +1617,6 @@ function createPokemonOrderRow() {
 
         natureSelect.value =
             POKEMON_NATURES[0].name;
-
-        updateNatureInfo();
-    }
-
-    function updateNatureInfo() {
-        if (!natureSelect.value) {
-            natureInfo.innerHTML =
-                "";
-
-            return;
-        }
-
-        const selectedNature =
-            POKEMON_NATURES.find(
-                nature =>
-                    nature.name ===
-                    natureSelect.value
-            );
-
-        if (!selectedNature) {
-            return;
-        }
-
-        if (selectedNature.neutral) {
-
-            natureInfo.innerHTML = `
-                <span style="color: gray;">
-                    Nature Neutra
-                </span>
-            `;
-
-            return;
-        }
-        natureInfo.innerHTML = `
-            <span style="color: green;">
-                +${selectedNature.positive}
-            </span>
-
-            |
-
-            <span style="color: red;">
-                -${selectedNature.negative}
-            </span>
-        `;
     }
 
     pokemonSearchInput.addEventListener(
@@ -1758,37 +1704,30 @@ function createPokemonOrderRow() {
             );
 
         pokemonSelectedInfo.innerHTML = `
-            <br>
+            <div class="pokemon-info-card">
+                <img
+                    src="${pokemon.sprite}"
+                    width="64">
 
-            <img
-                src="${pokemon.sprite}"
-                width="64">
+                <div>
+                    <strong>
+                        #${pokemon.id}
+                        ${pokemon.name}
+                    </strong>
 
-            <br>
+                    <p>
+                        Breed Base:
+                        ${basePokemon?.name || "N/A"}
+                    </p>
 
-            <strong>
-                #${pokemon.id}
-                ${pokemon.name}
-            </strong>
-
-            <br>
-
-            Breed Base:
-            ${basePokemon?.name || "N/A"}
-
-            <br>
-
-            Egg Groups:
-            ${pokemon.eggGroups.join(" | ")}
+                    <p>
+                        Egg Groups:
+                        ${pokemon.eggGroups.join(" / ")}
+                    </p>
+                </div>
+            </div>
         `;
     }
-
-    natureSelect.addEventListener(
-        "change",
-        updateNatureInfo
-    );
-
-    updateNatureInfo();
 
     removeButton.addEventListener(
         "click",
