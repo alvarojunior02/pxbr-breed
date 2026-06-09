@@ -78,10 +78,15 @@ const paymentConfirmSummary = document.getElementById("paymentConfirmSummary");
 const btnCancelPaymentConfirm = document.getElementById("btnCancelPaymentConfirm");
 const btnConfirmPaymentRegister = document.getElementById("btnConfirmPaymentRegister");
 
+const archiveConfirmModal = document.getElementById("archiveConfirmModal");
+const btnCancelArchive = document.getElementById("btnCancelArchive");
+const btnConfirmArchive = document.getElementById("btnConfirmArchive");
+
 let selectedOrderId = null;
 let selectedPokemonId = null;
 let selectedPaymentOrderId = null;
 let pendingPaymentAmount = 0;
+let selectedArchiveOrderId = null;
 
 function calculateOrderTotal() {
     const rows =
@@ -364,6 +369,39 @@ function saveOrder(order) {
     saveOrders(orders);
 }
 
+// ARCHIVE ORDER
+function archiveOrder(orderId) {
+    const order =
+        loadOrders().find(
+            order =>
+                order.id === orderId
+        );
+
+    if (!order) {
+        return;
+    }
+
+    if (!canArchiveOrder(order)) {
+        alert(
+            "Esta encomenda ainda não pode ser arquivada."
+        );
+
+        return;
+    }
+
+    selectedArchiveOrderId =
+        orderId;
+
+    archiveConfirmModal.classList.remove(
+        "hidden"
+    );
+}
+
+// CAN REGISTER PAYMENT
+function canRegisterPayment(order) {
+    return (order.paidAmount || 0) < order.total;
+}
+
 // GET PAYMENT STATUS HTML
 function getPaymentStatusHtml(order) {
     const paidAmount =
@@ -404,9 +442,30 @@ function getPaymentStatusHtml(order) {
     `;
 }
 
-// CAN REGISTER PAYMENT
-function canRegisterPayment(order) {
-    return (order.paidAmount || 0) < order.total;
+// CAN ARCHIVE ORDER
+function canArchiveOrder(order) {
+    const isPaid =
+        (order.paidAmount || 0) >= order.total;
+
+    const allPokemonsDelivered =
+        order.pokemons.every(
+            pokemon =>
+                isLastStatus(pokemon.status)
+        );
+
+    return isPaid && allPokemonsDelivered && !order.archived;
+}
+
+function getArchiveReadyHtml(order) {
+    if (!canArchiveOrder(order)) {
+        return "";
+    }
+
+    return `
+        <p class="archive-ready">
+            Encomenda totalmente concluída — pode ser arquivada.
+        </p>
+    `;
 }
 
 // VALIDATE PAYMENT AMOUNT
@@ -471,6 +530,7 @@ function resetOrderForm() {
     calculateOrderTotal();
 }
 
+// GET FILTERED ORDERS
 function getFilteredOrders() {
     const orders =
         loadOrders();
@@ -487,6 +547,10 @@ function getFilteredOrders() {
         orderStatusFilter.value;
 
     return orders.filter(order => {
+        if (order.archived) {
+            return false;
+        }
+
         const player =
             players.find(
                 player =>
@@ -788,6 +852,22 @@ function renderOrderDetails(order) {
             ${getPaymentStatusHtml(order)}
         </p>
 
+        ${getArchiveReadyHtml(order)}
+
+        ${
+            canArchiveOrder(order)
+                ? `
+                    <button
+                        type="button"
+                        onclick="archiveOrder('${order.id}')">
+
+                        Arquivar Encomenda
+
+                    </button>
+                `
+                : ""
+        }
+
         ${
             canRegisterPayment(order)
                 ? `
@@ -898,6 +978,7 @@ function createPokemonDetailsCard(
     `;
 }
 
+// GET ORDER STATUS SUMMARY
 function getOrderStatusSummary(order) {
     const summary = {};
 
@@ -984,6 +1065,8 @@ function createOrderCard(order) {
             ${statusHtml}
         </ul>
 
+        ${getArchiveReadyHtml(order)}
+
         <button
             type="button"
             onclick="openOrderDetails('${order.id}')">
@@ -1000,6 +1083,20 @@ function createOrderCard(order) {
                         onclick="openPaymentModal('${order.id}')">
 
                         Registrar Pagamento
+
+                    </button>
+                `
+                : ""
+        }
+
+        ${
+            canArchiveOrder(order)
+                ? `
+                    <button
+                        type="button"
+                        onclick="archiveOrder('${order.id}')">
+
+                        Arquivar Encomenda
 
                     </button>
                 `
@@ -2016,6 +2113,64 @@ btnConfirmPaymentRegister.addEventListener(
     }
 );
 
+btnCancelArchive.addEventListener(
+    "click",
+    () => {
+        archiveConfirmModal.classList.add(
+            "hidden"
+        );
+
+        selectedArchiveOrderId =
+            null;
+    }
+);
+
+btnConfirmArchive.addEventListener(
+    "click",
+    () => {
+        const orders =
+            loadOrders();
+
+        const order =
+            orders.find(
+                order =>
+                    order.id === selectedArchiveOrderId
+            );
+
+        if (!order) {
+            return;
+        }
+
+        if (!canArchiveOrder(order)) {
+            alert(
+                "Esta encomenda ainda não pode ser arquivada."
+            );
+
+            return;
+        }
+
+        order.archived =
+            true;
+
+        saveOrders(
+            orders
+        );
+
+        archiveConfirmModal.classList.add(
+            "hidden"
+        );
+
+        orderDetailsModal.classList.add(
+            "hidden"
+        );
+
+        selectedArchiveOrderId =
+            null;
+
+        renderOrdersList();
+    }
+);
+
 loadPlayersSelect();
 loadOrderStatusFilter();
 createPokemonOrderRow();
@@ -2025,3 +2180,4 @@ renderOrdersList();
 window.openOrderDetails = openOrderDetails;
 window.openStatusConfirmModal = openStatusConfirmModal;
 window.openPaymentModal = openPaymentModal;
+window.archiveOrder = archiveOrder;

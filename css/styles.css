@@ -186,3 +186,8 @@
 
     font-size: 1.2rem;
 }
+
+.archive-ready {
+    color: #198754;
+    font-weight: bold;
+}
