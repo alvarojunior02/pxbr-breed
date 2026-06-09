@@ -431,6 +431,14 @@ button:disabled {
     font-weight: bold;
 }
 
+.payment-missing {
+    display: block;
+    margin-left: 16px;
+    color: var(--text-soft);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
 .payment-warning {
     background: rgba(250, 204, 21, 0.12);
     border: 1px solid var(--warning);

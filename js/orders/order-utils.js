@@ -14,7 +14,7 @@ function getPaymentStatusHtml(order) {
     if (paidAmount >= order.total) {
         return `
             <span class="payment-paid">
-                Pago
+                Totalmente Pago
             </span>
         `;
     }
@@ -22,14 +22,12 @@ function getPaymentStatusHtml(order) {
     if (paidAmount > 0) {
         return `
             <span class="payment-partial">
-                Pago Parcialmente:
+                Parcialmente Pago:
                 ${formatMoney(paidAmount)}
             </span>
 
-            <br>
-
-            <span class="payment-pending">
-                A Pagar:
+            <span class="payment-missing">
+                Falta:
                 ${formatMoney(remaining)}
             </span>
         `;
