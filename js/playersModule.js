@@ -44,17 +44,16 @@ function getPlayerFinancialSummary(playerId) {
 }
 
 function renderPlayersModule() {
-    const players =
-        loadPlayers();
+    const players = loadPlayers();
 
     playersCards.innerHTML = "";
 
     players.forEach(player => {
-        const summary =
-            getPlayerFinancialSummary(player.id);
+        const summary = getPlayerFinancialSummary(player.id);
 
-        const card =
-            document.createElement("div");
+        const lastOrder = getPlayerLastOrder(player.id);
+
+        const card = document.createElement("div");
 
         card.classList.add("order-card");
 
@@ -65,6 +64,18 @@ function renderPlayersModule() {
             <p>
                 Encomendas:
                 ${summary.ordersCount}
+            </p>
+
+            <p>
+                Última encomenda:
+                ${
+                    lastOrder
+                        ? `
+                            ${formatDate(lastOrder.createdAt)}
+                            (${getDaysSince(lastOrder.createdAt)} dias atrás)
+                        `
+                        : "Nenhuma"
+                }
             </p>
 
             <p>
@@ -140,23 +151,17 @@ function showPlayerOrders(playerId) {
         return;
     }
 
-    const orderSearchPlayer =
-        document.getElementById("orderSearchPlayer");
+    const orderSearchPlayer = document.getElementById("orderSearchPlayer");
 
-    const orderStatusFilter =
-        document.getElementById("orderStatusFilter");
+    const orderStatusFilter = document.getElementById("orderStatusFilter");
 
-    const orderArchiveFilter =
-        document.getElementById("orderArchiveFilter");
+    const orderArchiveFilter = document.getElementById("orderArchiveFilter");
 
-    orderSearchPlayer.value =
-        player.nick;
+    orderSearchPlayer.value = player.nick;
 
-    orderStatusFilter.value =
-        "";
+    orderStatusFilter.value = "";
 
-    orderArchiveFilter.value =
-        "all";
+    orderArchiveFilter.value = "all";
 
     showSection("ordersSection");
 

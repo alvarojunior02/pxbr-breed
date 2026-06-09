@@ -1008,7 +1008,10 @@ btnConfirmOrder.addEventListener(
         saveOrder(order);
 
         renderOrdersList();
+
         renderDashboard();
+
+        renderPlayersModule();
 
         resetOrderForm();
 
