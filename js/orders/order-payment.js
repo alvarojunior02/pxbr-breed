@@ -28,7 +28,7 @@ function openPaymentModal(orderId) {
 
     paymentSummary.innerHTML = `
         <h3>
-            Player:
+            Cliente:
             ${player?.nick ?? "Player"}
         </h3>
 
@@ -108,7 +108,7 @@ btnConfirmPayment.addEventListener(
 
         paymentConfirmSummary.innerHTML = `
             <h3>
-                Player:
+                Cliente:
                 ${player?.nick ?? "Player"}
             </h3>
 

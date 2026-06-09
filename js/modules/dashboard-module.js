@@ -164,7 +164,7 @@ function renderDashboard() {
         </div>
 
         <div class="dashboard-card">
-            <strong>Players</strong>
+            <strong>Clientes</strong>
             <span>${metrics.players}</span>
         </div>
 

@@ -305,7 +305,9 @@ function openPlayerTransactionsModal(playerId) {
                     <td>
                         <button
                             type="button"
-                            onclick="openOrderDetails('${transaction.orderId}')">
+                            onclick="openOrderDetailsFromPlayerTransactions('
+                                ${transaction.orderId}
+                            ')">
 
                             Ver Encomenda
 
@@ -325,7 +327,7 @@ function openPlayerTransactionsModal(playerId) {
             transactions.length === 0
                 ? `
                     <p>
-                        Nenhuma transação registrada para este player.
+                        Nenhuma transação registrada para este cliente.
                     </p>
                 `
                 : `
@@ -351,6 +353,14 @@ function openPlayerTransactionsModal(playerId) {
     playerTransactionsModal.classList.remove(
         "hidden"
     );
+}
+
+function openOrderDetailsFromPlayerTransactions(orderId) {
+    playerTransactionsModal.classList.add(
+        "hidden"
+    );
+
+    openOrderDetails(orderId);
 }
 
 btnOpenNewPlayerModal.addEventListener(
@@ -393,3 +403,4 @@ window.showPlayerOrders = showPlayerOrders;
 window.openPlayerSummaryModal = openPlayerSummaryModal;
 window.openPlayerTransactionsModal = openPlayerTransactionsModal;
 window.openNewPlayerModal = openNewPlayerModal;
+window.openOrderDetailsFromPlayerTransactions = openOrderDetailsFromPlayerTransactions;

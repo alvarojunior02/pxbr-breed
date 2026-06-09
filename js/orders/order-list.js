@@ -159,7 +159,7 @@ function createOrderCard(order) {
         </h3>
 
         <p>
-            Player:
+            Cliente:
             ${player?.nick ?? "-"}
         </p>
 

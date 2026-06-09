@@ -58,7 +58,7 @@ function renderOrderDetails(order) {
         </p>
 
         <p>
-            <strong>Player:</strong>
+            <strong>Cliente:</strong>
             ${player?.nick ?? "-"}
         </p>
 
