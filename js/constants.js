@@ -120,4 +120,5 @@ function getOrderStatusClass(
     )?.cssClass ?? "";
 }
 
+window.ORDER_STATUS = ORDER_STATUS;
 window.getOrderStatusClass = getOrderStatusClass;

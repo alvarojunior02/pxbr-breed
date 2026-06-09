@@ -2181,3 +2181,4 @@ window.openOrderDetails = openOrderDetails;
 window.openStatusConfirmModal = openStatusConfirmModal;
 window.openPaymentModal = openPaymentModal;
 window.archiveOrder = archiveOrder;
+window.renderOrdersList = renderOrdersList;

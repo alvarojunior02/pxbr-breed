@@ -19,3 +19,5 @@ function unformatMoney(value) {
         value.replace(/\D/g, "")
     ) || 0;
 }
+
+window.formatMoney = formatMoney;

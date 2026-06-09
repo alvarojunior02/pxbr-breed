@@ -32,3 +32,6 @@ function loadOrders() {
 
     return data ? JSON.parse(data) : [];
 }
+
+window.loadPlayers =loadPlayers;
+window.loadOrders =loadOrders;
