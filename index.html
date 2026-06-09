@@ -116,57 +116,75 @@
 
                 <h3>Lista de Encomendas (Total: <span id="ordersCount">0</span>)</h3>
 
-                <div>
-                    <label for="orderSearchPlayer">
-                        Buscar por player
-                    </label>
+                <div class="orders-filters">
 
-                    <br>
+                    <div class="form-field">
+                        <label for="orderSearchPlayer">
+                            Player
+                        </label>
 
-                    <input
-                        type="text"
-                        id="orderSearchPlayer"
-                        placeholder="Digite o nick do player">
-                </div>
+                        <input
+                            type="text"
+                            id="orderSearchPlayer"
+                            placeholder="Buscar por nick">
+                    </div>
 
-                <br>
+                    <div class="form-field">
+                        <label for="orderStatusFilter">
+                            Status da Breed
+                        </label>
 
-                <div>
-                    <label for="orderStatusFilter">
-                        Filtrar por status de breed
-                    </label>
+                        <select id="orderStatusFilter">
+                            <option value="">
+                                Todos
+                            </option>
+                        </select>
+                    </div>
 
-                    <br>
+                    <div class="form-field">
+                        <label for="orderPaymentFilter">
+                            Status de Pagamento
+                        </label>
 
-                    <select id="orderStatusFilter">
-                        <option value="">
-                            Todos
-                        </option>
-                    </select>
-                </div>
+                        <select id="orderPaymentFilter">
+                            <option value="">
+                                Todos
+                            </option>
 
-                <br>
+                            <option value="paid">
+                                Pago
+                            </option>
 
-                <div>
-                    <label for="orderArchiveFilter">
-                        Filtrar por arquivamento
-                    </label>
+                            <option value="partial">
+                                Pago Parcialmente
+                            </option>
 
-                    <br>
+                            <option value="pending">
+                                A Pagar
+                            </option>
+                        </select>
+                    </div>
 
-                    <select id="orderArchiveFilter">
-                        <option value="active">
-                            Ativas
-                        </option>
+                    <div class="form-field">
+                        <label for="orderArchiveFilter">
+                            Arquivamento
+                        </label>
 
-                        <option value="archived">
-                            Arquivadas
-                        </option>
+                        <select id="orderArchiveFilter">
+                            <option value="active">
+                                Ativas
+                            </option>
 
-                        <option value="all">
-                            Todas
-                        </option>
-                    </select>
+                            <option value="archived">
+                                Arquivadas
+                            </option>
+
+                            <option value="all">
+                                Todas
+                            </option>
+                        </select>
+                    </div>
+
                 </div>
 
                 <br>

@@ -59,6 +59,8 @@ window.orderStatusFilter = document.getElementById("orderStatusFilter");
 
 window.orderArchiveFilter = document.getElementById("orderArchiveFilter");
 
+window.orderPaymentFilter = document.getElementById("orderPaymentFilter");
+
 
 // ==============================
 // ORDER DETAILS MODAL

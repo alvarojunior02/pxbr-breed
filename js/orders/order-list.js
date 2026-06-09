@@ -11,6 +11,8 @@ function getFilteredOrders() {
 
     const selectedStatus = orderStatusFilter.value;
 
+    const paymentFilter = orderPaymentFilter.value;
+
     const archiveFilter = orderArchiveFilter.value;
 
     return orders.filter(order => {
@@ -41,7 +43,35 @@ function getFilteredOrders() {
                     pokemon.status === selectedStatus
             );
 
-        return matchesPlayer && matchesStatus;
+        const paidAmount = order.paidAmount || 0;
+
+        const isPaid = paidAmount >= order.total;
+
+        const isPartiallyPaid =
+            paidAmount > 0 &&
+            paidAmount < order.total;
+
+        const isPending =
+            paidAmount === 0;
+
+        const matchesPayment =
+            !paymentFilter ||
+            (
+                paymentFilter === "paid" &&
+                isPaid
+            ) ||
+            (
+                paymentFilter === "partial" &&
+                isPartiallyPaid
+            ) ||
+            (
+                paymentFilter === "pending" &&
+                isPending
+            );
+
+        return matchesPlayer &&
+            matchesStatus &&
+            matchesPayment;
     });
 }
 
@@ -206,6 +236,11 @@ orderStatusFilter.addEventListener(
 );
 
 orderArchiveFilter.addEventListener(
+    "change",
+    renderOrdersList
+);
+
+orderPaymentFilter.addEventListener(
     "change",
     renderOrdersList
 );

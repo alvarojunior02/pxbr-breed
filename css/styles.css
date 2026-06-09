@@ -576,3 +576,28 @@ button:disabled {
     display: grid;
     gap: 12px;
 }
+
+.orders-filters {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 16px;
+    align-items: end;
+    margin-bottom: 20px;
+}
+
+.orders-filters .form-field input,
+.orders-filters .form-field select {
+    max-width: none;
+}
+
+@media (max-width: 900px) {
+    .orders-filters {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .orders-filters {
+        grid-template-columns: 1fr;
+    }
+}
