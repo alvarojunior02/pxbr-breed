@@ -152,278 +152,6 @@
                         Criar Encomenda
                     </button>
                     
-                    <!-- Modal de Confirmação de Nova Encomenda -->
-                    <div id="orderModal" class="modal hidden">
-                        <div class="modal-content">
-
-                            <h2>
-                                Confirmar Encomenda
-                            </h2>
-
-                            <div id="orderSummary"></div>
-
-                            <hr>
-
-                            <p>
-                                Precisa capturar alguma fêmea ainda?
-                            </p>
-
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="needsFemale"
-                                    value="yes">
-
-                                Sim
-                            </label>
-
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="needsFemale"
-                                    value="no">
-
-                                Não
-                            </label>
-
-                            <hr>
-
-                            <label for="orderObservations">
-                                Observações
-                            </label>
-
-                            <br>
-
-                            <textarea
-                                id="orderObservations"
-                                maxlength="500"
-                                placeholder="Ex: cliente pediu HA, cobrar depois, entregar quando estiver online..."
-                            ></textarea>
-
-                            <hr>
-
-                            <label>
-                                <input
-                                    type="checkbox"
-                                    id="orderPaid">
-
-                                Já foi pago
-                            </label>
-
-                            <br><br>
-
-                            <input
-                                type="text"
-                                id="orderPaidAmount"
-                                placeholder="Valor pago"
-                                style="display:none;"
-                            >
-
-                            <hr>
-
-                            <button
-                                type="button"
-                                id="btnCancelOrder">
-
-                                Cancelar
-
-                            </button>
-
-                            <button
-                                type="button"
-                                id="btnConfirmOrder"
-                                disabled>
-
-                                Confirmar
-
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                    <!-- Modal de Detalhes da Encomenda -->
-                    <div id="orderDetailsModal" class="modal hidden">
-                        <div class="modal-content">
-
-                            <h2>
-                                Detalhes da Encomenda
-                            </h2>
-
-                            <div id="orderDetailsContent"></div>
-
-                            <button
-                                type="button"
-                                id="btnCloseOrderDetails">
-
-                                Fechar
-
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                    <!-- Modal de Registrar Pagamento -->
-                    <div id="paymentModal" class="modal hidden">
-                        <div class="modal-content">
-
-                            <h2>
-                                Registrar Pagamento
-                            </h2>
-
-                            <div id="paymentSummary"></div>
-
-                            <label for="paymentAmount">
-                                Valor pago agora
-                            </label>
-
-                            <br>
-
-                            <input
-                                type="text"
-                                id="paymentAmount"
-                                placeholder="Valor pago">
-
-                            <br><br>
-
-                            <button
-                                type="button"
-                                id="btnCancelPayment">
-
-                                Cancelar
-
-                            </button>
-
-                            <button
-                                type="button"
-                                id="btnConfirmPayment">
-
-                                Registrar
-
-                            </button>
-
-                        </div>
-                    </div>
-
-                    <!-- Modal de Confirmação do Registro de Pagamento -->
-                    <div id="paymentConfirmModal" class="modal hidden">
-                        <div class="modal-content">
-
-                            <h2>
-                                Confirmar Registro de Pagamento
-                            </h2>
-
-                            <div class="payment-warning">
-                                <strong>
-                                    ⚠ Atenção - Tem certeza que deseja registrar este pagamento?
-                                </strong>
-
-                                <br><br>
-
-                                Confira todos os valores antes de confirmar.
-
-                                <br><br>
-
-                                Esta ação não poderá ser desfeita!
-                            </div>
-
-                            <div id="paymentConfirmSummary"></div>
-
-                            <button
-                                type="button"
-                                id="btnCancelPaymentConfirm">
-
-                                Cancelar
-
-                            </button>
-
-                            <button
-                                type="button"
-                                id="btnConfirmPaymentRegister">
-
-                                Confirmar Registro
-
-                            </button>
-
-                        </div>
-                    </div>
-
-                    <!-- Modal de Confirmação para Avançar Status -->
-                    <div id="statusConfirmModal" class="modal hidden">
-                        <div class="modal-content">
-
-                            <h2>
-                                Confirmar Alteração
-                            </h2>
-
-                            <div id="statusConfirmContent"></div>
-
-                            <div class="modal-actions">
-
-                                <button
-                                    type="button"
-                                    id="btnCancelStatusChange">
-
-                                    Cancelar
-
-                                </button>
-
-                                <button
-                                    type="button"
-                                    id="btnConfirmStatusChange">
-
-                                    Confirmar
-
-                                </button>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <!-- Modal de Confirmação para Arquivar Encomenda -->
-                    <div
-                        id="archiveConfirmModal"
-                        class="modal hidden">
-
-                        <div class="modal-content">
-
-                            <h2>
-                                Confirmar Arquivamento
-                            </h2>
-
-                            <div class="payment-warning">
-                                <strong>⚠ Atenção</strong>
-
-                                <br><br>
-
-                                Tem certeza que deseja arquivar esta encomenda?
-
-                                <br><br>
-
-                                Ela não será excluída, apenas removida da lista principal.
-                            </div>
-
-                            <button
-                                type="button"
-                                id="btnCancelArchive">
-
-                                Cancelar
-
-                            </button>
-
-                            <button
-                                type="button"
-                                id="btnConfirmArchive">
-
-                                Confirmar Arquivamento
-
-                            </button>
-
-                        </div>
-
-                    </div>
                 </div>
 
                 <h2>Encomendas</h2>
@@ -491,34 +219,25 @@
 
             <section id="playersSection" class="app-section">
 
-                <h2>Players</h2>
+                <div class="section-header">
+                    <div>
+                        <h2>Players</h2>
 
-                <h2>Novo Player</h2>
+                        <p>
+                            Gerencie clientes e acompanhe valores por player.
+                        </p>
+                    </div>
 
-                <input
-                    type="text"
-                    id="playerNick"
-                    placeholder="Nick do player">
+                    <button
+                        type="button"
+                        id="btnOpenNewPlayerModal">
 
-                <button id="btnSavePlayer">
-                    Salvar
-                </button>
+                        + Novo Player
 
-                <hr>
+                    </button>
+                </div>
 
-                <h2>Players Cadastrados</h2>
-                <p>
-                    Total de players:
-                    <span id="playersCount">0</span>
-                </p>
-
-                <input
-                    type="text"
-                    id="searchPlayer"
-                    placeholder="Pesquisar player"
-                >
-
-                <ul id="playersList"></ul>
+                <div id="playersCards"></div>
 
             </section>
 
@@ -536,13 +255,327 @@
 
     </div>
 
+    <!-- Modals -->
+
+    <!-- Modal de Confirmação de Nova Encomenda -->
+    <div id="orderModal" class="modal hidden">
+        <div class="modal-content">
+
+            <h2>
+                Confirmar Encomenda
+            </h2>
+
+            <div id="orderSummary"></div>
+
+            <hr>
+
+            <p>
+                Precisa capturar alguma fêmea ainda?
+            </p>
+
+            <label>
+                <input
+                    type="radio"
+                    name="needsFemale"
+                    value="yes">
+
+                Sim
+            </label>
+
+            <label>
+                <input
+                    type="radio"
+                    name="needsFemale"
+                    value="no">
+
+                Não
+            </label>
+
+            <hr>
+
+            <label for="orderObservations">
+                Observações
+            </label>
+
+            <br>
+
+            <textarea
+                id="orderObservations"
+                maxlength="500"
+                placeholder="Ex: cliente pediu HA, cobrar depois, entregar quando estiver online..."
+            ></textarea>
+
+            <hr>
+
+            <label>
+                <input
+                    type="checkbox"
+                    id="orderPaid">
+
+                Já foi pago
+            </label>
+
+            <br><br>
+
+            <input
+                type="text"
+                id="orderPaidAmount"
+                placeholder="Valor pago"
+                style="display:none;"
+            >
+
+            <hr>
+
+            <button
+                type="button"
+                id="btnCancelOrder">
+
+                Cancelar
+
+            </button>
+
+            <button
+                type="button"
+                id="btnConfirmOrder"
+                disabled>
+
+                Confirmar
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Modal de Detalhes da Encomenda -->
+    <div id="orderDetailsModal" class="modal hidden">
+        <div class="modal-content">
+
+            <h2>
+                Detalhes da Encomenda
+            </h2>
+
+            <div id="orderDetailsContent"></div>
+
+            <button
+                type="button"
+                id="btnCloseOrderDetails">
+
+                Fechar
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Modal de Registrar Pagamento -->
+    <div id="paymentModal" class="modal hidden">
+        <div class="modal-content">
+
+            <h2>
+                Registrar Pagamento
+            </h2>
+
+            <div id="paymentSummary"></div>
+
+            <label for="paymentAmount">
+                Valor pago agora
+            </label>
+
+            <br>
+
+            <input
+                type="text"
+                id="paymentAmount"
+                placeholder="Valor pago">
+
+            <br><br>
+
+            <button
+                type="button"
+                id="btnCancelPayment">
+
+                Cancelar
+
+            </button>
+
+            <button
+                type="button"
+                id="btnConfirmPayment">
+
+                Registrar
+
+            </button>
+
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação do Registro de Pagamento -->
+    <div id="paymentConfirmModal" class="modal hidden">
+        <div class="modal-content">
+
+            <h2>
+                Confirmar Registro de Pagamento
+            </h2>
+
+            <div class="payment-warning">
+                <strong>
+                    ⚠ Atenção - Tem certeza que deseja registrar este pagamento?
+                </strong>
+
+                <br><br>
+
+                Confira todos os valores antes de confirmar.
+
+                <br><br>
+
+                Esta ação não poderá ser desfeita!
+            </div>
+
+            <div id="paymentConfirmSummary"></div>
+
+            <button
+                type="button"
+                id="btnCancelPaymentConfirm">
+
+                Cancelar
+
+            </button>
+
+            <button
+                type="button"
+                id="btnConfirmPaymentRegister">
+
+                Confirmar Registro
+
+            </button>
+
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação para Avançar Status -->
+    <div id="statusConfirmModal" class="modal hidden">
+        <div class="modal-content">
+
+            <h2>
+                Confirmar Alteração
+            </h2>
+
+            <div id="statusConfirmContent"></div>
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    id="btnCancelStatusChange">
+
+                    Cancelar
+
+                </button>
+
+                <button
+                    type="button"
+                    id="btnConfirmStatusChange">
+
+                    Confirmar
+
+                </button>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação para Arquivar Encomenda -->
+    <div id="archiveConfirmModal" class="modal hidden">
+
+        <div class="modal-content">
+
+            <h2>
+                Confirmar Arquivamento
+            </h2>
+
+            <div class="payment-warning">
+                <strong>⚠ Atenção</strong>
+
+                <br><br>
+
+                Tem certeza que deseja arquivar esta encomenda?
+
+                <br><br>
+
+                Ela não será excluída, apenas removida da lista principal.
+            </div>
+
+            <button
+                type="button"
+                id="btnCancelArchive">
+
+                Cancelar
+
+            </button>
+
+            <button
+                type="button"
+                id="btnConfirmArchive">
+
+                Confirmar Arquivamento
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Modal de Novo Player -->
+    <div id="newPlayerModal" class="modal hidden">
+
+        <div class="modal-content">
+
+            <h2>Novo Player</h2>
+
+            <label for="newPlayerNick">
+                Nick
+            </label>
+
+            <br>
+
+            <input
+                type="text"
+                id="newPlayerNick"
+                placeholder="Digite o nick do player">
+
+            <br><br>
+
+            <button
+                type="button"
+                id="btnCancelNewPlayer">
+
+                Cancelar
+
+            </button>
+
+            <button
+                type="button"
+                id="btnConfirmNewPlayer">
+
+                Salvar Player
+
+            </button>
+
+        </div>
+
+    </div>
+
     <script src="js/storage.js"></script>
     <script src="js/utils.js"></script>
-    <script src="js/constants.js"></script>
     <script src="js/pokemon.js"></script>
     <script src="js/players.js"></script>
+    <script src="js/constants.js"></script>
     <script src="js/orders.js"></script>
     <script src="js/dashboard.js"></script>
+    <script src="js/playersModule.js"></script>
     <script src="js/navigation.js"></script>
 </body>
 

@@ -84,6 +84,14 @@ body {
     display: block;
 }
 
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
 .hidden,
 .modal.hidden {
     display: none;
