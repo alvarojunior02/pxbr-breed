@@ -43,6 +43,7 @@ const orderSummary = document.getElementById("orderSummary");
 const btnCancelOrder = document.getElementById("btnCancelOrder");
 const btnConfirmOrder = document.getElementById("btnConfirmOrder");
 const hasDiscount = document.getElementById("hasDiscount");
+
 const orderDetailsModal = document.getElementById("orderDetailsModal");
 const orderDetailsContent = document.getElementById("orderDetailsContent");
 const btnCloseOrderDetails =document.getElementById("btnCloseOrderDetails");
@@ -51,6 +52,15 @@ const discountValue = document.getElementById("discountValue");
 applyMoneyMask(discountValue);
 
 const orderTotal = document.getElementById("orderTotal");
+
+const statusConfirmModal = document.getElementById("statusConfirmModal");
+const statusConfirmContent = document.getElementById("statusConfirmContent");
+const btnCancelStatusChange = document.getElementById("btnCancelStatusChange");
+const btnConfirmStatusChange = document.getElementById("btnConfirmStatusChange");
+
+let selectedOrderId = null;
+
+let selectedPokemonId = null;
 
 function calculateOrderTotal() {
     const rows =
@@ -311,7 +321,107 @@ function openOrderDetails(orderId) {
         );
 }
 
+function openStatusConfirmModal(
+    orderId,
+    pokemonId
+) {
+    const order =
+        loadOrders().find(
+            order =>
+                order.id ===
+                orderId
+        );
+
+    if (!order) {
+        return;
+    }
+
+    const pokemon =
+        order.pokemons.find(
+            pokemon =>
+                pokemon.id ===
+                pokemonId
+        );
+
+    if (!pokemon) {
+        return;
+    }
+
+    const currentStatus =
+        getStatusByValue(
+            pokemon.status
+        );
+
+    const nextStatus =
+        getNextStatus(
+            pokemon.status
+        );
+
+    if (!nextStatus) {
+        return;
+    }
+
+    selectedOrderId = orderId;
+
+    selectedPokemonId = pokemonId;
+
+    statusConfirmContent.innerHTML =
+        `
+        <p>
+
+            <strong>
+                Pokémon:
+            </strong>
+
+            ${pokemon.pokemonName}
+
+        </p>
+
+        <p>
+
+            <strong>
+                Status Atual:
+            </strong>
+
+            <span
+                class="${currentStatus.cssClass}">
+
+                ${currentStatus.name}
+
+            </span>
+
+        </p>
+
+        <p>
+
+            <strong>
+                Próximo Status:
+            </strong>
+
+            <span
+                class="${nextStatus.cssClass}">
+
+                ${nextStatus.name}
+
+            </span>
+
+        </p>
+
+        <p>
+            Deseja realmente avançar o status?
+        </p>
+        `;
+
+    statusConfirmModal
+        .classList
+        .remove(
+            "hidden"
+        );
+}
+
 function renderOrderDetails(order) {
+    window.currentOrderId = order.id;
+
     const player =
         loadPlayers().find(
             player =>
@@ -393,6 +503,11 @@ function createPokemonDetailsCard(
 
     const thumbnail = getPokemonThumbnail(pokemon.pokemonId);
 
+    const canAdvanceStatus =
+        !isLastStatus(
+            pokemon.status
+        );
+
     return `
         <div
             class="pokemon-details-card">
@@ -436,6 +551,18 @@ function createPokemonDetailsCard(
             </p>
 
         </div>
+
+        ${
+            canAdvanceStatus
+                ? `
+                <button
+                    type="button"
+                    onclick="openStatusConfirmModal(window.currentOrderId, '${pokemon.id}')">
+                    Avançar Status
+                </button>
+                `
+                : ""
+        }
     `;
 }
 
@@ -1159,7 +1286,71 @@ btnCloseOrderDetails.addEventListener(
     }
 );
 
+btnCancelStatusChange.addEventListener(
+    "click",
+    () => {
+        statusConfirmModal
+            .classList
+            .add(
+                "hidden"
+            );
+    }
+);
+
+btnConfirmStatusChange.addEventListener(
+    "click",
+    () => {
+        const orders = loadOrders();
+
+        const order =
+            orders.find(
+                order =>
+                    order.id ===
+                    selectedOrderId
+            );
+
+        if (!order) {
+            return;
+        }
+
+        const pokemon =
+            order.pokemons.find(
+                pokemon =>
+                    pokemon.id ===
+                    selectedPokemonId
+            );
+
+        if (!pokemon) {
+            return;
+        }
+
+        const nextStatus =
+            getNextStatus(
+                pokemon.status
+            );
+
+        if (!nextStatus) {
+            return;
+        }
+
+        pokemon.status = nextStatus.value;
+
+        saveOrders(orders);
+
+        statusConfirmModal
+            .classList
+            .add(
+                "hidden"
+            );
+
+        renderOrdersList();
+
+        openOrderDetails(selectedOrderId);
+    }
+);
+
 loadPlayersSelect();
 createPokemonOrderRow();
 renderOrdersList();
 window.openOrderDetails = openOrderDetails;
+window.openStatusConfirmModal = openStatusConfirmModal;
