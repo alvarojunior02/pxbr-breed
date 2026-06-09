@@ -194,3 +194,5 @@ function createOrderCard(order) {
         }
     `;
 }
+
+window.renderOrdersList = renderOrdersList;
