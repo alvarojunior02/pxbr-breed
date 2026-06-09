@@ -175,49 +175,31 @@ btnConfirmPaymentRegister.addEventListener(
             return;
         }
 
-        order.paidAmount =
-            (order.paidAmount || 0) + pendingPaymentAmount;
+        order.paidAmount = (order.paidAmount || 0) + pendingPaymentAmount;
 
-        order.paid =
-            order.paidAmount >= order.total;
+        order.paid = order.paidAmount >= order.total;
 
-        saveOrders(
-            orders
-        );
+        saveOrders(orders);
 
         const transaction =
             createOrderPaymentTransaction({
-
-                amount,
-
-                playerId:
-                    order.playerId,
-
-                orderId:
-                    order.id
+                amount: pendingPaymentAmount,
+                playerId: order.playerId,
+                orderId: order.id
             });
 
-        saveTransaction(
-            transaction
-        );
+        saveTransaction(transaction);
 
-        paymentConfirmModal.classList.add(
-            "hidden"
-        );
+        paymentConfirmModal.classList.add("hidden");
 
-        paymentModal.classList.add(
-            "hidden"
-        );
+        paymentModal.classList.add("hidden");
 
-        pendingPaymentAmount =
-            0;
+        pendingPaymentAmount = 0;
 
         renderOrdersList();
         renderDashboard();
 
-        openOrderDetails(
-            selectedPaymentOrderId
-        );
+        openOrderDetails(selectedPaymentOrderId);
     }
 );
 

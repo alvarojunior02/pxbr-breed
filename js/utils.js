@@ -20,4 +20,15 @@ function unformatMoney(value) {
     ) || 0;
 }
 
+function formatDateTime(date) {
+    return new Date(date).toLocaleString(
+        "pt-BR",
+        {
+            dateStyle: "short",
+            timeStyle: "short"
+        }
+    );
+}
+
 window.formatMoney = formatMoney;
+window.formatDateTime = formatDateTime;

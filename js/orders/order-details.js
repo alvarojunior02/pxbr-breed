@@ -92,6 +92,8 @@ function renderOrderDetails(order) {
             ${getPaymentStatusHtml(order)}
         </p>
 
+        ${renderOrderTransactionsTable(order.id)}
+
         ${getArchiveReadyHtml(order)}
 
         ${
@@ -114,6 +116,7 @@ function renderOrderDetails(order) {
                 ? `
                     <button
                         type="button"
+                        class="button-success"
                         onclick="openPaymentModal('${order.id}')">
 
                         Registrar Pagamento
@@ -245,6 +248,57 @@ function createPokemonDetailsCard(
                         : ""
                 }
             </div>
+        </div>
+    `;
+}
+
+// RENDER ORDER TRANSACTIONS TABLE
+function renderOrderTransactionsTable(orderId) {
+    const transactions =
+        getOrderTransactions(orderId);
+
+    if (transactions.length === 0) {
+        return "";
+    }
+
+    const rows =
+        transactions
+            .map(transaction => `
+                <tr>
+                    <td>
+                        ${formatDateTime(transaction.createdAt)}
+                    </td>
+
+                    <td>
+                        ${formatMoney(transaction.amount)}
+                    </td>
+                </tr>
+            `)
+            .join("");
+
+    return `
+        <div class="order-transactions">
+            <h3>
+                Transações
+            </h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            Data/Hora
+                        </th>
+
+                        <th>
+                            Valor
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    ${rows}
+                </tbody>
+            </table>
         </div>
     `;
 }
