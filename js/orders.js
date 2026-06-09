@@ -6,6 +6,7 @@ function createOrder(playerId) {
         discount: 0,
         paid: false,
         needsFemale: false,
+        observations: "",
         archived: false,
         createdAt: new Date().toISOString(),
         pokemons: []
@@ -162,8 +163,7 @@ function getOrderPokemons() {
 }
 
 function buildOrder() {
-    const pokemons =
-        getOrderPokemons();
+    const pokemons = getOrderPokemons();
 
     const discount =
         hasDiscount.checked
@@ -179,6 +179,8 @@ function buildOrder() {
             0
         );
 
+    const observationsInput = document.getElementById("orderObservations");
+
     return {
         id: generateUUID(),
         playerId: orderPlayer.value,
@@ -186,6 +188,9 @@ function buildOrder() {
         subtotal,
         discount,
         total: subtotal - discount,
+        observations: observationsInput
+            ? observationsInput.value.trim()
+            : "",
         paid: false,
         archived: false,
         createdAt: new Date().toISOString()
@@ -234,6 +239,8 @@ function createPersistedOrder(orderData) {
             })
         );
 
+    order.observations = orderData.observations;
+
     return order;
 }
 
@@ -268,6 +275,8 @@ function resetOrderForm() {
         );
 
     btnConfirmOrder.disabled = true;
+
+    document.getElementById("orderObservations").value = "";
 
     createPokemonOrderRow();
 
@@ -530,6 +539,20 @@ function renderOrderDetails(order) {
                     : "Não"
             }
         </p>
+
+        ${
+            order.observations?.trim()
+                ? `
+                    <p>
+                        <strong>
+                            Observações:
+                        </strong>
+
+                        ${order.observations}
+                    </p>
+                `
+                : ""
+        }
 
         <hr>
 
@@ -1319,11 +1342,6 @@ btnConfirmOrder.addEventListener(
         renderOrdersList();
 
         resetOrderForm();
-
-        console.log(
-            "Encomenda salva:",
-            order
-        );
 
         orderModal.classList.add(
             "hidden"
