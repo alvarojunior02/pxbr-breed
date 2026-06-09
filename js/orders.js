@@ -52,6 +52,10 @@ const orderPaid = document.getElementById("orderPaid");
 const orderPaidAmount = document.getElementById("orderPaidAmount");
 applyMoneyMask(orderPaidAmount);
 
+const createOrderModal = document.getElementById("createOrderModal");
+const btnOpenCreateOrderModal = document.getElementById("btnOpenCreateOrderModal");
+const btnCancelCreateOrder = document.getElementById("btnCancelCreateOrder");
+
 const orderDetailsModal = document.getElementById("orderDetailsModal");
 const orderDetailsContent = document.getElementById("orderDetailsContent");
 const btnCloseOrderDetails =document.getElementById("btnCloseOrderDetails");
@@ -635,6 +639,16 @@ function openOrderDetails(orderId) {
         .remove(
             "hidden"
         );
+}
+
+// OPEN CREATE ORDER MODAL
+function openCreateOrderModal() {
+    createOrderModal.classList.remove("hidden");
+}
+
+// CLOSE CREATE ORDER MODAL
+function closeCreateOrderModal() {
+    createOrderModal.classList.add("hidden");
 }
 
 // OPEN PAYMENT MODAL
@@ -1871,6 +1885,16 @@ document
         }
     );
 
+btnOpenCreateOrderModal.addEventListener(
+    "click",
+    openCreateOrderModal
+);
+
+btnCancelCreateOrder.addEventListener(
+    "click",
+    closeCreateOrderModal
+);
+
 btnCancelOrder.addEventListener(
     "click",
     () => {
@@ -1899,6 +1923,10 @@ btnConfirmOrder.addEventListener(
         orderModal.classList.add(
             "hidden"
         );
+
+        closeCreateOrderModal();
+
+        showSection("ordersSection");
     }
 );
 
@@ -2245,6 +2273,7 @@ createPokemonOrderRow();
 updateOrderFormAvailability();
 renderOrdersList();
 
+window.openCreateOrderModal =openCreateOrderModal;
 window.openOrderDetails = openOrderDetails;
 window.openStatusConfirmModal = openStatusConfirmModal;
 window.openPaymentModal = openPaymentModal;

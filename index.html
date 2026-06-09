@@ -54,7 +54,23 @@
 
             <section id="dashboardSection" class="app-section active-section">
 
-                <h2>Dashboard</h2>
+                <div class="section-header">
+                    <div>
+                        <h2>Dashboard</h2>
+
+                        <p>
+                            Gerencie métricas.
+                        </p>
+                    </div>
+
+                    <button
+                        type="button"
+                        id="btnOpenCreateOrderModal">
+
+                        + Nova Encomenda
+
+                    </button>
+                </div>
 
                 <div id="dashboardCards"></div>
 
@@ -62,96 +78,22 @@
 
             <section  id="ordersSection" class="app-section">
 
-                <h2>Nova Encomenda</h2>
-
-                <div id="orderForm">
-
+                <div class="section-header">
                     <div>
-                        <label for="orderPlayerSearch">
-                            Player
-                        </label>
+                        <h2>Encomendas</h2>
 
-                        <br>
-
-                        <input
-                            type="text"
-                            id="orderPlayerSearch"
-                            placeholder="Digite o nick do player">
-
-                        <input
-                            type="hidden"
-                            id="orderPlayer">
-
-                        <div id="orderPlayerResults"></div>
+                        <p>
+                            Gerencie pedidos, pagamentos e status das breeds.
+                        </p>
                     </div>
-
-                    <br>
-
-                    <div>
-
-                        <h3>Pokémons</h3>
-
-                        <div id="pokemonOrderList">
-
-                        </div>
-
-                        <button
-                            type="button"
-                            id="btnAddPokemon">
-
-                            + Adicionar Pokémon
-
-                        </button>
-
-                    </div>
-
-                    <br>
-
-                    <div>
-
-                        <label>
-                            Desconto
-                        </label>
-
-                        <input
-                            type="checkbox"
-                            id="hasDiscount">
-
-                        <br><br>
-
-                        <input
-                            type="text"
-                            id="discountValue"
-                            placeholder="Valor do desconto"
-                            value="0"
-                            style="display:none;"
-                        >
-
-                    </div>
-
-                    <br>
-
-                    <div>
-
-                        <strong>
-                            Total:
-                        </strong>
-
-                        <span id="orderTotal">
-                            $ 0
-                        </span>
-
-                    </div>
-
-                    <br>
 
                     <button
                         type="button"
-                        id="btnCreateOrder">
+                        id="btnOpenCreateOrderModal">
 
-                        Criar Encomenda
+                        + Nova Encomenda
+
                     </button>
-                    
                 </div>
 
                 <h2>Encomendas</h2>
@@ -256,6 +198,115 @@
     </div>
 
     <!-- Modals -->
+
+    <!-- Modal de Criar Encomenda -->
+    <div id="createOrderModal" class="modal hidden">
+
+        <div class="modal-content">
+
+            <h2>Nova Encomenda</h2>
+
+            <div id="orderForm">
+
+                <div>
+                    <label for="orderPlayerSearch">
+                        Player
+                    </label>
+
+                    <br>
+
+                    <input
+                        type="text"
+                        id="orderPlayerSearch"
+                        placeholder="Digite o nick do player">
+
+                    <input
+                        type="hidden"
+                        id="orderPlayer">
+
+                    <div id="orderPlayerResults"></div>
+                </div>
+
+                <br>
+
+                <div>
+
+                    <h3>Pokémons</h3>
+
+                    <div id="pokemonOrderList">
+
+                    </div>
+
+                    <button
+                        type="button"
+                        id="btnAddPokemon">
+
+                        + Adicionar Pokémon
+
+                    </button>
+
+                </div>
+
+                <br>
+
+                <div>
+
+                    <label>
+                        Desconto
+                    </label>
+
+                    <input
+                        type="checkbox"
+                        id="hasDiscount">
+
+                    <br><br>
+
+                    <input
+                        type="text"
+                        id="discountValue"
+                        placeholder="Valor do desconto"
+                        value="0"
+                        style="display:none;"
+                    >
+
+                </div>
+
+                <br>
+
+                <div>
+
+                    <strong>
+                        Total:
+                    </strong>
+
+                    <span id="orderTotal">
+                        $ 0
+                    </span>
+
+                </div>
+
+                <br>
+
+                <button
+                    type="button"
+                    id="btnCancelCreateOrder">
+
+                    Cancelar
+
+                </button>
+
+                <button
+                    type="button"
+                    id="btnCreateOrder">
+
+                    Criar Encomenda
+                </button>
+                
+            </div>
+
+        </div>
+
+    </div>
 
     <!-- Modal de Confirmação de Nova Encomenda -->
     <div id="orderModal" class="modal hidden">

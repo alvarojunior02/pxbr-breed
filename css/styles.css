@@ -399,3 +399,7 @@ button:disabled {
         width: calc(100vw - 24px);
     }
 }
+
+#createOrderModal .modal-content {
+    width: 900px;
+}
