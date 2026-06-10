@@ -26,7 +26,7 @@ let selectedHAPokemonId = null;
 let selectedOwnedHAId = null;
 
 let addHAOrigin = "pokemon-details";
-let addHAOrderRow = null;
+let addHOrderRow = null;
 
 async function loadPokemonCatalog() {
     const response = await fetch("./src/data/pokedex.json");
@@ -34,6 +34,21 @@ async function loadPokemonCatalog() {
 
     populateEggGroupFilter();
     renderPokemonCatalog();
+}
+
+function normalizeEggGroup(eggGroup) {
+    const normalized = String(eggGroup).trim();
+
+    const map = {
+        Water1: "Water 1",
+        Water2: "Water 2",
+        Water3: "Water 3",
+        Humanshape: "Human-Like",
+        Indeterminate: "Amorphous",
+        "No Eggs": "Undiscovered"
+    };
+
+    return map[normalized] || normalized;
 }
 
 function getPokemonGeneration(pokemonId) {
@@ -53,7 +68,7 @@ function populateEggGroupFilter() {
 
     pokedexCatalog.forEach((pokemon) => {
         pokemon.profile?.egg?.forEach((eggGroup) => {
-            eggGroups.add(eggGroup);
+            eggGroups.add(normalizeEggGroup(eggGroup));
         });
     });
 
@@ -81,7 +96,10 @@ function getFilteredPokemonCatalog() {
             selectedGeneration === "all" || getPokemonGeneration(pokemon.id) === selectedGeneration;
 
         const matchesEggGroup =
-            selectedEggGroup === "all" || pokemon.profile?.egg?.includes(selectedEggGroup);
+            selectedEggGroup === "all" ||
+            pokemon.profile?.egg?.some((egg) => {
+                return normalizeEggGroup(egg) === selectedEggGroup;
+            });
 
         return matchesSearch && matchesGeneration && matchesEggGroup;
     });
@@ -486,7 +504,15 @@ function getEvolutionChain(pokemon) {
 
     collectEvolutionBranch(basePokemon, chain);
 
-    return chain;
+    const currentAlreadyExists = chain.some((item) => {
+        return Number(item.id) === Number(pokemon.id);
+    });
+
+    if (!currentAlreadyExists) {
+        chain.push(pokemon);
+    }
+
+    return chain.sort((a, b) => Number(a.id) - Number(b.id));
 }
 
 function getBaseEvolutionPokemon(pokemon) {

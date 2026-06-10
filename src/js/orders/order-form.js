@@ -2,6 +2,19 @@ applyMoneyMask(orderPaidAmount);
 applyMoneyMask(discountValue);
 applyMoneyMask(paymentAmount);
 
+const BREEDABLE_UNDISCOVERED_EXCEPTIONS = [
+    489, // Phione
+    490 // Manaphy
+];
+
+function isPokemonBreedable(pokemon) {
+    const eggGroups = pokemon.eggGroups || [];
+
+    return !eggGroups.some((eggGroup) => {
+        return normalizeEggGroup(eggGroup) === "Undiscovered";
+    });
+}
+
 // CALCULATE ORDER TOTAL
 function calculateOrderTotal() {
     const rows = document.querySelectorAll(".pokemon-order-row");
@@ -607,7 +620,9 @@ function createPokemonOrderRow() {
             return;
         }
 
-        const results = searchPokemon(searchTerm).slice(0, 10);
+        const results = searchPokemon(searchTerm)
+            .filter((pokemon) => isPokemonBreedable(pokemon))
+            .slice(0, 10);
 
         results.forEach((pokemon) => {
             const item = document.createElement("div");
