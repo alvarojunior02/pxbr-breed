@@ -19,9 +19,13 @@ const ownedHABreedablePrice = document.getElementById("ownedHABreedablePrice");
 const ownedHANotes = document.getElementById("ownedHANotes");
 
 let pokedexCatalog = [];
+
 let pokemonDetailsAnimationDirection = "none";
+
 let selectedHAPokemonId = null;
 let selectedOwnedHAId = null;
+
+let addHAOrigin = "pokemon-details";
 
 async function loadPokemonCatalog() {
     const response = await fetch("./src/data/pokedex.json");
@@ -802,7 +806,9 @@ function getPokemonHiddenAbility(pokemon) {
     });
 }
 
-function openAddOwnedHAModal(pokemonId) {
+function openAddOwnedHAModal(pokemonId, origin = "pokemon-details") {
+    addHAOrigin = origin;
+
     const pokemon = getPokemonById(pokemonId);
     const hiddenAbility = getPokemonHiddenAbility(pokemon);
 
@@ -935,7 +941,7 @@ function saveOwnedHAFromModal() {
     closeAddOwnedHAModal();
     renderOwnedHAList();
 
-    if (pokemonIdToRefresh) {
+    if (addHAOrigin === "pokemon-details" && pokemonIdToRefresh) {
         openPokemonDetails(pokemonIdToRefresh);
     }
 }

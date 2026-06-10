@@ -75,7 +75,7 @@ function updatePokemonRowLabels() {
 }
 
 // POPULATE ABILITY SELECT
-function populateAbilitySelect(select, abilities) {
+function populateAbilitySelect(select, abilities, pokemonId = null) {
     if (!select) {
         console.error("Ability select não encontrado.");
         return;
@@ -83,7 +83,17 @@ function populateAbilitySelect(select, abilities) {
 
     select.innerHTML = "";
 
-    abilities.forEach((ability) => {
+    const ownedHA = pokemonId ? getOwnedHAByPokemonId(pokemonId) : null;
+
+    const filteredAbilities = abilities.filter((ability) => {
+        if (!ability.isHA) {
+            return true;
+        }
+
+        return Boolean(ownedHA);
+    });
+
+    filteredAbilities.forEach((ability) => {
         const option = document.createElement("option");
 
         option.value = ability.name;
@@ -405,7 +415,7 @@ function createOwnedHAOrderInfoHtml(pokemon) {
             <button
                 type="button"
                 class="button-ha"
-                onclick="openAddOwnedHAModal(${pokemon.id})">
+                onclick="openAddOwnedHAModal(${pokemon.id}, 'order-form')">
                 Adicionar HA agora
             </button>
         </div>
@@ -631,7 +641,7 @@ function createPokemonOrderRow() {
 
                 renderPokemonInfo(pokemon);
 
-                populateAbilitySelect(abilitySelect, pokemon.abilities);
+                populateAbilitySelect(abilitySelect, pokemon.abilities, pokemon.id);
 
                 populateNatureSelect();
 
