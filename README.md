@@ -6,13 +6,13 @@
 ![JavaScript](https://img.shields.io/badge/JavaScript-Vanilla-yellow)
 ![Storage](https://img.shields.io/badge/storage-LocalStorage-green)
 
+Sistema web para gerenciamento de encomendas, breeds, capturas e controle financeiro de Pokémon em servidores Pixelmon.
+
 ## 📦 Versão Atual
 
 Versão: **1.1.0**
 
 Última atualização: **Junho/2026**
-
-Sistema web para gerenciamento de encomendas, breeds, capturas e controle financeiro de Pokémon em servidores Pixelmon.
 
 ---
 
