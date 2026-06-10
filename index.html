@@ -49,20 +49,32 @@
 
             <main class="main-content">
                 <section id="dashboardSection" class="app-section active-section">
-                    <div class="section-header">
-                        <div>
-                            <h2>Dashboard</h2>
+                    <div class="dashboard-header">
+                        <h2>Dashboard</h2>
 
-                            <p>Acompanhe métricas gerais e valores totais do seu negócio.</p>
+                        <p>Acompanhe métricas gerais e valores totais do seu negócio.</p>
+
+                        <div class="dashboard-actions">
+                            <button
+                                type="button"
+                                class="button-primary"
+                                onclick="openCreateOrderModal()"
+                            >
+                                + Nova Encomenda
+                            </button>
+
+                            <button type="button" class="button-ha" onclick="openOwnedHAModal()">
+                                ✨ Gerenciar meus HAs
+                            </button>
+
+                            <button
+                                type="button"
+                                class="button-primary"
+                                onclick="openCreatePlayerModal()"
+                            >
+                                + Novo Cliente
+                            </button>
                         </div>
-
-                        <button type="button" class="btn-open-create-order-modal">
-                            + Nova Encomenda
-                        </button>
-
-                        <button type="button" class="button-ha" onclick="openOwnedHAModal()">
-                            Gerenciar meus HAs
-                        </button>
                     </div>
 
                     <div id="dashboardCards"></div>
