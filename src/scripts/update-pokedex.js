@@ -1,9 +1,9 @@
 const fs = require("fs/promises");
 const path = require("path");
 
-const POKEDEX_PATH = path.join(__dirname, "../data/pokedex.json");
+const POKEDEX_PATH = path.join(__dirname, "../src/data/pokedex.json");
 
-const OUTPUT_PATH = path.join(__dirname, "../data/pokedex.updated.json");
+const OUTPUT_PATH = path.join(__dirname, "../src/data/pokedex.updated.json");
 
 const START_ID = 899;
 const END_ID = 1025;
