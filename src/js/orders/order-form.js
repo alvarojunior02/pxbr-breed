@@ -344,6 +344,74 @@ function renderOwnedHAOrderInfo(row, pokemon) {
     `;
 }
 
+// CREATE OWNED HA ORDER INFO HTML
+function createOwnedHAOrderInfoHtml(pokemon) {
+    const ownedHA = getOwnedHAByPokemonId(pokemon.id);
+
+    if (!ownedHA) {
+        return "";
+    }
+
+    const currentEvolutionPokemon = ownedHA.evolutionLine?.find((item) => {
+        return Number(item.pokemonId) === Number(pokemon.id);
+    });
+
+    return `
+        <div class="owned-ha-order-card compact">
+            <strong>
+                ✨ HA cadastrada
+            </strong>
+
+            <span>
+                ${currentEvolutionPokemon?.abilityName || ownedHA.abilityName}
+                <small class="pokemon-ha-label">(<span>HA</span>)</small>
+            </span>
+
+            <div class="owned-ha-order-values">
+                <p>
+                    <strong>Castrado:</strong>
+                    ${formatMoney(ownedHA.castratedPrice)}
+                </p>
+
+                <p>
+                    <strong>Breedável:</strong>
+                    ${formatMoney(ownedHA.breedablePrice)}
+                </p>
+            </div>
+        </div>
+    `;
+}
+
+// APPLY OWNED HA PRICE TO ROW
+function applyOwnedHAPriceToRow(row, pokemon) {
+    const ownedHA = getOwnedHAByPokemonId(pokemon.id);
+    const valueInput = row.querySelector(".pokemon-value");
+    const breedableToggle = row.querySelector(".pokemon-breedable");
+    const abilitySelect = row.querySelector(".pokemon-ability");
+
+    if (!ownedHA || !valueInput || !breedableToggle || !abilitySelect) {
+        return;
+    }
+
+    const currentEvolutionPokemon = ownedHA.evolutionLine?.find((item) => {
+        return Number(item.pokemonId) === Number(pokemon.id);
+    });
+
+    const ownedHAAbilityName = currentEvolutionPokemon?.abilityName || ownedHA.abilityName;
+
+    const selectedAbility = abilitySelect.value;
+
+    if (selectedAbility !== ownedHAAbilityName) {
+        return;
+    }
+
+    const price = breedableToggle.checked ? ownedHA.breedablePrice : ownedHA.castratedPrice;
+
+    valueInput.value = formatMoney(price);
+
+    calculateOrderTotal();
+}
+
 // CREATE POKEMON ORDER ROW
 function createPokemonOrderRow() {
     const row = document.createElement("div");
@@ -539,13 +607,29 @@ function createPokemonOrderRow() {
 
                 enablePokemonFields();
 
-                renderOwnedHAOrderInfo(row, pokemon);
+                applyOwnedHAPriceToRow(row, pokemon);
 
                 calculateOrderTotal();
             });
 
             pokemonAutocomplete.appendChild(item);
         });
+    });
+
+    abilitySelect.addEventListener("change", () => {
+        if (!selectedPokemon) {
+            return;
+        }
+
+        applyOwnedHAPriceToRow(row, selectedPokemon);
+    });
+
+    breedableToggle.addEventListener("change", () => {
+        if (!selectedPokemon) {
+            return;
+        }
+
+        applyOwnedHAPriceToRow(row, selectedPokemon);
     });
 
     function renderPokemonInfo(pokemon) {
@@ -572,6 +656,8 @@ function createPokemonOrderRow() {
                         Egg Groups:
                         ${pokemon.eggGroups.join(" / ")}
                     </p>
+
+                    ${createOwnedHAOrderInfoHtml(pokemon)}
                 </div>
             </div>
         `;

@@ -386,3 +386,8 @@
 .owned-ha-order-values p {
     margin: 0;
 }
+
+.owned-ha-order-card.compact {
+    margin-top: 0.75rem;
+    padding: 0.75rem;
+}
