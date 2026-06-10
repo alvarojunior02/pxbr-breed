@@ -1,31 +1,16 @@
 const dashboardRecentOrders = document.getElementById("dashboardRecentOrders");
 const dashboardRecentTransactions = document.getElementById("dashboardRecentTransactions");
 
-function getPokemonStatusCounts(
-    pokemons
-) {
+function getPokemonStatusCounts(pokemons) {
     const counts = {};
 
-    ORDER_STATUS.forEach(
-        status => {
-            counts[
-                status.value
-            ] = 0;
-        }
-    );
+    ORDER_STATUS.forEach((status) => {
+        counts[status.value] = 0;
+    });
 
-    pokemons.forEach(
-        pokemon => {
-            counts[
-                pokemon.status
-            ] =
-                (
-                    counts[
-                        pokemon.status
-                    ] || 0
-                ) + 1;
-        }
-    );
+    pokemons.forEach((pokemon) => {
+        counts[pokemon.status] = (counts[pokemon.status] || 0) + 1;
+    });
 
     return counts;
 }
@@ -35,73 +20,33 @@ function getDashboardMetrics() {
 
     const players = loadPlayers();
 
-    const activeOrders =
-        orders.filter(
-            order =>
-                !order.archived
-        );
+    const activeOrders = orders.filter((order) => !order.archived);
 
-    const archivedOrders =
-        orders.filter(
-            order =>
-                order.archived
-        );
+    const archivedOrders = orders.filter((order) => order.archived);
 
-    const activePokemons =
-        activeOrders.flatMap(
-            order =>
-                order.pokemons
-        );
+    const activePokemons = activeOrders.flatMap((order) => order.pokemons);
 
-    const archivedPokemons =
-        archivedOrders.flatMap(
-            order =>
-                order.pokemons
-        );
+    const archivedPokemons = archivedOrders.flatMap((order) => order.pokemons);
 
-    const totalReceived =
-        orders.reduce(
-            (sum, order) =>
-                sum + (order.paidAmount || 0),
-            0
-        );
+    const totalReceived = orders.reduce((sum, order) => sum + (order.paidAmount || 0), 0);
 
-    const totalPending =
-        activeOrders.reduce(
-            (sum, order) =>
-                sum + Math.max(
-                    order.total - (order.paidAmount || 0),
-                    0
-                ),
-            0
-        );
+    const totalPending = activeOrders.reduce(
+        (sum, order) => sum + Math.max(order.total - (order.paidAmount || 0), 0),
+        0
+    );
 
-    const activeOrdersValue =
-        activeOrders.reduce(
-            (sum, order) =>
-                sum + order.total,
-            0
-        );
+    const activeOrdersValue = activeOrders.reduce((sum, order) => sum + order.total, 0);
 
-    const archivedOrdersValue =
-        archivedOrders.reduce(
-            (sum, order) =>
-                sum + order.total,
-            0
-        );
+    const archivedOrdersValue = archivedOrders.reduce((sum, order) => sum + order.total, 0);
 
     return {
-        activeOrders:
-            activeOrders.length,
+        activeOrders: activeOrders.length,
 
-        activePokemons:
-            activePokemons.length,
+        activePokemons: activePokemons.length,
 
-        players:
-            players.length,
+        players: players.length,
 
-        archivedOrders:
-            archivedOrders.length,
+        archivedOrders: archivedOrders.length,
 
         activeOrdersValue,
 
@@ -111,23 +56,13 @@ function getDashboardMetrics() {
 
         archivedOrdersValue,
 
-        activeStatusCounts:
-            getPokemonStatusCounts(
-                activePokemons
-            ),
+        activeStatusCounts: getPokemonStatusCounts(activePokemons),
 
-        archivedStatusCounts:
-            getPokemonStatusCounts(
-                archivedPokemons
-            )
+        archivedStatusCounts: getPokemonStatusCounts(archivedPokemons)
     };
 }
 
-function createDashboardGroup(
-    title,
-    content,
-    extraClass = ""
-) {
+function createDashboardGroup(title, content, extraClass = "") {
     return `
         <section class="dashboard-group ${extraClass}">
             <div class="dashboard-group-title">
@@ -151,8 +86,7 @@ function renderDashboard() {
 
     const metrics = getDashboardMetrics();
 
-    const overviewCards =
-        `
+    const overviewCards = `
         <div class="dashboard-card">
             <strong>Ativas</strong>
             <span>${metrics.activeOrders}</span>
@@ -196,34 +130,23 @@ function renderDashboard() {
         </div>
     `;
 
-    const statusCards =
-        ORDER_STATUS.map(status => {
-            const activeCount =
-                metrics.activeStatusCounts[
-                    status.value
-                ];
+    const statusCards = ORDER_STATUS.map((status) => {
+        const activeCount = metrics.activeStatusCounts[status.value];
 
-            const archivedCount =
-                metrics.archivedStatusCounts[
-                    status.value
-                ];
+        const archivedCount = metrics.archivedStatusCounts[status.value];
 
-            const archivedHtml =
-                status.value === "DELIVERED" &&
-                archivedCount > 0
-                    ? `
+        const archivedHtml =
+            status.value === "DELIVERED" && archivedCount > 0
+                ? `
                         <small class="dashboard-archived-count">
                             (+${archivedCount} Arquiv.)
                         </small>
                     `
-                    : "";
+                : "";
 
-            const statusLabel =
-                status.value === "NEEDS_FEMALE"
-                    ? "Precisa Cap. F"
-                    : status.name;   
+        const statusLabel = status.value === "NEEDS_FEMALE" ? "Precisa Cap. F" : status.name;
 
-            return `
+        return `
                 <button
                     type="button"
                     class="dashboard-card dashboard-card-button"
@@ -240,29 +163,13 @@ function renderDashboard() {
 
                 </button>
             `;
-        }).join("");
-
-    
+    }).join("");
 
     dashboardCards.innerHTML =
-        createDashboardGroup(
-            "Resumo geral",
-            overviewCards
-        ) +
-        createDashboardGroup(
-            "Valores",
-            financeCards
-        ) +
-        createDashboardGroup(
-            "Status das Breeds",
-            statusCards,
-            "dashboard-status-group"
-        ) +
-        createDashboardGroup(
-            "Top Compradores",
-            renderTopBuyers(),
-            "dashboard-top-buyers-group"
-        );
+        createDashboardGroup("Resumo geral", overviewCards) +
+        createDashboardGroup("Valores", financeCards) +
+        createDashboardGroup("Status das Breeds", statusCards, "dashboard-status-group") +
+        createDashboardGroup("Top Compradores", renderTopBuyers(), "dashboard-top-buyers-group");
 
     renderDashboardRecentOrders();
     renderDashboardRecentTransactions();
@@ -270,27 +177,18 @@ function renderDashboard() {
 
 function getRecentOrders(limit = 5) {
     return loadOrders()
-        .filter(order =>
-            !order.archived
-        )
-        .sort(
-            (a, b) =>
-                new Date(b.createdAt) -
-                new Date(a.createdAt)
-        )
+        .filter((order) => !order.archived)
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         .slice(0, limit);
 }
 
 function renderDashboardRecentOrders() {
-    const recentOrders =
-        getRecentOrders();
+    const recentOrders = getRecentOrders();
 
-    dashboardRecentOrders.innerHTML =
-        "";
+    dashboardRecentOrders.innerHTML = "";
 
     if (recentOrders.length === 0) {
-        dashboardRecentOrders.innerHTML =
-            `
+        dashboardRecentOrders.innerHTML = `
             <p>
                 Nenhuma encomenda recém cadastrada encontra-se ativa.
             </p>
@@ -299,31 +197,25 @@ function renderDashboardRecentOrders() {
         return;
     }
 
-    recentOrders.forEach(order => {
-        const card =
-            document.createElement("div");
+    recentOrders.forEach((order) => {
+        const card = document.createElement("div");
 
-        card.classList.add(
-            "order-card"
-        );
+        card.classList.add("order-card");
 
-        card.innerHTML =
-            createOrderCard(order);
+        card.innerHTML = createOrderCard(order);
 
         dashboardRecentOrders.appendChild(card);
     });
 }
 
 function filterOrdersByStatus(statusValue) {
-    const orderStatusFilter =
-        document.getElementById("orderStatusFilter");
+    const orderStatusFilter = document.getElementById("orderStatusFilter");
 
     if (!orderStatusFilter) {
         return;
     }
 
-    orderStatusFilter.value =
-        statusValue;
+    orderStatusFilter.value = statusValue;
 
     renderOrdersList();
 }
@@ -334,36 +226,23 @@ function getTopBuyers(limit = 5) {
     const transactions = loadTransactions();
 
     return players
-        .map(player => {
-            const totalPaid =
-                transactions
-                    .filter(transaction =>
-                        transaction.playerId === player.id
-                    )
-                    .reduce(
-                        (total, transaction) =>
-                            total + transaction.amount,
-                        0
-                    );
+        .map((player) => {
+            const totalPaid = transactions
+                .filter((transaction) => transaction.playerId === player.id)
+                .reduce((total, transaction) => total + transaction.amount, 0);
 
             return {
                 player,
                 totalPaid
             };
         })
-        .filter(item =>
-            item.totalPaid > 0
-        )
-        .sort(
-            (a, b) =>
-                b.totalPaid - a.totalPaid
-        )
+        .filter((item) => item.totalPaid > 0)
+        .sort((a, b) => b.totalPaid - a.totalPaid)
         .slice(0, limit);
 }
 
 function renderTopBuyers() {
-    const topBuyers =
-        getTopBuyers();
+    const topBuyers = getTopBuyers();
 
     if (topBuyers.length === 0) {
         return `
@@ -375,9 +254,9 @@ function renderTopBuyers() {
 
     return `
         <div class="top-buyers-list">
-            ${
-                topBuyers
-                    .map((item, index) => `
+            ${topBuyers
+                .map(
+                    (item, index) => `
                         <div class="top-buyer-item">
                             <strong>
                                 ${index + 1}º
@@ -388,20 +267,16 @@ function renderTopBuyers() {
                                 ${formatMoney(item.totalPaid)}
                             </span>
                         </div>
-                    `)
-                    .join("")
-            }
+                    `
+                )
+                .join("")}
         </div>
     `;
 }
 
 function getRecentTransactions(limit = 5) {
     return loadTransactions()
-        .sort(
-            (a, b) =>
-                new Date(b.createdAt) -
-                new Date(a.createdAt)
-        )
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         .slice(0, limit);
 }
 
@@ -409,8 +284,7 @@ function renderDashboardRecentTransactions() {
     const transactions = getRecentTransactions();
 
     if (transactions.length === 0) {
-        dashboardRecentTransactions.innerHTML =
-            `
+        dashboardRecentTransactions.innerHTML = `
             <p>
                 Nenhuma transação registrada ainda.
             </p>
@@ -419,16 +293,11 @@ function renderDashboardRecentTransactions() {
         return;
     }
 
-    const rows =
-        transactions
-            .map(transaction => {
-                const player =
-                    loadPlayers().find(
-                        player =>
-                            player.id === transaction.playerId
-                    );
+    const rows = transactions
+        .map((transaction) => {
+            const player = loadPlayers().find((player) => player.id === transaction.playerId);
 
-                return `
+            return `
                     <tr>
                         <td>
                             ${formatDateTime(transaction.createdAt)}
@@ -453,11 +322,10 @@ function renderDashboardRecentTransactions() {
                         </td>
                     </tr>
                 `;
-            })
-            .join("");
+        })
+        .join("");
 
-    dashboardRecentTransactions.innerHTML =
-        `
+    dashboardRecentTransactions.innerHTML = `
         <div class="table-wrapper">
             <table class="finance-table">
                 <thead>
@@ -477,7 +345,7 @@ function renderDashboardRecentTransactions() {
     `;
 }
 
-window.renderDashboard =renderDashboard;
+window.renderDashboard = renderDashboard;
 window.filterOrdersByStatus = filterOrdersByStatus;
 
 renderDashboard();

@@ -4,10 +4,7 @@ function getFilteredOrders() {
 
     const players = loadPlayers();
 
-    const searchTerm =
-        orderSearchPlayer.value
-            .trim()
-            .toLowerCase();
+    const searchTerm = orderSearchPlayer.value.trim().toLowerCase();
 
     const selectedStatus = orderStatusFilter.value;
 
@@ -15,7 +12,7 @@ function getFilteredOrders() {
 
     const archiveFilter = orderArchiveFilter.value;
 
-    return orders.filter(order => {
+    return orders.filter((order) => {
         if (archiveFilter === "active" && order.archived) {
             return false;
         }
@@ -24,67 +21,36 @@ function getFilteredOrders() {
             return false;
         }
 
-        const player =
-            players.find(
-                player =>
-                    player.id === order.playerId
-            );
+        const player = players.find((player) => player.id === order.playerId);
 
-        const matchesPlayer =
-            !searchTerm ||
-            player?.nick
-                .toLowerCase()
-                .includes(searchTerm);
+        const matchesPlayer = !searchTerm || player?.nick.toLowerCase().includes(searchTerm);
 
         const matchesStatus =
-            !selectedStatus ||
-            order.pokemons.some(
-                pokemon =>
-                    pokemon.status === selectedStatus
-            );
+            !selectedStatus || order.pokemons.some((pokemon) => pokemon.status === selectedStatus);
 
         const paidAmount = order.paidAmount || 0;
 
         const isPaid = paidAmount >= order.total;
 
-        const isPartiallyPaid =
-            paidAmount > 0 &&
-            paidAmount < order.total;
+        const isPartiallyPaid = paidAmount > 0 && paidAmount < order.total;
 
-        const isPending =
-            paidAmount === 0;
+        const isPending = paidAmount === 0;
 
         const matchesPayment =
             !paymentFilter ||
-            (
-                paymentFilter === "paid" &&
-                isPaid
-            ) ||
-            (
-                paymentFilter === "partial" &&
-                isPartiallyPaid
-            ) ||
-            (
-                paymentFilter === "pending" &&
-                isPending
-            );
+            (paymentFilter === "paid" && isPaid) ||
+            (paymentFilter === "partial" && isPartiallyPaid) ||
+            (paymentFilter === "pending" && isPending);
 
-        return matchesPlayer &&
-            matchesStatus &&
-            matchesPayment;
+        return matchesPlayer && matchesStatus && matchesPayment;
     });
 }
 
 // RENDER ORDERS LIST
 function renderOrdersList() {
-
-    const orders =
-        getFilteredOrders()
-            .sort(
-                (a, b) =>
-                    new Date(b.createdAt) -
-                    new Date(a.createdAt)
-            );
+    const orders = getFilteredOrders().sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
 
     const ordersList = document.getElementById("ordersList");
     const ordersCount = document.getElementById("ordersCount");
@@ -93,16 +59,12 @@ function renderOrdersList() {
 
     ordersList.innerHTML = "";
 
-    orders.forEach(order => {
-        const card =
-            document.createElement("div");
+    orders.forEach((order) => {
+        const card = document.createElement("div");
 
-        card.classList.add(
-            "order-card"
-        );
+        card.classList.add("order-card");
 
-        card.innerHTML =
-            createOrderCard(order);
+        card.innerHTML = createOrderCard(order);
 
         ordersList.appendChild(card);
     });
@@ -110,25 +72,14 @@ function renderOrdersList() {
 
 // CREATE ORDER CARD
 function createOrderCard(order) {
-    const player =
-        loadPlayers().find(
-            player =>
-                player.id ===
-                order.playerId
-        );
+    const player = loadPlayers().find((player) => player.id === order.playerId);
 
-    const statusSummary =
-        getOrderStatusSummary(
-            order
-        );
+    const statusSummary = getOrderStatusSummary(order);
 
-    const statusHtml =
-        Object.entries(
-            statusSummary
-        )
-            .map(
-                ([status, count]) =>
-                    `
+    const statusHtml = Object.entries(statusSummary)
+        .map(
+            ([status, count]) =>
+                `
                     <li>
                         ${count}
                         <span
@@ -137,8 +88,8 @@ function createOrderCard(order) {
                         </span>
                     </li>
                     `
-            )
-            .join("");
+        )
+        .join("");
 
     return `
         ${
@@ -170,9 +121,7 @@ function createOrderCard(order) {
 
         <p>
             Total:
-            ${formatMoney(
-                order.total
-            )}
+            ${formatMoney(order.total)}
         </p>
 
         <br>
@@ -237,24 +186,12 @@ function createOrderCard(order) {
     `;
 }
 
-orderSearchPlayer.addEventListener(
-    "input",
-    renderOrdersList
-);
+orderSearchPlayer.addEventListener("input", renderOrdersList);
 
-orderStatusFilter.addEventListener(
-    "change",
-    renderOrdersList
-);
+orderStatusFilter.addEventListener("change", renderOrdersList);
 
-orderArchiveFilter.addEventListener(
-    "change",
-    renderOrdersList
-);
+orderArchiveFilter.addEventListener("change", renderOrdersList);
 
-orderPaymentFilter.addEventListener(
-    "change",
-    renderOrdersList
-);
+orderPaymentFilter.addEventListener("change", renderOrdersList);
 
 window.renderOrdersList = renderOrdersList;

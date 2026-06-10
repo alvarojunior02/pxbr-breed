@@ -31,8 +31,7 @@ const ORDER_STATUS = [
     }
 ];
 
-const DEFAULT_POKEMON_PRICE =
-    800000;
+const DEFAULT_POKEMON_PRICE = 800000;
 
 const POKEMON_NATURES = [
     { name: "Jolly", positive: "Spe", negative: "SpA", neutral: false },
@@ -64,38 +63,21 @@ const POKEMON_NATURES = [
 ];
 
 function getStatusByValue(value) {
-    return ORDER_STATUS.find(
-        status =>
-            status.value === value
-    );
+    return ORDER_STATUS.find((status) => status.value === value);
 }
 
 function getNatureByName(name) {
-    return POKEMON_NATURES.find(
-        nature =>
-            nature.name === name
-    );
+    return POKEMON_NATURES.find((nature) => nature.name === name);
 }
 
 function getNextStatus(currentValue) {
+    const currentIndex = ORDER_STATUS.findIndex((status) => status.value === currentValue);
 
-    const currentIndex =
-        ORDER_STATUS.findIndex(
-            status =>
-                status.value === currentValue
-        );
-
-    return ORDER_STATUS[
-        currentIndex + 1
-    ] || null;
+    return ORDER_STATUS[currentIndex + 1] || null;
 }
 
 function isLastStatus(value) {
-
-    const lastStatus =
-        ORDER_STATUS[
-            ORDER_STATUS.length - 1
-        ];
+    const lastStatus = ORDER_STATUS[ORDER_STATUS.length - 1];
 
     return value === lastStatus.value;
 }
@@ -105,19 +87,13 @@ function getFirstStatus() {
 }
 
 function isFirstStatus(value) {
-
-    const firstStatus =
-        ORDER_STATUS[0];
+    const firstStatus = ORDER_STATUS[0];
 
     return value === firstStatus.value;
 }
 
-function getOrderStatusClass(
-    statusValue
-) {
-    return getStatusByValue(
-        statusValue
-    )?.cssClass ?? "";
+function getOrderStatusClass(statusValue) {
+    return getStatusByValue(statusValue)?.cssClass ?? "";
 }
 
 window.ORDER_STATUS = ORDER_STATUS;

@@ -24,53 +24,53 @@ Atualmente o sistema já permite acompanhar todo o fluxo operacional de uma enco
 
 ### 📊 Dashboard
 
-* Resumo geral do sistema
-* Quantidade de encomendas ativas
-* Quantidade de clientes cadastrados
-* Receita total recebida
-* Valores pendentes
-* Status das breeds
-* Top compradores
-* Últimas encomendas
-* Últimas transações
+- Resumo geral do sistema
+- Quantidade de encomendas ativas
+- Quantidade de clientes cadastrados
+- Receita total recebida
+- Valores pendentes
+- Status das breeds
+- Top compradores
+- Últimas encomendas
+- Últimas transações
 
 ### 📦 Encomendas
 
-* Cadastro de encomendas
-* Múltiplos Pokémon por pedido
-* Controle individual de status
-* Controle de pagamento
-* Sistema de arquivamento
-* Observações por encomenda
-* Filtros de pesquisa
+- Cadastro de encomendas
+- Múltiplos Pokémon por pedido
+- Controle individual de status
+- Controle de pagamento
+- Sistema de arquivamento
+- Observações por encomenda
+- Filtros de pesquisa
 
 ### 👥 Clientes
 
-* Cadastro de clientes
-* Avatar Minecraft automático
-* Histórico de encomendas
-* Histórico financeiro
-* Resumo de compras
-* Consulta rápida de transações
+- Cadastro de clientes
+- Avatar Minecraft automático
+- Histórico de encomendas
+- Histórico financeiro
+- Resumo de compras
+- Consulta rápida de transações
 
 ### 💰 Financeiro
 
-* Registro automático de pagamentos
-* Controle de transações
-* Receita total
-* Receita mensal
-* Receita diária
-* Histórico financeiro completo
+- Registro automático de pagamentos
+- Controle de transações
+- Receita total
+- Receita mensal
+- Receita diária
+- Histórico financeiro completo
 
 ### 📚 Pokédex Integrada
 
-* Pokédex local até a Geração 9
-* Busca por nome ou ID
-* Informações completas dos Pokémon
-* Hidden Abilities (HA)
-* Egg Groups
-* Evoluções
-* Sprites e miniaturas
+- Pokédex local até a Geração 9
+- Busca por nome ou ID
+- Informações completas dos Pokémon
+- Hidden Abilities (HA)
+- Egg Groups
+- Evoluções
+- Sprites e miniaturas
 
 ---
 
@@ -108,7 +108,7 @@ Cada Pokémon possui um controle independente de progresso:
 | 🔵 A Começar              | Breed ainda não iniciada                            |
 | 🟡 Em Andamento           | Processo de breed em execução                       |
 | 🟢 Pronto                 | Pokémon finalizado                                  |
-| ✅ Entregue                | Pokémon entregue ao cliente                         |
+| ✅ Entregue               | Pokémon entregue ao cliente                         |
 
 ---
 
@@ -116,22 +116,22 @@ Cada Pokémon possui um controle independente de progresso:
 
 ### Front-end
 
-* HTML5
-* CSS3
-* JavaScript (Vanilla)
+- HTML5
+- CSS3
+- JavaScript (Vanilla)
 
 ### Persistência
 
-* LocalStorage
+- LocalStorage
 
 ### Ferramentas
 
-* Node.js
-* PokéAPI (apenas para manutenção da Pokédex)
+- Node.js
+- PokéAPI (apenas para manutenção da Pokédex)
 
 ### Serviços Externos
 
-* mc-heads.net (Avatar Minecraft)
+- mc-heads.net (Avatar Minecraft)
 
 ---
 
@@ -190,72 +190,72 @@ O sistema já está apto para uso real e continua recebendo melhorias voltadas p
 
 #### 💰 Financeiro
 
-* [ ] Filtro por período
+- [ ] Filtro por período
 
-  * [ ] Hoje
-  * [ ] Últimos 7 dias
-  * [ ] Últimos 30 dias
-  * [ ] Mês Atual
-  * [ ] Tudo
+    - [ ] Hoje
+    - [ ] Últimos 7 dias
+    - [ ] Últimos 30 dias
+    - [ ] Mês Atual
+    - [ ] Tudo
 
 #### 📄 Exportação e Importação
 
-* [ ] Exportação CSV
-* [ ] Importação CSV
-* [ ] Validação de duplicidade
-* [ ] Exportação JSON
-* [ ] Importação JSON
-* [ ] Sistema de backup local
+- [ ] Exportação CSV
+- [ ] Importação CSV
+- [ ] Validação de duplicidade
+- [ ] Exportação JSON
+- [ ] Importação JSON
+- [ ] Sistema de backup local
 
 ---
 
 ### 📈 Relatórios
 
-* [ ] Ticket médio
-* [ ] Maior comprador
-* [ ] Receita por período
-* [ ] Relatórios mensais
-* [ ] Histórico financeiro avançado
+- [ ] Ticket médio
+- [ ] Maior comprador
+- [ ] Receita por período
+- [ ] Relatórios mensais
+- [ ] Histórico financeiro avançado
 
 ---
 
 ### ⚙️ Gestão
 
-* [ ] Edição de clientes
-* [ ] Edição de encomendas
-* [ ] Exclusão controlada
-* [ ] Histórico de alterações
-* [ ] Controle de estoque
+- [ ] Edição de clientes
+- [ ] Edição de encomendas
+- [ ] Exclusão controlada
+- [ ] Histórico de alterações
+- [ ] Controle de estoque
 
 ---
 
 ### 🎨 Interface
 
-* [ ] Busca global
-* [ ] Gráficos financeiros
-* [ ] Tema claro/escuro
-* [ ] Melhorias de UX/UI
+- [ ] Busca global
+- [ ] Gráficos financeiros
+- [ ] Tema claro/escuro
+- [ ] Melhorias de UX/UI
 
 ---
 
 ### 🌐 Futuro
 
-* [ ] Backend próprio
-* [ ] Banco de dados
-* [ ] Multiusuário
-* [ ] Deploy online
-* [ ] Sistema de autenticação
+- [ ] Backend próprio
+- [ ] Banco de dados
+- [ ] Multiusuário
+- [ ] Deploy online
+- [ ] Sistema de autenticação
 
 ---
 
 ## 🎯 Objetivos do Projeto
 
-* Centralizar informações de clientes e encomendas
-* Facilitar o acompanhamento de breeds
-* Melhorar o controle financeiro
-* Evitar perda de informações
-* Aumentar a produtividade durante o gerenciamento de pedidos
-* Servir como ferramenta prática para servidores Pixelmon
+- Centralizar informações de clientes e encomendas
+- Facilitar o acompanhamento de breeds
+- Melhorar o controle financeiro
+- Evitar perda de informações
+- Aumentar a produtividade durante o gerenciamento de pedidos
+- Servir como ferramenta prática para servidores Pixelmon
 
 ---
 
@@ -265,10 +265,10 @@ Este projeto está licenciado sob os termos da **GNU General Public License v3.0
 
 Você pode:
 
-* Utilizar o projeto livremente;
-* Estudar o código-fonte;
-* Modificar o código;
-* Distribuir versões modificadas;
+- Utilizar o projeto livremente;
+- Estudar o código-fonte;
+- Modificar o código;
+- Distribuir versões modificadas;
 
 Desde que qualquer trabalho derivado também seja distribuído sob a mesma licença GPL.
 
@@ -286,9 +286,9 @@ Desenvolvido por **Alvaro Carneiro Junior**.
 
 Caso tenha sugestões, dúvidas ou queira acompanhar o desenvolvimento do projeto:
 
-[![linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge\&logo=linkedin\&logoColor=white)](https://www.linkedin.com/in/alvaro-carneiro-junior-9a376038a/)
+[![linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/alvaro-carneiro-junior-9a376038a/)
 
-[![mail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge\&logo=gmail\&logoColor=white)](mailto:alvarojunior02.dev@gmail.com)
+[![mail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:alvarojunior02.dev@gmail.com)
 
 ---
 

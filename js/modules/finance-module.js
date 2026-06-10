@@ -18,49 +18,25 @@ function renderFinanceSummary() {
 
     const currentYear = today.getFullYear();
 
-    const totalRevenue =
-        transactions.reduce(
-            (total, transaction) =>
-                total + transaction.amount,
-            0
-        );
+    const totalRevenue = transactions.reduce((total, transaction) => total + transaction.amount, 0);
 
-    const monthlyRevenue =
-        transactions
-            .filter(transaction => {
-                const date =
-                    new Date(transaction.createdAt);
+    const monthlyRevenue = transactions
+        .filter((transaction) => {
+            const date = new Date(transaction.createdAt);
 
-                return (
-                    date.getMonth() === currentMonth &&
-                    date.getFullYear() === currentYear
-                );
-            })
-            .reduce(
-                (total, transaction) =>
-                    total + transaction.amount,
-                0
-            );
+            return date.getMonth() === currentMonth && date.getFullYear() === currentYear;
+        })
+        .reduce((total, transaction) => total + transaction.amount, 0);
 
-    const dailyRevenue =
-        transactions
-            .filter(transaction => {
-                const date =
-                    new Date(transaction.createdAt);
+    const dailyRevenue = transactions
+        .filter((transaction) => {
+            const date = new Date(transaction.createdAt);
 
-                return (
-                    date.toDateString() ===
-                    today.toDateString()
-                );
-            })
-            .reduce(
-                (total, transaction) =>
-                    total + transaction.amount,
-                0
-            );
+            return date.toDateString() === today.toDateString();
+        })
+        .reduce((total, transaction) => total + transaction.amount, 0);
 
-    financeSummaryCards.innerHTML =
-        `
+    financeSummaryCards.innerHTML = `
         <div class="dashboard-card">
             <strong>
                 Receita Total
@@ -105,19 +81,14 @@ function renderFinanceSummary() {
 
 // RENDER FINANCE TRANSACTIONS
 function renderFinanceTransactions() {
-    const transactions =
-        loadTransactions()
-            .sort(
-                (a, b) =>
-                    new Date(b.createdAt) -
-                    new Date(a.createdAt)
-            );
+    const transactions = loadTransactions().sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
 
     financeTransactionsList.innerHTML = "";
 
     if (transactions.length === 0) {
-        financeTransactionsList.innerHTML =
-            `
+        financeTransactionsList.innerHTML = `
             <p>
                 Nenhuma transação registrada.
             </p>
@@ -126,16 +97,11 @@ function renderFinanceTransactions() {
         return;
     }
 
-    const rows =
-        transactions
-            .map(transaction => {
-                const player =
-                    loadPlayers().find(
-                        player =>
-                            player.id === transaction.playerId
-                    );
+    const rows = transactions
+        .map((transaction) => {
+            const player = loadPlayers().find((player) => player.id === transaction.playerId);
 
-                return `
+            return `
                     <tr>
                         <td>
                             ${formatDateTime(transaction.createdAt)}
@@ -167,11 +133,10 @@ function renderFinanceTransactions() {
                         </td>
                     </tr>
                 `;
-            })
-            .join("");
+        })
+        .join("");
 
-    financeTransactionsList.innerHTML =
-        `
+    financeTransactionsList.innerHTML = `
         <div class="table-wrapper">
             <table class="finance-table">
                 <thead>

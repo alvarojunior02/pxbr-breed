@@ -1,30 +1,18 @@
 // OPEN PAYMENT MODAL
 function openPaymentModal(orderId) {
-    const order =
-        loadOrders().find(
-            order =>
-                order.id === orderId
-        );
+    const order = loadOrders().find((order) => order.id === orderId);
 
     if (!order) {
         return;
     }
 
-    const player =
-        loadPlayers().find(
-            player =>
-                player.id ===
-                order.playerId
-        );
+    const player = loadPlayers().find((player) => player.id === order.playerId);
 
-    const paidAmount =
-        order.paidAmount || 0;
+    const paidAmount = order.paidAmount || 0;
 
-    const remaining =
-        order.total - paidAmount;
+    const remaining = order.total - paidAmount;
 
-    selectedPaymentOrderId =
-        orderId;
+    selectedPaymentOrderId = orderId;
 
     paymentSummary.innerHTML = `
         <h3>
@@ -48,65 +36,39 @@ function openPaymentModal(orderId) {
         </p>
     `;
 
-    paymentAmount.value =
-        formatMoney(remaining);
+    paymentAmount.value = formatMoney(remaining);
 
-    paymentModal.classList.remove(
-        "hidden"
-    );
+    paymentModal.classList.remove("hidden");
 }
 
-btnCancelPayment.addEventListener(
-    "click",
-    () => {
-        paymentModal.classList.add(
-            "hidden"
-        );
+btnCancelPayment.addEventListener("click", () => {
+    paymentModal.classList.add("hidden");
+});
+
+btnConfirmPayment.addEventListener("click", () => {
+    const orders = loadOrders();
+
+    const order = orders.find((order) => order.id === selectedPaymentOrderId);
+
+    if (!order) {
+        return;
     }
-);
 
-btnConfirmPayment.addEventListener(
-    "click",
-    () => {
-        const orders =
-            loadOrders();
+    const player = loadPlayers().find((player) => player.id === order.playerId);
 
-        const order =
-            orders.find(
-                order =>
-                    order.id === selectedPaymentOrderId
-            );
+    const amount = unformatMoney(paymentAmount.value);
 
-        if (!order) {
-            return;
-        }
+    if (!validatePaymentAmount(order, amount)) {
+        return;
+    }
 
-        const player =
-            loadPlayers().find(
-                player =>
-                    player.id ===
-                    order.playerId
-            );
+    const currentPaid = order.paidAmount || 0;
 
-        const amount =
-            unformatMoney(
-                paymentAmount.value
-            );
+    const remaining = order.total - currentPaid;
 
-        if (!validatePaymentAmount(order, amount)) {
-            return;
-        }
+    pendingPaymentAmount = amount;
 
-        const currentPaid =
-            order.paidAmount || 0;
-
-        const remaining =
-            order.total - currentPaid;
-
-        pendingPaymentAmount =
-            amount;
-
-        paymentConfirmSummary.innerHTML = `
+    paymentConfirmSummary.innerHTML = `
             <h3>
                 Cliente:
                 ${player?.nick ?? "Player"}
@@ -134,75 +96,56 @@ btnConfirmPayment.addEventListener(
 
             <p>
                 <strong>Restante após pagamento:</strong>
-                ${formatMoney(
-                    remaining - amount
-                )}
+                ${formatMoney(remaining - amount)}
             </p>
         `;
 
-        paymentConfirmModal.classList.remove(
-            "hidden"
-        );
+    paymentConfirmModal.classList.remove("hidden");
+});
+
+btnCancelPaymentConfirm.addEventListener("click", () => {
+    paymentConfirmModal.classList.add("hidden");
+});
+
+btnConfirmPaymentRegister.addEventListener("click", () => {
+    const orders = loadOrders();
+
+    const order = orders.find((order) => order.id === selectedPaymentOrderId);
+
+    if (!order) {
+        return;
     }
-);
 
-btnCancelPaymentConfirm.addEventListener(
-    "click",
-    () => {
-        paymentConfirmModal.classList.add(
-            "hidden"
-        );
+    if (!validatePaymentAmount(order, pendingPaymentAmount)) {
+        return;
     }
-);
 
-btnConfirmPaymentRegister.addEventListener(
-    "click",
-    () => {
-        const orders =
-            loadOrders();
+    order.paidAmount = (order.paidAmount || 0) + pendingPaymentAmount;
 
-        const order =
-            orders.find(
-                order =>
-                    order.id === selectedPaymentOrderId
-            );
+    order.paid = order.paidAmount >= order.total;
 
-        if (!order) {
-            return;
-        }
+    saveOrders(orders);
 
-        if (!validatePaymentAmount(order, pendingPaymentAmount)) {
-            return;
-        }
+    const transaction = createOrderPaymentTransaction({
+        amount: pendingPaymentAmount,
+        playerId: order.playerId,
+        orderId: order.id
+    });
 
-        order.paidAmount = (order.paidAmount || 0) + pendingPaymentAmount;
+    saveTransaction(transaction);
 
-        order.paid = order.paidAmount >= order.total;
+    paymentConfirmModal.classList.add("hidden");
 
-        saveOrders(orders);
+    paymentModal.classList.add("hidden");
 
-        const transaction =
-            createOrderPaymentTransaction({
-                amount: pendingPaymentAmount,
-                playerId: order.playerId,
-                orderId: order.id
-            });
+    pendingPaymentAmount = 0;
 
-        saveTransaction(transaction);
+    renderDashboard();
+    renderOrdersList();
+    renderPlayersModule();
+    renderFinanceModule();
 
-        paymentConfirmModal.classList.add("hidden");
-
-        paymentModal.classList.add("hidden");
-
-        pendingPaymentAmount = 0;
-
-        renderDashboard();
-        renderOrdersList();
-        renderPlayersModule();
-        renderFinanceModule();
-
-        openOrderDetails(selectedPaymentOrderId);
-    }
-);
+    openOrderDetails(selectedPaymentOrderId);
+});
 
 window.openPaymentModal = openPaymentModal;

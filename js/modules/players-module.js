@@ -16,29 +16,15 @@ const btnClosePlayerTransactions = document.getElementById("btnClosePlayerTransa
 let shouldSelectCreatedPlayerOnOrderForm = false;
 
 function getPlayerOrders(playerId) {
-    return loadOrders()
-        .filter(order =>
-            order.playerId === playerId
-        );
+    return loadOrders().filter((order) => order.playerId === playerId);
 }
 
 function getPlayerFinancialSummary(playerId) {
-    const orders =
-        getPlayerOrders(playerId);
+    const orders = getPlayerOrders(playerId);
 
-    const total =
-        orders.reduce(
-            (sum, order) =>
-                sum + order.total,
-            0
-        );
+    const total = orders.reduce((sum, order) => sum + order.total, 0);
 
-    const paid =
-        orders.reduce(
-            (sum, order) =>
-                sum + (order.paidAmount || 0),
-            0
-        );
+    const paid = orders.reduce((sum, order) => sum + (order.paidAmount || 0), 0);
 
     return {
         ordersCount: orders.length,
@@ -53,7 +39,7 @@ function renderPlayersModule() {
 
     playersCards.innerHTML = "";
 
-    players.forEach(player => {
+    players.forEach((player) => {
         const summary = getPlayerFinancialSummary(player.id);
 
         const lastOrder = getPlayerLastOrder(player.id);
@@ -134,9 +120,7 @@ function renderPlayersModule() {
     });
 }
 
-function openNewPlayerModal(
-    selectOnOrderForm = false
-) {
+function openNewPlayerModal(selectOnOrderForm = false) {
     shouldSelectCreatedPlayerOnOrderForm = selectOnOrderForm;
 
     newPlayerNick.value = "";
@@ -151,16 +135,12 @@ function closeNewPlayerModal() {
 }
 
 function saveNewPlayerFromModal() {
-    const nick =
-        newPlayerNick.value.trim();
+    const nick = newPlayerNick.value.trim();
 
     try {
         const player = addPlayer(nick);
 
-        if (
-            shouldSelectCreatedPlayerOnOrderForm &&
-            typeof selectOrderPlayer === "function"
-        ) {
+        if (shouldSelectCreatedPlayerOnOrderForm && typeof selectOrderPlayer === "function") {
             selectOrderPlayer(player);
         }
 
@@ -179,10 +159,7 @@ function saveNewPlayerFromModal() {
 }
 
 function showPlayerOrders(playerId) {
-    const player =
-        loadPlayers().find(player =>
-            player.id === playerId
-        );
+    const player = loadPlayers().find((player) => player.id === playerId);
 
     if (!player) {
         return;
@@ -206,21 +183,15 @@ function showPlayerOrders(playerId) {
 }
 
 function openPlayerSummaryModal(playerId) {
-    const player =
-        loadPlayers().find(
-            player =>
-                player.id === playerId
-        );
+    const player = loadPlayers().find((player) => player.id === playerId);
 
     if (!player) {
         return;
     }
 
-    const summary =
-        getPlayerFinancialSummary(player.id);
+    const summary = getPlayerFinancialSummary(player.id);
 
-    const lastOrder =
-        getPlayerLastOrder(player.id);
+    const lastOrder = getPlayerLastOrder(player.id);
 
     playerSummaryContent.innerHTML = `
         <div class="player-card-header">
@@ -272,17 +243,11 @@ function openPlayerSummaryModal(playerId) {
         </p>
     `;
 
-    playerSummaryModal.classList.remove(
-        "hidden"
-    );
+    playerSummaryModal.classList.remove("hidden");
 }
 
 function openPlayerTransactionsModal(playerId) {
-    const player =
-        loadPlayers().find(
-            player =>
-                player.id === playerId
-        );
+    const player = loadPlayers().find((player) => player.id === playerId);
 
     if (!player) {
         return;
@@ -290,9 +255,9 @@ function openPlayerTransactionsModal(playerId) {
 
     const transactions = getPlayerTransactions(playerId);
 
-    const rows =
-        transactions
-            .map(transaction => `
+    const rows = transactions
+        .map(
+            (transaction) => `
                 <tr>
                     <td>
                         ${formatDateTime(transaction.createdAt)}
@@ -312,11 +277,11 @@ function openPlayerTransactionsModal(playerId) {
                         </button>
                     </td>
                 </tr>
-            `)
-            .join("");
+            `
+        )
+        .join("");
 
-    playerTransactionsContent.innerHTML =
-        `
+    playerTransactionsContent.innerHTML = `
         <h3>
             ${player.nick}
         </h3>
@@ -348,51 +313,28 @@ function openPlayerTransactionsModal(playerId) {
         }
     `;
 
-    playerTransactionsModal.classList.remove(
-        "hidden"
-    );
+    playerTransactionsModal.classList.remove("hidden");
 }
 
 function openOrderDetailsFromPlayerTransactions(orderId) {
-    playerTransactionsModal.classList.add(
-        "hidden"
-    );
+    playerTransactionsModal.classList.add("hidden");
 
     openOrderDetails(orderId);
 }
 
-btnOpenNewPlayerModal.addEventListener(
-    "click",
-    openNewPlayerModal
-);
+btnOpenNewPlayerModal.addEventListener("click", openNewPlayerModal);
 
-btnCancelNewPlayer.addEventListener(
-    "click",
-    closeNewPlayerModal
-);
+btnCancelNewPlayer.addEventListener("click", closeNewPlayerModal);
 
-btnConfirmNewPlayer.addEventListener(
-    "click",
-    saveNewPlayerFromModal
-);
+btnConfirmNewPlayer.addEventListener("click", saveNewPlayerFromModal);
 
-btnClosePlayerSummary.addEventListener(
-    "click",
-    () => {
-        playerSummaryModal.classList.add(
-            "hidden"
-        );
-    }
-);
+btnClosePlayerSummary.addEventListener("click", () => {
+    playerSummaryModal.classList.add("hidden");
+});
 
-btnClosePlayerTransactions.addEventListener(
-    "click",
-    () => {
-        playerTransactionsModal.classList.add(
-            "hidden"
-        );
-    }
-);
+btnClosePlayerTransactions.addEventListener("click", () => {
+    playerTransactionsModal.classList.add("hidden");
+});
 
 renderPlayersModule();
 

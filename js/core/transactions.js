@@ -3,12 +3,7 @@ const TRANSACTION_TYPES = {
 };
 
 // CREATE TRANSACTION
-function createTransaction({
-    type,
-    amount,
-    playerId,
-    orderId
-}) {
+function createTransaction({ type, amount, playerId, orderId }) {
     return {
         id: generateUUID(),
         type,
@@ -21,8 +16,7 @@ function createTransaction({
 
 // SAVE TRANSACTION
 function saveTransaction(transaction) {
-    const transactions =
-        loadTransactions();
+    const transactions = loadTransactions();
 
     transactions.push(transaction);
 
@@ -30,11 +24,7 @@ function saveTransaction(transaction) {
 }
 
 // CREATE ORDER PAYMENT TRANSACTION
-function createOrderPaymentTransaction({
-    amount,
-    playerId,
-    orderId
-}) {
+function createOrderPaymentTransaction({ amount, playerId, orderId }) {
     return createTransaction({
         type: TRANSACTION_TYPES.ORDER_PAYMENT,
         amount,
@@ -46,41 +36,20 @@ function createOrderPaymentTransaction({
 // GET ORDER TRANSACTIONS
 function getOrderTransactions(orderId) {
     return loadTransactions()
-        .filter(transaction =>
-            transaction.orderId === orderId
-        )
-        .sort(
-            (a, b) =>
-                new Date(b.createdAt) -
-                new Date(a.createdAt)
-        );
+        .filter((transaction) => transaction.orderId === orderId)
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 }
 
 // GET PLAYER TRANSACTIONS
 function getPlayerTransactions(playerId) {
     return loadTransactions()
-        .filter(transaction =>
-            transaction.playerId === playerId
-        )
-        .sort(
-            (a, b) =>
-                new Date(b.createdAt) -
-                new Date(a.createdAt)
-        );
+        .filter((transaction) => transaction.playerId === playerId)
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 }
 
-function getTransactionTotalByOrder(
-    orderId
-) {
-    return getOrderTransactions(
-        orderId
-    ).reduce(
-        (
-            total,
-            transaction
-        ) =>
-            total +
-            transaction.amount,
+function getTransactionTotalByOrder(orderId) {
+    return getOrderTransactions(orderId).reduce(
+        (total, transaction) => total + transaction.amount,
         0
     );
 }

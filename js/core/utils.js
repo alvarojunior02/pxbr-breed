@@ -15,19 +15,14 @@ function formatMoney(value) {
 }
 
 function unformatMoney(value) {
-    return Number(
-        value.replace(/\D/g, "")
-    ) || 0;
+    return Number(value.replace(/\D/g, "")) || 0;
 }
 
 function formatDateTime(date) {
-    return new Date(date).toLocaleString(
-        "pt-BR",
-        {
-            dateStyle: "short",
-            timeStyle: "short"
-        }
-    );
+    return new Date(date).toLocaleString("pt-BR", {
+        dateStyle: "short",
+        timeStyle: "short"
+    });
 }
 
 window.formatMoney = formatMoney;

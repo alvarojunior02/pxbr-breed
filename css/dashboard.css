@@ -74,7 +74,9 @@
     text-align: left;
     cursor: pointer;
     font: inherit;
-    transition: transform 0.15s ease, border-color 0.15s ease;
+    transition:
+        transform 0.15s ease,
+        border-color 0.15s ease;
 }
 
 .dashboard-card-button:hover {

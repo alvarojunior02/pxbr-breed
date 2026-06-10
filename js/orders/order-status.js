@@ -1,39 +1,20 @@
 // OPEN STATUS CONFIRM MODAL
-function openStatusConfirmModal(
-    orderId,
-    pokemonId
-) {
-    const order =
-        loadOrders().find(
-            order =>
-                order.id ===
-                orderId
-        );
+function openStatusConfirmModal(orderId, pokemonId) {
+    const order = loadOrders().find((order) => order.id === orderId);
 
     if (!order) {
         return;
     }
 
-    const pokemon =
-        order.pokemons.find(
-            pokemon =>
-                pokemon.id ===
-                pokemonId
-        );
+    const pokemon = order.pokemons.find((pokemon) => pokemon.id === pokemonId);
 
     if (!pokemon) {
         return;
     }
 
-    const currentStatus =
-        getStatusByValue(
-            pokemon.status
-        );
+    const currentStatus = getStatusByValue(pokemon.status);
 
-    const nextStatus =
-        getNextStatus(
-            pokemon.status
-        );
+    const nextStatus = getNextStatus(pokemon.status);
 
     if (!nextStatus) {
         return;
@@ -43,8 +24,7 @@ function openStatusConfirmModal(
 
     selectedPokemonId = pokemonId;
 
-    statusConfirmContent.innerHTML =
-        `
+    statusConfirmContent.innerHTML = `
         <p>
 
             <strong>
@@ -90,77 +70,46 @@ function openStatusConfirmModal(
         </p>
         `;
 
-    statusConfirmModal
-        .classList
-        .remove(
-            "hidden"
-        );
+    statusConfirmModal.classList.remove("hidden");
 }
 
-btnCancelStatusChange.addEventListener(
-    "click",
-    () => {
-        statusConfirmModal
-            .classList
-            .add(
-                "hidden"
-            );
+btnCancelStatusChange.addEventListener("click", () => {
+    statusConfirmModal.classList.add("hidden");
+});
+
+btnConfirmStatusChange.addEventListener("click", () => {
+    const orders = loadOrders();
+
+    const order = orders.find((order) => order.id === selectedOrderId);
+
+    if (!order) {
+        return;
     }
-);
 
-btnConfirmStatusChange.addEventListener(
-    "click",
-    () => {
-        const orders = loadOrders();
+    const pokemon = order.pokemons.find((pokemon) => pokemon.id === selectedPokemonId);
 
-        const order =
-            orders.find(
-                order =>
-                    order.id ===
-                    selectedOrderId
-            );
-
-        if (!order) {
-            return;
-        }
-
-        const pokemon =
-            order.pokemons.find(
-                pokemon =>
-                    pokemon.id ===
-                    selectedPokemonId
-            );
-
-        if (!pokemon) {
-            return;
-        }
-
-        const nextStatus =
-            getNextStatus(
-                pokemon.status
-            );
-
-        if (!nextStatus) {
-            return;
-        }
-
-        pokemon.status = nextStatus.value;
-
-        saveOrders(orders);
-
-        statusConfirmModal
-            .classList
-            .add(
-                "hidden"
-            );
-
-        renderDashboard();
-        renderOrdersList();
-        renderFinanceModule();
-        renderPlayersModule();
-
-        openOrderDetails(selectedOrderId);
+    if (!pokemon) {
+        return;
     }
-);
+
+    const nextStatus = getNextStatus(pokemon.status);
+
+    if (!nextStatus) {
+        return;
+    }
+
+    pokemon.status = nextStatus.value;
+
+    saveOrders(orders);
+
+    statusConfirmModal.classList.add("hidden");
+
+    renderDashboard();
+    renderOrdersList();
+    renderFinanceModule();
+    renderPlayersModule();
+
+    openOrderDetails(selectedOrderId);
+});
 
 window.openStatusConfirmModal = openStatusConfirmModal;

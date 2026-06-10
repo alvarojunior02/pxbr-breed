@@ -1,50 +1,25 @@
 // OPEN ORDER DETAILS
 function openOrderDetails(orderId) {
-    const order =
-        loadOrders().find(
-            order =>
-                order.id ===
-                orderId
-        );
+    const order = loadOrders().find((order) => order.id === orderId);
 
     if (!order) {
         return;
     }
 
-    renderOrderDetails(
-        order
-    );
+    renderOrderDetails(order);
 
-    orderDetailsModal
-        .classList
-        .remove(
-            "hidden"
-        );
+    orderDetailsModal.classList.remove("hidden");
 }
 
 // RENDER ORDER DETAILS
 function renderOrderDetails(order) {
     window.currentOrderId = order.id;
 
-    const player =
-        loadPlayers().find(
-            player =>
-                player.id ===
-                order.playerId
-        );
+    const player = loadPlayers().find((player) => player.id === order.playerId);
 
-    const pokemonHtml =
-        order.pokemons
-            .map(
-                pokemon =>
-                    createPokemonDetailsCard(
-                        pokemon
-                    )
-            )
-            .join("");
+    const pokemonHtml = order.pokemons.map((pokemon) => createPokemonDetailsCard(pokemon)).join("");
 
-    orderDetailsContent.innerHTML =
-        `
+    orderDetailsContent.innerHTML = `
         <p>
             <strong>ID do Pedido:</strong>
             ${order.id}
@@ -52,9 +27,7 @@ function renderOrderDetails(order) {
 
         <p>
             <strong>Criado em:</strong>
-            ${formatDate(
-                order.createdAt
-            )}
+            ${formatDate(order.createdAt)}
         </p>
 
         <p>
@@ -153,19 +126,14 @@ function renderOrderDetails(order) {
 }
 
 // CREATE POKEMON DETAILS CARD
-function createPokemonDetailsCard(
-    pokemon
-) {
+function createPokemonDetailsCard(pokemon) {
     const nature = getNatureByName(pokemon.nature);
 
     const nextStatus = getNextStatus(pokemon.status);
 
     const thumbnail = getPokemonThumbnail(pokemon.pokemonId);
 
-    const canAdvanceStatus =
-        !isLastStatus(
-            pokemon.status
-        );
+    const canAdvanceStatus = !isLastStatus(pokemon.status);
 
     return `
         <div
@@ -216,9 +184,7 @@ function createPokemonDetailsCard(
 
             <p>
                 Valor:
-                ${formatMoney(
-                    pokemon.value
-                )}
+                ${formatMoney(pokemon.value)}
             </p>
 
             <p>
@@ -254,16 +220,15 @@ function createPokemonDetailsCard(
 
 // RENDER ORDER TRANSACTIONS TABLE
 function renderOrderTransactionsTable(orderId) {
-    const transactions =
-        getOrderTransactions(orderId);
+    const transactions = getOrderTransactions(orderId);
 
     if (transactions.length === 0) {
         return "";
     }
 
-    const rows =
-        transactions
-            .map(transaction => `
+    const rows = transactions
+        .map(
+            (transaction) => `
                 <tr>
                     <td>
                         ${formatDateTime(transaction.createdAt)}
@@ -273,8 +238,9 @@ function renderOrderTransactionsTable(orderId) {
                         ${formatMoney(transaction.amount)}
                     </td>
                 </tr>
-            `)
-            .join("");
+            `
+        )
+        .join("");
 
     return `
         <div class="order-transactions">
@@ -305,15 +271,8 @@ function renderOrderTransactionsTable(orderId) {
     `;
 }
 
-btnCloseOrderDetails.addEventListener(
-    "click",
-    () => {
-        orderDetailsModal
-            .classList
-            .add(
-                "hidden"
-            );
-    }
-);
+btnCloseOrderDetails.addEventListener("click", () => {
+    orderDetailsModal.classList.add("hidden");
+});
 
 window.openOrderDetails = openOrderDetails;

@@ -5,11 +5,9 @@ function canRegisterPayment(order) {
 
 // GET PAYMENT STATUS HTML
 function getPaymentStatusHtml(order) {
-    const paidAmount =
-        order.paidAmount || 0;
+    const paidAmount = order.paidAmount || 0;
 
-    const remaining =
-        order.total - paidAmount;
+    const remaining = order.total - paidAmount;
 
     if (paidAmount >= order.total) {
         return `
@@ -43,14 +41,9 @@ function getPaymentStatusHtml(order) {
 
 // CAN ARCHIVE ORDER
 function canArchiveOrder(order) {
-    const isPaid =
-        (order.paidAmount || 0) >= order.total;
+    const isPaid = (order.paidAmount || 0) >= order.total;
 
-    const allPokemonsDelivered =
-        order.pokemons.every(
-            pokemon =>
-                isLastStatus(pokemon.status)
-        );
+    const allPokemonsDelivered = order.pokemons.every((pokemon) => isLastStatus(pokemon.status));
 
     return isPaid && allPokemonsDelivered && !order.archived;
 }
@@ -70,24 +63,18 @@ function getArchiveReadyHtml(order) {
 
 // VALIDATE PAYMENT AMOUNT
 function validatePaymentAmount(order, amount) {
-    const currentPaid =
-        order.paidAmount || 0;
+    const currentPaid = order.paidAmount || 0;
 
-    const remaining =
-        order.total - currentPaid;
+    const remaining = order.total - currentPaid;
 
     if (amount <= 0) {
-        alert(
-            "Informe um valor maior que zero."
-        );
+        alert("Informe um valor maior que zero.");
 
         return false;
     }
 
     if (amount > remaining) {
-        alert(
-            "O valor pago não pode ser maior que o valor restante."
-        );
+        alert("O valor pago não pode ser maior que o valor restante.");
 
         return false;
     }
@@ -99,52 +86,31 @@ function validatePaymentAmount(order, amount) {
 function getOrderStatusSummary(order) {
     const summary = {};
 
-    order.pokemons.forEach(
-        pokemon => {
-            summary[
-                pokemon.status
-            ] =
-                (
-                    summary[
-                        pokemon.status
-                    ] || 0
-                ) + 1;
-        }
-    );
+    order.pokemons.forEach((pokemon) => {
+        summary[pokemon.status] = (summary[pokemon.status] || 0) + 1;
+    });
 
     return summary;
 }
 
 // GET PLAYER LAST ORDER
 function getPlayerLastOrder(playerId) {
-    const orders =
-        loadOrders()
-            .filter(order =>
-                order.playerId === playerId
-            )
-            .sort(
-                (a, b) =>
-                    new Date(b.createdAt) -
-                    new Date(a.createdAt)
-            );
+    const orders = loadOrders()
+        .filter((order) => order.playerId === playerId)
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     return orders[0] || null;
 }
 
 // GET DAYS SINCE
 function getDaysSince(date) {
-    const today =
-        new Date();
+    const today = new Date();
 
-    const targetDate =
-        new Date(date);
+    const targetDate = new Date(date);
 
-    const diffInMs =
-        today - targetDate;
+    const diffInMs = today - targetDate;
 
-    return Math.floor(
-        diffInMs / (1000 * 60 * 60 * 24)
-    );
+    return Math.floor(diffInMs / (1000 * 60 * 60 * 24));
 }
 
 // RENDER ABILITY TEXT
@@ -184,8 +150,7 @@ function renderBreedableText(isBreedable) {
 
 // GET NEXT STATUS BUTTON TEXT
 function getNextStatusButtonText(statusValue) {
-    const nextStatus =
-        getNextStatus(statusValue);
+    const nextStatus = getNextStatus(statusValue);
 
     if (!nextStatus) {
         return "";

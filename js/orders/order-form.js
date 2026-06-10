@@ -4,58 +4,40 @@ applyMoneyMask(paymentAmount);
 
 // CALCULATE ORDER TOTAL
 function calculateOrderTotal() {
-    const rows =
-        document.querySelectorAll(".pokemon-order-row");
+    const rows = document.querySelectorAll(".pokemon-order-row");
 
     let subtotal = 0;
 
-    rows.forEach(row => {
-        const valueInput =
-            row.querySelector(".pokemon-value");
+    rows.forEach((row) => {
+        const valueInput = row.querySelector(".pokemon-value");
 
-        subtotal +=
-            unformatMoney(
-                valueInput.value
-            );
+        subtotal += unformatMoney(valueInput.value);
     });
 
     let discount = 0;
 
     if (hasDiscount.checked) {
-        discount =
-            unformatMoney(
-                discountValue.value
-            );
+        discount = unformatMoney(discountValue.value);
     }
 
-    const total =
-        subtotal - discount;
+    const total = subtotal - discount;
 
-    orderTotal.textContent =
-        formatMoney(total);
+    orderTotal.textContent = formatMoney(total);
 }
 
 // UPDATE ORDER FORM AVAILABILITY
 function updateOrderFormAvailability() {
-    const hasSelectedPlayer =
-        Boolean(orderPlayer.value);
+    const hasSelectedPlayer = Boolean(orderPlayer.value);
 
-    btnAddPokemon.disabled =
-        !hasSelectedPlayer;
+    btnAddPokemon.disabled = !hasSelectedPlayer;
 
-    document
-        .querySelectorAll(".pokemon-search")
-        .forEach(input => {
-            input.disabled =
-                !hasSelectedPlayer;
-        });
+    document.querySelectorAll(".pokemon-search").forEach((input) => {
+        input.disabled = !hasSelectedPlayer;
+    });
 
-    document
-        .querySelectorAll(".btn-remove-pokemon")
-        .forEach(button => {
-            button.disabled =
-                !hasSelectedPlayer;
-        });
+    document.querySelectorAll(".btn-remove-pokemon").forEach((button) => {
+        button.disabled = !hasSelectedPlayer;
+    });
 }
 
 // APPLY MONEY MASK
@@ -65,13 +47,9 @@ function applyMoneyMask(input) {
     }
 
     input.addEventListener("input", () => {
-        const value =
-            unformatMoney(
-                input.value
-            );
+        const value = unformatMoney(input.value);
 
-        input.value =
-            formatMoney(value);
+        input.value = formatMoney(value);
 
         calculateOrderTotal();
     });
@@ -79,24 +57,19 @@ function applyMoneyMask(input) {
 
 // UPDATE POKEMON ROW LABELS
 function updatePokemonRowLabels() {
-    const rows =
-        document.querySelectorAll(".pokemon-order-row");
+    const rows = document.querySelectorAll(".pokemon-order-row");
 
     rows.forEach((row, index) => {
-        const label =
-            row.querySelector(".pokemon-label");
+        const label = row.querySelector(".pokemon-label");
 
-        const removeButton =
-            row.querySelector(".btn-remove-pokemon");
+        const removeButton = row.querySelector(".btn-remove-pokemon");
 
         if (label) {
-            label.textContent =
-                `Pokémon ${index + 1}`;
+            label.textContent = `Pokémon ${index + 1}`;
         }
 
         if (removeButton) {
-            removeButton.textContent =
-                "Remover";
+            removeButton.textContent = "Remover";
         }
     });
 }
@@ -110,26 +83,19 @@ function populateAbilitySelect(select, abilities) {
 
     select.innerHTML = "";
 
-    abilities.forEach(ability => {
-        const option =
-            document.createElement("option");
+    abilities.forEach((ability) => {
+        const option = document.createElement("option");
 
-        option.value =
-            ability.name;
+        option.value = ability.name;
 
-        option.textContent =
-            ability.isHA
-                ? `${ability.name} (HA)`
-                : ability.name;
+        option.textContent = ability.isHA ? `${ability.name} (HA)` : ability.name;
 
-        option.dataset.isHa =
-            ability.isHA;
+        option.dataset.isHa = ability.isHA;
 
         select.appendChild(option);
     });
 
-    select.disabled =
-        false;
+    select.disabled = false;
 }
 
 // GET POKEMON DATA ROW DATA
@@ -156,53 +122,33 @@ function getPokemonRowData(row) {
 
         ability: {
             name: abilitySelect.value,
-            isHA: abilitySelect
-                .selectedOptions[0]
-                ?.dataset
-                .isHa === "true"
+            isHA: abilitySelect.selectedOptions[0]?.dataset.isHa === "true"
         },
 
-        value:unformatMoney(valueInput.value),
+        value: unformatMoney(valueInput.value),
 
-        breedable:breedableToggle.checked
+        breedable: breedableToggle.checked
     };
 }
 
 // GET ORDER POKEMONS
 function getOrderPokemons() {
-    const rows =
-        document.querySelectorAll(
-            ".pokemon-order-row"
-        );
+    const rows = document.querySelectorAll(".pokemon-order-row");
 
-    return Array.from(rows)
-        .map(getPokemonRowData);
+    return Array.from(rows).map(getPokemonRowData);
 }
 
 // BUILD ORDER
 function buildOrder() {
     const pokemons = getOrderPokemons();
 
-    const discount =
-        hasDiscount.checked
-            ? unformatMoney(
-                discountValue.value
-            )
-            : 0;
+    const discount = hasDiscount.checked ? unformatMoney(discountValue.value) : 0;
 
-    const subtotal =
-        pokemons.reduce(
-            (sum, pokemon) =>
-                sum + pokemon.value,
-            0
-        );
+    const subtotal = pokemons.reduce((sum, pokemon) => sum + pokemon.value, 0);
 
     const observationsInput = document.getElementById("orderObservations");
 
-    const paidAmount =
-        orderPaid.checked
-            ? unformatMoney(orderPaidAmount.value)
-            : 0;
+    const paidAmount = orderPaid.checked ? unformatMoney(orderPaidAmount.value) : 0;
 
     return {
         id: generateUUID(),
@@ -211,9 +157,7 @@ function buildOrder() {
         subtotal,
         discount,
         total: subtotal - discount,
-        observations: observationsInput
-            ? observationsInput.value.trim()
-            : "",
+        observations: observationsInput ? observationsInput.value.trim() : "",
         paidAmount,
         paid: paidAmount >= subtotal - discount,
         archived: false,
@@ -224,95 +168,61 @@ function buildOrder() {
 // VALIDATE ORDER
 function validateOrder(order) {
     if (!order.playerId) {
-        alert(
-            "Selecione um player."
-        );
+        alert("Selecione um player.");
 
         return false;
     }
 
-    if (
-        order.pokemons.length === 0
-    ) {
-
-        alert(
-            "Adicione pelo menos um Pokémon."
-        );
+    if (order.pokemons.length === 0) {
+        alert("Adicione pelo menos um Pokémon.");
 
         return false;
     }
 
-    const invalidPokemon =
-        order.pokemons.find(
-            pokemon =>
-                !pokemon.pokemonId
-        );
+    const invalidPokemon = order.pokemons.find((pokemon) => !pokemon.pokemonId);
 
     if (invalidPokemon) {
-
-        alert(
-            "Selecione todos os Pokémons."
-        );
+        alert("Selecione todos os Pokémons.");
 
         return false;
     }
 
-    const invalidValue =
-        order.pokemons.find(
-            pokemon =>
-                pokemon.value <= 0
-        );
+    const invalidValue = order.pokemons.find((pokemon) => pokemon.value <= 0);
 
     if (invalidValue) {
-        alert(
-            "Todos os Pokémons devem possuir valor maior que zero."
-        );
+        alert("Todos os Pokémons devem possuir valor maior que zero.");
 
         return false;
     }
 
-    const invalidAbility =
-        order.pokemons.find(
-            pokemon =>
-                !pokemon.ability?.name
-        );
+    const invalidAbility = order.pokemons.find((pokemon) => !pokemon.ability?.name);
 
     if (invalidAbility) {
-        alert(
-            "Selecione a habilidade de todos os Pokémons."
-        );
+        alert("Selecione a habilidade de todos os Pokémons.");
 
         return false;
     }
 
     if (order.discount > order.subtotal) {
-        alert(
-            "O desconto não pode ser maior que o subtotal da encomenda."
-        );
+        alert("O desconto não pode ser maior que o subtotal da encomenda.");
 
         return false;
     }
 
     if (order.paidAmount < 0) {
-        alert(
-            "O valor pago não pode ser negativo."
-        );
+        alert("O valor pago não pode ser negativo.");
 
         return false;
     }
 
     if (orderPaid.checked && order.paidAmount <= 0) {
-        alert(
-            "Informe um valor pago maior que zero."
-        );
+        alert("Informe um valor pago maior que zero.");
 
         return false;
     }
 
     if (order.paidAmount > order.total) {
-        alert(
-            "O valor pago não pode ser maior que o total da encomenda."
-        );
+        alert("O valor pago não pode ser maior que o total da encomenda.");
 
         return false;
     }
@@ -333,17 +243,13 @@ function resetOrderForm() {
     orderPaid.checked = false;
     orderPaidAmount.value = formatMoney(0);
     orderPaidAmount.style.display = "none";
-    orderPaidAmountWrapper
-        .classList
-        .add("hidden");
+    orderPaidAmountWrapper.classList.add("hidden");
 
     pokemonOrderList.innerHTML = "";
 
-    document
-        .querySelectorAll("input[name='needsFemale']")
-        .forEach(radio => {
-            radio.checked = false;
-        });
+    document.querySelectorAll("input[name='needsFemale']").forEach((radio) => {
+        radio.checked = false;
+    });
 
     btnConfirmOrder.disabled = true;
 
@@ -362,62 +268,39 @@ function renderPlayerSearchResults(searchTerm = "") {
 
     orderPlayerResults.innerHTML = "";
 
-    const normalizedSearch =
-        searchTerm
-            .trim()
-            .toLowerCase();
+    const normalizedSearch = searchTerm.trim().toLowerCase();
 
-    const filteredPlayers =
-        players.filter(player =>
-            !normalizedSearch ||
-            player.nick
-                .toLowerCase()
-                .includes(normalizedSearch)
-        );
+    const filteredPlayers = players.filter(
+        (player) => !normalizedSearch || player.nick.toLowerCase().includes(normalizedSearch)
+    );
 
-    filteredPlayers
-        .slice(0, 10)
-        .forEach(player => {
-            const item =
-                document.createElement("div");
+    filteredPlayers.slice(0, 10).forEach((player) => {
+        const item = document.createElement("div");
 
-            item.textContent =
-                player.nick;
+        item.textContent = player.nick;
 
-            item.classList.add(
-                "autocomplete-item"
-            );
+        item.classList.add("autocomplete-item");
 
-            item.addEventListener(
-                "click",
-                () => {
-                    orderPlayer.value =
-                        player.id;
+        item.addEventListener("click", () => {
+            orderPlayer.value = player.id;
 
-                    orderPlayerSearch.value =
-                        player.nick;
+            orderPlayerSearch.value = player.nick;
 
-                    orderPlayerResults.innerHTML =
-                        "";
+            orderPlayerResults.innerHTML = "";
 
-                    updateOrderFormAvailability();
-                    renderSelectedPlayerInfo(player);
-                }
-            );
-
-            orderPlayerResults.appendChild(
-                item
-            );
+            updateOrderFormAvailability();
+            renderSelectedPlayerInfo(player);
         });
+
+        orderPlayerResults.appendChild(item);
+    });
 }
 
 // CREATE POKEMON ORDER ROW
 function createPokemonOrderRow() {
     const row = document.createElement("div");
 
-    row.classList.add(
-        "pokemon-order-row"
-    );
+    row.classList.add("pokemon-order-row");
 
     row.innerHTML = `
         <div class="pokemon-row-card">
@@ -514,10 +397,7 @@ function createPokemonOrderRow() {
     const valueInput = row.querySelector(".pokemon-value");
     applyMoneyMask(valueInput);
 
-    valueInput.addEventListener(
-        "input",
-        calculateOrderTotal
-    );
+    valueInput.addEventListener("input", calculateOrderTotal);
 
     const removeButton = row.querySelector(".btn-remove-pokemon");
     const abilitySelect = row.querySelector(".pokemon-ability");
@@ -546,50 +426,36 @@ function createPokemonOrderRow() {
     function populateNatureSelect() {
         natureSelect.innerHTML = "";
 
-        POKEMON_NATURES.forEach(nature => {
-            const option =
-                document.createElement("option");
+        POKEMON_NATURES.forEach((nature) => {
+            const option = document.createElement("option");
 
-            option.value =
-                nature.name;
+            option.value = nature.name;
 
-            option.textContent =
-                nature.neutral
-                    ? `${nature.name} (Neutral)`
-                    : `${nature.name} (+${nature.positive}, -${nature.negative})`;
+            option.textContent = nature.neutral
+                ? `${nature.name} (Neutral)`
+                : `${nature.name} (+${nature.positive}, -${nature.negative})`;
 
             natureSelect.appendChild(option);
         });
 
-        natureSelect.value =
-            POKEMON_NATURES[0].name;
+        natureSelect.value = POKEMON_NATURES[0].name;
     }
 
-    pokemonSearchInput.addEventListener(
-        "input",
-        e => {
-            const searchTerm =
-                e.target.value.trim();
+    pokemonSearchInput.addEventListener("input", (e) => {
+        const searchTerm = e.target.value.trim();
 
-            pokemonAutocomplete.innerHTML = "";
+        pokemonAutocomplete.innerHTML = "";
 
-            if (!searchTerm) {
-                return;
-            }
+        if (!searchTerm) {
+            return;
+        }
 
-            const results =
-                searchPokemon(searchTerm)
-                    .slice(0, 10);
+        const results = searchPokemon(searchTerm).slice(0, 10);
 
-            results.forEach(
-                pokemon => {
+        results.forEach((pokemon) => {
+            const item = document.createElement("div");
 
-                    const item =
-                        document.createElement(
-                            "div"
-                        );
-
-                    item.innerHTML = `
+            item.innerHTML = `
                     
                         <img
                             src="${pokemon.sprite}"
@@ -600,54 +466,39 @@ function createPokemonOrderRow() {
 
                     `;
 
-                    item.style.cursor =
-                        "pointer";
+            item.style.cursor = "pointer";
 
-                    item.addEventListener(
-                        "click",
-                        () => {
-                            selectedPokemon = pokemon;
+            item.addEventListener("click", () => {
+                selectedPokemon = pokemon;
 
-                            row.dataset.pokemonId = pokemon.id;
-                            row.dataset.pokemonName = pokemon.name;
+                row.dataset.pokemonId = pokemon.id;
+                row.dataset.pokemonName = pokemon.name;
 
-                            const basePokemon = getBasePokemon(pokemon.id);
-                            row.dataset.breedPokemonId = basePokemon.id;
-                            row.dataset.breedPokemonName = basePokemon.name;
+                const basePokemon = getBasePokemon(pokemon.id);
+                row.dataset.breedPokemonId = basePokemon.id;
+                row.dataset.breedPokemonName = basePokemon.name;
 
-                            pokemonSearchInput.value = pokemon.name;
+                pokemonSearchInput.value = pokemon.name;
 
-                            pokemonAutocomplete.innerHTML = "";
+                pokemonAutocomplete.innerHTML = "";
 
-                            renderPokemonInfo(pokemon);
+                renderPokemonInfo(pokemon);
 
-                            populateAbilitySelect(
-                                abilitySelect,
-                                pokemon.abilities
-                            );
+                populateAbilitySelect(abilitySelect, pokemon.abilities);
 
-                            populateNatureSelect();
+                populateNatureSelect();
 
-                            enablePokemonFields();
+                enablePokemonFields();
 
-                            calculateOrderTotal();
-                        }
-                    );
+                calculateOrderTotal();
+            });
 
-                    pokemonAutocomplete.appendChild(
-                        item
-                    );
-
-                }
-            );
-        }
-    );
+            pokemonAutocomplete.appendChild(item);
+        });
+    });
 
     function renderPokemonInfo(pokemon) {
-        const basePokemon =
-            getBasePokemon(
-                pokemon.id
-            );
+        const basePokemon = getBasePokemon(pokemon.id);
 
         pokemonSelectedInfo.innerHTML = `
             <div class="pokemon-info-card">
@@ -675,22 +526,17 @@ function createPokemonOrderRow() {
         `;
     }
 
-    removeButton.addEventListener(
-        "click",
-        () => {
-            row.remove();
-            updatePokemonRowLabels();
-            calculateOrderTotal();
-        }
-    );
+    removeButton.addEventListener("click", () => {
+        row.remove();
+        updatePokemonRowLabels();
+        calculateOrderTotal();
+    });
 
     calculateOrderTotal();
 
     updateOrderFormAvailability();
 
-    pokemonOrderList.appendChild(
-        row
-    );
+    pokemonOrderList.appendChild(row);
 
     updatePokemonRowLabels();
 
@@ -704,14 +550,11 @@ function renderSelectedPlayerInfo(player) {
         return;
     }
 
-    const summary =
-        getPlayerFinancialSummary(player.id);
+    const summary = getPlayerFinancialSummary(player.id);
 
-    const lastOrder =
-        getPlayerLastOrder(player.id);
+    const lastOrder = getPlayerLastOrder(player.id);
 
-    selectedPlayerInfo.innerHTML =
-        `
+    selectedPlayerInfo.innerHTML = `
         <div class="selected-player-card">
             <h3>
                 ${player.nick}
@@ -753,16 +596,9 @@ function renderSelectedPlayerInfo(player) {
 
 // RENDER ORDER SUMMARY
 function renderOrderSummary(order) {
+    orderSummary.innerHTML = "";
 
-    orderSummary.innerHTML =
-        "";
-
-    const player =
-        loadPlayers().find(
-            player =>
-                player.id ===
-                order.playerId
-        );
+    const player = loadPlayers().find((player) => player.id === order.playerId);
 
     let html = `
         <div class="order-summary-header">
@@ -783,14 +619,10 @@ function renderOrderSummary(order) {
 
     html += `<div class="order-summary-pokemon-grid">`;
 
-    order.pokemons.forEach(
-        pokemon => {
-            const nature = getNatureByName(
-                pokemon.nature
-            );
+    order.pokemons.forEach((pokemon) => {
+        const nature = getNatureByName(pokemon.nature);
 
-            html +=
-                `
+        html += `
                 <div class="modal-pokemon">
 
                     <img
@@ -824,7 +656,6 @@ function renderOrderSummary(order) {
 
                             ${
                                 nature.neutral
-
                                     ? `
                                         <span
                                             class="nature-neutral">
@@ -833,7 +664,6 @@ function renderOrderSummary(order) {
 
                                         </span>
                                     `
-
                                     : `
                                         <span
                                             class="nature-positive">
@@ -864,17 +694,14 @@ function renderOrderSummary(order) {
 
                         <p>
                             Valor:
-                            ${formatMoney(
-                                pokemon.value
-                            )}
+                            ${formatMoney(pokemon.value)}
                         </p>
 
                     </div>
 
                 </div>
                 `;
-        }
-    );
+    });
 
     html += `</div>`;
 
@@ -908,8 +735,7 @@ function renderOrderSummary(order) {
         </div>
     `;
 
-    orderSummary.innerHTML =
-        html;
+    orderSummary.innerHTML = html;
 }
 
 // OPEN CREATE ORDER MODAL
@@ -935,165 +761,97 @@ function selectOrderPlayer(player) {
     updateOrderFormAvailability();
 }
 
-btnAddPokemon.addEventListener(
-    "click",
-    () => {
-        createPokemonOrderRow();
-    }
-);
-
-hasDiscount.addEventListener(
-    "change",
-    () => {
-        discountValue.style.display =
-            hasDiscount.checked
-                ? "block"
-                : "none";
-
-        calculateOrderTotal();
-    }
-);
-
-discountValue.addEventListener(
-    "input",
-    calculateOrderTotal
-);
-
-btnCreateOrder.addEventListener(
-    "click",
-    () => {
-
-        const order = buildOrder();
-
-        if (
-            !validateOrder(order)
-        ) {
-            return;
-        }
-
-        renderOrderSummary(
-            order
-        );
-
-        btnConfirmOrder.disabled =
-            true;
-
-        document
-            .querySelectorAll(
-                "input[name='needsFemale']"
-            )
-            .forEach(
-                radio =>
-                    radio.checked =
-                        false
-            );
-
-        orderModal.classList.remove(
-            "hidden"
-        );
-    }
-);
-
-btnOpenCreateOrderModal.forEach(button => {
-    button.addEventListener(
-        "click",
-        openCreateOrderModal
-    );
+btnAddPokemon.addEventListener("click", () => {
+    createPokemonOrderRow();
 });
 
-btnCancelCreateOrder.addEventListener(
-    "click",
-    () => {
-        resetOrderForm();
-        closeCreateOrderModal();
+hasDiscount.addEventListener("change", () => {
+    discountValue.style.display = hasDiscount.checked ? "block" : "none";
+
+    calculateOrderTotal();
+});
+
+discountValue.addEventListener("input", calculateOrderTotal);
+
+btnCreateOrder.addEventListener("click", () => {
+    const order = buildOrder();
+
+    if (!validateOrder(order)) {
+        return;
     }
-);
 
-btnClearCreateOrder.addEventListener(
-    "click",
-    resetOrderForm
-);
+    renderOrderSummary(order);
 
-btnCancelOrder.addEventListener(
-    "click",
-    () => {
-        orderModal.classList.add("hidden");
+    btnConfirmOrder.disabled = true;
+
+    document
+        .querySelectorAll("input[name='needsFemale']")
+        .forEach((radio) => (radio.checked = false));
+
+    orderModal.classList.remove("hidden");
+});
+
+btnOpenCreateOrderModal.forEach((button) => {
+    button.addEventListener("click", openCreateOrderModal);
+});
+
+btnCancelCreateOrder.addEventListener("click", () => {
+    resetOrderForm();
+    closeCreateOrderModal();
+});
+
+btnClearCreateOrder.addEventListener("click", resetOrderForm);
+
+btnCancelOrder.addEventListener("click", () => {
+    orderModal.classList.add("hidden");
+});
+
+btnConfirmOrder.addEventListener("click", () => {
+    const orderData = buildOrder();
+
+    const order = createPersistedOrder(orderData);
+
+    saveOrder(order);
+
+    if (order.paidAmount > 0) {
+        const transaction = createOrderPaymentTransaction({
+            amount: order.paidAmount,
+
+            playerId: order.playerId,
+
+            orderId: order.id
+        });
+
+        saveTransaction(transaction);
     }
-);
 
-btnConfirmOrder.addEventListener(
-    "click",
-    () => {
-        const orderData =
-            buildOrder();
+    renderDashboard();
+    renderOrdersList();
+    renderPlayersModule();
+    renderFinanceModule();
 
-        const order =
-            createPersistedOrder(
-                orderData
-            );
+    resetOrderForm();
 
-        saveOrder(order);
+    orderModal.classList.add("hidden");
 
-        if (order.paidAmount > 0) {
+    closeCreateOrderModal();
 
-            const transaction =
-                createOrderPaymentTransaction({
+    showSection("ordersSection");
+});
 
-                    amount:
-                        order.paidAmount,
+orderPlayerSearch.addEventListener("input", (e) => {
+    orderPlayer.value = "";
 
-                    playerId:
-                        order.playerId,
+    renderSelectedPlayerInfo(null);
 
-                    orderId:
-                        order.id
-                });
+    updateOrderFormAvailability();
 
-            saveTransaction(
-                transaction
-            );
-        }
-        
-        renderDashboard();
-        renderOrdersList();
-        renderPlayersModule();
-        renderFinanceModule();
+    renderPlayerSearchResults(e.target.value);
+});
 
-        resetOrderForm();
-
-        orderModal.classList.add(
-            "hidden"
-        );
-
-        closeCreateOrderModal();
-
-        showSection("ordersSection");
-    }
-);
-
-orderPlayerSearch.addEventListener(
-    "input",
-    e => {
-        orderPlayer.value = "";
-
-        renderSelectedPlayerInfo(null);
-
-        updateOrderFormAvailability();
-
-        renderPlayerSearchResults(
-            e.target.value
-        );
-    }
-);
-
-orderPlayerSearch.addEventListener(
-    "focus",
-    () => {
-        renderPlayerSearchResults(
-            orderPlayerSearch.value
-        );
-    }
-);
+orderPlayerSearch.addEventListener("focus", () => {
+    renderPlayerSearchResults(orderPlayerSearch.value);
+});
 
 orderPaid.addEventListener("change", () => {
     if (orderPaid.checked) {
@@ -1101,51 +859,27 @@ orderPaid.addEventListener("change", () => {
 
         orderPaidAmount.value = formatMoney(total);
 
-        orderPaidAmountWrapper
-            .classList
-            .remove("hidden");
+        orderPaidAmountWrapper.classList.remove("hidden");
 
         return;
     }
 
     orderPaidAmount.value = formatMoney(0);
 
-    orderPaidAmountWrapper
-        .classList
-        .add("hidden");
+    orderPaidAmountWrapper.classList.add("hidden");
 });
 
-orderPlayer.addEventListener(
-    "change",
-    updateOrderFormAvailability
-);
+orderPlayer.addEventListener("change", updateOrderFormAvailability);
 
-btnQuickNewPlayer.addEventListener(
-    "click",
-    () => {
-        openNewPlayerModal(true);
-    }
-);
+btnQuickNewPlayer.addEventListener("click", () => {
+    openNewPlayerModal(true);
+});
 
-document 
-    .querySelectorAll(
-        "input[name='needsFemale']"
-    )
-    .forEach(
-        radio => {
-
-            radio.addEventListener(
-                "change",
-                () => {
-
-                    btnConfirmOrder.disabled =
-                        false;
-
-                }
-            );
-
-        }
-    );
+document.querySelectorAll("input[name='needsFemale']").forEach((radio) => {
+    radio.addEventListener("change", () => {
+        btnConfirmOrder.disabled = false;
+    });
+});
 
 window.openCreateOrderModal = openCreateOrderModal;
 window.selectOrderPlayer = selectOrderPlayer;
