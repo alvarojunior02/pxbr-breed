@@ -1,3 +1,16 @@
 PROJECT_CONTEXT.md
 
 node_modules/
+
+.vscode/settings.json
+
+data/pokedex.updated.json
+
+.DS_Store
+Thumbs.db
+
+*.log
+npm-debug.log*
+
+dist/
+build/
