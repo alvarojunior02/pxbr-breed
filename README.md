@@ -1,10 +1,16 @@
 # 🎮 PXBR Breed
 
-![Version](https://img.shields.io/badge/version-1.0-blue)
+![Version](https://img.shields.io/badge/version-1.1-blue)
 ![Status](https://img.shields.io/badge/status-active-success)
 ![License](https://img.shields.io/badge/license-GPL--3.0-blue)
 ![JavaScript](https://img.shields.io/badge/JavaScript-Vanilla-yellow)
 ![Storage](https://img.shields.io/badge/storage-LocalStorage-green)
+
+## 📦 Versão Atual
+
+Versão: **1.1.0**
+
+Última atualização: **Junho/2026**
 
 Sistema web para gerenciamento de encomendas, breeds, capturas e controle financeiro de Pokémon em servidores Pixelmon.
 
@@ -17,6 +23,87 @@ O **PXBR Breed** foi desenvolvido para auxiliar breeders, vendedores e criadores
 O projeto surgiu da necessidade de substituir controles manuais realizados por mensagens, planilhas ou anotações, centralizando todas as informações em uma única aplicação simples, rápida e organizada.
 
 Atualmente o sistema já permite acompanhar todo o fluxo operacional de uma encomenda, desde a solicitação do cliente até a entrega final dos Pokémon.
+
+---
+
+## 🚀 Como Executar
+
+### Clonar o projeto
+
+```bash
+git clone https://github.com/alvarojunior02/pxbr-breed.git
+```
+
+### Entrar na pasta
+
+```bash
+cd pxbr-breed
+```
+
+### Instalar dependências
+
+```bash
+npm install
+```
+
+### Executar servidor local
+
+```bash
+npm run dev
+```
+
+Ou simplesmente abrir o arquivo `index.html` utilizando uma extensão como Live Server no VSCode.
+
+---
+
+## ✅ Funcionalidades Implementadas
+
+### Sistema Base
+
+- [x] Dashboard operacional
+- [x] Gerenciamento de clientes
+- [x] Gerenciamento de encomendas
+- [x] Controle financeiro
+- [x] Persistência via LocalStorage
+
+### Pokédex
+
+- [x] Pokédex até a Geração 9
+- [x] Busca por nome e ID
+- [x] Filtro por região
+- [x] Filtro por Egg Group
+- [x] Filtro por Hidden Ability cadastrada
+- [x] Visualização de linha evolutiva
+
+### Hidden Abilities
+
+- [x] Cadastro manual
+- [x] Edição
+- [x] Exclusão
+- [x] Integração com encomendas
+- [x] Preenchimento automático de valores
+- [x] Gerenciamento centralizado
+
+### Configurações
+
+- [x] Configurações persistentes
+- [x] Comparação Antes → Depois
+- [x] Confirmação de alterações
+
+### Backup
+
+- [x] Exportação JSON
+- [x] Importação JSON
+- [x] Backup local completo
+- [x] Validação básica de integridade
+
+### Interface
+
+- [x] Responsividade mobile
+- [x] Menu recolhível
+- [x] Toasts globais
+- [x] Modais reutilizáveis
+- [x] UX otimizada para fluxo de encomendas
 
 ---
 
@@ -105,8 +192,8 @@ Cada Pokémon possui um controle independente de progresso:
 | Status                    | Descrição                                           |
 | ------------------------- | --------------------------------------------------- |
 | 🟣 Precisa Capturar Fêmea | Necessário obter uma fêmea antes de iniciar a breed |
-| 🔵 A Começar              | Breed ainda não iniciada                            |
-| 🟡 Em Andamento           | Processo de breed em execução                       |
+| 🟡 A Começar              | Breed ainda não iniciada                            |
+| 🔵 Em Andamento           | Processo de breed em execução                       |
 | 🟢 Pronto                 | Pokémon finalizado                                  |
 | ✅ Entregue               | Pokémon entregue ao cliente                         |
 
@@ -132,6 +219,60 @@ Cada Pokémon possui um controle independente de progresso:
 ### Serviços Externos
 
 - mc-heads.net (Avatar Minecraft)
+
+---
+
+## 🏗️ Arquitetura
+
+O sistema segue uma arquitetura modular baseada em JavaScript Vanilla.
+
+### Core
+
+Responsável por:
+
+- Persistência
+- Configurações
+- Utilitários globais
+
+### Services
+
+Responsável por:
+
+- Manipulação de LocalStorage
+- Operações de negócio
+
+### Modules
+
+Responsável por:
+
+- Dashboard
+- Clientes
+- Encomendas
+- Financeiro
+- Pokédex
+- Configurações
+
+### UI
+
+Responsável por:
+
+- Modais
+- Toasts
+- Navegação
+- Responsividade
+
+## 💾 Dados Persistidos
+
+O sistema utiliza LocalStorage para armazenar:
+
+- Clientes
+- Encomendas
+- Transações
+- Hidden Abilities
+- Configurações
+- Backups exportados/importados
+
+Nenhum dado é enviado para servidores externos.
 
 ---
 
@@ -190,22 +331,65 @@ O sistema já está apto para uso real e continua recebendo melhorias voltadas p
 
 #### 💰 Financeiro
 
-- [ ] Filtro por período
+- [x] Filtro por período
 
-    - [ ] Hoje
-    - [ ] Últimos 7 dias
-    - [ ] Últimos 30 dias
-    - [ ] Mês Atual
-    - [ ] Tudo
+    - [x] Hoje
+    - [x] Últimos 7 dias
+    - [x] Últimos 30 dias
+    - [x] Mês Atual
+    - [x] Tudo
 
-#### 📄 Exportação e Importação
+- [ ] Exportação CSV de transações
 
-- [ ] Exportação CSV
-- [ ] Importação CSV
-- [ ] Validação de duplicidade
-- [ ] Exportação JSON
-- [ ] Importação JSON
-- [ ] Sistema de backup local
+- [ ] Importação CSV de transações
+
+- [ ] Validação de duplicidade de transações
+
+---
+
+#### ⚙️ Configurações
+
+- [x] Sistema de configurações persistentes
+
+- [x] Confirmação de alterações
+
+- [x] Comparação Antes → Depois
+
+- [x] Sistema de backup local (JSON)
+
+- [x] Restauração de backup local (JSON)
+
+- [x] Configuração de preenchimento automático de valores de HA
+
+- [x] Configuração de exibição de avisos de HA não cadastrada
+
+- [ ] Configurações de interface
+
+- [ ] Configurações de comportamento de modais
+
+---
+
+#### 🧬 Hidden Abilities
+
+- [x] Cadastro manual de HAs
+
+- [x] Gerenciamento de HAs cadastradas
+
+- [x] Edição de HAs
+
+- [x] Exclusão de HAs
+
+- [x] Integração com Nova Encomenda
+
+- [x] Linha evolutiva completa
+
+- [x] Filtro "Possui HA cadastrada"
+
+- [ ] Histórico de obtenção
+
+- [ ] Categorias de HAs
+
+- [ ] Estatísticas de utilização
 
 ---
 
@@ -215,7 +399,10 @@ O sistema já está apto para uso real e continua recebendo melhorias voltadas p
 - [ ] Maior comprador
 - [ ] Receita por período
 - [ ] Relatórios mensais
-- [ ] Histórico financeiro avançado
+- [ ] Evolução financeira
+- [ ] Ranking de clientes
+- [ ] Ranking de Pokémon mais vendidos
+- [ ] Ranking de HAs mais utilizadas
 
 ---
 
@@ -225,26 +412,69 @@ O sistema já está apto para uso real e continua recebendo melhorias voltadas p
 - [ ] Edição de encomendas
 - [ ] Exclusão controlada
 - [ ] Histórico de alterações
-- [ ] Controle de estoque
+- [ ] Log de ações
+- [ ] Controle de estoque de HAs
+- [ ] Controle de estoque de Breedables
 
 ---
 
 ### 🎨 Interface
 
+- [x] Sistema global de Toasts
+
+- [x] Sidebar responsiva
+
+- [x] Menu mobile recolhível
+
+- [x] Ícones de navegação
+
+- [x] Dashboard reorganizada
+
 - [ ] Busca global
+
 - [ ] Gráficos financeiros
+
 - [ ] Tema claro/escuro
-- [ ] Melhorias de UX/UI
+
+- [ ] Atalhos de teclado
+
+- [ ] Modo compacto
+
+- [ ] Sistema de notificações
+
+---
+
+### 📦 Exportação e Dados
+
+- [x] Exportação JSON
+
+- [x] Importação JSON
+
+- [x] Sistema de backup local
+
+- [ ] Exportação CSV
+
+- [ ] Importação CSV
+
+- [ ] Backup automático
+
+- [ ] Histórico de backups
+
+- [ ] Validação avançada de integridade
 
 ---
 
 ### 🌐 Futuro
 
 - [ ] Backend próprio
+- [ ] API REST
 - [ ] Banco de dados
 - [ ] Multiusuário
+- [ ] Controle de permissões
 - [ ] Deploy online
 - [ ] Sistema de autenticação
+- [ ] Login via Discord
+- [ ] Sincronização entre dispositivos
 
 ---
 
