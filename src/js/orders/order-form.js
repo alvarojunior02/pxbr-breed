@@ -637,26 +637,30 @@ function createPokemonOrderRow() {
 
         pokemonSelectedInfo.innerHTML = `
             <div class="pokemon-info-card">
-                <img
-                    src="${pokemon.sprite}"
-                    width="64">
+                <div class="pokemon-info-main">
+                    <img
+                        src="${pokemon.sprite}"
+                        width="64">
 
-                <div>
-                    <strong>
-                        #${pokemon.id}
-                        ${pokemon.name}
-                    </strong>
+                    <div>
+                        <strong>
+                            #${pokemon.id}
+                            ${pokemon.name}
+                        </strong>
 
-                    <p>
-                        Breed Base:
-                        ${basePokemon?.name || "N/A"}
-                    </p>
+                        <p>
+                            Breed Base:
+                            ${basePokemon?.name || "N/A"}
+                        </p>
 
-                    <p>
-                        Egg Groups:
-                        ${pokemon.eggGroups.join(" / ")}
-                    </p>
+                        <p>
+                            Egg Groups:
+                            ${pokemon.eggGroups.join(" / ")}
+                        </p>
+                    </div>
+                </div>
 
+                <div class="pokemon-info-ha">
                     ${createOwnedHAOrderInfoHtml(pokemon)}
                 </div>
             </div>
