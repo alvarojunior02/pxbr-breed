@@ -14,6 +14,9 @@ const btnCloseSettingsConfirmModal = document.getElementById("btnCloseSettingsCo
 const btnCancelSettingsConfirm = document.getElementById("btnCancelSettingsConfirm");
 const btnConfirmSettingsSave = document.getElementById("btnConfirmSettingsSave");
 
+const btnExportBackup = document.getElementById("btnExportBackup");
+const backupImportInput = document.getElementById("backupImportInput");
+
 let currentSettings = loadSystemSettings();
 let draftSettings = { ...currentSettings };
 
@@ -141,6 +144,122 @@ function updateSettingsSaveButton() {
     btnSaveSettings.disabled = !hasSettingsChanges();
 }
 
+function createSystemBackup() {
+    return {
+        version: "1.0.0",
+        exportedAt: new Date().toISOString(),
+        data: {
+            players: loadPlayers(),
+            orders: loadOrders(),
+            transactions: loadTransactions(),
+            ownedHiddenAbilities: loadOwnedHiddenAbilities(),
+            systemSettings: loadSystemSettings()
+        }
+    };
+}
+
+function exportSystemBackup() {
+    const backup = createSystemBackup();
+
+    const blob = new Blob([JSON.stringify(backup, null, 2)], {
+        type: "application/json"
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    const date = new Date().toISOString().slice(0, 10);
+
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = `pxbr-breed-backup-${date}.json`;
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+    URL.revokeObjectURL(url);
+
+    showSuccessToast("Backup exportado com sucesso!");
+}
+
+function isValidBackupFile(backup) {
+    return (
+        backup &&
+        backup.data &&
+        Array.isArray(backup.data.players) &&
+        Array.isArray(backup.data.orders) &&
+        Array.isArray(backup.data.transactions) &&
+        Array.isArray(backup.data.ownedHiddenAbilities) &&
+        typeof backup.data.systemSettings === "object"
+    );
+}
+
+function restoreSystemBackup(backup) {
+    localStorage.setItem(STORAGE_KEYS.PLAYERS, JSON.stringify(backup.data.players));
+
+    localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(backup.data.orders));
+
+    localStorage.setItem(STORAGE_KEYS.TRANSACTIONS, JSON.stringify(backup.data.transactions));
+
+    localStorage.setItem(
+        STORAGE_KEYS.OWNED_HIDDEN_ABILITIES,
+        JSON.stringify(backup.data.ownedHiddenAbilities)
+    );
+
+    localStorage.setItem("systemSettings", JSON.stringify(backup.data.systemSettings));
+}
+
+function refreshAppAfterBackupRestore() {
+    renderDashboard();
+    renderOrdersList();
+    renderPlayersModule();
+    renderFinanceModule();
+    renderPokemonCatalog();
+    renderSettingsModule();
+}
+
+function importSystemBackup(file) {
+    if (!file) {
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+        try {
+            const backup = JSON.parse(event.target.result);
+
+            if (!isValidBackupFile(backup)) {
+                showErrorToast("Arquivo de backup inválido.");
+                return;
+            }
+
+            const confirmed = confirm(
+                "Tem certeza que deseja restaurar este backup? Os dados atuais serão substituídos."
+            );
+
+            if (!confirmed) {
+                return;
+            }
+
+            restoreSystemBackup(backup);
+
+            refreshAppAfterBackupRestore();
+
+            showSuccessToast("Backup restaurado com sucesso!");
+        } catch (error) {
+            showErrorToast("Não foi possível ler o arquivo de backup.");
+        } finally {
+            backupImportInput.value = "";
+        }
+    };
+
+    reader.readAsText(file);
+}
+
 settingShowMissingHAWarning.addEventListener("change", () => {
     draftSettings.showMissingHAWarningOnOrder = settingShowMissingHAWarning.checked;
 
@@ -167,6 +286,12 @@ btnCloseSettingsConfirmModal.addEventListener("click", closeSettingsConfirmModal
 btnCancelSettingsConfirm.addEventListener("click", closeSettingsConfirmModal);
 
 btnConfirmSettingsSave.addEventListener("click", confirmSettingsSave);
+
+btnExportBackup.addEventListener("click", exportSystemBackup);
+
+backupImportInput.addEventListener("change", (event) => {
+    importSystemBackup(event.target.files[0]);
+});
 
 renderSettingsModule();
 

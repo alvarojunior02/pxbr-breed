@@ -4,7 +4,6 @@
     border-radius: 1rem;
     padding: 1.25rem;
     max-width: 820px;
-    margin-top: -2rem;
 }
 
 .settings-group-header {
@@ -118,4 +117,41 @@
 .settings-change-arrow {
     color: var(--text-muted);
     font-weight: 800;
+}
+
+.settings-data-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.settings-import-button {
+    min-height: 40px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: #475569;
+    color: #ffffff;
+    font-weight: 700;
+    cursor: pointer;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.settings-import-button:hover {
+    background: #64748b;
+}
+
+@media (max-width: 520px) {
+    .settings-data-actions {
+        flex-direction: column;
+    }
+
+    .settings-data-actions button,
+    .settings-data-actions label {
+        width: 100%;
+    }
 }

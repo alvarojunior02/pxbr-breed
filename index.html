@@ -312,6 +312,7 @@
                         </div>
                     </div>
 
+                    <!-- Encomendas -->
                     <div class="settings-card">
                         <div class="settings-group-header">
                             <h3>📦 Encomendas</h3>
@@ -355,17 +356,48 @@
                                 </span>
                             </label>
                         </div>
+                    </div>
 
-                        <div class="settings-actions">
-                            <button
-                                type="button"
-                                id="btnSaveSettings"
-                                class="button-primary"
-                                disabled
-                            >
-                                Salvar Configurações
-                            </button>
+                    <!-- Dados do Sistema -->
+                    <div class="settings-card">
+                        <div class="settings-group-header">
+                            <h3>💾 Dados do Sistema</h3>
+
+                            <p>
+                                Exporte ou restaure todos os dados salvos localmente no navegador.
+                            </p>
                         </div>
+
+                        <div class="settings-data-actions">
+                            <button type="button" id="btnExportBackup" class="button-primary">
+                                Exportar Backup
+                            </button>
+
+                            <label
+                                for="backupImportInput"
+                                class="button-secondary settings-import-button"
+                            >
+                                Importar Backup
+                            </label>
+
+                            <input
+                                type="file"
+                                id="backupImportInput"
+                                accept="application/json"
+                                hidden
+                            />
+                        </div>
+
+                        <p class="form-required-hint">
+                            O backup inclui clientes, encomendas, transações, HAs cadastradas e
+                            configurações.
+                        </p>
+                    </div>
+
+                    <div class="settings-actions">
+                        <button type="button" id="btnSaveSettings" class="button-primary" disabled>
+                            Salvar Configurações
+                        </button>
                     </div>
                 </section>
             </main>
