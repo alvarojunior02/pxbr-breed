@@ -415,7 +415,7 @@ function createOwnedHAOrderInfoHtml(pokemon) {
             <button
                 type="button"
                 class="button-ha"
-                onclick="openAddOwnedHAModal(${pokemon.id}, 'order-form')">
+                onclick="openAddOwnedHAModal(${pokemon.id}, 'order-form', this.closest('.pokemon-order-row'))">
                 Adicionar HA agora
             </button>
         </div>
@@ -720,6 +720,75 @@ function createPokemonOrderRow() {
     pokemonOrderList.appendChild(row);
 
     updatePokemonRowLabels();
+
+    calculateOrderTotal();
+}
+
+function refreshOrderPokemonOwnedHA(row, pokemonId) {
+    const pokemon = searchPokemon(String(pokemonId)).find((item) => {
+        return Number(item.id) === Number(pokemonId);
+    });
+
+    if (!pokemon || !row) {
+        return;
+    }
+
+    const pokemonSelectedInfo = row.querySelector(".pokemon-selected-info");
+    const abilitySelect = row.querySelector(".pokemon-ability");
+    const breedableToggle = row.querySelector(".pokemon-breedable");
+
+    const basePokemon = getBasePokemon(pokemon.id);
+
+    pokemonSelectedInfo.innerHTML = `
+        <div class="pokemon-info-card">
+            <div class="pokemon-info-main">
+                <img
+                    src="${pokemon.sprite}"
+                    width="64">
+
+                <div>
+                    <strong>
+                        #${pokemon.id}
+                        ${pokemon.name}
+                    </strong>
+
+                    <p>
+                        Breed Base:
+                        ${basePokemon?.name || "N/A"}
+                    </p>
+
+                    <p>
+                        Egg Groups:
+                        ${pokemon.eggGroups.join(" / ")}
+                    </p>
+                </div>
+            </div>
+
+            <div class="pokemon-info-ha">
+                ${createOwnedHAOrderInfoHtml(pokemon)}
+            </div>
+        </div>
+    `;
+
+    populateAbilitySelect(abilitySelect, pokemon.abilities, pokemon.id);
+
+    const ownedHA = getOwnedHAByPokemonId(pokemon.id);
+
+    if (ownedHA) {
+        const currentEvolutionPokemon = ownedHA.evolutionLine?.find((item) => {
+            return Number(item.pokemonId) === Number(pokemon.id);
+        });
+
+        const abilityName = currentEvolutionPokemon?.abilityName || ownedHA.abilityName;
+
+        abilitySelect.value = abilityName;
+    }
+
+    if (breedableToggle) {
+        breedableToggle.checked = false;
+    }
+
+    applyOwnedHAPriceToRow(row, pokemon);
 
     calculateOrderTotal();
 }
@@ -1066,3 +1135,4 @@ document.querySelectorAll("input[name='needsFemale']").forEach((radio) => {
 
 window.openCreateOrderModal = openCreateOrderModal;
 window.selectOrderPlayer = selectOrderPlayer;
+window.refreshOrderPokemonOwnedHA = refreshOrderPokemonOwnedHA;

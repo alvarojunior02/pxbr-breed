@@ -26,6 +26,7 @@ let selectedHAPokemonId = null;
 let selectedOwnedHAId = null;
 
 let addHAOrigin = "pokemon-details";
+let addHAOrderRow = null;
 
 async function loadPokemonCatalog() {
     const response = await fetch("./src/data/pokedex.json");
@@ -806,8 +807,9 @@ function getPokemonHiddenAbility(pokemon) {
     });
 }
 
-function openAddOwnedHAModal(pokemonId, origin = "pokemon-details") {
+function openAddOwnedHAModal(pokemonId, origin = "pokemon-details", orderRow = null) {
     addHAOrigin = origin;
+    addHAOrderRow = orderRow;
 
     const pokemon = getPokemonById(pokemonId);
     const hiddenAbility = getPokemonHiddenAbility(pokemon);
@@ -937,11 +939,18 @@ function saveOwnedHAFromModal() {
     showSuccessToast("HA adicionada com sucesso!");
 
     const pokemonIdToRefresh = selectedHAPokemonId;
+    const orderRowToRefresh = addHAOrderRow;
+    const originToRefresh = addHAOrigin;
 
     closeAddOwnedHAModal();
     renderOwnedHAList();
 
-    if (addHAOrigin === "pokemon-details" && pokemonIdToRefresh) {
+    if (originToRefresh === "order-form" && orderRowToRefresh && pokemonIdToRefresh) {
+        refreshOrderPokemonOwnedHA(orderRowToRefresh, pokemonIdToRefresh);
+        return;
+    }
+
+    if (originToRefresh === "pokemon-details" && pokemonIdToRefresh) {
         openPokemonDetails(pokemonIdToRefresh);
     }
 }
@@ -951,6 +960,9 @@ function closeAddOwnedHAModal() {
 
     selectedHAPokemonId = null;
     selectedOwnedHAId = null;
+
+    addHAOrigin = "pokemon-details";
+    addHAOrderRow = null;
 
     addOwnedHAModal.querySelector("h2").textContent = "Adicionar HA";
 }
