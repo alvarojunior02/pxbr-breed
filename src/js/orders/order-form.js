@@ -472,6 +472,19 @@ function applyOwnedHAPriceToRow(row, pokemon) {
     calculateOrderTotal();
 }
 
+// GET DISPLAY POKEMON NAME
+function getDisplayPokemonName(pokemon) {
+    if (!pokemon) {
+        return "N/A";
+    }
+
+    if (typeof pokemon.name === "string") {
+        return pokemon.name;
+    }
+
+    return pokemon.name?.english || "N/A";
+}
+
 // CREATE POKEMON ORDER ROW
 function createPokemonOrderRow() {
     const row = document.createElement("div");
@@ -712,12 +725,12 @@ function createPokemonOrderRow() {
 
                         <p>
                             Breed Base:
-                            ${basePokemon?.name || "N/A"}
+                            ${getDisplayPokemonName(basePokemon)}
                         </p>
 
                         <p>
                             Egg Groups:
-                            ${pokemon.eggGroups.join(" / ")}
+                            ${pokemon.eggGroups.map(normalizeEggGroup).join(" / ")}
                         </p>
                     </div>
                 </div>
