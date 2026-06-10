@@ -444,6 +444,12 @@ function createOwnedHAOrderInfoHtml(pokemon) {
 
 // APPLY OWNED HA PRICE TO ROW
 function applyOwnedHAPriceToRow(row, pokemon) {
+    const settings = loadSystemSettings();
+
+    if (!settings.autoFillOwnedHAPriceOnOrder) {
+        return;
+    }
+
     const ownedHA = getOwnedHAByPokemonId(pokemon.id);
     const valueInput = row.querySelector(".pokemon-value");
     const breedableToggle = row.querySelector(".pokemon-breedable");

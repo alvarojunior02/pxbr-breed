@@ -1,8 +1,11 @@
 const DEFAULT_SETTINGS = {
-    showMissingHAWarningOnOrder: true
+    showMissingHAWarningOnOrder: true,
+    autoFillOwnedHAPriceOnOrder: true
 };
 
 const settingShowMissingHAWarning = document.getElementById("settingShowMissingHAWarning");
+const settingAutoFillOwnedHAPrice = document.getElementById("settingAutoFillOwnedHAPrice");
+
 const btnSaveSettings = document.getElementById("btnSaveSettings");
 
 let currentSettings = loadSystemSettings();
@@ -21,13 +24,15 @@ function renderSettingsModule() {
     draftSettings = { ...currentSettings };
 
     settingShowMissingHAWarning.checked = currentSettings.showMissingHAWarningOnOrder;
+    settingAutoFillOwnedHAPrice.checked = currentSettings.autoFillOwnedHAPriceOnOrder;
 
     updateSettingsSaveButton();
 }
 
 function hasSettingsChanges() {
     return (
-        currentSettings.showMissingHAWarningOnOrder !== draftSettings.showMissingHAWarningOnOrder
+        currentSettings.showMissingHAWarningOnOrder !== draftSettings.showMissingHAWarningOnOrder ||
+        currentSettings.autoFillOwnedHAPriceOnOrder !== draftSettings.autoFillOwnedHAPriceOnOrder
     );
 }
 
@@ -37,6 +42,12 @@ function updateSettingsSaveButton() {
 
 settingShowMissingHAWarning.addEventListener("change", () => {
     draftSettings.showMissingHAWarningOnOrder = settingShowMissingHAWarning.checked;
+
+    updateSettingsSaveButton();
+});
+
+settingAutoFillOwnedHAPrice.addEventListener("change", () => {
+    draftSettings.autoFillOwnedHAPriceOnOrder = settingAutoFillOwnedHAPrice.checked;
 
     updateSettingsSaveButton();
 });
