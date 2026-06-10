@@ -160,29 +160,35 @@
                         </div>
                     </div>
 
-                    <div class="pokemon-catalog-filters">
-                        <input
-                            type="text"
-                            id="pokemonCatalogSearch"
-                            placeholder="Buscar por nome ou número..."
-                        />
+                    <div class="pokemon-catalog-toolbar">
+                        <div class="pokemon-catalog-filters">
+                            <input
+                                type="text"
+                                id="pokemonCatalogSearch"
+                                placeholder="Buscar por nome ou número..."
+                            />
 
-                        <select id="pokemonGenerationFilter">
-                            <option value="all">Todas as regiões</option>
-                            <option value="1">Kanto</option>
-                            <option value="2">Johto</option>
-                            <option value="3">Hoenn</option>
-                            <option value="4">Sinnoh</option>
-                            <option value="5">Unova</option>
-                            <option value="6">Kalos</option>
-                            <option value="7">Alola</option>
-                            <option value="8">Galar/Hisui</option>
-                            <option value="9">Paldea</option>
-                        </select>
+                            <select id="pokemonGenerationFilter">
+                                <option value="all">Todas as regiões</option>
+                                <option value="1">Kanto</option>
+                                <option value="2">Johto</option>
+                                <option value="3">Hoenn</option>
+                                <option value="4">Sinnoh</option>
+                                <option value="5">Unova</option>
+                                <option value="6">Kalos</option>
+                                <option value="7">Alola</option>
+                                <option value="8">Galar/Hisui</option>
+                                <option value="9">Paldea</option>
+                            </select>
 
-                        <select id="pokemonEggGroupFilter">
-                            <option value="all">Todos os Egg Groups</option>
-                        </select>
+                            <select id="pokemonEggGroupFilter">
+                                <option value="all">Todos os Egg Groups</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="pokemon-catalog-toolbar">
+                        <span id="pokemonCatalogCounter"></span>
                     </div>
 
                     <div id="pokemonCatalogGrid" class="pokemon-catalog-grid"></div>

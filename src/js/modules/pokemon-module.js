@@ -7,6 +7,8 @@ const pokemonDetailsModal = document.getElementById("pokemonDetailsModal");
 const pokemonDetailsContent = document.getElementById("pokemonDetailsContent");
 const btnClosePokemonDetails = document.getElementById("btnClosePokemonDetails");
 
+const pokemonCatalogCounter = document.getElementById("pokemonCatalogCounter");
+
 let pokedexCatalog = [];
 let pokemonDetailsAnimationDirection = "none";
 
@@ -69,6 +71,7 @@ function getFilteredPokemonCatalog() {
     });
 }
 
+// RENDER POKEMON CATALOG
 function renderPokemonCatalog() {
     const filteredPokemons = getFilteredPokemonCatalog();
 
@@ -81,6 +84,8 @@ function renderPokemonCatalog() {
 
         return;
     }
+
+    pokemonCatalogCounter.textContent = `Exibindo ${filteredPokemons.length} de ${pokedexCatalog.length} Pokémon`;
 
     pokemonCatalogGrid.innerHTML = filteredPokemons
         .map((pokemon) => createPokemonCatalogCard(pokemon))
