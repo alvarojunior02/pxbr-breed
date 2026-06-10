@@ -59,3 +59,53 @@
     gap: 16px;
     margin-bottom: 20px;
 }
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.sidebar-title {
+    margin: 0;
+    white-space: nowrap;
+}
+
+.sidebar-toggle {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 0.75rem;
+    background: var(--primary-color);
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 700;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.nav-icon {
+    width: 24px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.sidebar-toggle {
+    font-size: 1.1rem;
+}

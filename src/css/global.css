@@ -169,3 +169,23 @@ body.modal-open {
     font-size: 0.75rem;
     margin-top: 0.5rem;
 }
+
+.app-sidebar.collapsed {
+    width: 72px;
+}
+
+.app-sidebar.collapsed .nav-text,
+.app-sidebar.collapsed .app-logo-text {
+    display: none;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.nav-icon {
+    width: 24px;
+    text-align: center;
+}

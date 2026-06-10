@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="./src/css/finance.css" />
         <link rel="stylesheet" href="./src/css/responsive.css" />
         <link rel="stylesheet" href="./src/css/pokemon.css" />
+        <link rel="stylesheet" href="./src/css/settings.css" />
 
         <link rel="stylesheet" href="./node_modules/toastify-js/src/toastify.css" />
     </head>
@@ -30,27 +31,49 @@
 
         <div class="app-layout">
             <aside class="sidebar">
-                <h1 class="sidebar-title">PXBR Breed</h1>
+                <div class="sidebar-header">
+                    <h1 class="sidebar-title">PXBR Breed</h1>
+
+                    <button type="button" id="btnToggleSidebar" class="sidebar-toggle">☰</button>
+                </div>
 
                 <nav class="sidebar-nav">
-                    <button class="nav-link active" data-section="dashboardSection">
-                        Dashboard
+                    <button class="nav-link" data-section="dashboardSection">
+                        <span class="nav-icon">📊</span>
+                        <span class="nav-text">Dashboard</span>
                     </button>
 
-                    <button class="nav-link" data-section="ordersSection">Encomendas</button>
+                    <button class="nav-link" data-section="ordersSection">
+                        <span class="nav-icon">📦</span>
+                        <span class="nav-text">Encomendas</span>
+                    </button>
 
-                    <button class="nav-link" data-section="pokemonsSection">Pokémons</button>
+                    <button class="nav-link" data-section="pokemonsSection">
+                        <span class="nav-icon">🎮</span>
+                        <span class="nav-text">Pokémons</span>
+                    </button>
 
-                    <button class="nav-link" data-section="playersSection">Clientes</button>
+                    <button class="nav-link" data-section="playersSection">
+                        <span class="nav-icon">👥</span>
+                        <span class="nav-text">Clientes</span>
+                    </button>
 
-                    <button class="nav-link" data-section="financeSection">Financeiro</button>
+                    <button class="nav-link" data-section="financeSection">
+                        <span class="nav-icon">💰</span>
+                        <span class="nav-text">Financeiro</span>
+                    </button>
+
+                    <button class="nav-link" data-section="settingsSection">
+                        <span class="nav-icon">⚙️</span>
+                        <span class="nav-text">Configurações</span>
+                    </button>
                 </nav>
             </aside>
 
             <main class="main-content">
                 <section id="dashboardSection" class="app-section active-section">
                     <div class="dashboard-header">
-                        <h2>Dashboard</h2>
+                        <h2>📊 Dashboard</h2>
 
                         <p>Acompanhe métricas gerais e valores totais do seu negócio.</p>
 
@@ -107,7 +130,7 @@
                 <section id="ordersSection" class="app-section">
                     <div class="section-header">
                         <div>
-                            <h2>Encomendas</h2>
+                            <h2>📦 Encomendas</h2>
 
                             <p>Gerencie pedidos, pagamentos e status das breeds.</p>
                         </div>
@@ -173,7 +196,7 @@
                 <section id="pokemonsSection" class="app-section">
                     <div class="section-header">
                         <div>
-                            <h2>Pokémons</h2>
+                            <h2>🎮 Pokémons</h2>
 
                             <p>Consulte dados da Pokédex, tipos, abilities e egg groups.</p>
 
@@ -234,7 +257,7 @@
                 <section id="playersSection" class="app-section">
                     <div class="section-header">
                         <div>
-                            <h2>Clientes</h2>
+                            <h2>👥 Clientes</h2>
 
                             <p>
                                 Gerencie clientes e acompanhe as encomendas e transações de cada um.
@@ -250,7 +273,7 @@
                 <section id="financeSection" class="app-section">
                     <div class="section-header">
                         <div>
-                            <h2>Financeiro</h2>
+                            <h2>💰 Financeiro</h2>
 
                             <p>Acompanhe todas as movimentações financeiras.</p>
                         </div>
@@ -273,6 +296,42 @@
                     <div id="financeSummaryCards"></div>
 
                     <div id="financeTransactionsList"></div>
+                </section>
+
+                <section id="settingsSection" class="app-section hidden">
+                    <div class="section-header">
+                        <div>
+                            <h2>⚙️ Configurações</h2>
+                            <p>Ajuste preferências e comportamentos do sistema.</p>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>Encomendas</h3>
+
+                        <label class="checkbox-row">
+                            <input type="checkbox" id="settingShowMissingHAWarning" />
+
+                            Exibir aviso de HA não cadastrada ao criar Nova Encomenda
+                        </label>
+
+                        <div class="form-required-hint">
+                            Essa configuração controla se o sistema exibirá o aviso amarelo quando
+                            um Pokémon possuir HA, mas ela ainda não estiver cadastrada nos seus
+                            HAs.
+                        </div>
+
+                        <div class="settings-actions">
+                            <button
+                                type="button"
+                                id="btnSaveSettings"
+                                class="button-primary"
+                                disabled
+                            >
+                                Salvar Configurações
+                            </button>
+                        </div>
+                    </div>
                 </section>
             </main>
         </div>
@@ -735,6 +794,7 @@
         <script src="src/js/modules/players-module.js"></script>
         <script src="src/js/modules/finance-module.js"></script>
         <script src="./src/js/modules/pokemon-module.js"></script>
+        <script src="./src/js/modules/settings-module.js"></script>
 
         <!-- UI -->
 
