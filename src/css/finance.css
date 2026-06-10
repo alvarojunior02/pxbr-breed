@@ -49,3 +49,28 @@
     color: #ffffff;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
 }
+
+.finance-table-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.finance-table-footer span {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+@media (max-width: 520px) {
+    .finance-table-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .finance-table-footer button {
+        width: 100%;
+    }
+}
