@@ -307,30 +307,47 @@
                     </div>
 
                     <div class="settings-card">
-                        <h3>Encomendas</h3>
+                        <div class="settings-group-header">
+                            <h3>📦 Encomendas</h3>
 
-                        <label class="checkbox-row">
-                            <input type="checkbox" id="settingShowMissingHAWarning" />
-
-                            Exibir aviso de HA não cadastrada ao criar Nova Encomenda
-                        </label>
-
-                        <div class="form-required-hint">
-                            Essa configuração controla se o sistema exibirá o aviso amarelo quando
-                            um Pokémon possuir HA, mas ela ainda não estiver cadastrada nos seus
-                            HAs.
+                            <p>
+                                Configure comportamentos relacionados ao cadastro e gerenciamento de
+                                encomendas.
+                            </p>
                         </div>
 
-                        <label class="checkbox-row">
-                            <input type="checkbox" id="settingAutoFillOwnedHAPrice" />
+                        <div class="settings-options">
+                            <label class="settings-option">
+                                <input type="checkbox" id="settingShowMissingHAWarning" />
 
-                            Preencher automaticamente valores de HA na Nova Encomenda
-                        </label>
+                                <span>
+                                    <strong
+                                        >Exibir aviso de HA não cadastrada ao criar Nova
+                                        Encomenda</strong
+                                    >
 
-                        <div class="form-required-hint">
-                            Quando ativado, ao selecionar uma HA cadastrada, o sistema preenche
-                            automaticamente o valor castrado ou breedável conforme o checkbox
-                            Breedável.
+                                    <small>
+                                        Exibe o aviso amarelo quando um Pokémon possuir HA, mas ela
+                                        ainda não estiver cadastrada nos seus HAs.
+                                    </small>
+                                </span>
+                            </label>
+
+                            <label class="settings-option">
+                                <input type="checkbox" id="settingAutoFillOwnedHAPrice" />
+
+                                <span>
+                                    <strong
+                                        >Preencher automaticamente valores de HA na Nova
+                                        Encomenda</strong
+                                    >
+
+                                    <small>
+                                        Ao selecionar uma HA cadastrada, preenche automaticamente o
+                                        valor castrado ou breedável conforme o checkbox Breedável.
+                                    </small>
+                                </span>
+                            </label>
                         </div>
 
                         <div class="settings-actions">

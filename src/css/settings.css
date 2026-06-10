@@ -2,10 +2,71 @@
     background: var(--card-background);
     border: 1px solid var(--border-color);
     border-radius: 1rem;
+    padding: 1.25rem;
+    max-width: 820px;
+    margin-top: -2rem;
+}
+
+.settings-group-header {
+    margin-bottom: 1rem;
+}
+
+.settings-group-header h3 {
+    margin: 0 0 0.35rem;
+}
+
+.settings-group-header p {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.settings-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.settings-option {
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    border-radius: 0.85rem;
     padding: 1rem;
-    max-width: 720px;
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.settings-option:hover {
+    border-color: var(--primary-color);
+    background: rgba(255, 255, 255, 0.07);
+    transform: translateY(-1px);
+}
+
+.settings-option input {
+    width: 18px;
+    height: 18px;
+    margin-top: 0.15rem;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+}
+
+.settings-option span {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.settings-option small {
+    color: var(--text-muted);
+    line-height: 1.4;
 }
 
 .settings-actions {
-    margin-top: 1.5rem;
+    margin-top: 1.25rem;
 }
