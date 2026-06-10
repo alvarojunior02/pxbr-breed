@@ -8,6 +8,11 @@
     background: var(--sidebar-bg);
     padding: 20px;
     border-right: 1px solid var(--border);
+
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
 }
 
 .sidebar-title {
@@ -108,4 +113,25 @@
 
 .sidebar-toggle {
     font-size: 1.1rem;
+}
+
+.sidebar.collapsed {
+    width: 72px;
+}
+
+.sidebar.collapsed .sidebar-title,
+.sidebar.collapsed .nav-text {
+    display: none;
+}
+
+.sidebar.collapsed .sidebar-header {
+    justify-content: center;
+}
+
+.sidebar.collapsed .nav-link {
+    justify-content: center;
+}
+
+.sidebar.collapsed .nav-icon {
+    width: auto;
 }
