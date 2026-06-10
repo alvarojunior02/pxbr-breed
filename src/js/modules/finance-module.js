@@ -2,44 +2,29 @@ const financeSummaryCards = document.getElementById("financeSummaryCards");
 
 const financeTransactionsList = document.getElementById("financeTransactionsList");
 
+let currentFinancePeriod = "today";
+
 // RENDER FINANCE MODULE
 function renderFinanceModule() {
-    renderFinanceSummary();
-    renderFinanceTransactions();
+    const transactions = loadTransactions();
+    const filteredTransactions = getFilteredTransactionsByPeriod(
+        transactions,
+        currentFinancePeriod
+    );
+
+    setupFinancePeriodFilters();
+    renderFinanceSummary(filteredTransactions);
+    renderFinanceTransactions(filteredTransactions);
 }
 
 // RENDER FINANCE SUMMARY
-function renderFinanceSummary() {
-    const transactions = loadTransactions();
-
-    const today = new Date();
-
-    const currentMonth = today.getMonth();
-
-    const currentYear = today.getFullYear();
-
+function renderFinanceSummary(transactions) {
     const totalRevenue = transactions.reduce((total, transaction) => total + transaction.amount, 0);
-
-    const monthlyRevenue = transactions
-        .filter((transaction) => {
-            const date = new Date(transaction.createdAt);
-
-            return date.getMonth() === currentMonth && date.getFullYear() === currentYear;
-        })
-        .reduce((total, transaction) => total + transaction.amount, 0);
-
-    const dailyRevenue = transactions
-        .filter((transaction) => {
-            const date = new Date(transaction.createdAt);
-
-            return date.toDateString() === today.toDateString();
-        })
-        .reduce((total, transaction) => total + transaction.amount, 0);
 
     financeSummaryCards.innerHTML = `
         <div class="dashboard-card">
             <strong>
-                Receita Total
+                Receita no Período
             </strong>
 
             <span>
@@ -49,27 +34,7 @@ function renderFinanceSummary() {
 
         <div class="dashboard-card">
             <strong>
-                Receita do Mês
-            </strong>
-
-            <span>
-                ${formatMoney(monthlyRevenue)}
-            </span>
-        </div>
-
-        <div class="dashboard-card">
-            <strong>
-                Receita Hoje
-            </strong>
-
-            <span>
-                ${formatMoney(dailyRevenue)}
-            </span>
-        </div>
-
-        <div class="dashboard-card">
-            <strong>
-                Transações
+                Transações no Período
             </strong>
 
             <span>
@@ -80,59 +45,61 @@ function renderFinanceSummary() {
 }
 
 // RENDER FINANCE TRANSACTIONS
-function renderFinanceTransactions() {
-    const transactions = loadTransactions().sort(
+function renderFinanceTransactions(transactions) {
+    const players = loadPlayers();
+
+    const sortedTransactions = [...transactions].sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
 
     financeTransactionsList.innerHTML = "";
 
-    if (transactions.length === 0) {
+    if (sortedTransactions.length === 0) {
         financeTransactionsList.innerHTML = `
             <p>
-                Nenhuma transação registrada.
+                Nenhuma transação registrada neste período.
             </p>
         `;
 
         return;
     }
 
-    const rows = transactions
+    const rows = sortedTransactions
         .map((transaction) => {
-            const player = loadPlayers().find((player) => player.id === transaction.playerId);
+            const player = players.find((player) => player.id === transaction.playerId);
 
             return `
-                    <tr>
-                        <td>
-                            ${formatDateTime(transaction.createdAt)}
-                        </td>
+                <tr>
+                    <td>
+                        ${formatDateTime(transaction.createdAt)}
+                    </td>
 
-                        <td>
-                            <button
-                                type="button"
-                                class="table-link"
-                                onclick="openPlayerSummaryModal('${transaction.playerId}')">
+                    <td>
+                        <button
+                            type="button"
+                            class="table-link"
+                            onclick="openPlayerSummaryModal('${transaction.playerId}')">
 
-                                ${player?.nick || "-"}
+                            ${player?.nick || "-"}
 
-                            </button>
-                        </td>
+                        </button>
+                    </td>
 
-                        <td class="finance-value">
-                            ${formatMoney(transaction.amount)}
-                        </td>
+                    <td class="finance-value">
+                        ${formatMoney(transaction.amount)}
+                    </td>
 
-                        <td>
-                            <button
-                                type="button"
-                                onclick="openOrderDetails('${transaction.orderId}')">
+                    <td>
+                        <button
+                            type="button"
+                            onclick="openOrderDetails('${transaction.orderId}')">
 
-                                Ver Encomenda
+                            Ver Encomenda
 
-                            </button>
-                        </td>
-                    </tr>
-                `;
+                        </button>
+                    </td>
+                </tr>
+            `;
         })
         .join("");
 
@@ -154,6 +121,58 @@ function renderFinanceTransactions() {
             </table>
         </div>
     `;
+}
+
+// GET FILTERED TRANSACTIONS BY PERIOD
+function getFilteredTransactionsByPeriod(transactions, period) {
+    const now = new Date();
+
+    return transactions.filter((transaction) => {
+        const transactionDate = new Date(transaction.createdAt);
+
+        if (period === "today") {
+            return transactionDate.toDateString() === now.toDateString();
+        }
+
+        if (period === "7days") {
+            const limitDate = new Date();
+            limitDate.setDate(now.getDate() - 7);
+            limitDate.setHours(0, 0, 0, 0);
+
+            return transactionDate >= limitDate;
+        }
+
+        if (period === "30days") {
+            const limitDate = new Date();
+            limitDate.setDate(now.getDate() - 30);
+            limitDate.setHours(0, 0, 0, 0);
+
+            return transactionDate >= limitDate;
+        }
+
+        if (period === "month") {
+            return (
+                transactionDate.getMonth() === now.getMonth() &&
+                transactionDate.getFullYear() === now.getFullYear()
+            );
+        }
+
+        return true;
+    });
+}
+
+// SETUP FINANCE PERIOD FILTERS
+function setupFinancePeriodFilters() {
+    const buttons = document.querySelectorAll(".finance-period-button");
+
+    buttons.forEach((button) => {
+        button.classList.toggle("active", button.dataset.period === currentFinancePeriod);
+
+        button.onclick = () => {
+            currentFinancePeriod = button.dataset.period;
+            renderFinanceModule();
+        };
+    });
 }
 
 renderFinanceModule();

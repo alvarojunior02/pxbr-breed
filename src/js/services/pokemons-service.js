@@ -7,7 +7,7 @@ function formatAbilityName(abilityName) {
 
 async function loadPokemonData() {
     try {
-        const response = await fetch("./data/pokedex.json");
+        const response = await fetch("./src/data/pokedex.json");
 
         const data = await response.json();
 
