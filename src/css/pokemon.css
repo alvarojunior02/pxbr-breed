@@ -632,9 +632,7 @@
 }
 
 .owned-ha-summary {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+    display: block;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--border-color);
     border-radius: 1rem;
@@ -655,6 +653,20 @@
     gap: 0.35rem;
 }
 
+.owned-ha-summary .owned-ha-evolution-line {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+    margin-bottom: 0;
+    overflow-x: auto;
+}
+
+.owned-ha-summary .owned-ha-evolution-pokemon {
+    flex: 0 0 auto;
+}
+
 .owned-ha-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -670,6 +682,9 @@
 
 .owned-ha-evolution-line {
     display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
     gap: 0.5rem;
     margin-bottom: 0.75rem;
 }
@@ -685,4 +700,106 @@
     display: flex;
     gap: 0.5rem;
     margin-top: 1rem;
+}
+
+.owned-ha-card-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.owned-ha-card-label {
+    display: inline-block;
+    color: #facc15;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.owned-ha-card h3 {
+    margin: 0;
+}
+
+.owned-ha-created-at {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: right;
+}
+
+.owned-ha-evolution-pokemon {
+    min-width: 82px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 0.75rem;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.owned-ha-evolution-pokemon span {
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.owned-ha-evolution-pokemon strong {
+    font-size: 0.72rem;
+    text-align: center;
+}
+
+.owned-ha-price-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.owned-ha-price-grid div {
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+}
+
+.owned-ha-price-grid strong {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    margin-bottom: 0.35rem;
+}
+
+.owned-ha-price-grid span {
+    color: #facc15;
+    font-weight: 800;
+}
+
+.owned-ha-notes {
+    color: var(--text-muted);
+    margin: 1rem 0 0;
+    line-height: 1.5;
+}
+
+.owned-ha-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.owned-ha-evolution-pokemon {
+    min-width: 110px;
+}
+
+.owned-ha-ability-name {
+    margin-top: 0.25rem;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.owned-ha-ability-name span {
+    color: #facc15;
 }

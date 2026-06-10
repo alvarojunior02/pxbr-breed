@@ -42,3 +42,23 @@ function removeOwnedHiddenAbility(hiddenAbilityId) {
 
     saveOwnedHiddenAbilities(hiddenAbilities);
 }
+
+function updateOwnedHiddenAbility(hiddenAbilityId, data) {
+    const hiddenAbilities = loadOwnedHiddenAbilities();
+
+    const updatedHiddenAbilities = hiddenAbilities.map((item) => {
+        if (item.id !== hiddenAbilityId) {
+            return item;
+        }
+
+        return {
+            ...item,
+            castratedPrice: Number(data.castratedPrice) || 0,
+            breedablePrice: Number(data.breedablePrice) || 0,
+            notes: data.notes || "",
+            updatedAt: new Date().toISOString()
+        };
+    });
+
+    saveOwnedHiddenAbilities(updatedHiddenAbilities);
+}

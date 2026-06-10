@@ -21,6 +21,7 @@ const ownedHANotes = document.getElementById("ownedHANotes");
 let pokedexCatalog = [];
 let pokemonDetailsAnimationDirection = "none";
 let selectedHAPokemonId = null;
+let selectedOwnedHAId = null;
 
 async function loadPokemonCatalog() {
     const response = await fetch("./src/data/pokedex.json");
@@ -475,7 +476,15 @@ function getPokemonById(pokemonId) {
 }
 
 function getEvolutionChain(pokemon) {
+    const basePokemon = getBaseEvolutionPokemon(pokemon);
     const chain = [];
+
+    collectEvolutionBranch(basePokemon, chain);
+
+    return chain;
+}
+
+function getBaseEvolutionPokemon(pokemon) {
     let currentPokemon = pokemon;
 
     while (currentPokemon?.evolution?.prev) {
@@ -483,20 +492,28 @@ function getEvolutionChain(pokemon) {
         currentPokemon = getPokemonById(previousPokemonId);
     }
 
-    while (currentPokemon) {
-        chain.push(currentPokemon);
+    return currentPokemon;
+}
 
-        const nextEvolution = currentPokemon.evolution?.next?.[0];
-
-        if (!nextEvolution) {
-            break;
-        }
-
-        const nextPokemonId = nextEvolution[0];
-        currentPokemon = getPokemonById(nextPokemonId);
+function collectEvolutionBranch(pokemon, chain) {
+    if (!pokemon) {
+        return;
     }
 
-    return chain;
+    const alreadyExists = chain.some((item) => Number(item.id) === Number(pokemon.id));
+
+    if (!alreadyExists) {
+        chain.push(pokemon);
+    }
+
+    const nextEvolutions = pokemon.evolution?.next || [];
+
+    nextEvolutions.forEach((nextEvolution) => {
+        const nextPokemonId = nextEvolution[0];
+        const nextPokemon = getPokemonById(nextPokemonId);
+
+        collectEvolutionBranch(nextPokemon, chain);
+    });
 }
 
 function getEvolutionMethod(fromPokemon, toPokemon) {
@@ -662,34 +679,107 @@ function renderOwnedHAList() {
         return;
     }
 
-    ownedHAList.innerHTML = hiddenAbilities
-        .map((item) => {
+    ownedHAList.innerHTML = `
+        <div class="owned-ha-list">
+            ${hiddenAbilities.map((item) => createOwnedHACard(item)).join("")}
+        </div>
+    `;
+}
+
+function createOwnedHACard(item) {
+    const evolutionLine = item.evolutionLine?.length
+        ? item.evolutionLine
+        : [
+              {
+                  pokemonId: item.pokemonId,
+                  pokemonName: item.pokemonName,
+                  sprite: item.sprite
+              }
+          ];
+
+    const evolutionHtml = evolutionLine
+        .map((pokemon) => {
             return `
-                <div class="owned-ha-card">
-                    <strong>
-                        #${String(item.pokemonId).padStart(3, "0")} ${item.pokemonName}
-                    </strong>
+                <div class="owned-ha-evolution-pokemon">
+                    <img
+                        src="${pokemon.sprite || ""}"
+                        alt="${pokemon.pokemonName}"
+                    />
 
                     <span>
-                        ${item.abilityName}
-                        <small class="pokemon-ha-label">(<span>HA</span>)</small>
+                        #${String(pokemon.pokemonId).padStart(3, "0")}
                     </span>
 
-                    <p>Castrado: ${formatMoney(item.castratedPrice)}</p>
-                    <p>Breedável: ${formatMoney(item.breedablePrice)}</p>
-
-                    ${item.notes ? `<p class="owned-ha-notes">${item.notes}</p>` : ""}
-
-                    <button
-                        type="button"
-                        class="button-danger"
-                        onclick="deleteOwnedHA('${item.id}')">
-                        Remover
-                    </button>
+                    <strong>
+                        ${pokemon.pokemonName}
+                    </strong>
                 </div>
             `;
         })
         .join("");
+
+    return `
+        <article class="owned-ha-card">
+            <div class="owned-ha-card-header">
+                <div>
+                    <span class="owned-ha-card-label">
+                        Hidden Ability
+                    </span>
+
+                    <h3>
+                        ${item.abilityName}
+                        <small class="pokemon-ha-label">(<span>HA</span>)</small>
+                    </h3>
+                </div>
+
+                <span class="owned-ha-created-at">
+                    ${formatDateTime(item.createdAt)}
+                </span>
+            </div>
+
+            <div class="owned-ha-evolution-line">
+                ${evolutionHtml}
+            </div>
+
+            <div class="owned-ha-price-grid">
+                <div>
+                    <strong>Castrado</strong>
+                    <span>${formatMoney(item.castratedPrice)}</span>
+                </div>
+
+                <div>
+                    <strong>Breedável</strong>
+                    <span>${formatMoney(item.breedablePrice)}</span>
+                </div>
+            </div>
+
+            ${
+                item.notes
+                    ? `
+                        <p class="owned-ha-notes">
+                            ${item.notes}
+                        </p>
+                    `
+                    : ""
+            }
+
+            <div class="owned-ha-card-actions">
+                <button
+                    type="button"
+                    class="button-secondary"
+                    onclick="openEditOwnedHAModal('${item.id}')">
+                    Editar
+                </button>
+
+                <button
+                    type="button"
+                    class="button-danger"
+                    onclick="deleteOwnedHA('${item.id}')">
+                    Remover
+                </button>
+            </div>
+        </article>
+    `;
 }
 
 function deleteOwnedHA(hiddenAbilityId) {
@@ -718,26 +808,20 @@ function openAddOwnedHAModal(pokemonId) {
     }
 
     selectedHAPokemonId = pokemon.id;
+    selectedOwnedHAId = null;
 
-    addOwnedHASummary.innerHTML = `
-        <div class="owned-ha-summary">
-            <img
-                src="${pokemon.image?.thumbnail || pokemon.image?.sprite || ""}"
-                alt="${pokemon.name.english}"
-            />
+    const evolutionChain = getEvolutionChain(pokemon).map((chainPokemon) => {
+        const chainHiddenAbility = getPokemonHiddenAbility(chainPokemon);
 
-            <div>
-                <strong>
-                    #${String(pokemon.id).padStart(3, "0")} ${pokemon.name.english}
-                </strong>
+        return {
+            pokemonId: Number(chainPokemon.id),
+            pokemonName: chainPokemon.name.english,
+            sprite: chainPokemon.image?.thumbnail || chainPokemon.image?.sprite || "",
+            abilityName: chainHiddenAbility?.[0] || hiddenAbility[0]
+        };
+    });
 
-                <span>
-                    ${hiddenAbility[0]}
-                    <small class="pokemon-ha-label">(<span>HA</span>)</small>
-                </span>
-            </div>
-        </div>
-    `;
+    addOwnedHASummary.innerHTML = createOwnedHASummary(evolutionChain);
 
     ownedHACastratedPrice.value = "";
     ownedHABreedablePrice.value = "";
@@ -746,28 +830,77 @@ function openAddOwnedHAModal(pokemonId) {
     applyMoneyMask(ownedHACastratedPrice);
     applyMoneyMask(ownedHABreedablePrice);
 
+    addOwnedHAModal.querySelector("h2").textContent = "Adicionar HA";
     addOwnedHAModal.classList.remove("hidden");
     document.body.classList.add("modal-open");
 }
 
-function closeAddOwnedHAModal() {
-    addOwnedHAModal.classList.add("hidden");
-    selectedHAPokemonId = null;
+function createOwnedHASummary(evolutionLine) {
+    return `
+        <div class="owned-ha-summary">
+            <div class="owned-ha-evolution-line">
+                ${evolutionLine
+                    .map((pokemon) => {
+                        return `
+                            <div class="owned-ha-evolution-pokemon">
+                                <img
+                                    src="${pokemon.sprite || ""}"
+                                    alt="${pokemon.pokemonName}"
+                                />
+
+                                <span>
+                                    #${String(pokemon.pokemonId).padStart(3, "0")}
+                                </span>
+
+                                <strong>
+                                    ${pokemon.pokemonName}
+                                </strong>
+
+                                <small class="owned-ha-ability-name">
+                                    ${pokemon.abilityName}
+                                    <span>(HA)</span>
+                                </small>
+                            </div>
+                        `;
+                    })
+                    .join("")}
+            </div>
+        </div>
+    `;
 }
 
+// SAVE OWNED HA FROM MODAL
 function saveOwnedHAFromModal() {
     const pokemon = getPokemonById(selectedHAPokemonId);
     const hiddenAbility = getPokemonHiddenAbility(pokemon);
+
+    if (selectedOwnedHAId) {
+        updateOwnedHiddenAbility(selectedOwnedHAId, {
+            castratedPrice: unformatMoney(ownedHACastratedPrice.value),
+            breedablePrice: unformatMoney(ownedHABreedablePrice.value),
+            notes: ownedHANotes.value.trim()
+        });
+
+        closeAddOwnedHAModal();
+        renderOwnedHAList();
+
+        return;
+    }
 
     if (!pokemon || !hiddenAbility) {
         return;
     }
 
-    const evolutionChain = getEvolutionChain(pokemon).map((chainPokemon) => ({
-        pokemonId: Number(chainPokemon.id),
-        pokemonName: chainPokemon.name.english,
-        sprite: chainPokemon.image?.thumbnail || chainPokemon.image?.sprite || ""
-    }));
+    const evolutionChain = getEvolutionChain(pokemon).map((chainPokemon) => {
+        const chainHiddenAbility = getPokemonHiddenAbility(chainPokemon);
+
+        return {
+            pokemonId: Number(chainPokemon.id),
+            pokemonName: chainPokemon.name.english,
+            sprite: chainPokemon.image?.thumbnail || chainPokemon.image?.sprite || "",
+            abilityName: chainHiddenAbility?.[0] || hiddenAbility[0]
+        };
+    });
 
     addOwnedHiddenAbility({
         pokemonId: pokemon.id,
@@ -780,8 +913,23 @@ function saveOwnedHAFromModal() {
         notes: ownedHANotes.value.trim()
     });
 
+    const pokemonIdToRefresh = selectedHAPokemonId;
+
     closeAddOwnedHAModal();
     renderOwnedHAList();
+
+    if (pokemonIdToRefresh) {
+        openPokemonDetails(pokemonIdToRefresh);
+    }
+}
+
+function closeAddOwnedHAModal() {
+    addOwnedHAModal.classList.add("hidden");
+
+    selectedHAPokemonId = null;
+    selectedOwnedHAId = null;
+
+    addOwnedHAModal.querySelector("h2").textContent = "Adicionar HA";
 }
 
 function hasOwnedHiddenAbility(pokemon) {
@@ -796,6 +944,44 @@ function hasOwnedHiddenAbility(pokemon) {
             return Number(evolutionPokemon.pokemonId) === Number(pokemon.id);
         });
     });
+}
+
+function openEditOwnedHAModal(hiddenAbilityId) {
+    const hiddenAbility = loadOwnedHiddenAbilities().find((item) => {
+        return item.id === hiddenAbilityId;
+    });
+
+    if (!hiddenAbility) {
+        return;
+    }
+
+    selectedOwnedHAId = hiddenAbility.id;
+    selectedHAPokemonId = hiddenAbility.pokemonId;
+
+    addOwnedHASummary.innerHTML = createEditOwnedHASummary(hiddenAbility);
+
+    ownedHACastratedPrice.value = formatMoney(hiddenAbility.castratedPrice);
+    ownedHABreedablePrice.value = formatMoney(hiddenAbility.breedablePrice);
+    ownedHANotes.value = hiddenAbility.notes || "";
+
+    addOwnedHAModal.querySelector("h2").textContent = "Editar HA";
+    addOwnedHAModal.classList.remove("hidden");
+    document.body.classList.add("modal-open");
+}
+
+function createEditOwnedHASummary(hiddenAbility) {
+    const evolutionLine = hiddenAbility.evolutionLine?.length
+        ? hiddenAbility.evolutionLine
+        : [
+              {
+                  pokemonId: hiddenAbility.pokemonId,
+                  pokemonName: hiddenAbility.pokemonName,
+                  sprite: hiddenAbility.sprite,
+                  abilityName: hiddenAbility.abilityName
+              }
+          ];
+
+    return createOwnedHASummary(evolutionLine);
 }
 
 btnClosePokemonDetails.addEventListener("click", closePokemonDetails);
@@ -820,3 +1006,4 @@ window.deleteOwnedHA = deleteOwnedHA;
 window.openAddOwnedHAModal = openAddOwnedHAModal;
 window.closeAddOwnedHAModal = closeAddOwnedHAModal;
 window.saveOwnedHAFromModal = saveOwnedHAFromModal;
+window.openEditOwnedHAModal = openEditOwnedHAModal;
