@@ -102,6 +102,8 @@ btnConfirmStatusChange.addEventListener("click", () => {
 
     saveOrders(orders);
 
+    showSuccessToast("Status atualizado com sucesso!");
+
     statusConfirmModal.classList.add("hidden");
 
     renderDashboard();

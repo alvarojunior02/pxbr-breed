@@ -140,6 +140,8 @@ function saveNewPlayerFromModal() {
     try {
         const player = addPlayer(nick);
 
+        showSuccessToast("Cliente cadastrado com sucesso!");
+
         if (shouldSelectCreatedPlayerOnOrderForm && typeof selectOrderPlayer === "function") {
             selectOrderPlayer(player);
         }
@@ -154,7 +156,7 @@ function saveNewPlayerFromModal() {
             renderDashboard();
         }
     } catch (error) {
-        alert(error.message);
+        showErrorToast(error.message);
     }
 }
 

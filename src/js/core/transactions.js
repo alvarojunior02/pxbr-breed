@@ -21,6 +21,8 @@ function saveTransaction(transaction) {
     transactions.push(transaction);
 
     saveTransactions(transactions);
+
+    showSuccessToast("Pagamento registrado com sucesso!");
 }
 
 // CREATE ORDER PAYMENT TRANSACTION

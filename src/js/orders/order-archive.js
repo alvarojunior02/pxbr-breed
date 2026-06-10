@@ -7,7 +7,7 @@ function archiveOrder(orderId) {
     }
 
     if (!canArchiveOrder(order)) {
-        alert("Esta encomenda ainda não pode ser arquivada.");
+        showWarningToast("Esta encomenda ainda não pode ser arquivada.");
 
         return;
     }
@@ -33,7 +33,7 @@ btnConfirmArchive.addEventListener("click", () => {
     }
 
     if (!canArchiveOrder(order)) {
-        alert("Esta encomenda ainda não pode ser arquivada.");
+        showWarningToast("Esta encomenda ainda não pode ser arquivada.");
 
         return;
     }
@@ -41,6 +41,8 @@ btnConfirmArchive.addEventListener("click", () => {
     order.archived = true;
 
     saveOrders(orders);
+
+    showSuccessToast("Encomenda arquivada com sucesso!");
 
     archiveConfirmModal.classList.add("hidden");
 

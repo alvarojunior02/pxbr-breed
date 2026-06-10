@@ -168,13 +168,13 @@ function buildOrder() {
 // VALIDATE ORDER
 function validateOrder(order) {
     if (!order.playerId) {
-        alert("Selecione um player.");
+        showWarningToast("Selecione um player.");
 
         return false;
     }
 
     if (order.pokemons.length === 0) {
-        alert("Adicione pelo menos um Pokémon.");
+        showWarningToast("Adicione pelo menos um Pokémon.");
 
         return false;
     }
@@ -182,7 +182,7 @@ function validateOrder(order) {
     const invalidPokemon = order.pokemons.find((pokemon) => !pokemon.pokemonId);
 
     if (invalidPokemon) {
-        alert("Selecione todos os Pokémons.");
+        showWarningToast("Selecione todos os Pokémons.");
 
         return false;
     }
@@ -190,7 +190,7 @@ function validateOrder(order) {
     const invalidValue = order.pokemons.find((pokemon) => pokemon.value <= 0);
 
     if (invalidValue) {
-        alert("Todos os Pokémons devem possuir valor maior que zero.");
+        showWarningToast("Todos os Pokémons devem possuir valor maior que zero.");
 
         return false;
     }
@@ -198,31 +198,31 @@ function validateOrder(order) {
     const invalidAbility = order.pokemons.find((pokemon) => !pokemon.ability?.name);
 
     if (invalidAbility) {
-        alert("Selecione a habilidade de todos os Pokémons.");
+        showWarningToast("Selecione a habilidade de todos os Pokémons.");
 
         return false;
     }
 
     if (order.discount > order.subtotal) {
-        alert("O desconto não pode ser maior que o subtotal da encomenda.");
+        showWarningToast("O desconto não pode ser maior que o subtotal da encomenda.");
 
         return false;
     }
 
     if (order.paidAmount < 0) {
-        alert("O valor pago não pode ser negativo.");
+        showWarningToast("O valor pago não pode ser negativo.");
 
         return false;
     }
 
     if (orderPaid.checked && order.paidAmount <= 0) {
-        alert("Informe um valor pago maior que zero.");
+        showWarningToast("Informe um valor pago maior que zero.");
 
         return false;
     }
 
     if (order.paidAmount > order.total) {
-        alert("O valor pago não pode ser maior que o total da encomenda.");
+        showWarningToast("O valor pago não pode ser maior que o total da encomenda.");
 
         return false;
     }
@@ -456,7 +456,7 @@ function createPokemonOrderRow() {
             const item = document.createElement("div");
 
             item.innerHTML = `
-                    
+
                         <img
                             src="${pokemon.sprite}"
                             width="32">
@@ -812,6 +812,8 @@ btnConfirmOrder.addEventListener("click", () => {
     const order = createPersistedOrder(orderData);
 
     saveOrder(order);
+
+    showSuccessToast("Encomenda cadastrada com sucesso!");
 
     if (order.paidAmount > 0) {
         const transaction = createOrderPaymentTransaction({

@@ -68,13 +68,13 @@ function validatePaymentAmount(order, amount) {
     const remaining = order.total - currentPaid;
 
     if (amount <= 0) {
-        alert("Informe um valor maior que zero.");
+        showWarningToast("Informe um valor maior que zero.");
 
         return false;
     }
 
     if (amount > remaining) {
-        alert("O valor pago não pode ser maior que o valor restante.");
+        showWarningToast("O valor pago não pode ser maior que o valor restante.");
 
         return false;
     }
