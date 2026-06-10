@@ -504,6 +504,20 @@ function getEvolutionChain(pokemon) {
 
     collectEvolutionBranch(basePokemon, chain);
 
+    pokedexCatalog.forEach((candidatePokemon) => {
+        const candidateBasePokemon = getBaseEvolutionPokemon(candidatePokemon);
+
+        if (Number(candidateBasePokemon?.id) === Number(basePokemon?.id)) {
+            const alreadyExists = chain.some((item) => {
+                return Number(item.id) === Number(candidatePokemon.id);
+            });
+
+            if (!alreadyExists) {
+                chain.push(candidatePokemon);
+            }
+        }
+    });
+
     const currentAlreadyExists = chain.some((item) => {
         return Number(item.id) === Number(pokemon.id);
     });
@@ -986,11 +1000,16 @@ function closeAddOwnedHAModal() {
 
     selectedHAPokemonId = null;
     selectedOwnedHAId = null;
-
     addHAOrigin = "pokemon-details";
     addHAOrderRow = null;
 
     addOwnedHAModal.querySelector("h2").textContent = "Adicionar HA";
+
+    const hasVisibleModal = document.querySelector(".modal:not(.hidden)");
+
+    if (!hasVisibleModal) {
+        document.body.classList.remove("modal-open");
+    }
 }
 
 function hasOwnedHiddenAbility(pokemon) {

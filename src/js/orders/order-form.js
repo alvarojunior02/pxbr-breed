@@ -7,6 +7,7 @@ const BREEDABLE_UNDISCOVERED_EXCEPTIONS = [
     490 // Manaphy
 ];
 
+// IS POKEMON BREEDABLE
 function isPokemonBreedable(pokemon) {
     const eggGroups = pokemon.eggGroups || [];
 
@@ -739,6 +740,7 @@ function createPokemonOrderRow() {
     calculateOrderTotal();
 }
 
+// REFRESH ORDER POKEMON OWNED HA
 function refreshOrderPokemonOwnedHA(row, pokemonId) {
     const pokemon = searchPokemon(String(pokemonId)).find((item) => {
         return Number(item.id) === Number(pokemonId);
@@ -1011,6 +1013,8 @@ function openCreateOrderModal() {
 // CLOSE CREATE ORDER MODAL
 function closeCreateOrderModal() {
     createOrderModal.classList.add("hidden");
+
+    document.body.classList.remove("modal-open");
 }
 
 // SELECT ORDER PLAYER
