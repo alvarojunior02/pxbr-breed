@@ -164,6 +164,13 @@ function openPokemonDetails(pokemonId) {
 
     pokemonDetailsContent.innerHTML = createPokemonDetailsContent(pokemon);
     pokemonDetailsModal.classList.remove("hidden");
+
+    const modalContent = pokemonDetailsModal.querySelector(".modal-content");
+
+    modalContent.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 }
 
 function setupPokemonCatalogEvents() {
@@ -185,6 +192,8 @@ function createPokemonDetailsContent(pokemon) {
     const abilities = createPokemonAbilitiesHtml(pokemon);
     const eggGroups = createPokemonEggGroupsHtml(pokemon);
     const stats = createPokemonStatsHtml(pokemon);
+
+    const evolutionChain = createPokemonEvolutionChainHtml(pokemon);
 
     return `
         <div class="pokemon-details-header">
@@ -216,30 +225,32 @@ function createPokemonDetailsContent(pokemon) {
         </div>
 
         <div class="pokemon-details-grid">
-            <div class="pokemon-details-section">
+            <div class="pokemon-details-section pokemon-info-section">
                 <h3>Informações</h3>
 
-                <div class="pokemon-info-list">
-                    <p><strong>Espécie:</strong> ${pokemon.species || "-"}</p>
-                    <p><strong>Altura:</strong> ${pokemon.profile?.height || "-"}</p>
-                    <p><strong>Peso:</strong> ${pokemon.profile?.weight || "-"}</p>
-                    <p><strong>Gênero:</strong> ${pokemon.profile?.gender || "-"}</p>
-                </div>
-            </div>
+                <div class="pokemon-info-grid">
+                    <div class="pokemon-info-list">
+                        <p><strong>Espécie:</strong> ${pokemon.species || "-"}</p>
+                        <p><strong>Altura:</strong> ${pokemon.profile?.height || "-"}</p>
+                        <p><strong>Peso:</strong> ${pokemon.profile?.weight || "-"}</p>
+                        <p><strong>Gênero:</strong> ${formatPokemonGender(pokemon.profile?.gender)}</p>
+                    </div>
 
-            <div class="pokemon-details-section">
-                <h3>Abilities</h3>
+                    <div class="pokemon-info-side">
+                        <div>
+                            <h4>Abilities</h4>
+                            <div class="pokemon-details-tags">
+                                ${abilities}
+                            </div>
+                        </div>
 
-                <div class="pokemon-details-tags">
-                    ${abilities}
-                </div>
-            </div>
-
-            <div class="pokemon-details-section">
-                <h3>Egg Groups</h3>
-
-                <div class="pokemon-details-tags">
-                    ${eggGroups}
+                        <div>
+                            <h4>Egg Groups</h4>
+                            <div class="pokemon-details-tags">
+                                ${eggGroups}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -248,6 +259,14 @@ function createPokemonDetailsContent(pokemon) {
 
                 <div class="pokemon-stats-list">
                     ${stats}
+                </div>
+            </div>
+
+            <div class="pokemon-details-section pokemon-evolution-section">
+                <h3>Linha Evolutiva</h3>
+
+                <div class="pokemon-evolution-chain">
+                    ${evolutionChain}
                 </div>
             </div>
         </div>
@@ -341,6 +360,145 @@ function getStatBarClass(statValue) {
     }
 
     return "stat-very-high";
+}
+
+function getPokemonById(pokemonId) {
+    return pokedexCatalog.find((pokemon) => Number(pokemon.id) === Number(pokemonId));
+}
+
+function getEvolutionChain(pokemon) {
+    const chain = [];
+    let currentPokemon = pokemon;
+
+    while (currentPokemon?.evolution?.prev) {
+        const previousPokemonId = currentPokemon.evolution.prev[0];
+        currentPokemon = getPokemonById(previousPokemonId);
+    }
+
+    while (currentPokemon) {
+        chain.push(currentPokemon);
+
+        const nextEvolution = currentPokemon.evolution?.next?.[0];
+
+        if (!nextEvolution) {
+            break;
+        }
+
+        const nextPokemonId = nextEvolution[0];
+        currentPokemon = getPokemonById(nextPokemonId);
+    }
+
+    return chain;
+}
+
+function getEvolutionMethod(fromPokemon, toPokemon) {
+    const nextEvolution = fromPokemon.evolution?.next?.find((evolution) => {
+        return Number(evolution[0]) === Number(toPokemon.id);
+    });
+
+    return nextEvolution?.[1] || "";
+}
+
+function createPokemonEvolutionChainHtml(pokemon) {
+    const evolutionChain = getEvolutionChain(pokemon);
+
+    if (evolutionChain.length <= 1) {
+        return `
+            <p class="empty-state">
+                Este Pokémon não possui evolução registrada.
+            </p>
+        `;
+    }
+
+    return evolutionChain
+        .map((chainPokemon, index) => {
+            const previousPokemon = evolutionChain[index - 1];
+            const evolutionMethod = previousPokemon
+                ? getEvolutionMethod(previousPokemon, chainPokemon)
+                : "";
+
+            return `
+                <button
+                    type="button"
+                    class="pokemon-evolution-card ${
+                        Number(chainPokemon.id) === Number(pokemon.id) ? "active" : ""
+                    }"
+                    onclick="openPokemonDetails(${chainPokemon.id})">
+
+                    <img
+                        src="${chainPokemon.image?.thumbnail || chainPokemon.image?.sprite || ""}"
+                        alt="${chainPokemon.name.english}"
+                    />
+
+                    <span class="pokemon-evolution-id">
+                        #${String(chainPokemon.id).padStart(3, "0")}
+                    </span>
+
+                    <strong>
+                        ${chainPokemon.name.english}
+                    </strong>
+
+                    ${
+                        evolutionMethod
+                            ? `
+                                <small class="pokemon-evolution-method">
+                                    ${evolutionMethod}
+                                </small>
+                            `
+                            : ""
+                    }
+                </button>
+            `;
+        })
+        .join("");
+}
+
+function formatPokemonGender(gender) {
+    if (!gender || gender === "-" || gender.toLowerCase() === "genderless") {
+        return `
+            <span class="pokemon-gender pokemon-genderless">
+                Genderless
+            </span>
+        `;
+    }
+
+    if (!gender.includes(":")) {
+        return gender;
+    }
+
+    const [maleValue, femaleValue] = gender.split(":").map((value) => Number(value));
+
+    if (Number.isNaN(maleValue) || Number.isNaN(femaleValue)) {
+        return gender;
+    }
+
+    if (maleValue === 0 && femaleValue === 100) {
+        return `
+            <span class="pokemon-gender pokemon-gender-female">
+                100% <small>(F)</small>
+            </span>
+        `;
+    }
+
+    if (maleValue === 100 && femaleValue === 0) {
+        return `
+            <span class="pokemon-gender pokemon-gender-male">
+                100% <small>(M)</small>
+            </span>
+        `;
+    }
+
+    return `
+        <span class="pokemon-gender pokemon-gender-male">
+            ${maleValue}% <small>(M)</small>
+        </span>
+
+        <span class="pokemon-gender-separator">/</span>
+
+        <span class="pokemon-gender pokemon-gender-female">
+            ${femaleValue}% <small>(F)</small>
+        </span>
+    `;
 }
 
 btnClosePokemonDetails.addEventListener("click", closePokemonDetails);

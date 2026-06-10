@@ -346,3 +346,143 @@
         grid-template-columns: 80px 40px 1fr;
     }
 }
+
+.pokemon-evolution-section {
+    grid-column: 1 / -1;
+}
+
+.pokemon-evolution-chain {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 1rem;
+}
+
+.pokemon-evolution-method {
+    margin-top: 0.25rem;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.pokemon-evolution-card {
+    min-width: 130px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 0.85rem;
+    cursor: pointer;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.35rem;
+}
+
+.pokemon-evolution-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--primary-color);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+}
+
+.pokemon-evolution-card.active {
+    border-color: var(--primary-color);
+    background: rgba(37, 99, 235, 0.14);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.16);
+}
+
+.pokemon-evolution-card img {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.pokemon-evolution-id {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.pokemon-evolution-card strong {
+    font-size: 0.85rem;
+}
+
+.pokemon-info-section {
+    grid-column: 1 / -1;
+}
+
+.pokemon-info-grid {
+    display: grid;
+    grid-template-columns: minmax(150px, 1fr) minmax(180px, 1.3fr);
+    gap: 2rem;
+    align-items: center;
+}
+
+.pokemon-info-side {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.pokemon-info-side h4 {
+    margin: 0 0 0.75rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.pokemon-gender {
+    font-weight: 700;
+}
+
+.pokemon-gender small {
+    font-size: 0.7rem;
+    opacity: 0.9;
+}
+
+.pokemon-gender-male {
+    color: #60a5fa;
+}
+
+.pokemon-gender-female {
+    color: #f472b6;
+}
+
+.pokemon-gender-separator {
+    margin: 0 0.35rem;
+    color: var(--text-muted);
+}
+
+.pokemon-genderless {
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+@media (max-width: 900px) {
+    .pokemon-info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 520px) {
+    .pokemon-info-grid {
+        grid-template-columns: minmax(120px, 0.9fr) minmax(150px, 1.1fr);
+        gap: 1rem;
+    }
+
+    .pokemon-info-list,
+    .pokemon-info-side {
+        font-size: 0.85rem;
+    }
+
+    .pokemon-details-tags {
+        gap: 0.35rem;
+    }
+
+    .pokemon-details-tags > span {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+}
