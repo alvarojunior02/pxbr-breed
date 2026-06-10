@@ -348,36 +348,66 @@ function renderOwnedHAOrderInfo(row, pokemon) {
 function createOwnedHAOrderInfoHtml(pokemon) {
     const ownedHA = getOwnedHAByPokemonId(pokemon.id);
 
-    if (!ownedHA) {
+    if (ownedHA) {
+        const currentEvolutionPokemon = ownedHA.evolutionLine?.find((item) => {
+            return Number(item.pokemonId) === Number(pokemon.id);
+        });
+
+        return `
+            <div class="owned-ha-order-card compact">
+                <strong>
+                    ✨ HA cadastrada
+                </strong>
+
+                <span>
+                    ${currentEvolutionPokemon?.abilityName || ownedHA.abilityName}
+                    <small class="pokemon-ha-label">(<span>HA</span>)</small>
+                </span>
+
+                <div class="owned-ha-order-values">
+                    <p>
+                        <strong>Castrado:</strong>
+                        ${formatMoney(ownedHA.castratedPrice)}
+                    </p>
+
+                    <p>
+                        <strong>Breedável:</strong>
+                        ${formatMoney(ownedHA.breedablePrice)}
+                    </p>
+                </div>
+            </div>
+        `;
+    }
+
+    const pokemonHiddenAbility = pokemon.abilities?.find((ability) => {
+        return ability.isHA;
+    });
+
+    if (!pokemonHiddenAbility) {
         return "";
     }
 
-    const currentEvolutionPokemon = ownedHA.evolutionLine?.find((item) => {
-        return Number(item.pokemonId) === Number(pokemon.id);
-    });
-
     return `
-        <div class="owned-ha-order-card compact">
+        <div class="owned-ha-order-card compact missing">
             <strong>
-                ✨ HA cadastrada
+                ⚠ HA não cadastrada
             </strong>
 
             <span>
-                ${currentEvolutionPokemon?.abilityName || ownedHA.abilityName}
+                ${pokemonHiddenAbility.name}
                 <small class="pokemon-ha-label">(<span>HA</span>)</small>
             </span>
 
-            <div class="owned-ha-order-values">
-                <p>
-                    <strong>Castrado:</strong>
-                    ${formatMoney(ownedHA.castratedPrice)}
-                </p>
+            <p>
+                Pokémon possui HA, mas não está cadastrada.
+            </p>
 
-                <p>
-                    <strong>Breedável:</strong>
-                    ${formatMoney(ownedHA.breedablePrice)}
-                </p>
-            </div>
+            <button
+                type="button"
+                class="button-ha"
+                onclick="openAddOwnedHAModal(${pokemon.id})">
+                Adicionar HA agora
+            </button>
         </div>
     `;
 }
