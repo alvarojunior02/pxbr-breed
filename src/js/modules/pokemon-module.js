@@ -790,6 +790,9 @@ function deleteOwnedHA(hiddenAbilityId) {
     }
 
     removeOwnedHiddenAbility(hiddenAbilityId);
+
+    showSuccessToast("HA removida com sucesso!");
+
     renderOwnedHAList();
 }
 
@@ -878,7 +881,8 @@ function saveOwnedHAFromModal() {
     const breedablePrice = unformatMoney(ownedHABreedablePrice.value);
 
     if (castratedPrice <= 0 || breedablePrice <= 0) {
-        alert("Informe valores maiores que zero para castrado e breedável.");
+        showWarningToast("Informe valores maiores que zero para castrado e breedável.");
+
         return;
     }
 
@@ -889,7 +893,10 @@ function saveOwnedHAFromModal() {
             notes: ownedHANotes.value.trim()
         });
 
+        showSuccessToast("HA atualizada com sucesso!");
+
         closeAddOwnedHAModal();
+
         renderOwnedHAList();
 
         return;
@@ -920,6 +927,8 @@ function saveOwnedHAFromModal() {
         breedablePrice: unformatMoney(ownedHABreedablePrice.value),
         notes: ownedHANotes.value.trim()
     });
+
+    showSuccessToast("HA adicionada com sucesso!");
 
     const pokemonIdToRefresh = selectedHAPokemonId;
 

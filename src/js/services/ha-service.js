@@ -25,7 +25,7 @@ function addOwnedHiddenAbility(data) {
     });
 
     if (alreadyExists) {
-        alert("Você já cadastrou essa HA.");
+        showWarningToast("Essa HA já foi cadastrada!");
         return;
     }
 
