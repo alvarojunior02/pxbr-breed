@@ -809,3 +809,50 @@
 .owned-ha-ability-name span {
     color: #facc15;
 }
+
+.manual-ha-selector {
+    margin-bottom: 1rem;
+}
+
+.manual-ha-result {
+    width: 100%;
+    border: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-color);
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    text-align: left;
+    margin-bottom: 0.5rem;
+}
+
+.manual-ha-result:hover {
+    border-color: #facc15;
+    background: rgba(250, 204, 21, 0.08);
+}
+
+.manual-ha-result img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.manual-ha-result span {
+    font-weight: 700;
+}
+
+.manual-ha-result small {
+    margin-left: auto;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.manual-ha-result small span {
+    color: #facc15;
+}

@@ -179,7 +179,15 @@
                         </div>
 
                         <button type="button" class="button-ha" onclick="openOwnedHAModal()">
-                            Gerenciar meus HAs
+                            ✨ Gerenciar meus HAs
+                        </button>
+
+                        <button
+                            type="button"
+                            class="button-ha"
+                            onclick="openManualAddOwnedHAModal()"
+                        >
+                            + Adicionar nova HA
                         </button>
                     </div>
 
@@ -570,6 +578,21 @@
                 </button>
 
                 <h2>Adicionar HA</h2>
+
+                <div id="manualHASelector" class="manual-ha-selector hidden">
+                    <div class="form-field">
+                        <label for="manualHASearch">Buscar Pokémon</label>
+
+                        <input
+                            type="text"
+                            id="manualHASearch"
+                            placeholder="Digite o nome ou ID do Pokémon..."
+                            autocomplete="off"
+                        />
+                    </div>
+
+                    <div id="manualHASearchResults" class="autocomplete-results"></div>
+                </div>
 
                 <div id="addOwnedHASummary"></div>
 

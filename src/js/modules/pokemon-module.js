@@ -18,6 +18,10 @@ const ownedHACastratedPrice = document.getElementById("ownedHACastratedPrice");
 const ownedHABreedablePrice = document.getElementById("ownedHABreedablePrice");
 const ownedHANotes = document.getElementById("ownedHANotes");
 
+const manualHASelector = document.getElementById("manualHASelector");
+const manualHASearch = document.getElementById("manualHASearch");
+const manualHASearchResults = document.getElementById("manualHASearchResults");
+
 let pokedexCatalog = [];
 
 let pokemonDetailsAnimationDirection = "none";
@@ -27,6 +31,8 @@ let selectedOwnedHAId = null;
 
 let addHAOrigin = "pokemon-details";
 let addHOrderRow = null;
+
+let isManualHAFlow = false;
 
 async function loadPokemonCatalog() {
     const response = await fetch("./src/data/pokedex.json");
@@ -847,9 +853,42 @@ function getPokemonHiddenAbility(pokemon) {
     });
 }
 
+// OPEN MANUAL ADD OWNED HA MODAL
+function openManualAddOwnedHAModal() {
+    isManualHAFlow = true;
+    addHAOrigin = "manual";
+
+    selectedHAPokemonId = null;
+    selectedOwnedHAId = null;
+
+    addOwnedHAModal.querySelector("h2").textContent = "Adicionar nova HA";
+
+    manualHASelector.classList.remove("hidden");
+    manualHASearch.value = "";
+    manualHASearchResults.innerHTML = "";
+
+    addOwnedHASummary.innerHTML = `
+        <p class="empty-state">
+            Busque e selecione um Pokémon com Hidden Ability.
+        </p>
+    `;
+
+    ownedHACastratedPrice.value = "";
+    ownedHABreedablePrice.value = "";
+    ownedHANotes.value = "";
+
+    addOwnedHAModal.classList.remove("hidden");
+    document.body.classList.add("modal-open");
+}
+
+// OPEN ADD OWNED HA MODAL
 function openAddOwnedHAModal(pokemonId, origin = "pokemon-details", orderRow = null) {
     addHAOrigin = origin;
     addHAOrderRow = orderRow;
+
+    isManualHAFlow = false;
+    manualHASelector.classList.add("hidden");
+    manualHASearchResults.innerHTML = "";
 
     const pokemon = getPokemonById(pokemonId);
     const hiddenAbility = getPokemonHiddenAbility(pokemon);
@@ -886,6 +925,7 @@ function openAddOwnedHAModal(pokemonId, origin = "pokemon-details", orderRow = n
     document.body.classList.add("modal-open");
 }
 
+// CREATE OWNED HA SUMMARY
 function createOwnedHASummary(evolutionLine) {
     return `
         <div class="owned-ha-summary">
@@ -920,6 +960,40 @@ function createOwnedHASummary(evolutionLine) {
     `;
 }
 
+// SELECT MANUAL HA POKEMON
+function selectManualHAPokemon(pokemonId) {
+    const pokemon = getPokemonById(pokemonId);
+    const hiddenAbility = getPokemonHiddenAbility(pokemon);
+
+    if (!pokemon || !hiddenAbility) {
+        showWarningToast("Selecione um Pokémon que possua Hidden Ability.");
+        return;
+    }
+
+    if (hasOwnedHiddenAbility(pokemon)) {
+        showWarningToast("Esta HA já está cadastrada nos seus HAs.");
+        return;
+    }
+
+    selectedHAPokemonId = pokemon.id;
+
+    const evolutionChain = getEvolutionChain(pokemon).map((chainPokemon) => {
+        const chainHiddenAbility = getPokemonHiddenAbility(chainPokemon);
+
+        return {
+            pokemonId: Number(chainPokemon.id),
+            pokemonName: chainPokemon.name.english,
+            sprite: chainPokemon.image?.thumbnail || chainPokemon.image?.sprite || "",
+            abilityName: chainHiddenAbility?.[0] || hiddenAbility[0]
+        };
+    });
+
+    addOwnedHASummary.innerHTML = createOwnedHASummary(evolutionChain);
+
+    manualHASearch.value = pokemon.name.english;
+    manualHASearchResults.innerHTML = "";
+}
+
 // SAVE OWNED HA FROM MODAL
 function saveOwnedHAFromModal() {
     const pokemon = getPokemonById(selectedHAPokemonId);
@@ -947,6 +1021,11 @@ function saveOwnedHAFromModal() {
 
         renderOwnedHAList();
 
+        return;
+    }
+
+    if (!selectedHAPokemonId) {
+        showWarningToast("Selecione um Pokémon antes de salvar a HA.");
         return;
     }
 
@@ -995,6 +1074,7 @@ function saveOwnedHAFromModal() {
     }
 }
 
+// CLOSE ADD OWNED HA MODAL
 function closeAddOwnedHAModal() {
     addOwnedHAModal.classList.add("hidden");
 
@@ -1002,6 +1082,12 @@ function closeAddOwnedHAModal() {
     selectedOwnedHAId = null;
     addHAOrigin = "pokemon-details";
     addHAOrderRow = null;
+
+    isManualHAFlow = false;
+
+    manualHASelector.classList.add("hidden");
+    manualHASearch.value = "";
+    manualHASearchResults.innerHTML = "";
 
     addOwnedHAModal.querySelector("h2").textContent = "Adicionar HA";
 
@@ -1075,6 +1161,65 @@ pokemonDetailsModal.addEventListener("click", (event) => {
     }
 });
 
+manualHASearch.addEventListener("input", () => {
+    const searchTerm = manualHASearch.value.trim().toLowerCase();
+
+    manualHASearchResults.innerHTML = "";
+
+    if (!searchTerm) {
+        return;
+    }
+
+    const results = pokedexCatalog
+        .filter((pokemon) => {
+            const name = pokemon.name?.english?.toLowerCase() || "";
+            const id = String(pokemon.id);
+
+            return name.includes(searchTerm) || id.includes(searchTerm);
+        })
+        .filter((pokemon) => getPokemonHiddenAbility(pokemon))
+        .filter((pokemon) => !hasOwnedHiddenAbility(pokemon))
+        .slice(0, 10);
+
+    if (results.length === 0) {
+        manualHASearchResults.innerHTML = `
+            <p class="empty-state">
+                Nenhum Pokémon com HA disponível encontrado.
+            </p>
+        `;
+
+        return;
+    }
+
+    manualHASearchResults.innerHTML = results
+        .map((pokemon) => {
+            const hiddenAbility = getPokemonHiddenAbility(pokemon);
+
+            return `
+                <button
+                    type="button"
+                    class="manual-ha-result"
+                    onclick="selectManualHAPokemon(${pokemon.id})">
+
+                    <img
+                        src="${pokemon.image?.thumbnail || pokemon.image?.sprite || ""}"
+                        alt="${pokemon.name.english}">
+
+                    <span>
+                        #${String(pokemon.id).padStart(3, "0")}
+                        ${pokemon.name.english}
+                    </span>
+
+                    <small>
+                        ${hiddenAbility[0]}
+                        <span>(HA)</span>
+                    </small>
+                </button>
+            `;
+        })
+        .join("");
+});
+
 setupPokemonCatalogEvents();
 loadPokemonCatalog();
 
@@ -1090,3 +1235,6 @@ window.openAddOwnedHAModal = openAddOwnedHAModal;
 window.closeAddOwnedHAModal = closeAddOwnedHAModal;
 window.saveOwnedHAFromModal = saveOwnedHAFromModal;
 window.openEditOwnedHAModal = openEditOwnedHAModal;
+
+window.openManualAddOwnedHAModal = openManualAddOwnedHAModal;
+window.selectManualHAPokemon = selectManualHAPokemon;
