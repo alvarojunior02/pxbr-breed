@@ -2,6 +2,7 @@ const playersCards = document.getElementById("playersCards");
 const btnOpenNewPlayerModal = document.getElementById("btnOpenNewPlayerModal");
 const newPlayerModal = document.getElementById("newPlayerModal");
 const newPlayerNick = document.getElementById("newPlayerNick");
+const newPlayerNotes = document.getElementById("newPlayerNotes");
 const btnCancelNewPlayer = document.getElementById("btnCancelNewPlayer");
 const btnConfirmNewPlayer = document.getElementById("btnConfirmNewPlayer");
 
@@ -102,6 +103,16 @@ function renderPlayersModule() {
                 </span>
             </p>
 
+            ${
+                player.notes
+                    ? `
+                        <p class="player-notes">
+                            ${player.notes}
+                        </p>
+                    `
+                    : ""
+            }
+
             <div class="player-card-actions">
                 <button
                     type="button"
@@ -147,6 +158,8 @@ function openEditPlayerModal(playerId) {
 
     newPlayerNick.value = player.nick;
 
+    newPlayerNotes.value = player.notes || "";
+
     newPlayerNick.addEventListener("input", updateSavePlayerButtonState);
 
     newPlayerModal.classList.remove("hidden");
@@ -165,6 +178,8 @@ function openNewPlayerModal(selectOnOrderForm = false) {
 
     newPlayerNick.value = "";
 
+    newPlayerNotes.value = "";
+
     btnConfirmNewPlayer.disabled = true;
 
     newPlayerModal.classList.remove("hidden");
@@ -181,6 +196,8 @@ function closeNewPlayerModal() {
     editingPlayerId = null;
 
     newPlayerNick.value = "";
+
+    newPlayerNotes.value = "";
 
     newPlayerModal.querySelector("h2").textContent = "Novo Cliente";
 
@@ -223,12 +240,16 @@ function savePlayerFromModal() {
 
     if (editingPlayerId) {
         updatePlayer(editingPlayerId, {
-            nick
+            nick,
+            notes: newPlayerNotes.value.trim()
         });
 
         showSuccessToast("Cliente atualizado com sucesso!");
     } else {
-        const player = createPlayer(nick);
+        const player = {
+            ...createPlayer(nick),
+            notes: newPlayerNotes.value.trim()
+        };
 
         savePlayers([...players, player]);
 
@@ -259,6 +280,7 @@ function updatePlayer(playerId, data) {
             ...player,
             nick: data.nick,
             avatarUrl: `https://mc-heads.net/avatar/${data.nick}`,
+            notes: data.notes || "",
             updatedAt: new Date().toISOString()
         };
     });
@@ -351,6 +373,16 @@ function openPlayerSummaryModal(playerId) {
                 ${formatMoney(summary.pending)}
             </span>
         </p>
+
+        ${
+            player.notes
+                ? `
+            <p class="player-notes">
+                ${player.notes}
+            </p>
+        `
+                : ""
+        }
     `;
 
     playerSummaryModal.classList.remove("hidden");
