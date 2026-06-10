@@ -491,3 +491,92 @@
         font-size: 0.75rem;
     }
 }
+
+.pokemon-navigation {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.pokemon-navigation-card {
+    width: 140px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    cursor: pointer;
+    color: var(--text-color);
+    opacity: 0.45;
+    filter: grayscale(0.2) blur(0.3px);
+    transform: scale(0.92);
+    transition:
+        transform 0.25s ease,
+        opacity 0.25s ease,
+        filter 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.pokemon-navigation-card:hover {
+    opacity: 1;
+    filter: grayscale(0) blur(0);
+    transform: scale(1) translateY(-3px);
+    border-color: var(--primary-color);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+}
+
+.pokemon-navigation-card img {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+}
+
+.pokemon-navigation-card span {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+#pokemonDetailsContent {
+    will-change: transform, opacity, filter;
+}
+
+.pokemon-slide-from-left {
+    animation: pokemonSlideFromLeft 0.28s ease-out;
+}
+
+.pokemon-slide-from-right {
+    animation: pokemonSlideFromRight 0.28s ease-out;
+}
+
+@keyframes pokemonSlideFromLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-32px) scale(0.98);
+        filter: blur(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes pokemonSlideFromRight {
+    from {
+        opacity: 0;
+        transform: translateX(32px) scale(0.98);
+        filter: blur(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+        filter: blur(0);
+    }
+}

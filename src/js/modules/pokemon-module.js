@@ -8,6 +8,7 @@ const pokemonDetailsContent = document.getElementById("pokemonDetailsContent");
 const btnClosePokemonDetails = document.getElementById("btnClosePokemonDetails");
 
 let pokedexCatalog = [];
+let pokemonDetailsAnimationDirection = "none";
 
 async function loadPokemonCatalog() {
     const response = await fetch("./src/data/pokedex.json");
@@ -164,6 +165,22 @@ function openPokemonDetails(pokemonId) {
 
     pokemonDetailsContent.innerHTML = createPokemonDetailsContent(pokemon);
 
+    pokemonDetailsContent.innerHTML = createPokemonDetailsContent(pokemon);
+
+    pokemonDetailsContent.classList.remove("pokemon-slide-from-left", "pokemon-slide-from-right");
+
+    void pokemonDetailsContent.offsetWidth;
+
+    if (pokemonDetailsAnimationDirection === "previous") {
+        pokemonDetailsContent.classList.add("pokemon-slide-from-left");
+    }
+
+    if (pokemonDetailsAnimationDirection === "next") {
+        pokemonDetailsContent.classList.add("pokemon-slide-from-right");
+    }
+
+    pokemonDetailsAnimationDirection = "none";
+
     pokemonDetailsModal.classList.remove("hidden");
 
     document.body.classList.add("modal-open");
@@ -190,6 +207,7 @@ function setupPokemonCatalogEvents() {
     pokemonEggGroupFilter.addEventListener("change", renderPokemonCatalog);
 }
 
+// CREATE POKEMON DETAILS CONTENT
 function createPokemonDetailsContent(pokemon) {
     const types = pokemon.type
         .map((type) => `<span class="pokemon-type type-${type.toLowerCase()}">${type}</span>`)
@@ -201,7 +219,61 @@ function createPokemonDetailsContent(pokemon) {
 
     const evolutionChain = createPokemonEvolutionChainHtml(pokemon);
 
+    const previousPokemon = getPreviousPokemon(pokemon.id);
+    const nextPokemon = getNextPokemon(pokemon.id);
+
     return `
+        <div class="pokemon-navigation">
+            ${
+                previousPokemon
+                    ? `
+                        <button
+                            type="button"
+                            class="pokemon-navigation-card"
+                            onclick="navigatePokemonDetails(${previousPokemon.id}, 'previous')">
+
+                            <img
+                                src="${previousPokemon.image.thumbnail}"
+                                alt="${previousPokemon.name.english}"
+                            />
+
+                            <span>
+                                #${String(previousPokemon.id).padStart(3, "0")}
+                            </span>
+
+                            <strong>
+                                ${previousPokemon.name.english}
+                            </strong>
+                        </button>
+                    `
+                    : "<div></div>"
+            }
+
+            ${
+                nextPokemon
+                    ? `
+                        <button
+                            type="button"
+                            class="pokemon-navigation-card"
+                            onclick="navigatePokemonDetails(${nextPokemon.id}, 'next')">
+
+                            <img
+                                src="${nextPokemon.image.thumbnail}"
+                                alt="${nextPokemon.name.english}"
+                            />
+
+                            <span>
+                                #${String(nextPokemon.id).padStart(3, "0")}
+                            </span>
+
+                            <strong>
+                                ${nextPokemon.name.english}
+                            </strong>
+                        </button>
+                    `
+                    : "<div></div>"
+            }
+        </div>
         <div class="pokemon-details-header">
             <div class="pokemon-details-image-wrapper">
                 <img
@@ -507,6 +579,35 @@ function formatPokemonGender(gender) {
     `;
 }
 
+function getPreviousPokemon(pokemonId) {
+    const currentIndex = pokedexCatalog.findIndex(
+        (pokemon) => Number(pokemon.id) === Number(pokemonId)
+    );
+
+    if (currentIndex <= 0) {
+        return null;
+    }
+
+    return pokedexCatalog[currentIndex - 1];
+}
+
+function getNextPokemon(pokemonId) {
+    const currentIndex = pokedexCatalog.findIndex(
+        (pokemon) => Number(pokemon.id) === Number(pokemonId)
+    );
+
+    if (currentIndex >= pokedexCatalog.length - 1) {
+        return null;
+    }
+
+    return pokedexCatalog[currentIndex + 1];
+}
+
+function navigatePokemonDetails(pokemonId, direction) {
+    pokemonDetailsAnimationDirection = direction;
+    openPokemonDetails(pokemonId);
+}
+
 btnClosePokemonDetails.addEventListener("click", closePokemonDetails);
 
 pokemonDetailsModal.addEventListener("click", (event) => {
@@ -520,3 +621,4 @@ loadPokemonCatalog();
 
 window.renderPokemonCatalog = renderPokemonCatalog;
 window.openPokemonDetails = openPokemonDetails;
+window.navigatePokemonDetails = navigatePokemonDetails;
