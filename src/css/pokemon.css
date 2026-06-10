@@ -212,7 +212,7 @@
     grid-template-columns: 220px 1fr;
     gap: 2rem;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 0.75rem;
 }
 
 .pokemon-details-image-wrapper {
@@ -257,10 +257,6 @@
 
 .pokemon-details-section h3 {
     margin: 0 0 1rem;
-}
-
-.pokemon-info-list p {
-    margin: 0.45rem 0;
 }
 
 .pokemon-details-tags {
@@ -415,16 +411,25 @@
 }
 
 .pokemon-info-grid {
-    display: grid;
-    grid-template-columns: minmax(150px, 1fr) minmax(180px, 1.3fr);
-    gap: 2rem;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
+    gap: 2rem;
+}
+
+.pokemon-info-list {
+    flex: 1;
+}
+
+.pokemon-info-list p {
+    margin: 0.75rem 0;
 }
 
 .pokemon-info-side {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1rem;
 }
 
 .pokemon-info-side h4 {

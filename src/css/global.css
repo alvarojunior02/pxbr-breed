@@ -154,3 +154,7 @@ hr {
     color: #fca5a5;
     font-weight: bold;
 }
+
+body.modal-open {
+    overflow: hidden;
+}

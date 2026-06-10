@@ -163,7 +163,10 @@ function openPokemonDetails(pokemonId) {
     }
 
     pokemonDetailsContent.innerHTML = createPokemonDetailsContent(pokemon);
+
     pokemonDetailsModal.classList.remove("hidden");
+
+    document.body.classList.add("modal-open");
 
     const modalContent = pokemonDetailsModal.querySelector(".modal-content");
 
@@ -173,15 +176,18 @@ function openPokemonDetails(pokemonId) {
     });
 }
 
+function closePokemonDetails() {
+    pokemonDetailsModal.classList.add("hidden");
+
+    pokemonDetailsContent.innerHTML = "";
+
+    document.body.classList.remove("modal-open");
+}
+
 function setupPokemonCatalogEvents() {
     pokemonCatalogSearch.addEventListener("input", renderPokemonCatalog);
     pokemonGenerationFilter.addEventListener("change", renderPokemonCatalog);
     pokemonEggGroupFilter.addEventListener("change", renderPokemonCatalog);
-}
-
-function closePokemonDetails() {
-    pokemonDetailsModal.classList.add("hidden");
-    pokemonDetailsContent.innerHTML = "";
 }
 
 function createPokemonDetailsContent(pokemon) {
