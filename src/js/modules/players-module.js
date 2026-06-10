@@ -13,7 +13,11 @@ const playerTransactionsModal = document.getElementById("playerTransactionsModal
 const playerTransactionsContent = document.getElementById("playerTransactionsContent");
 const btnClosePlayerTransactions = document.getElementById("btnClosePlayerTransactions");
 
+const btnPreviewPlayerSkin = document.getElementById("btnPreviewPlayerSkin");
+const playerSkinPreview = document.getElementById("playerSkinPreview");
+
 let shouldSelectCreatedPlayerOnOrderForm = false;
+let editingPlayerId = null;
 
 function getPlayerOrders(playerId) {
     return loadOrders().filter((order) => order.playerId === playerId);
@@ -34,6 +38,7 @@ function getPlayerFinancialSummary(playerId) {
     };
 }
 
+// RENDER PLAYERS MODULE
 function renderPlayersModule() {
     const players = loadPlayers();
 
@@ -100,6 +105,13 @@ function renderPlayersModule() {
             <div class="player-card-actions">
                 <button
                     type="button"
+                    class="button-secondary"
+                    onclick="openEditPlayerModal('${player.id}')">
+                    Editar
+                </button>
+
+                <button
+                    type="button"
                     onclick="showPlayerOrders('${player.id}')">
 
                     Encomendas
@@ -120,46 +132,141 @@ function renderPlayersModule() {
     });
 }
 
-function openNewPlayerModal(selectOnOrderForm = false) {
-    shouldSelectCreatedPlayerOnOrderForm = selectOnOrderForm;
+// OPEN EDIT PLAYER MODAL
+function openEditPlayerModal(playerId) {
+    const player = loadPlayers().find((item) => item.id === playerId);
 
-    newPlayerNick.value = "";
+    if (!player) {
+        showWarningToast("Cliente não encontrado.");
+        return;
+    }
+
+    editingPlayerId = player.id;
+
+    newPlayerModal.querySelector("h2").textContent = "Editar Cliente";
+
+    newPlayerNick.value = player.nick;
+
+    newPlayerNick.addEventListener("input", updateSavePlayerButtonState);
 
     newPlayerModal.classList.remove("hidden");
+
+    document.body.classList.add("modal-open");
 
     newPlayerNick.focus();
 }
 
-function closeNewPlayerModal() {
-    newPlayerModal.classList.add("hidden");
+// OPEN NEW PLAYER MODAL
+function openNewPlayerModal(selectOnOrderForm = false) {
+    editingPlayerId = null;
+    shouldSelectCreatedPlayerOnOrderForm = selectOnOrderForm;
+
+    newPlayerModal.querySelector("h2").textContent = "Novo Cliente";
+
+    newPlayerNick.value = "";
+
+    btnConfirmNewPlayer.disabled = true;
+
+    newPlayerModal.classList.remove("hidden");
+
+    document.body.classList.add("modal-open");
+
+    newPlayerNick.focus();
 }
 
-function saveNewPlayerFromModal() {
+// CLOSE NEW PLAYER MODAL
+function closeNewPlayerModal() {
+    newPlayerModal.classList.add("hidden");
+
+    editingPlayerId = null;
+
+    newPlayerNick.value = "";
+
+    newPlayerModal.querySelector("h2").textContent = "Novo Cliente";
+
+    shouldSelectCreatedPlayerOnOrderForm = false;
+
+    playerSkinPreview.classList.add("hidden");
+    playerSkinPreview.innerHTML = "";
+
+    const hasVisibleModal = document.querySelector(".modal:not(.hidden)");
+
+    if (!hasVisibleModal) {
+        document.body.classList.remove("modal-open");
+    }
+}
+
+// SAVE NEW PLAYER FROM MODAL
+function savePlayerFromModal() {
     const nick = newPlayerNick.value.trim();
 
-    try {
-        const player = addPlayer(nick);
+    if (!nick) {
+        showWarningToast("Informe o nick do cliente.");
+        return;
+    }
+
+    if (nick.length < 3) {
+        showWarningToast("O nick do cliente deve ter pelo menos 3 caracteres.");
+        return;
+    }
+
+    const players = loadPlayers();
+
+    const nickAlreadyExists = players.some((player) => {
+        return player.nick.toLowerCase() === nick.toLowerCase() && player.id !== editingPlayerId;
+    });
+
+    if (nickAlreadyExists) {
+        showWarningToast("Já existe um cliente cadastrado com esse nick.");
+        return;
+    }
+
+    if (editingPlayerId) {
+        updatePlayer(editingPlayerId, {
+            nick
+        });
+
+        showSuccessToast("Cliente atualizado com sucesso!");
+    } else {
+        const player = createPlayer(nick);
+
+        savePlayers([...players, player]);
 
         showSuccessToast("Cliente cadastrado com sucesso!");
 
         if (shouldSelectCreatedPlayerOnOrderForm && typeof selectOrderPlayer === "function") {
             selectOrderPlayer(player);
         }
-
-        closeNewPlayerModal();
-
-        shouldSelectCreatedPlayerOnOrderForm = false;
-
-        renderPlayersModule();
-
-        if (typeof renderDashboard === "function") {
-            renderDashboard();
-        }
-    } catch (error) {
-        showErrorToast(error.message);
     }
+
+    renderPlayersModule();
+    renderDashboard();
+    renderOrdersList();
+
+    closeNewPlayerModal();
 }
 
+// UPDATE PLAYER
+function updatePlayer(playerId, data) {
+    const players = loadPlayers();
+
+    const updatedPlayers = players.map((player) => {
+        if (player.id !== playerId) {
+            return player;
+        }
+
+        return {
+            ...player,
+            nick: data.nick,
+            avatarUrl: `https://mc-heads.net/avatar/${data.nick}`,
+            updatedAt: new Date().toISOString()
+        };
+    });
+
+    savePlayers(updatedPlayers);
+}
+
+// SHOW PLAYER ORDERS
 function showPlayerOrders(playerId) {
     const player = loadPlayers().find((player) => player.id === playerId);
 
@@ -184,6 +291,7 @@ function showPlayerOrders(playerId) {
     renderOrdersList();
 }
 
+// OPEN PLAYERS SUMMARY MODAL
 function openPlayerSummaryModal(playerId) {
     const player = loadPlayers().find((player) => player.id === playerId);
 
@@ -248,6 +356,7 @@ function openPlayerSummaryModal(playerId) {
     playerSummaryModal.classList.remove("hidden");
 }
 
+// OPEN PLAYER TRANSACTIONS MODAL
 function openPlayerTransactionsModal(playerId) {
     const player = loadPlayers().find((player) => player.id === playerId);
 
@@ -318,17 +427,54 @@ function openPlayerTransactionsModal(playerId) {
     playerTransactionsModal.classList.remove("hidden");
 }
 
+// OPEN ORDER DETAILS FORM PLAYER TRANSACTIONS
 function openOrderDetailsFromPlayerTransactions(orderId) {
     playerTransactionsModal.classList.add("hidden");
 
     openOrderDetails(orderId);
 }
 
+// UPDATE SAVE PLAYER BUTTON STATE
+function updateSavePlayerButtonState() {
+    const nick = newPlayerNick.value.trim();
+    const isValid = nick.length >= 3;
+
+    btnConfirmNewPlayer.disabled = !isValid;
+    btnPreviewPlayerSkin.disabled = !isValid;
+}
+
+// PREVIEW PLAYER SKIN
+function previewPlayerSkin() {
+    const nick = newPlayerNick.value.trim();
+
+    if (nick.length < 3) {
+        showWarningToast("Digite pelo menos 3 caracteres para buscar a skin.");
+        return;
+    }
+
+    const avatarUrl = `https://mc-heads.net/avatar/${nick}`;
+
+    playerSkinPreview.classList.remove("hidden");
+
+    playerSkinPreview.innerHTML = `
+        <div class="player-skin-preview-card">
+            <img
+                src="${avatarUrl}"
+                alt="${nick}">
+
+            <div>
+                <strong>${nick}</strong>
+                <span>Prévia da skin Minecraft</span>
+            </div>
+        </div>
+    `;
+}
+
 btnOpenNewPlayerModal.addEventListener("click", openNewPlayerModal);
 
 btnCancelNewPlayer.addEventListener("click", closeNewPlayerModal);
 
-btnConfirmNewPlayer.addEventListener("click", saveNewPlayerFromModal);
+btnConfirmNewPlayer.addEventListener("click", savePlayerFromModal);
 
 btnClosePlayerSummary.addEventListener("click", () => {
     playerSummaryModal.classList.add("hidden");
@@ -338,6 +484,15 @@ btnClosePlayerTransactions.addEventListener("click", () => {
     playerTransactionsModal.classList.add("hidden");
 });
 
+newPlayerNick.addEventListener("input", () => {
+    updateSavePlayerButtonState();
+
+    playerSkinPreview.classList.add("hidden");
+    playerSkinPreview.innerHTML = "";
+});
+
+btnPreviewPlayerSkin.addEventListener("click", previewPlayerSkin);
+
 renderPlayersModule();
 
 window.renderPlayersModule = renderPlayersModule;
@@ -346,3 +501,5 @@ window.openPlayerSummaryModal = openPlayerSummaryModal;
 window.openPlayerTransactionsModal = openPlayerTransactionsModal;
 window.openNewPlayerModal = openNewPlayerModal;
 window.openOrderDetailsFromPlayerTransactions = openOrderDetailsFromPlayerTransactions;
+window.openEditPlayerModal = openEditPlayerModal;
+window.savePlayerFromModal = savePlayerFromModal;

@@ -93,7 +93,7 @@
                             <button
                                 type="button"
                                 class="button-primary"
-                                onclick="openCreatePlayerModal()"
+                                onclick="openNewPlayerModal()"
                             >
                                 + Novo Cliente
                             </button>
@@ -871,7 +871,20 @@
 
                 <br />
 
-                <input type="text" id="newPlayerNick" placeholder="Digite o nick do player" />
+                <div class="player-nick-row">
+                    <input type="text" id="newPlayerNick" placeholder="Digite o nick do player" />
+
+                    <button
+                        type="button"
+                        id="btnPreviewPlayerSkin"
+                        class="button-secondary"
+                        disabled
+                    >
+                        Buscar Skin
+                    </button>
+                </div>
+
+                <div id="playerSkinPreview" class="player-skin-preview hidden"></div>
 
                 <br /><br />
 
