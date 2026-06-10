@@ -21,6 +21,7 @@ const ownedHANotes = document.getElementById("ownedHANotes");
 const manualHASelector = document.getElementById("manualHASelector");
 const manualHASearch = document.getElementById("manualHASearch");
 const manualHASearchResults = document.getElementById("manualHASearchResults");
+const btnSaveOwnedHA = document.getElementById("btnSaveOwnedHA");
 
 let pokedexCatalog = [];
 
@@ -30,7 +31,7 @@ let selectedHAPokemonId = null;
 let selectedOwnedHAId = null;
 
 let addHAOrigin = "pokemon-details";
-let addHOrderRow = null;
+let addHAOrderRow = null;
 
 let isManualHAFlow = false;
 
@@ -847,7 +848,12 @@ function deleteOwnedHA(hiddenAbilityId) {
     renderOwnedHAList();
 }
 
+// GET POKEMON HIDDEN ABILITY
 function getPokemonHiddenAbility(pokemon) {
+    if (!pokemon) {
+        return null;
+    }
+
     return pokemon.profile?.ability?.find((ability) => {
         return Array.isArray(ability) && ability[1] === "true";
     });
@@ -873,9 +879,12 @@ function openManualAddOwnedHAModal() {
         </p>
     `;
 
-    ownedHACastratedPrice.value = "";
-    ownedHABreedablePrice.value = "";
+    ownedHACastratedPrice.value = formatMoney(0);
+    ownedHABreedablePrice.value = formatMoney(0);
     ownedHANotes.value = "";
+
+    setOwnedHAFormFieldsEnabled(false);
+    updateSaveOwnedHAButtonState();
 
     addOwnedHAModal.classList.remove("hidden");
     document.body.classList.add("modal-open");
@@ -916,6 +925,9 @@ function openAddOwnedHAModal(pokemonId, origin = "pokemon-details", orderRow = n
     ownedHACastratedPrice.value = "";
     ownedHABreedablePrice.value = "";
     ownedHANotes.value = "";
+
+    setOwnedHAFormFieldsEnabled(true);
+    updateSaveOwnedHAButtonState();
 
     applyMoneyMask(ownedHACastratedPrice);
     applyMoneyMask(ownedHABreedablePrice);
@@ -990,17 +1002,35 @@ function selectManualHAPokemon(pokemonId) {
 
     addOwnedHASummary.innerHTML = createOwnedHASummary(evolutionChain);
 
+    setOwnedHAFormFieldsEnabled(true);
+    updateSaveOwnedHAButtonState();
+
     manualHASearch.value = pokemon.name.english;
     manualHASearchResults.innerHTML = "";
 }
 
 // SAVE OWNED HA FROM MODAL
 function saveOwnedHAFromModal() {
-    const pokemon = getPokemonById(selectedHAPokemonId);
-    const hiddenAbility = getPokemonHiddenAbility(pokemon);
+    if (!selectedHAPokemonId && !selectedOwnedHAId) {
+        showWarningToast("Selecione um Pokémon antes de salvar a HA.");
+        return;
+    }
 
     const castratedPrice = unformatMoney(ownedHACastratedPrice.value);
     const breedablePrice = unformatMoney(ownedHABreedablePrice.value);
+
+    if (castratedPrice <= 0) {
+        showWarningToast("Informe um valor castrado maior que zero.");
+        return;
+    }
+
+    if (breedablePrice <= 0) {
+        showWarningToast("Informe um valor breedável maior que zero.");
+        return;
+    }
+
+    const pokemon = getPokemonById(selectedHAPokemonId);
+    const hiddenAbility = getPokemonHiddenAbility(pokemon);
 
     if (castratedPrice <= 0 || breedablePrice <= 0) {
         showWarningToast("Informe valores maiores que zero para castrado e breedável.");
@@ -1112,6 +1142,7 @@ function hasOwnedHiddenAbility(pokemon) {
     });
 }
 
+// OPEN EDIT OWNED HA MODAL
 function openEditOwnedHAModal(hiddenAbilityId) {
     const hiddenAbility = loadOwnedHiddenAbilities().find((item) => {
         return item.id === hiddenAbilityId;
@@ -1129,6 +1160,9 @@ function openEditOwnedHAModal(hiddenAbilityId) {
     ownedHACastratedPrice.value = formatMoney(hiddenAbility.castratedPrice);
     ownedHABreedablePrice.value = formatMoney(hiddenAbility.breedablePrice);
     ownedHANotes.value = hiddenAbility.notes || "";
+
+    setOwnedHAFormFieldsEnabled(true);
+    updateSaveOwnedHAButtonState();
 
     applyMoneyMask(ownedHACastratedPrice);
     applyMoneyMask(ownedHABreedablePrice);
@@ -1151,6 +1185,26 @@ function createEditOwnedHASummary(hiddenAbility) {
           ];
 
     return createOwnedHASummary(evolutionLine);
+}
+
+// SET OWNED HA FORM FIELDS ENABLED
+function setOwnedHAFormFieldsEnabled(enabled) {
+    ownedHACastratedPrice.disabled = !enabled;
+    ownedHABreedablePrice.disabled = !enabled;
+    ownedHANotes.disabled = !enabled;
+}
+
+// IS OWNED HA FORM VALID
+function isOwnedHAFormValid() {
+    const hasPokemon = Boolean(selectedHAPokemonId || selectedOwnedHAId);
+    const castratedPrice = unformatMoney(ownedHACastratedPrice.value);
+    const breedablePrice = unformatMoney(ownedHABreedablePrice.value);
+
+    return hasPokemon && castratedPrice > 0 && breedablePrice > 0;
+}
+
+function updateSaveOwnedHAButtonState() {
+    btnSaveOwnedHA.disabled = !isOwnedHAFormValid();
 }
 
 btnClosePokemonDetails.addEventListener("click", closePokemonDetails);
@@ -1219,6 +1273,13 @@ manualHASearch.addEventListener("input", () => {
         })
         .join("");
 });
+
+applyMoneyMask(ownedHACastratedPrice);
+applyMoneyMask(ownedHABreedablePrice);
+
+ownedHACastratedPrice.addEventListener("input", updateSaveOwnedHAButtonState);
+ownedHABreedablePrice.addEventListener("input", updateSaveOwnedHAButtonState);
+ownedHANotes.addEventListener("input", updateSaveOwnedHAButtonState);
 
 setupPokemonCatalogEvents();
 loadPokemonCatalog();

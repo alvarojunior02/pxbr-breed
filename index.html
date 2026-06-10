@@ -581,7 +581,9 @@
 
                 <div id="manualHASelector" class="manual-ha-selector hidden">
                     <div class="form-field">
-                        <label for="manualHASearch">Buscar Pokémon</label>
+                        <label for="manualHASearch"
+                            >Buscar Pokémon <span class="required">*</span></label
+                        >
 
                         <input
                             type="text"
@@ -597,12 +599,17 @@
                 <div id="addOwnedHASummary"></div>
 
                 <div class="form-field">
-                    <label for="ownedHACastratedPrice">Valor castrado</label>
+                    <label for="ownedHACastratedPrice"
+                        >Valor castrado <span class="required">*</span></label
+                    >
+
                     <input type="text" id="ownedHACastratedPrice" placeholder="Ex: $ 3.500.000" />
                 </div>
 
                 <div class="form-field">
-                    <label for="ownedHABreedablePrice">Valor breedável</label>
+                    <label for="ownedHABreedablePrice"
+                        >Valor breedável <span class="required">*</span></label
+                    >
                     <input type="text" id="ownedHABreedablePrice" placeholder="Ex: $ 14.500.000" />
                 </div>
 
@@ -616,12 +623,21 @@
                     </textarea>
                 </div>
 
+                <p class="form-required-hint">
+                    <span class="required">*</span> Campos obrigatórios
+                </p>
+
                 <div class="modal-footer">
                     <button type="button" class="button-secondary" onclick="closeAddOwnedHAModal()">
                         Cancelar
                     </button>
 
-                    <button type="button" class="button-ha" onclick="saveOwnedHAFromModal()">
+                    <button
+                        type="button"
+                        id="btnSaveOwnedHA"
+                        class="button-ha"
+                        onclick="saveOwnedHAFromModal()"
+                    >
                         Salvar HA
                     </button>
                 </div>
