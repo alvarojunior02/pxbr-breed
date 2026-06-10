@@ -355,3 +355,34 @@
 .quick-new-player-button {
     margin-top: 8px;
 }
+
+.owned-ha-order-info {
+    margin-top: 1rem;
+}
+
+.owned-ha-order-card {
+    border: 1px solid rgba(250, 204, 21, 0.45);
+    background: rgba(250, 204, 21, 0.08);
+    border-radius: 0.75rem;
+    padding: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.owned-ha-order-card > strong {
+    color: #facc15;
+    font-size: 0.9rem;
+}
+
+.owned-ha-order-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.owned-ha-order-values p {
+    margin: 0;
+}

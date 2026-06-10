@@ -62,3 +62,13 @@ function updateOwnedHiddenAbility(hiddenAbilityId, data) {
 
     saveOwnedHiddenAbilities(updatedHiddenAbilities);
 }
+
+function getOwnedHAByPokemonId(pokemonId) {
+    return loadOwnedHiddenAbilities().find((hiddenAbility) => {
+        const evolutionLine = hiddenAbility.evolutionLine || [];
+
+        return evolutionLine.some((pokemon) => {
+            return Number(pokemon.pokemonId) === Number(pokemonId);
+        });
+    });
+}

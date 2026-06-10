@@ -296,6 +296,54 @@ function renderPlayerSearchResults(searchTerm = "") {
     });
 }
 
+// RENDER OWNED HA ORDER INFO
+function renderOwnedHAOrderInfo(row, pokemon) {
+    const container = row.querySelector(".owned-ha-order-info");
+
+    if (!container || !pokemon) {
+        return;
+    }
+
+    const ownedHA = getOwnedHAByPokemonId(pokemon.id);
+
+    if (!ownedHA) {
+        container.classList.add("hidden");
+        container.innerHTML = "";
+        return;
+    }
+
+    const currentEvolutionPokemon = ownedHA.evolutionLine?.find((item) => {
+        return Number(item.pokemonId) === Number(pokemon.id);
+    });
+
+    container.classList.remove("hidden");
+
+    container.innerHTML = `
+        <div class="owned-ha-order-card">
+            <strong>
+                ✨ HA cadastrada
+            </strong>
+
+            <span>
+                ${currentEvolutionPokemon?.abilityName || ownedHA.abilityName}
+                <small class="pokemon-ha-label">(<span>HA</span>)</small>
+            </span>
+
+            <div class="owned-ha-order-values">
+                <p>
+                    <strong>Castrado:</strong>
+                    ${formatMoney(ownedHA.castratedPrice)}
+                </p>
+
+                <p>
+                    <strong>Breedável:</strong>
+                    ${formatMoney(ownedHA.breedablePrice)}
+                </p>
+            </div>
+        </div>
+    `;
+}
+
 // CREATE POKEMON ORDER ROW
 function createPokemonOrderRow() {
     const row = document.createElement("div");
@@ -391,6 +439,7 @@ function createPokemonOrderRow() {
 
             </div>
 
+            <div class="owned-ha-order-info hidden"></div>
         </div>
     `;
 
@@ -489,6 +538,8 @@ function createPokemonOrderRow() {
                 populateNatureSelect();
 
                 enablePokemonFields();
+
+                renderOwnedHAOrderInfo(row, pokemon);
 
                 calculateOrderTotal();
             });
