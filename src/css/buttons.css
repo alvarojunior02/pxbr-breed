@@ -19,7 +19,6 @@ button:disabled {
 
 .button-secondary {
     background: #475569;
-    margin-left: auto;
 }
 
 .button-secondary:hover {

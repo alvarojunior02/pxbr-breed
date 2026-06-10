@@ -678,6 +678,8 @@
     border: 1px solid var(--border-color);
     border-radius: 1rem;
     padding: 1rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .owned-ha-evolution-line {
@@ -698,8 +700,18 @@
 
 .owned-ha-card-actions {
     display: flex;
+    justify-content: flex-start;
+    align-items: center;
     gap: 0.5rem;
-    margin-top: 1rem;
+    width: 100%;
+    margin-top: auto;
+    padding-top: 1rem;
+}
+
+.owned-ha-card .owned-ha-card-actions {
+    justify-content: flex-start !important;
+    align-self: stretch;
+    width: 100%;
 }
 
 .owned-ha-card-header {
@@ -779,13 +791,6 @@
     color: var(--text-muted);
     margin: 1rem 0 0;
     line-height: 1.5;
-}
-
-.owned-ha-card-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.5rem;
-    margin-top: 1rem;
 }
 
 .owned-ha-evolution-pokemon {

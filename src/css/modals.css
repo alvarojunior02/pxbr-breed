@@ -25,6 +25,8 @@
     margin-top: 20px;
     display: flex;
     gap: 8px;
+    display: flex;
+    justify-content: flex-start;
 }
 
 #createOrderModal .modal-content {
