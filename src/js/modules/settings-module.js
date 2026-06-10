@@ -17,6 +17,12 @@ const btnConfirmSettingsSave = document.getElementById("btnConfirmSettingsSave")
 const btnExportBackup = document.getElementById("btnExportBackup");
 const backupImportInput = document.getElementById("backupImportInput");
 
+const backupExportConfirmModal = document.getElementById("backupExportConfirmModal");
+const backupExportSummary = document.getElementById("backupExportSummary");
+const btnCloseBackupExportModal = document.getElementById("btnCloseBackupExportModal");
+const btnCancelBackupExport = document.getElementById("btnCancelBackupExport");
+const btnConfirmBackupExport = document.getElementById("btnConfirmBackupExport");
+
 let currentSettings = loadSystemSettings();
 let draftSettings = { ...currentSettings };
 
@@ -158,6 +164,83 @@ function createSystemBackup() {
     };
 }
 
+function getBackupSummary() {
+    const players = loadPlayers();
+    const orders = loadOrders();
+    const transactions = loadTransactions();
+    const hiddenAbilities = loadOwnedHiddenAbilities();
+
+    return {
+        players: players.length,
+        orders: orders.length,
+        activeOrders: orders.filter((order) => !order.archived).length,
+        archivedOrders: orders.filter((order) => order.archived).length,
+        transactions: transactions.length,
+        hiddenAbilities: hiddenAbilities.length,
+        settings: 1
+    };
+}
+
+function renderBackupExportSummary() {
+    const summary = getBackupSummary();
+
+    backupExportSummary.innerHTML = `
+        <div class="backup-summary-grid">
+            <div class="backup-summary-item">
+                <strong>${summary.players}</strong>
+                <span>Clientes cadastrados</span>
+            </div>
+
+            <div class="backup-summary-item">
+                <strong>${summary.orders}</strong>
+                <span>Encomendas totais</span>
+            </div>
+
+            <div class="backup-summary-item">
+                <strong>${summary.activeOrders}</strong>
+                <span>Encomendas ativas</span>
+            </div>
+
+            <div class="backup-summary-item">
+                <strong>${summary.archivedOrders}</strong>
+                <span>Encomendas arquivadas</span>
+            </div>
+
+            <div class="backup-summary-item">
+                <strong>${summary.transactions}</strong>
+                <span>Transações</span>
+            </div>
+
+            <div class="backup-summary-item">
+                <strong>${summary.hiddenAbilities}</strong>
+                <span>HAs cadastradas</span>
+            </div>
+
+            <div class="backup-summary-item">
+                <strong>${summary.settings}</strong>
+                <span>Configurações</span>
+            </div>
+        </div>
+    `;
+}
+
+function openBackupExportConfirmModal() {
+    renderBackupExportSummary();
+
+    backupExportConfirmModal.classList.remove("hidden");
+    document.body.classList.add("modal-open");
+}
+
+function closeBackupExportConfirmModal() {
+    backupExportConfirmModal.classList.add("hidden");
+
+    const hasVisibleModal = document.querySelector(".modal:not(.hidden)");
+
+    if (!hasVisibleModal) {
+        document.body.classList.remove("modal-open");
+    }
+}
+
 function exportSystemBackup() {
     const backup = createSystemBackup();
 
@@ -167,12 +250,12 @@ function exportSystemBackup() {
 
     const url = URL.createObjectURL(blob);
 
-    const date = new Date().toISOString().slice(0, 10);
+    const timestamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
 
     const link = document.createElement("a");
 
     link.href = url;
-    link.download = `pxbr-breed-backup-${date}.json`;
+    link.download = `pxbr-breed-backup-${timestamp}.json`;
 
     document.body.appendChild(link);
 
@@ -287,10 +370,19 @@ btnCancelSettingsConfirm.addEventListener("click", closeSettingsConfirmModal);
 
 btnConfirmSettingsSave.addEventListener("click", confirmSettingsSave);
 
-btnExportBackup.addEventListener("click", exportSystemBackup);
+btnExportBackup.addEventListener("click", openBackupExportConfirmModal);
 
 btnImportBackup.addEventListener("click", () => {
     backupImportInput.click();
+});
+
+btnCloseBackupExportModal.addEventListener("click", closeBackupExportConfirmModal);
+
+btnCancelBackupExport.addEventListener("click", closeBackupExportConfirmModal);
+
+btnConfirmBackupExport.addEventListener("click", () => {
+    exportSystemBackup();
+    closeBackupExportConfirmModal();
 });
 
 renderSettingsModule();
