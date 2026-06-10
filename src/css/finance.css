@@ -74,3 +74,7 @@
         width: 100%;
     }
 }
+
+.finance-csv-export-modal-content {
+    max-width: 680px;
+}

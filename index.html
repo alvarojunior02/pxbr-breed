@@ -464,6 +464,33 @@
             </div>
         </div>
 
+        <!-- Modal de Confirmação de Exportação CSV -->
+        <div id="financeCsvExportConfirmModal" class="modal hidden">
+            <div class="modal-content finance-csv-export-modal-content">
+                <button type="button" class="modal-close-button" id="btnCloseFinanceCsvExportModal">
+                    ×
+                </button>
+
+                <h2>Confirmar Exportação CSV</h2>
+
+                <p class="settings-confirm-description">
+                    Revise as transações que serão exportadas para o arquivo CSV.
+                </p>
+
+                <div id="financeCsvExportSummary" class="backup-export-summary"></div>
+
+                <div class="modal-footer">
+                    <button type="button" class="button-secondary" id="btnCancelFinanceCsvExport">
+                        Cancelar
+                    </button>
+
+                    <button type="button" class="button-success" id="btnConfirmFinanceCsvExport">
+                        Exportar CSV
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- Modal de Criar Encomenda -->
         <div id="createOrderModal" class="modal hidden">
             <div class="modal-content">

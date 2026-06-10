@@ -5,10 +5,14 @@ const financeTransactionsList = document.getElementById("financeTransactionsList
 const financeTransactionsCount = document.getElementById("financeTransactionsCount");
 const btnExportFinanceCsv = document.getElementById("btnExportFinanceCsv");
 
+const financeCsvExportConfirmModal = document.getElementById("financeCsvExportConfirmModal");
+const financeCsvExportSummary = document.getElementById("financeCsvExportSummary");
+const btnCloseFinanceCsvExportModal = document.getElementById("btnCloseFinanceCsvExportModal");
+const btnCancelFinanceCsvExport = document.getElementById("btnCancelFinanceCsvExport");
+const btnConfirmFinanceCsvExport = document.getElementById("btnConfirmFinanceCsvExport");
+
 let currentFinancePeriod = "today";
 let currentFilteredFinanceTransactions = [];
-
-btnExportFinanceCsv.addEventListener("click", exportFinanceTransactionsToCsv);
 
 // RENDER FINANCE MODULE
 function renderFinanceModule() {
@@ -47,6 +51,77 @@ function escapeCsvValue(value) {
     }
 
     return stringValue;
+}
+
+// GET FINANCE CSV EXPORT SUMMARY
+function getFinanceCsvExportSummary() {
+    const totalAmount = currentFilteredFinanceTransactions.reduce((total, transaction) => {
+        return total + transaction.amount;
+    }, 0);
+
+    const uniquePlayers = new Set(
+        currentFilteredFinanceTransactions.map((transaction) => transaction.playerId)
+    );
+
+    return {
+        period: getFinancePeriodLabel(currentFinancePeriod),
+        transactions: currentFilteredFinanceTransactions.length,
+        totalAmount,
+        clients: uniquePlayers.size
+    };
+}
+
+// RENDER FINANCE CSV EXPORT SUMARRY
+function renderFinanceCsvExportSummary() {
+    const summary = getFinanceCsvExportSummary();
+
+    financeCsvExportSummary.innerHTML = `
+        <div class="backup-summary-grid">
+            <div class="backup-summary-item">
+                <strong>${summary.period}</strong>
+                <span>Período</span>
+            </div>
+
+            <div class="backup-summary-item">
+                <strong>${summary.transactions}</strong>
+                <span>Transações</span>
+            </div>
+
+            <div class="backup-summary-item">
+                <strong>${summary.clients}</strong>
+                <span>Clientes envolvidos</span>
+            </div>
+
+            <div class="backup-summary-item">
+                <strong>${formatMoney(summary.totalAmount)}</strong>
+                <span>Valor total</span>
+            </div>
+        </div>
+    `;
+}
+
+// OPEN FINANCE CSV EXPORT CONFIRM MODAL
+function openFinanceCsvExportConfirmModal() {
+    if (currentFilteredFinanceTransactions.length === 0) {
+        showWarningToast("Não há transações para exportar.");
+        return;
+    }
+
+    renderFinanceCsvExportSummary();
+
+    financeCsvExportConfirmModal.classList.remove("hidden");
+    document.body.classList.add("modal-open");
+}
+
+// CLOSE FINANCE CSV EXPORT CONFIRM MODAL
+function closeFinanceCsvExportConfirmModal() {
+    financeCsvExportConfirmModal.classList.add("hidden");
+
+    const hasVisibleModal = document.querySelector(".modal:not(.hidden)");
+
+    if (!hasVisibleModal) {
+        document.body.classList.remove("modal-open");
+    }
 }
 
 // EXPORT FINANCE TRANSACTIONS TO CSV
@@ -265,6 +340,17 @@ function setupFinancePeriodFilters() {
         };
     });
 }
+
+btnExportFinanceCsv.addEventListener("click", openFinanceCsvExportConfirmModal);
+
+btnCloseFinanceCsvExportModal.addEventListener("click", closeFinanceCsvExportConfirmModal);
+
+btnCancelFinanceCsvExport.addEventListener("click", closeFinanceCsvExportConfirmModal);
+
+btnConfirmFinanceCsvExport.addEventListener("click", () => {
+    exportFinanceTransactionsToCsv();
+    closeFinanceCsvExportConfirmModal();
+});
 
 renderFinanceModule();
 
