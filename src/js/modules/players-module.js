@@ -160,7 +160,9 @@ function openEditPlayerModal(playerId) {
 
     newPlayerNotes.value = player.notes || "";
 
-    newPlayerNick.addEventListener("input", updateSavePlayerButtonState);
+    renderPlayerSkinPreview(player.nick, player.avatarUrl || getMinecraftAvatarUrl(player.nick));
+
+    updateSavePlayerButtonState();
 
     newPlayerModal.classList.remove("hidden");
 
@@ -248,6 +250,7 @@ function savePlayerFromModal() {
     } else {
         const player = {
             ...createPlayer(nick),
+            avatarUrl: `https://mc-heads.net/avatar/${nick}`,
             notes: newPlayerNotes.value.trim()
         };
 
@@ -475,6 +478,25 @@ function updateSavePlayerButtonState() {
     btnPreviewPlayerSkin.disabled = !isValid;
 }
 
+// RENDERE PLAYER SKIN PREVIEW
+function renderPlayerSkinPreview(nick, avatarUrl) {
+    playerSkinPreview.classList.remove("hidden");
+
+    playerSkinPreview.innerHTML = `
+        <div class="player-skin-preview-card">
+            <img
+                src="${avatarUrl}"
+                alt="${nick}"
+                onerror="this.src='${getDefaultMinecraftAvatarUrl()}'">
+
+            <div>
+                <strong>${nick}</strong>
+                <span>Prévia da skin Minecraft</span>
+            </div>
+        </div>
+    `;
+}
+
 // PREVIEW PLAYER SKIN
 function previewPlayerSkin() {
     const nick = newPlayerNick.value.trim();
@@ -486,20 +508,28 @@ function previewPlayerSkin() {
 
     const avatarUrl = `https://mc-heads.net/avatar/${nick}`;
 
+    btnPreviewPlayerSkin.disabled = true;
+    btnPreviewPlayerSkin.textContent = "Buscando...";
+
     playerSkinPreview.classList.remove("hidden");
 
     playerSkinPreview.innerHTML = `
         <div class="player-skin-preview-card">
-            <img
-                src="${avatarUrl}"
-                alt="${nick}">
+            <div class="player-skin-spinner"></div>
 
             <div>
                 <strong>${nick}</strong>
-                <span>Prévia da skin Minecraft</span>
+                <span>Buscando skin...</span>
             </div>
         </div>
     `;
+
+    setTimeout(() => {
+        renderPlayerSkinPreview(nick, avatarUrl);
+
+        btnPreviewPlayerSkin.disabled = false;
+        btnPreviewPlayerSkin.textContent = "Buscar Skin";
+    }, 450);
 }
 
 btnOpenNewPlayerModal.addEventListener("click", openNewPlayerModal);
@@ -521,6 +551,8 @@ newPlayerNick.addEventListener("input", () => {
 
     playerSkinPreview.classList.add("hidden");
     playerSkinPreview.innerHTML = "";
+
+    btnPreviewPlayerSkin.textContent = "Buscar Skin";
 });
 
 btnPreviewPlayerSkin.addEventListener("click", previewPlayerSkin);

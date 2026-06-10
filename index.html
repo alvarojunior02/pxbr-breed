@@ -867,45 +867,51 @@
             <div class="modal-content">
                 <h2>Novo Cliente</h2>
 
-                <label for="newPlayerNick"> Nick </label>
+                <div class="player-form">
+                    <div class="player-nick-row">
+                        <div>
+                            <label for="newPlayerNick"> Nick </label>
 
-                <br />
+                            <input
+                                type="text"
+                                id="newPlayerNick"
+                                placeholder="Digite o nick do player"
+                            />
+                        </div>
 
-                <div class="player-nick-row">
-                    <input type="text" id="newPlayerNick" placeholder="Digite o nick do player" />
+                        <button
+                            type="button"
+                            id="btnPreviewPlayerSkin"
+                            class="button-secondary"
+                            disabled
+                        >
+                            Buscar Skin
+                        </button>
+                    </div>
 
-                    <button
-                        type="button"
-                        id="btnPreviewPlayerSkin"
-                        class="button-secondary"
-                        disabled
-                    >
-                        Buscar Skin
-                    </button>
+                    <div id="playerSkinPreview" class="player-skin-preview hidden"></div>
+
+                    <div class="form-field">
+                        <label for="newPlayerNotes">Observações</label>
+
+                        <textarea
+                            id="newPlayerNotes"
+                            rows="3"
+                            maxlength="500"
+                            placeholder="Ex: horário que costuma jogar, preferências, pendências, observações gerais..."
+                        ></textarea>
+                    </div>
+
+                    <div class="player-form-actions">
+                        <button type="button" id="btnCancelNewPlayer" class="button-danger">
+                            Cancelar
+                        </button>
+
+                        <button type="button" id="btnConfirmNewPlayer" class="button-success">
+                            Salvar Cliente
+                        </button>
+                    </div>
                 </div>
-
-                <div id="playerSkinPreview" class="player-skin-preview hidden"></div>
-
-                <div class="form-field">
-                    <label for="newPlayerNotes">Observações</label>
-
-                    <textarea
-                        id="newPlayerNotes"
-                        rows="3"
-                        maxlength="500"
-                        placeholder="Ex: horário que costuma jogar, preferências, pendências, observações gerais..."
-                    ></textarea>
-                </div>
-
-                <br /><br />
-
-                <button type="button" id="btnCancelNewPlayer" class="button-danger">
-                    Cancelar
-                </button>
-
-                <button type="button" id="btnConfirmNewPlayer" class="button-success">
-                    Salvar Cliente
-                </button>
             </div>
         </div>
 
