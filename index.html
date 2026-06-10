@@ -57,6 +57,10 @@
                         <button type="button" class="btn-open-create-order-modal">
                             + Nova Encomenda
                         </button>
+
+                        <button type="button" class="button-ha" onclick="openOwnedHAModal()">
+                            Gerenciar meus HAs
+                        </button>
                     </div>
 
                     <div id="dashboardCards"></div>
@@ -535,6 +539,49 @@
                 <div class="modal-footer">
                     <button type="button" class="button-secondary" onclick="closeOwnedHAModal()">
                         Fechar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Adicionar nova HA -->
+        <div id="addOwnedHAModal" class="modal hidden">
+            <div class="modal-content pokemon-add-ha-modal-content">
+                <button type="button" class="modal-close-button" onclick="closeAddOwnedHAModal()">
+                    ×
+                </button>
+
+                <h2>Adicionar HA</h2>
+
+                <div id="addOwnedHASummary"></div>
+
+                <div class="form-field">
+                    <label for="ownedHACastratedPrice">Valor castrado</label>
+                    <input type="text" id="ownedHACastratedPrice" placeholder="Ex: 3500000" />
+                </div>
+
+                <div class="form-field">
+                    <label for="ownedHABreedablePrice">Valor breedável</label>
+                    <input type="text" id="ownedHABreedablePrice" placeholder="Ex: 12000000" />
+                </div>
+
+                <div class="form-field">
+                    <label for="ownedHANotes">Observações</label>
+                    <textarea
+                        id="ownedHANotes"
+                        rows="3"
+                        placeholder="Ex: Tenho macho e fêmea, breedável, etc."
+                    >
+                    </textarea>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="button-secondary" onclick="closeAddOwnedHAModal()">
+                        Cancelar
+                    </button>
+
+                    <button type="button" class="button-ha" onclick="saveOwnedHAFromModal()">
+                        Salvar HA
                     </button>
                 </div>
             </div>

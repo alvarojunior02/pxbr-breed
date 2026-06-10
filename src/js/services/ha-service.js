@@ -4,10 +4,13 @@ function createOwnedHiddenAbility(data) {
         pokemonId: Number(data.pokemonId),
         pokemonName: data.pokemonName,
         abilityName: data.abilityName,
+        sprite: data.sprite || "",
+        evolutionLine: data.evolutionLine || [],
         castratedPrice: Number(data.castratedPrice) || 0,
         breedablePrice: Number(data.breedablePrice) || 0,
         notes: data.notes || "",
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        updatedAt: null
     };
 }
 

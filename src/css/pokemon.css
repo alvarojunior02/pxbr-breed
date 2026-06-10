@@ -617,3 +617,72 @@
 
     transform: translateY(-1px);
 }
+
+.pokemon-add-ha-button {
+    margin-top: 1rem;
+    width: fit-content;
+}
+
+.pokemon-add-ha-modal-content {
+    max-width: 520px;
+}
+
+.pokemon-add-ha-modal-content .form-field {
+    margin-bottom: 1rem;
+}
+
+.owned-ha-summary {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.owned-ha-summary img {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.owned-ha-summary div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.owned-ha-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.owned-ha-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+.owned-ha-evolution-line {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.owned-ha-evolution-line img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.owned-ha-card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}

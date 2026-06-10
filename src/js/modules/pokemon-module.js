@@ -12,8 +12,15 @@ const pokemonCatalogCounter = document.getElementById("pokemonCatalogCounter");
 const ownedHAModal = document.getElementById("ownedHAModal");
 const ownedHAList = document.getElementById("ownedHAList");
 
+const addOwnedHAModal = document.getElementById("addOwnedHAModal");
+const addOwnedHASummary = document.getElementById("addOwnedHASummary");
+const ownedHACastratedPrice = document.getElementById("ownedHACastratedPrice");
+const ownedHABreedablePrice = document.getElementById("ownedHABreedablePrice");
+const ownedHANotes = document.getElementById("ownedHANotes");
+
 let pokedexCatalog = [];
 let pokemonDetailsAnimationDirection = "none";
+let selectedHAPokemonId = null;
 
 async function loadPokemonCatalog() {
     const response = await fetch("./src/data/pokedex.json");
@@ -230,6 +237,8 @@ function createPokemonDetailsContent(pokemon) {
     const previousPokemon = getPreviousPokemon(pokemon.id);
     const nextPokemon = getNextPokemon(pokemon.id);
 
+    const hiddenAbility = getPokemonHiddenAbility(pokemon);
+
     return `
         <div class="pokemon-navigation">
             ${
@@ -303,6 +312,19 @@ function createPokemonDetailsContent(pokemon) {
                 <div class="pokemon-types">
                     ${types}
                 </div>
+
+                ${
+                    hiddenAbility && !hasOwnedHiddenAbility(pokemon)
+                        ? `
+                            <button
+                                type="button"
+                                class="button-ha pokemon-add-ha-button"
+                                onclick="openAddOwnedHAModal(${pokemon.id})">
+                                Adicionar aos meus HAs
+                            </button>
+                        `
+                        : ""
+                }
 
                 <p class="pokemon-description">
                     ${pokemon.description || "Sem descrição disponível."}
@@ -681,6 +703,101 @@ function deleteOwnedHA(hiddenAbilityId) {
     renderOwnedHAList();
 }
 
+function getPokemonHiddenAbility(pokemon) {
+    return pokemon.profile?.ability?.find((ability) => {
+        return Array.isArray(ability) && ability[1] === "true";
+    });
+}
+
+function openAddOwnedHAModal(pokemonId) {
+    const pokemon = getPokemonById(pokemonId);
+    const hiddenAbility = getPokemonHiddenAbility(pokemon);
+
+    if (!pokemon || !hiddenAbility) {
+        return;
+    }
+
+    selectedHAPokemonId = pokemon.id;
+
+    addOwnedHASummary.innerHTML = `
+        <div class="owned-ha-summary">
+            <img
+                src="${pokemon.image?.thumbnail || pokemon.image?.sprite || ""}"
+                alt="${pokemon.name.english}"
+            />
+
+            <div>
+                <strong>
+                    #${String(pokemon.id).padStart(3, "0")} ${pokemon.name.english}
+                </strong>
+
+                <span>
+                    ${hiddenAbility[0]}
+                    <small class="pokemon-ha-label">(<span>HA</span>)</small>
+                </span>
+            </div>
+        </div>
+    `;
+
+    ownedHACastratedPrice.value = "";
+    ownedHABreedablePrice.value = "";
+    ownedHANotes.value = "";
+
+    applyMoneyMask(ownedHACastratedPrice);
+    applyMoneyMask(ownedHABreedablePrice);
+
+    addOwnedHAModal.classList.remove("hidden");
+    document.body.classList.add("modal-open");
+}
+
+function closeAddOwnedHAModal() {
+    addOwnedHAModal.classList.add("hidden");
+    selectedHAPokemonId = null;
+}
+
+function saveOwnedHAFromModal() {
+    const pokemon = getPokemonById(selectedHAPokemonId);
+    const hiddenAbility = getPokemonHiddenAbility(pokemon);
+
+    if (!pokemon || !hiddenAbility) {
+        return;
+    }
+
+    const evolutionChain = getEvolutionChain(pokemon).map((chainPokemon) => ({
+        pokemonId: Number(chainPokemon.id),
+        pokemonName: chainPokemon.name.english,
+        sprite: chainPokemon.image?.thumbnail || chainPokemon.image?.sprite || ""
+    }));
+
+    addOwnedHiddenAbility({
+        pokemonId: pokemon.id,
+        pokemonName: pokemon.name.english,
+        abilityName: hiddenAbility[0],
+        sprite: pokemon.image?.thumbnail || pokemon.image?.sprite || "",
+        evolutionLine: evolutionChain,
+        castratedPrice: unformatMoney(ownedHACastratedPrice.value),
+        breedablePrice: unformatMoney(ownedHABreedablePrice.value),
+        notes: ownedHANotes.value.trim()
+    });
+
+    closeAddOwnedHAModal();
+    renderOwnedHAList();
+}
+
+function hasOwnedHiddenAbility(pokemon) {
+    const hiddenAbility = getPokemonHiddenAbility(pokemon);
+
+    if (!pokemon || !hiddenAbility) {
+        return false;
+    }
+
+    return loadOwnedHiddenAbilities().some((item) => {
+        return item.evolutionLine?.some((evolutionPokemon) => {
+            return Number(evolutionPokemon.pokemonId) === Number(pokemon.id);
+        });
+    });
+}
+
 btnClosePokemonDetails.addEventListener("click", closePokemonDetails);
 
 pokemonDetailsModal.addEventListener("click", (event) => {
@@ -695,6 +812,11 @@ loadPokemonCatalog();
 window.renderPokemonCatalog = renderPokemonCatalog;
 window.openPokemonDetails = openPokemonDetails;
 window.navigatePokemonDetails = navigatePokemonDetails;
+
 window.openOwnedHAModal = openOwnedHAModal;
 window.closeOwnedHAModal = closeOwnedHAModal;
 window.deleteOwnedHA = deleteOwnedHA;
+
+window.openAddOwnedHAModal = openAddOwnedHAModal;
+window.closeAddOwnedHAModal = closeAddOwnedHAModal;
+window.saveOwnedHAFromModal = saveOwnedHAFromModal;
