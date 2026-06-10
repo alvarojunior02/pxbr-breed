@@ -70,3 +70,52 @@
 .settings-actions {
     margin-top: 1.25rem;
 }
+
+.settings-confirm-modal-content {
+    max-width: 620px;
+}
+
+.settings-confirm-description {
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+.settings-changes-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.settings-change-item {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    border-radius: 0.85rem;
+    padding: 1rem;
+}
+
+.settings-change-item strong {
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+.settings-change-values {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.settings-change-before {
+    color: #f87171;
+    font-weight: 700;
+}
+
+.settings-change-after {
+    color: #4ade80;
+    font-weight: 700;
+}
+
+.settings-change-arrow {
+    color: var(--text-muted);
+    font-weight: 800;
+}

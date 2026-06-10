@@ -367,6 +367,33 @@
 
         <!-- MODALS -->
 
+        <!-- Modal de Confirmação das Configurações -->
+        <div id="settingsConfirmModal" class="modal hidden">
+            <div class="modal-content settings-confirm-modal-content">
+                <button type="button" class="modal-close-button" id="btnCloseSettingsConfirmModal">
+                    ×
+                </button>
+
+                <h2>Confirmar alterações</h2>
+
+                <p class="settings-confirm-description">
+                    Revise as alterações antes de salvar as configurações do sistema.
+                </p>
+
+                <div id="settingsChangesPreview" class="settings-changes-preview"></div>
+
+                <div class="modal-footer">
+                    <button type="button" class="button-secondary" id="btnCancelSettingsConfirm">
+                        Cancelar
+                    </button>
+
+                    <button type="button" class="button-success" id="btnConfirmSettingsSave">
+                        Confirmar alterações
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- Modal de Criar Encomenda -->
         <div id="createOrderModal" class="modal hidden">
             <div class="modal-content">
