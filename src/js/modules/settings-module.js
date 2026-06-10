@@ -289,8 +289,8 @@ btnConfirmSettingsSave.addEventListener("click", confirmSettingsSave);
 
 btnExportBackup.addEventListener("click", exportSystemBackup);
 
-backupImportInput.addEventListener("change", (event) => {
-    importSystemBackup(event.target.files[0]);
+btnImportBackup.addEventListener("click", () => {
+    backupImportInput.click();
 });
 
 renderSettingsModule();

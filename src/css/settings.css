@@ -128,17 +128,23 @@
 }
 
 .settings-import-button {
+    box-sizing: border-box;
     min-height: 40px;
     padding: 10px 14px;
     border-radius: 8px;
+    border: none;
+
     background: #475569;
     color: #ffffff;
     font-weight: 700;
+    line-height: 1;
+
     cursor: pointer;
 
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    text-decoration: none;
 }
 
 .settings-import-button:hover {
