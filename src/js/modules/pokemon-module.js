@@ -1,4 +1,5 @@
 const pokemonCatalogSearch = document.getElementById("pokemonCatalogSearch");
+const pokemonOwnedHAFilter = document.getElementById("pokemonOwnedHAFilter");
 const pokemonGenerationFilter = document.getElementById("pokemonGenerationFilter");
 const pokemonEggGroupFilter = document.getElementById("pokemonEggGroupFilter");
 const pokemonCatalogGrid = document.getElementById("pokemonCatalogGrid");
@@ -90,25 +91,34 @@ function populateEggGroupFilter() {
 
 function getFilteredPokemonCatalog() {
     const searchTerm = pokemonCatalogSearch.value.toLowerCase().trim();
+    const selectedOwnedHAFilter = pokemonOwnedHAFilter.value;
     const selectedGeneration = pokemonGenerationFilter.value;
     const selectedEggGroup = pokemonEggGroupFilter.value;
 
     return pokedexCatalog.filter((pokemon) => {
-        const pokemonName = pokemon.name?.english?.toLowerCase() || "";
-        const pokemonId = String(pokemon.id);
-
-        const matchesSearch = pokemonName.includes(searchTerm) || pokemonId.includes(searchTerm);
+        const matchesSearch =
+            pokemon.name.english.toLowerCase().includes(searchTerm) ||
+            String(pokemon.id).includes(searchTerm);
 
         const matchesGeneration =
-            selectedGeneration === "all" || getPokemonGeneration(pokemon.id) === selectedGeneration;
+            selectedGeneration === "all" ||
+            getPokemonGeneration(pokemon.id) === Number(selectedGeneration);
 
         const matchesEggGroup =
             selectedEggGroup === "all" ||
-            pokemon.profile?.egg?.some((egg) => {
-                return normalizeEggGroup(egg) === selectedEggGroup;
+            pokemon.profile?.egg?.some((eggGroup) => {
+                return normalizeEggGroup(eggGroup) === selectedEggGroup;
             });
 
-        return matchesSearch && matchesGeneration && matchesEggGroup;
+        const pokemonHasHA = Boolean(getPokemonHiddenAbility(pokemon));
+        const hasOwnedHA = hasOwnedHiddenAbility(pokemon);
+
+        const matchesOwnedHA =
+            selectedOwnedHAFilter === "all" ||
+            (selectedOwnedHAFilter === "owned" && hasOwnedHA) ||
+            (selectedOwnedHAFilter === "missing" && pokemonHasHA && !hasOwnedHA);
+
+        return matchesSearch && matchesGeneration && matchesEggGroup && matchesOwnedHA;
     });
 }
 
@@ -249,6 +259,7 @@ function closePokemonDetails() {
 
 function setupPokemonCatalogEvents() {
     pokemonCatalogSearch.addEventListener("input", renderPokemonCatalog);
+    pokemonOwnedHAFilter.addEventListener("change", renderPokemonCatalog);
     pokemonGenerationFilter.addEventListener("change", renderPokemonCatalog);
     pokemonEggGroupFilter.addEventListener("change", renderPokemonCatalog);
 }

@@ -1,25 +1,58 @@
 .pokemon-catalog-filters {
     display: grid;
-    grid-template-columns: minmax(220px, 420px) minmax(180px, 240px) minmax(180px, 240px);
+    grid-template-columns:
+        minmax(260px, 1fr)
+        minmax(180px, 240px)
+        minmax(180px, 240px)
+        minmax(180px, 240px);
     gap: 0.75rem;
     align-items: center;
     width: 100%;
 }
 
 #pokemonCatalogSearch,
+#pokemonOwnedHAFilter,
 #pokemonGenerationFilter,
 #pokemonEggGroupFilter {
     width: 100%;
-    min-width: 0;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1200px) {
+    .pokemon-catalog-filters {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 520px) {
+    .pokemon-catalog-filters {
+        grid-template-columns: 1fr;
+    }
+}
+
+#pokemonCatalogSearch,
+#pokemonGenerationFilter,
+#pokemonEggGroupFilter,
+#pokemonOwnedHAFilter {
+    width: 100%;
+}
+
+@media (max-width: 560px) {
+    .pokemon-catalog-filters {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* @media (max-width: 1100px) {
     .pokemon-catalog-filters {
         grid-template-columns: 1fr 1fr;
     }
 
     #pokemonCatalogSearch {
         grid-column: 1 / 2;
+    }
+
+    #pokemonOwnedHAFilter {
+        grid-column: 2 / 3;
     }
 
     #pokemonGenerationFilter {
@@ -31,7 +64,7 @@
         grid-column: 2 / 3;
         grid-row: 2;
     }
-}
+} */
 
 .pokemon-catalog-filters input,
 .pokemon-catalog-filters select {
@@ -778,7 +811,7 @@
 }
 
 .owned-ha-evolution-pokemon {
-    min-width: 82px;
+    min-width: 110px;
     background: rgba(255, 255, 255, 0.04);
     border-radius: 0.75rem;
     padding: 0.5rem;
@@ -803,10 +836,6 @@
     color: var(--text-muted);
     margin: 1rem 0 0;
     line-height: 1.5;
-}
-
-.owned-ha-evolution-pokemon {
-    min-width: 110px;
 }
 
 .owned-ha-ability-name {
@@ -870,13 +899,49 @@
 
 .pokemon-page-actions {
     display: flex;
+    gap: 0.75rem;
     flex-wrap: wrap;
-    gap: 1rem;
-    margin: 1.5rem 0;
+    width: 100%;
+}
+
+#pokemonsSection .section-header {
+    width: 100%;
+}
+
+#pokemonsSection .section-header > div {
+    width: 100%;
 }
 
 @media (max-width: 520px) {
+    .pokemon-page-actions {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
     .pokemon-page-actions button {
         width: 100%;
+        justify-content: center;
+    }
+
+    .pokemon-page-actions .button-ha {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .pokemon-catalog-toolbar {
+        width: 100%;
+    }
+
+    .pokemon-catalog-filters {
+        width: 100%;
+    }
+
+    #pokemonCatalogSearch,
+    #pokemonOwnedHAFilter,
+    #pokemonGenerationFilter,
+    #pokemonEggGroupFilter {
+        width: 100%;
+        max-width: none;
     }
 }
