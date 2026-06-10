@@ -981,6 +981,9 @@ function openEditOwnedHAModal(hiddenAbilityId) {
     ownedHABreedablePrice.value = formatMoney(hiddenAbility.breedablePrice);
     ownedHANotes.value = hiddenAbility.notes || "";
 
+    applyMoneyMask(ownedHACastratedPrice);
+    applyMoneyMask(ownedHABreedablePrice);
+
     addOwnedHAModal.querySelector("h2").textContent = "Editar HA";
     addOwnedHAModal.classList.remove("hidden");
     document.body.classList.add("modal-open");

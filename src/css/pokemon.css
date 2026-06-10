@@ -785,6 +785,7 @@
 .owned-ha-price-grid span {
     color: #facc15;
     font-weight: 800;
+    font-size: 0.9rem;
 }
 
 .owned-ha-notes {
