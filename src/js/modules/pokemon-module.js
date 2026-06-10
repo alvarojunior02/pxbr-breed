@@ -874,10 +874,18 @@ function saveOwnedHAFromModal() {
     const pokemon = getPokemonById(selectedHAPokemonId);
     const hiddenAbility = getPokemonHiddenAbility(pokemon);
 
+    const castratedPrice = unformatMoney(ownedHACastratedPrice.value);
+    const breedablePrice = unformatMoney(ownedHABreedablePrice.value);
+
+    if (castratedPrice <= 0 || breedablePrice <= 0) {
+        alert("Informe valores maiores que zero para castrado e breedável.");
+        return;
+    }
+
     if (selectedOwnedHAId) {
         updateOwnedHiddenAbility(selectedOwnedHAId, {
-            castratedPrice: unformatMoney(ownedHACastratedPrice.value),
-            breedablePrice: unformatMoney(ownedHABreedablePrice.value),
+            castratedPrice,
+            breedablePrice,
             notes: ownedHANotes.value.trim()
         });
 
