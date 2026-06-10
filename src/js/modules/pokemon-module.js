@@ -3,6 +3,10 @@ const pokemonGenerationFilter = document.getElementById("pokemonGenerationFilter
 const pokemonEggGroupFilter = document.getElementById("pokemonEggGroupFilter");
 const pokemonCatalogGrid = document.getElementById("pokemonCatalogGrid");
 
+const pokemonDetailsModal = document.getElementById("pokemonDetailsModal");
+const pokemonDetailsContent = document.getElementById("pokemonDetailsContent");
+const btnClosePokemonDetails = document.getElementById("btnClosePokemonDetails");
+
 let pokedexCatalog = [];
 
 async function loadPokemonCatalog() {
@@ -152,13 +156,14 @@ function createPokemonCatalogCard(pokemon) {
 }
 
 function openPokemonDetails(pokemonId) {
-    const pokemon = pokedexCatalog.find((item) => item.id === pokemonId);
+    const pokemon = pokedexCatalog.find((item) => Number(item.id) === Number(pokemonId));
 
     if (!pokemon) {
         return;
     }
 
-    alert(`Detalhes de ${pokemon.name.english} serão implementados na próxima etapa.`);
+    pokemonDetailsContent.innerHTML = createPokemonDetailsContent(pokemon);
+    pokemonDetailsModal.classList.remove("hidden");
 }
 
 function setupPokemonCatalogEvents() {
@@ -166,6 +171,185 @@ function setupPokemonCatalogEvents() {
     pokemonGenerationFilter.addEventListener("change", renderPokemonCatalog);
     pokemonEggGroupFilter.addEventListener("change", renderPokemonCatalog);
 }
+
+function closePokemonDetails() {
+    pokemonDetailsModal.classList.add("hidden");
+    pokemonDetailsContent.innerHTML = "";
+}
+
+function createPokemonDetailsContent(pokemon) {
+    const types = pokemon.type
+        .map((type) => `<span class="pokemon-type type-${type.toLowerCase()}">${type}</span>`)
+        .join("");
+
+    const abilities = createPokemonAbilitiesHtml(pokemon);
+    const eggGroups = createPokemonEggGroupsHtml(pokemon);
+    const stats = createPokemonStatsHtml(pokemon);
+
+    return `
+        <div class="pokemon-details-header">
+            <div class="pokemon-details-image-wrapper">
+                <img
+                    src="${pokemon.image?.hires || pokemon.image?.thumbnail || pokemon.image?.sprite || ""}"
+                    alt="${pokemon.name.english}"
+                    class="pokemon-details-image"
+                />
+            </div>
+
+            <div class="pokemon-details-main-info">
+                <span class="pokemon-catalog-id">
+                    #${String(pokemon.id).padStart(3, "0")}
+                </span>
+
+                <h2>
+                    ${pokemon.name.english}
+                </h2>
+
+                <div class="pokemon-types">
+                    ${types}
+                </div>
+
+                <p class="pokemon-description">
+                    ${pokemon.description || "Sem descrição disponível."}
+                </p>
+            </div>
+        </div>
+
+        <div class="pokemon-details-grid">
+            <div class="pokemon-details-section">
+                <h3>Informações</h3>
+
+                <div class="pokemon-info-list">
+                    <p><strong>Espécie:</strong> ${pokemon.species || "-"}</p>
+                    <p><strong>Altura:</strong> ${pokemon.profile?.height || "-"}</p>
+                    <p><strong>Peso:</strong> ${pokemon.profile?.weight || "-"}</p>
+                    <p><strong>Gênero:</strong> ${pokemon.profile?.gender || "-"}</p>
+                </div>
+            </div>
+
+            <div class="pokemon-details-section">
+                <h3>Abilities</h3>
+
+                <div class="pokemon-details-tags">
+                    ${abilities}
+                </div>
+            </div>
+
+            <div class="pokemon-details-section">
+                <h3>Egg Groups</h3>
+
+                <div class="pokemon-details-tags">
+                    ${eggGroups}
+                </div>
+            </div>
+
+            <div class="pokemon-details-section pokemon-stats-section">
+                <h3>Base Stats</h3>
+
+                <div class="pokemon-stats-list">
+                    ${stats}
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function createPokemonAbilitiesHtml(pokemon) {
+    if (!pokemon.profile?.ability?.length) {
+        return "<span>-</span>";
+    }
+
+    return pokemon.profile.ability
+        .map((ability) => {
+            const abilityName = Array.isArray(ability) ? ability[0] : ability;
+            const isHA = Array.isArray(ability) && ability[1] === "true";
+
+            return `
+                <span>
+                    ${abilityName}
+                    ${isHA ? `<small class="pokemon-ha-label">(<span>HA</span>)</small>` : ""}
+                </span>
+            `;
+        })
+        .join("");
+}
+
+function createPokemonEggGroupsHtml(pokemon) {
+    if (!pokemon.profile?.egg?.length) {
+        return "<span>-</span>";
+    }
+
+    return pokemon.profile.egg.map((eggGroup) => `<span>${eggGroup}</span>`).join("");
+}
+
+function createPokemonStatsHtml(pokemon) {
+    if (!pokemon.base) {
+        return "<p>Stats não disponíveis.</p>";
+    }
+
+    return Object.entries(pokemon.base)
+        .map(([statName, statValue]) => {
+            const percentage = Math.min((Number(statValue) / 180) * 100, 100);
+            const statClass = getStatBarClass(Number(statValue));
+
+            return `
+                <div class="pokemon-stat-row">
+                    <span class="pokemon-stat-name">
+                        ${formatPokemonStatName(statName)}
+                    </span>
+
+                    <span class="pokemon-stat-value">
+                        ${statValue}
+                    </span>
+
+                    <div class="pokemon-stat-bar">
+                        <div
+                            class="pokemon-stat-bar-fill ${statClass}"
+                            style="width: ${percentage}%;">
+                        </div>
+                    </div>
+                </div>
+            `;
+        })
+        .join("");
+}
+
+function formatPokemonStatName(statName) {
+    const statMap = {
+        HP: "HP",
+        Attack: "Attack",
+        Defense: "Defense",
+        "Sp. Attack": "Sp. Atk",
+        "Sp. Defense": "Sp. Def",
+        Speed: "Speed"
+    };
+
+    return statMap[statName] || statName;
+}
+
+function getStatBarClass(statValue) {
+    if (statValue < 70) {
+        return "stat-low";
+    }
+
+    if (statValue < 100) {
+        return "stat-medium";
+    }
+
+    if (statValue < 130) {
+        return "stat-high";
+    }
+
+    return "stat-very-high";
+}
+
+btnClosePokemonDetails.addEventListener("click", closePokemonDetails);
+
+pokemonDetailsModal.addEventListener("click", (event) => {
+    if (event.target === pokemonDetailsModal) {
+        closePokemonDetails();
+    }
+});
 
 setupPokemonCatalogEvents();
 loadPokemonCatalog();
