@@ -1,16 +1,26 @@
-PROJECT_CONTEXT.md
-
+# Dependencies
 node_modules/
 
-.vscode/settings.json
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-data/pokedex.updated.json
+# Environment
+.env
+.env.*
+!.env.example
 
+# OS
 .DS_Store
 Thumbs.db
 
-*.log
-npm-debug.log*
+# VSCode
+.vscode/settings.json
 
-dist/
-build/
+# Generated files
+data/pokedex.updated.json
+
+# Project docs
+PROJECT_CONTEXT.md
