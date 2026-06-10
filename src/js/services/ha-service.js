@@ -1,0 +1,41 @@
+function createOwnedHiddenAbility(data) {
+    return {
+        id: generateUUID(),
+        pokemonId: Number(data.pokemonId),
+        pokemonName: data.pokemonName,
+        abilityName: data.abilityName,
+        castratedPrice: Number(data.castratedPrice) || 0,
+        breedablePrice: Number(data.breedablePrice) || 0,
+        notes: data.notes || "",
+        createdAt: new Date().toISOString()
+    };
+}
+
+function addOwnedHiddenAbility(data) {
+    const hiddenAbilities = loadOwnedHiddenAbilities();
+
+    const alreadyExists = hiddenAbilities.some((item) => {
+        return (
+            Number(item.pokemonId) === Number(data.pokemonId) &&
+            item.abilityName === data.abilityName
+        );
+    });
+
+    if (alreadyExists) {
+        alert("Você já cadastrou essa HA.");
+        return;
+    }
+
+    const hiddenAbility = createOwnedHiddenAbility(data);
+
+    hiddenAbilities.push(hiddenAbility);
+    saveOwnedHiddenAbilities(hiddenAbilities);
+}
+
+function removeOwnedHiddenAbility(hiddenAbilityId) {
+    const hiddenAbilities = loadOwnedHiddenAbilities().filter((item) => {
+        return item.id !== hiddenAbilityId;
+    });
+
+    saveOwnedHiddenAbilities(hiddenAbilities);
+}

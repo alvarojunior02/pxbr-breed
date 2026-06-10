@@ -38,3 +38,28 @@
 #orderDetailsModal .modal-content {
     width: 1040px;
 }
+
+.modal-content {
+    position: relative;
+}
+
+.modal-close-button {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-color);
+    font-size: 1.25rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close-button:hover {
+    background: rgba(255, 255, 255, 0.16);
+}

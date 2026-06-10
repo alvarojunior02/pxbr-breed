@@ -9,6 +9,9 @@ const btnClosePokemonDetails = document.getElementById("btnClosePokemonDetails")
 
 const pokemonCatalogCounter = document.getElementById("pokemonCatalogCounter");
 
+const ownedHAModal = document.getElementById("ownedHAModal");
+const ownedHAList = document.getElementById("ownedHAList");
+
 let pokedexCatalog = [];
 let pokemonDetailsAnimationDirection = "none";
 
@@ -613,6 +616,71 @@ function navigatePokemonDetails(pokemonId, direction) {
     openPokemonDetails(pokemonId);
 }
 
+function openOwnedHAModal() {
+    renderOwnedHAList();
+    ownedHAModal.classList.remove("hidden");
+    document.body.classList.add("modal-open");
+}
+
+function closeOwnedHAModal() {
+    ownedHAModal.classList.add("hidden");
+    document.body.classList.remove("modal-open");
+}
+
+function renderOwnedHAList() {
+    const hiddenAbilities = loadOwnedHiddenAbilities();
+
+    if (hiddenAbilities.length === 0) {
+        ownedHAList.innerHTML = `
+            <p class="empty-state">
+                Nenhuma Hidden Ability cadastrada.
+            </p>
+        `;
+
+        return;
+    }
+
+    ownedHAList.innerHTML = hiddenAbilities
+        .map((item) => {
+            return `
+                <div class="owned-ha-card">
+                    <strong>
+                        #${String(item.pokemonId).padStart(3, "0")} ${item.pokemonName}
+                    </strong>
+
+                    <span>
+                        ${item.abilityName}
+                        <small class="pokemon-ha-label">(<span>HA</span>)</small>
+                    </span>
+
+                    <p>Castrado: ${formatMoney(item.castratedPrice)}</p>
+                    <p>Breedável: ${formatMoney(item.breedablePrice)}</p>
+
+                    ${item.notes ? `<p class="owned-ha-notes">${item.notes}</p>` : ""}
+
+                    <button
+                        type="button"
+                        class="button-danger"
+                        onclick="deleteOwnedHA('${item.id}')">
+                        Remover
+                    </button>
+                </div>
+            `;
+        })
+        .join("");
+}
+
+function deleteOwnedHA(hiddenAbilityId) {
+    const confirmed = confirm("Deseja remover esta HA da sua lista?");
+
+    if (!confirmed) {
+        return;
+    }
+
+    removeOwnedHiddenAbility(hiddenAbilityId);
+    renderOwnedHAList();
+}
+
 btnClosePokemonDetails.addEventListener("click", closePokemonDetails);
 
 pokemonDetailsModal.addEventListener("click", (event) => {
@@ -627,3 +695,6 @@ loadPokemonCatalog();
 window.renderPokemonCatalog = renderPokemonCatalog;
 window.openPokemonDetails = openPokemonDetails;
 window.navigatePokemonDetails = navigatePokemonDetails;
+window.openOwnedHAModal = openOwnedHAModal;
+window.closeOwnedHAModal = closeOwnedHAModal;
+window.deleteOwnedHA = deleteOwnedHA;

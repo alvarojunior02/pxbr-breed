@@ -601,3 +601,19 @@
     font-size: 0.9rem;
     font-weight: 600;
 }
+
+.button-ha {
+    background: linear-gradient(135deg, #facc15, #eab308);
+
+    color: #1f2937;
+
+    font-weight: 700;
+
+    border: none;
+}
+
+.button-ha:hover {
+    background: linear-gradient(135deg, #fde047, #facc15);
+
+    transform: translateY(-1px);
+}

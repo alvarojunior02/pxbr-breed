@@ -155,9 +155,14 @@
                 <section id="pokemonsSection" class="app-section">
                     <div class="section-header">
                         <div>
-                            <h1>Pokémons</h1>
+                            <h2>Pokémons</h2>
+
                             <p>Consulte dados da Pokédex, tipos, abilities e egg groups.</p>
                         </div>
+
+                        <button type="button" class="button-ha" onclick="openOwnedHAModal()">
+                            Gerenciar meus HAs
+                        </button>
                     </div>
 
                     <div class="pokemon-catalog-toolbar">
@@ -516,6 +521,25 @@
             </div>
         </div>
 
+        <!-- Modal de Gerenciar HAs -->
+        <div id="ownedHAModal" class="modal hidden">
+            <div class="modal-content pokemon-ha-modal-content">
+                <button type="button" class="modal-close-button" onclick="closeOwnedHAModal()">
+                    ×
+                </button>
+
+                <h2>Gerenciar Meus HAs</h2>
+
+                <div id="ownedHAList"></div>
+
+                <div class="modal-footer">
+                    <button type="button" class="button-secondary" onclick="closeOwnedHAModal()">
+                        Fechar
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- Modal de Novo Player -->
         <div id="newPlayerModal" class="modal hidden">
             <div class="modal-content">
@@ -578,6 +602,7 @@
         <!-- SERVICES -->
         <script src="src/js/services/pokemons-service.js"></script>
         <script src="src/js/services/players-service.js"></script>
+        <script src="src/js/services/ha-service.js"></script>
 
         <!-- ORDERS -->
         <script src="src/js/orders/order-dom.js"></script>
