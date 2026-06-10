@@ -403,6 +403,12 @@ function createOwnedHAOrderInfoHtml(pokemon) {
         `;
     }
 
+    const settings = loadSystemSettings();
+
+    if (!settings.showMissingHAWarningOnOrder) {
+        return "";
+    }
+
     const pokemonHiddenAbility = pokemon.abilities?.find((ability) => {
         return ability.isHA;
     });
