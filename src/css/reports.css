@@ -25,96 +25,117 @@
 }
 
 .report-pokemon-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 1rem;
 }
 
-.report-pokemon-card {
+.report-pokemon-card,
+.reports-empty-card {
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--border-color);
-    border-radius: 0.85rem;
+    border-radius: 1rem;
     padding: 1rem;
 }
 
 .report-pokemon-header {
     display: grid;
-    grid-template-columns: 42px 56px 1fr auto;
-    gap: 0.75rem;
+    grid-template-columns: auto 64px 1fr auto;
     align-items: center;
+    gap: 0.75rem;
 }
 
 .report-position {
-    font-weight: 900;
     color: var(--primary-color);
-    font-size: 1.1rem;
+    font-size: 1.15rem;
+    font-weight: 900;
 }
 
-.report-pokemon-header img {
+.report-pokemon-image-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 0.85rem;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.report-pokemon-image-wrapper img {
     width: 56px;
     height: 56px;
     object-fit: contain;
     image-rendering: pixelated;
 }
 
-.report-pokemon-header h3 {
+.report-pokemon-info h3 {
     margin: 0;
 }
 
-.report-pokemon-header p {
-    margin: 0.25rem 0 0;
+.report-pokemon-info span {
+    display: block;
+    margin-top: 0.25rem;
     color: var(--text-muted);
     font-size: 0.85rem;
+    font-weight: 700;
 }
 
 .report-total-revenue {
+    text-align: right;
+}
+
+.report-total-revenue small {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.report-total-revenue strong {
     color: var(--success-color);
     white-space: nowrap;
 }
 
-.report-category-list {
-    margin: 0.85rem 0 0;
-    padding: 0;
-    list-style: none;
-
+.report-category-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.5rem;
+    margin-top: 1rem;
 }
 
-.report-category-list li {
+.report-category-item {
     background: rgba(255, 255, 255, 0.04);
-    border-radius: 0.65rem;
-    padding: 0.65rem;
+    border-radius: 0.75rem;
+    padding: 0.75rem;
 }
 
-.report-category-list span {
+.report-category-item span {
     display: block;
     color: var(--text-muted);
     font-size: 0.78rem;
-    margin-bottom: 0.25rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
 }
 
-.report-category-list strong {
-    font-size: 0.85rem;
+.report-category-item strong {
+    font-size: 0.9rem;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 520px) {
+    .report-pokemon-list {
+        grid-template-columns: 1fr;
+    }
+
     .report-pokemon-header {
-        grid-template-columns: 36px 48px 1fr;
+        grid-template-columns: auto 56px 1fr;
     }
 
     .report-total-revenue {
         grid-column: 1 / -1;
+        text-align: left;
     }
 
-    .report-category-list {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
-@media (max-width: 520px) {
-    .report-category-list {
+    .report-category-grid {
         grid-template-columns: 1fr;
     }
 }

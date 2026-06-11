@@ -1,9 +1,7 @@
 const reportsContent = document.getElementById("reportsContent");
 
-// GET POKEMON SALES REPORT
 function getPokemonSalesReport() {
     const orders = loadOrders();
-
     const reportMap = {};
 
     orders.forEach((order) => {
@@ -15,22 +13,10 @@ function getPokemonSalesReport() {
                     sprite: pokemon.sprite,
                     totalCount: 0,
                     totalRevenue: 0,
-                    registered: {
-                        count: 0,
-                        revenue: 0
-                    },
-                    breedable: {
-                        count: 0,
-                        revenue: 0
-                    },
-                    haRegistered: {
-                        count: 0,
-                        revenue: 0
-                    },
-                    haBreedable: {
-                        count: 0,
-                        revenue: 0
-                    }
+                    registered: { count: 0, revenue: 0 },
+                    breedable: { count: 0, revenue: 0 },
+                    haRegistered: { count: 0, revenue: 0 },
+                    haBreedable: { count: 0, revenue: 0 }
                 };
             }
 
@@ -48,13 +34,13 @@ function getPokemonSalesReport() {
                 return;
             }
 
-            if (isHA && !isBreedable) {
+            if (isHA) {
                 item.haRegistered.count += 1;
                 item.haRegistered.revenue += pokemon.value;
                 return;
             }
 
-            if (!isHA && isBreedable) {
+            if (isBreedable) {
                 item.breedable.count += 1;
                 item.breedable.revenue += pokemon.value;
                 return;
@@ -70,39 +56,27 @@ function getPokemonSalesReport() {
     });
 }
 
-// RENDER REPORT CATEGORY
 function renderReportCategory(label, data) {
     if (data.count === 0) {
         return "";
     }
 
     return `
-        <li>
-            <span>
-                ${data.count} ${label}
-            </span>
-
-            <strong>
-                ${formatMoney(data.revenue)}
-            </strong>
-        </li>
+        <div class="report-category-item">
+            <span>${data.count} ${label}</span>
+            <strong>${formatMoney(data.revenue)}</strong>
+        </div>
     `;
 }
 
-// RENDER TOP SELLING POKEMON REPORT
 function renderTopSellingPokemonReport() {
     const report = getPokemonSalesReport().slice(0, 10);
 
     if (report.length === 0) {
         return `
-            <div class="dashboard-card">
-                <strong>
-                    Nenhum dado encontrado
-                </strong>
-
-                <span>
-                    Cadastre encomendas para visualizar relatórios.
-                </span>
+            <div class="reports-empty-card">
+                <strong>Nenhum dado encontrado</strong>
+                <span>Cadastre encomendas para visualizar relatórios.</span>
             </div>
         `;
     }
@@ -110,38 +84,32 @@ function renderTopSellingPokemonReport() {
     const cards = report
         .map((item, index) => {
             return `
-                <div class="report-pokemon-card">
+                <article class="report-pokemon-card">
                     <div class="report-pokemon-header">
-                        <span class="report-position">
-                            ${index + 1}º
-                        </span>
+                        <span class="report-position">${index + 1}º</span>
 
-                        <img
-                            src="${item.sprite}"
-                            alt="${item.pokemonName}">
-
-                        <div>
-                            <h3>
-                                ${item.pokemonName}
-                            </h3>
-
-                            <p>
-                                ${item.totalCount} vendido${item.totalCount === 1 ? "" : "s"}
-                            </p>
+                        <div class="report-pokemon-image-wrapper">
+                            <img src="${item.sprite}" alt="${item.pokemonName}">
                         </div>
 
-                        <strong class="report-total-revenue">
-                            ${formatMoney(item.totalRevenue)}
-                        </strong>
+                        <div class="report-pokemon-info">
+                            <h3>${item.pokemonName}</h3>
+                            <span>${item.totalCount} vendido${item.totalCount === 1 ? "" : "s"}</span>
+                        </div>
+
+                        <div class="report-total-revenue">
+                            <small>Receita total</small>
+                            <strong>${formatMoney(item.totalRevenue)}</strong>
+                        </div>
                     </div>
 
-                    <ul class="report-category-list">
+                    <div class="report-category-grid">
                         ${renderReportCategory("Cadastrado", item.registered)}
                         ${renderReportCategory("Breedável", item.breedable)}
                         ${renderReportCategory("HA Castrado", item.haRegistered)}
                         ${renderReportCategory("HA Breedável", item.haBreedable)}
-                    </ul>
-                </div>
+                    </div>
+                </article>
             `;
         })
         .join("");
@@ -150,13 +118,8 @@ function renderTopSellingPokemonReport() {
         <section class="reports-section-card">
             <div class="reports-section-header">
                 <div>
-                    <h3>
-                        🏆 Pokémon Mais Vendidos
-                    </h3>
-
-                    <p>
-                        Ranking baseado nas encomendas cadastradas no sistema.
-                    </p>
+                    <h3>🏆 Pokémon Mais Vendidos</h3>
+                    <p>Ranking baseado nas encomendas cadastradas no sistema.</p>
                 </div>
             </div>
 
@@ -167,7 +130,6 @@ function renderTopSellingPokemonReport() {
     `;
 }
 
-// RENDER REPORTS MODULE
 function renderReportsModule() {
     reportsContent.innerHTML = renderTopSellingPokemonReport();
 }
