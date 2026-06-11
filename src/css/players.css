@@ -209,3 +209,31 @@
     align-items: center;
     gap: 0.5rem;
 }
+
+.players-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.players-toolbar input {
+    width: min(100%, 420px);
+}
+
+.players-toolbar span {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+@media (max-width: 520px) {
+    .players-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .players-toolbar input {
+        width: 100%;
+    }
+}

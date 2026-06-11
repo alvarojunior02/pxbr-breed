@@ -1,4 +1,8 @@
 const playersCards = document.getElementById("playersCards");
+
+const playerSearchInput = document.getElementById("playerSearchInput");
+const playersCounter = document.getElementById("playersCounter");
+
 const btnOpenNewPlayerModal = document.getElementById("btnOpenNewPlayerModal");
 const newPlayerModal = document.getElementById("newPlayerModal");
 const newPlayerNick = document.getElementById("newPlayerNick");
@@ -43,9 +47,29 @@ function getPlayerFinancialSummary(playerId) {
 function renderPlayersModule() {
     const players = loadPlayers();
 
+    const searchTerm = playerSearchInput.value.trim().toLowerCase();
+
+    const filteredPlayers = players.filter((player) => {
+        return player.nick.toLowerCase().includes(searchTerm);
+    });
+
+    playersCounter.textContent = `Exibindo ${filteredPlayers.length} de ${players.length} cliente${
+        players.length === 1 ? "" : "s"
+    }`;
+
     playersCards.innerHTML = "";
 
-    players.forEach((player) => {
+    if (filteredPlayers.length === 0) {
+        playersCards.innerHTML = `
+            <p class="empty-state">
+                Nenhum cliente encontrado.
+            </p>
+        `;
+
+        return;
+    }
+
+    filteredPlayers.forEach((player) => {
         const summary = getPlayerFinancialSummary(player.id);
 
         const lastOrder = getPlayerLastOrder(player.id);
@@ -531,6 +555,8 @@ function previewPlayerSkin() {
         btnPreviewPlayerSkin.textContent = "Buscar Skin";
     }, 450);
 }
+
+playerSearchInput.addEventListener("input", renderPlayersModule);
 
 btnOpenNewPlayerModal.addEventListener("click", openNewPlayerModal);
 
