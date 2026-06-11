@@ -1,8 +1,7 @@
 #financeSummaryCards {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 12px;
-    margin-bottom: 20px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
 }
 
 #financeTransactionsList {
@@ -77,4 +76,37 @@
 
 .finance-csv-export-modal-content {
     max-width: 680px;
+}
+
+.finance-top-buyer-card {
+    grid-column: 1 / -1;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.finance-top-buyer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+}
+
+.finance-top-buyer .inline-player {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.finance-top-buyer .inline-player span {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+}
+
+.finance-top-buyer-total {
+    color: var(--success-color);
+    font-weight: 800;
+    white-space: nowrap;
+    font-size: 1.2em;
 }

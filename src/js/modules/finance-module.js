@@ -11,7 +11,7 @@ const btnCloseFinanceCsvExportModal = document.getElementById("btnCloseFinanceCs
 const btnCancelFinanceCsvExport = document.getElementById("btnCancelFinanceCsvExport");
 const btnConfirmFinanceCsvExport = document.getElementById("btnConfirmFinanceCsvExport");
 
-let currentFinancePeriod = "today";
+let currentFinancePeriod = "7days";
 let currentFilteredFinanceTransactions = [];
 
 // RENDER FINANCE MODULE
@@ -177,9 +177,60 @@ function exportFinanceTransactionsToCsv() {
     showSuccessToast("Transações exportadas com sucesso!");
 }
 
+// GET FINANCE TOP BUYER
+function getFinanceTopBuyer(transactions) {
+    const players = loadPlayers();
+
+    const totalsByPlayer = {};
+
+    transactions.forEach((transaction) => {
+        if (!transaction.playerId) {
+            return;
+        }
+
+        if (!totalsByPlayer[transaction.playerId]) {
+            totalsByPlayer[transaction.playerId] = 0;
+        }
+
+        totalsByPlayer[transaction.playerId] += transaction.amount;
+    });
+
+    let topBuyer = null;
+    let topBuyerTotal = 0;
+
+    Object.entries(totalsByPlayer).forEach(([playerId, total]) => {
+        if (total > topBuyerTotal) {
+            topBuyer = players.find((player) => player.id === playerId) || null;
+            topBuyerTotal = total;
+        }
+    });
+
+    return {
+        player: topBuyer,
+        total: topBuyerTotal
+    };
+}
+
+// CALCULATE AVERAGE TICKET
+function calculateAverageTicket(totalRevenue, transactionsCount) {
+    if (transactionsCount === 0) {
+        return 0;
+    }
+
+    return totalRevenue / transactionsCount;
+}
+
 // RENDER FINANCE SUMMARY
 function renderFinanceSummary(transactions) {
-    const totalRevenue = transactions.reduce((total, transaction) => total + transaction.amount, 0);
+    const totalRevenue = transactions.reduce((total, transaction) => {
+        return total + transaction.amount;
+    }, 0);
+
+    const transactionsCount = transactions.length;
+
+    const averageTicket = calculateAverageTicket(totalRevenue, transactionsCount);
+
+    const topBuyer = getFinanceTopBuyer(transactions);
 
     financeSummaryCards.innerHTML = `
         <div class="dashboard-card">
@@ -198,8 +249,42 @@ function renderFinanceSummary(transactions) {
             </strong>
 
             <span>
-                ${transactions.length}
+                ${transactionsCount}
             </span>
+        </div>
+
+        <div class="dashboard-card">
+            <strong>
+                Ticket Médio
+            </strong>
+
+            <span>
+                ${formatMoney(averageTicket)}
+            </span>
+        </div>
+
+        <div class="dashboard-card finance-top-buyer-card">
+            <strong>
+                Maior Comprador
+            </strong>
+
+            ${
+                topBuyer.player
+                    ? `
+                        <div class="finance-top-buyer">
+                            ${renderPlayerInline(topBuyer.player, 36)}
+
+                            <span class="finance-top-buyer-total">
+                                ${formatMoney(topBuyer.total)}
+                            </span>
+                        </div>
+                    `
+                    : `
+                        <span>
+                            -
+                        </span>
+                    `
+            }
         </div>
     `;
 }
