@@ -210,6 +210,36 @@
     white-space: nowrap;
 }
 
+.report-ha-header {
+    display: grid;
+    grid-template-columns: 42px 64px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.report-ha-header .report-pokemon-info h3 {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.report-ha-header .pokemon-ha-label {
+    white-space: nowrap;
+}
+
+.report-ha-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.report-ha-list .report-pokemon-card {
+    width: 100%;
+}
+
 @media (max-width: 520px) {
     .reports-tabs {
         flex-direction: column;

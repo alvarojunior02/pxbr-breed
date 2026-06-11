@@ -285,7 +285,7 @@ function renderTopSellingHAReport() {
         .map((item, index) => {
             return `
                 <article class="report-pokemon-card">
-                    <div class="report-pokemon-header">
+                    <div class="report-ha-header">
                         <span class="report-position">
                             ${index + 1}º
                         </span>
@@ -343,7 +343,7 @@ function renderTopSellingHAReport() {
                 </div>
             </div>
 
-            <div class="report-pokemon-list">
+            <div class="report-ha-list">
                 ${cards}
             </div>
         </section>
