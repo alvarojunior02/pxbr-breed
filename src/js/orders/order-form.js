@@ -849,7 +849,7 @@ function renderSelectedPlayerInfo(player) {
     selectedPlayerInfo.innerHTML = `
         <div class="selected-player-card">
             <h3>
-                ${player.nick}
+                ${renderPlayerInline(player, 32)}
             </h3>
 
             <p>
@@ -898,9 +898,10 @@ function renderOrderSummary(order) {
                 Confirmar Encomenda
             </h2>
 
-            <p>
+            <p class="order-summary-player-line">
                 <strong>Cliente:</strong>
-                ${player.nick}
+
+                ${renderPlayerInline(player, 28)}
             </p>
         </div>
 

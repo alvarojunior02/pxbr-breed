@@ -32,7 +32,11 @@ function renderOrderDetails(order) {
 
         <p>
             <strong>Cliente:</strong>
-            ${player?.nick ?? "-"}
+            <p class="order-details-player-line">
+                <strong>Cliente:</strong>
+
+                ${renderPlayerInline(player, 28)}
+            </p>
         </p>
 
         ${

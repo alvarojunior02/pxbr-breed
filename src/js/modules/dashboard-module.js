@@ -258,10 +258,13 @@ function renderTopBuyers() {
                 .map(
                     (item, index) => `
                         <div class="top-buyer-item">
-                            <strong>
-                                ${index + 1}º
-                                ${item.player.nick}
-                            </strong>
+                             <div class="dashboard-ranking-player">
+                                <span class="dashboard-ranking-position">
+                                    ${index + 1}º
+                                </span>
+
+                                ${renderPlayerInline(item.player, 26)}
+                            </div>
 
                             <span>
                                 ${formatMoney(item.totalPaid)}
@@ -304,7 +307,7 @@ function renderDashboardRecentTransactions() {
                         </td>
 
                         <td>
-                            ${player?.nick || "-"}
+                            ${renderPlayerInline(player, 24)}
                         </td>
 
                         <td class="finance-value">

@@ -174,3 +174,38 @@
 #newPlayerModal .modal-content {
     max-width: 720px;
 }
+
+.inline-player {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    vertical-align: middle;
+    line-height: 1;
+}
+
+.inline-player-avatar {
+    border-radius: 0.35rem;
+    image-rendering: pixelated;
+    border: 1px solid var(--border-color);
+    background: var(--card-background);
+    flex-shrink: 0;
+    display: block;
+}
+
+.inline-player-avatar {
+    border-radius: 0.35rem;
+    image-rendering: pixelated;
+    border: 1px solid var(--border-color);
+    background: var(--card-background);
+    flex-shrink: 0;
+}
+
+.table-link .inline-player {
+    pointer-events: none;
+}
+
+.player-transactions-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}

@@ -428,8 +428,8 @@ function openPlayerTransactionsModal(playerId) {
         .join("");
 
     playerTransactionsContent.innerHTML = `
-        <h3>
-            ${player.nick}
+        <h3 class="player-transactions-title">
+            ${renderPlayerInline(player, 32)}
         </h3>
 
         ${

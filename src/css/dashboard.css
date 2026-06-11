@@ -147,3 +147,16 @@
         width: 100%;
     }
 }
+
+.dashboard-ranking-player {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dashboard-ranking-position {
+    min-width: 24px;
+    font-weight: 800;
+    color: var(--success-color);
+    line-height: 1;
+}

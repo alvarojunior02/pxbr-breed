@@ -415,3 +415,15 @@
     width: fit-content;
     margin-top: 0.25rem;
 }
+
+.order-details-player-line {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.order-summary-player-line {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}

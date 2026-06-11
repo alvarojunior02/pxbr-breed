@@ -25,5 +25,38 @@ function formatDateTime(date) {
     });
 }
 
+function renderPlayerAvatar(player, size = 28) {
+    if (!player) {
+        return "";
+    }
+
+    const avatarUrl = player.avatarUrl || getMinecraftAvatarUrl(player.nick);
+
+    return `
+        <img
+            src="${avatarUrl}"
+            alt="${player.nick}"
+            class="inline-player-avatar"
+            style="width: ${size}px; height: ${size}px;"
+            onerror="this.src='${getDefaultMinecraftAvatarUrl()}'">
+    `;
+}
+
+function renderPlayerInline(player, size = 28) {
+    if (!player) {
+        return `<span>-</span>`;
+    }
+
+    return `
+        <span class="inline-player">
+            ${renderPlayerAvatar(player, size)}
+
+            <span>
+                ${player.nick}
+            </span>
+        </span>
+    `;
+}
+
 window.formatMoney = formatMoney;
 window.formatDateTime = formatDateTime;

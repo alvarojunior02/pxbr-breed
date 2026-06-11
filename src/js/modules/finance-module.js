@@ -246,7 +246,7 @@ function renderFinanceTransactions(transactions) {
                             class="table-link"
                             onclick="openPlayerSummaryModal('${transaction.playerId}')">
 
-                            ${player?.nick || "-"}
+                            ${renderPlayerInline(player, 26)}
 
                         </button>
                     </td>
