@@ -295,6 +295,38 @@
     color: var(--danger);
 }
 
+.reports-period-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.reports-period-button {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    border-radius: 0.75rem;
+    padding: 0.65rem 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.reports-period-button:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+.reports-period-button.active {
+    background: rgba(37, 99, 235, 0.18);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
 @media (max-width: 520px) {
     .reports-tabs {
         flex-direction: column;
@@ -332,5 +364,13 @@
     .report-ha-header .report-total-revenue {
         grid-column: 1 / -1;
         text-align: left;
+    }
+
+    .reports-period-filters {
+        flex-direction: column;
+    }
+
+    .reports-period-button {
+        width: 100%;
     }
 }

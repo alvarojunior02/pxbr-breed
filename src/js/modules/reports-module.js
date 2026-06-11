@@ -1,8 +1,11 @@
 const reportsContent = document.getElementById("reportsContent");
 const reportTabs = document.querySelectorAll(".reports-tab");
+const reportPeriodButtons = document.querySelectorAll(".reports-period-button");
 
 let currentReport = "top-pokemon";
+let currentReportsPeriod = "7days";
 
+// RENDER COMING SOON REPORT
 function renderComingSoonReport(title, description) {
     return `
         <section class="reports-section-card">
@@ -19,8 +22,59 @@ function renderComingSoonReport(title, description) {
     `;
 }
 
-function getPokemonSalesReport() {
+// GET ORDER REPORT DATE
+function getOrderReportDate(order) {
+    return new Date(order.createdAt || order.updatedAt || order.archivedAt || 0);
+}
+
+// GET FILTERED ORDERS BY REPORT PERIOD
+function getFilteredOrdersByReportPeriod() {
     const orders = loadOrders();
+
+    const now = new Date();
+
+    return orders.filter((order) => {
+        const orderDate = getOrderReportDate(order);
+
+        if (Number.isNaN(orderDate.getTime())) {
+            return currentReportsPeriod === "all";
+        }
+
+        if (currentReportsPeriod === "today") {
+            return orderDate.toDateString() === now.toDateString();
+        }
+
+        if (currentReportsPeriod === "7days") {
+            const limitDate = new Date();
+            limitDate.setDate(now.getDate() - 7);
+            limitDate.setHours(0, 0, 0, 0);
+
+            return orderDate >= limitDate;
+        }
+
+        if (currentReportsPeriod === "30days") {
+            const limitDate = new Date();
+            limitDate.setDate(now.getDate() - 30);
+            limitDate.setHours(0, 0, 0, 0);
+
+            return orderDate >= limitDate;
+        }
+
+        if (currentReportsPeriod === "month") {
+            return (
+                orderDate.getMonth() === now.getMonth() &&
+                orderDate.getFullYear() === now.getFullYear()
+            );
+        }
+
+        return true;
+    });
+}
+
+// GET POKEMON SALES REPORT
+function getPokemonSalesReport() {
+    const orders = getFilteredOrdersByReportPeriod();
+
     const reportMap = {};
 
     orders.forEach((order) => {
@@ -177,7 +231,7 @@ function renderTopSellingPokemonReport() {
 
 // GET TOP SELLING HA REPORT
 function getTopSellingHAReport() {
-    const orders = loadOrders();
+    const orders = getFilteredOrdersByReportPeriod();
 
     const reportMap = {};
 
@@ -245,36 +299,39 @@ function getTopSellingHAReport() {
 // GET PLAYERS FINANCIAL REPORT
 function getPlayersFinancialReport() {
     const players = loadPlayers();
-    const orders = loadOrders();
+    const orders = getFilteredOrdersByReportPeriod();
 
-    return players.map((player) => {
-        const playerOrders = orders.filter((order) => order.playerId === player.id);
+    return players
+        .map((player) => {
+            const playerOrders = orders.filter((order) => {
+                return order.playerId === player.id;
+            });
 
-        const totalPurchased = playerOrders.reduce((sum, order) => {
-            return sum + (order.total || 0);
-        }, 0);
+            const totalPurchased = playerOrders.reduce((sum, order) => {
+                return sum + (order.total || 0);
+            }, 0);
 
-        const totalPaid = playerOrders.reduce((sum, order) => {
-            return sum + (order.paidAmount || 0);
-        }, 0);
+            const totalPaid = playerOrders.reduce((sum, order) => {
+                return sum + (order.paidAmount || 0);
+            }, 0);
 
-        const totalPending = totalPurchased - totalPaid;
+            const totalPending = totalPurchased - totalPaid;
 
-        const pokemonsCount = playerOrders.reduce(
-            (sum, order) => sum + (order.pokemons?.length || 0),
-            0
-        );
+            const pokemonsCount = playerOrders.reduce((sum, order) => {
+                return sum + (order.pokemons?.length || 0);
+            }, 0);
 
-        return {
-            player,
-            totalPurchased,
-            totalPaid,
-            totalPending,
-            ordersCount: playerOrders.length,
-            pokemonsCount,
-            averageTicket: playerOrders.length > 0 ? totalPurchased / playerOrders.length : 0
-        };
-    });
+            return {
+                player,
+                totalPurchased,
+                totalPaid,
+                totalPending,
+                ordersCount: playerOrders.length,
+                pokemonsCount,
+                averageTicket: playerOrders.length > 0 ? totalPurchased / playerOrders.length : 0
+            };
+        })
+        .filter((item) => item.ordersCount > 0);
 }
 
 // RENDER TOP SELLING HA REPORT
@@ -566,7 +623,12 @@ function renderTopDebtorsReport() {
     `;
 }
 
+// RENDER REPORTS MODULE
 function renderReportsModule() {
+    reportPeriodButtons.forEach((button) => {
+        button.classList.toggle("active", button.dataset.period === currentReportsPeriod);
+    });
+
     reportTabs.forEach((tab) => {
         tab.classList.toggle("active", tab.dataset.report === currentReport);
     });
@@ -591,6 +653,14 @@ function renderReportsModule() {
         return;
     }
 }
+
+reportPeriodButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+        currentReportsPeriod = button.dataset.period;
+
+        renderReportsModule();
+    });
+});
 
 reportTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
