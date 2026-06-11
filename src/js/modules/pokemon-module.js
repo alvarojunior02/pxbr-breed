@@ -833,19 +833,16 @@ function createOwnedHACard(item) {
                     onclick="openEditOwnedHAModal('${item.id}')">
                     Editar
                 </button>
-
-                <button
-                    type="button"
-                    class="button-danger"
-                    onclick="deleteOwnedHA('${item.id}')">
-                    Remover
-                </button>
             </div>
         </article>
     `;
 }
 
 function deleteOwnedHA(hiddenAbilityId) {
+    showWarningToast("A remoção de HAs está desabilitada por segurança.");
+
+    return;
+
     const confirmed = confirm("Deseja remover esta HA da sua lista?");
 
     if (!confirmed) {
