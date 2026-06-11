@@ -418,12 +418,16 @@ function renderTopBuyersReport() {
 
                         <div>
                             <span>Pago</span>
-                            <strong>${formatMoney(item.totalPaid)}</strong>
+                            <strong class="report-positive-value">
+                                ${formatMoney(item.totalPaid)}
+                            </strong>
                         </div>
 
                         <div>
                             <span>Pendente</span>
-                            <strong>${formatMoney(item.totalPending)}</strong>
+                            <strong class="report-danger-value">
+                                ${formatMoney(item.totalPending)}
+                            </strong>
                         </div>
 
                         <div>
