@@ -1,4 +1,23 @@
 const reportsContent = document.getElementById("reportsContent");
+const reportTabs = document.querySelectorAll(".reports-tab");
+
+let currentReport = "top-pokemon";
+
+function renderComingSoonReport(title, description) {
+    return `
+        <section class="reports-section-card">
+            <div class="reports-empty-card">
+                <strong>
+                    ${title}
+                </strong>
+
+                <span>
+                    ${description}
+                </span>
+            </div>
+        </section>
+    `;
+}
 
 function getPokemonSalesReport() {
     const orders = loadOrders();
@@ -131,8 +150,46 @@ function renderTopSellingPokemonReport() {
 }
 
 function renderReportsModule() {
-    reportsContent.innerHTML = renderTopSellingPokemonReport();
+    reportTabs.forEach((tab) => {
+        tab.classList.toggle("active", tab.dataset.report === currentReport);
+    });
+
+    if (currentReport === "top-pokemon") {
+        reportsContent.innerHTML = renderTopSellingPokemonReport();
+        return;
+    }
+
+    if (currentReport === "top-ha") {
+        reportsContent.innerHTML = renderComingSoonReport(
+            "🧬 HAs mais vendidas",
+            "Este relatório será implementado na próxima etapa."
+        );
+        return;
+    }
+
+    if (currentReport === "top-buyers") {
+        reportsContent.innerHTML = renderComingSoonReport(
+            "👑 Players que mais compraram",
+            "Este relatório mostrará os clientes com maior valor comprado."
+        );
+        return;
+    }
+
+    if (currentReport === "top-debtors") {
+        reportsContent.innerHTML = renderComingSoonReport(
+            "⚠️ Players que mais devem",
+            "Este relatório mostrará os clientes com maior valor pendente."
+        );
+        return;
+    }
 }
+
+reportTabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+        currentReport = tab.dataset.report;
+        renderReportsModule();
+    });
+});
 
 renderReportsModule();
 

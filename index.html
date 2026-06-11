@@ -341,13 +341,25 @@
                         </div>
                     </div>
 
-                    <div id="reportsContent">
-                        <div class="dashboard-card">
-                            <strong> Em desenvolvimento </strong>
+                    <div class="reports-tabs">
+                        <button type="button" class="reports-tab active" data-report="top-pokemon">
+                            🏆 Pokémons mais vendidos
+                        </button>
 
-                            <span> Os relatórios serão exibidos aqui. </span>
-                        </div>
+                        <button type="button" class="reports-tab" data-report="top-ha">
+                            🧬 HAs mais vendidas
+                        </button>
+
+                        <button type="button" class="reports-tab" data-report="top-buyers">
+                            👑 Players que mais compraram
+                        </button>
+
+                        <button type="button" class="reports-tab" data-report="top-debtors">
+                            ⚠️ Players que mais devem
+                        </button>
                     </div>
+
+                    <div id="reportsContent"></div>
                 </section>
 
                 <section id="settingsSection" class="app-section hidden">

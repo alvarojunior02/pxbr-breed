@@ -4,6 +4,38 @@
     gap: 1rem;
 }
 
+.reports-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.reports-tab {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.reports-tab:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+.reports-tab.active {
+    background: rgba(37, 99, 235, 0.18);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
 .reports-section-card {
     background: var(--card-background);
     border: 1px solid var(--border-color);
@@ -122,6 +154,14 @@
 }
 
 @media (max-width: 520px) {
+    .reports-tabs {
+        flex-direction: column;
+    }
+
+    .reports-tab {
+        width: 100%;
+    }
+
     .report-pokemon-list {
         grid-template-columns: 1fr;
     }
