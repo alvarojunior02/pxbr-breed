@@ -1,5 +1,3 @@
-const CSV_SEPARATOR = ";";
-
 const financeSummaryCards = document.getElementById("financeSummaryCards");
 const financeTransactionsList = document.getElementById("financeTransactionsList");
 const financeTransactionsCount = document.getElementById("financeTransactionsCount");
@@ -40,17 +38,6 @@ function getFinancePeriodLabel(period) {
     };
 
     return labels[period] || "Período selecionado";
-}
-
-// ESCAPE CSV VALUE
-function escapeCsvValue(value) {
-    const stringValue = String(value ?? "");
-
-    if (stringValue.includes(",") || stringValue.includes('"') || stringValue.includes("\n")) {
-        return `"${stringValue.replace(/"/g, '""')}"`;
-    }
-
-    return stringValue;
 }
 
 // GET FINANCE CSV EXPORT SUMMARY
@@ -149,30 +136,11 @@ function exportFinanceTransactionsToCsv() {
         ];
     });
 
-    const csvContent = [headers, ...rows]
-        .map((row) => row.map(escapeCsvValue).join(CSV_SEPARATOR))
-        .join("\n");
+    const timestamp = getCsvTimestamp();
 
-    const blob = new Blob([csvContent], {
-        type: "text/csv;charset=utf-8;"
-    });
+    const fileName = `pxbr-finance-transactions-${currentFinancePeriod}-${timestamp}.csv`;
 
-    const url = URL.createObjectURL(blob);
-
-    const timestamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
-
-    const link = document.createElement("a");
-
-    link.href = url;
-    link.download = `pxbr-finance-transactions-${currentFinancePeriod}-${timestamp}.csv`;
-
-    document.body.appendChild(link);
-
-    link.click();
-
-    link.remove();
-
-    URL.revokeObjectURL(url);
+    downloadCsv(fileName, [headers, ...rows]);
 
     showSuccessToast("Transações exportadas com sucesso!");
 }

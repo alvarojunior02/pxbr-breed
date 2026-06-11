@@ -708,51 +708,11 @@ function renderReportsModule() {
     }
 }
 
-// ESPACE REPORT CSV VALUE
-function escapeReportCsvValue(value) {
-    const stringValue = String(value ?? "");
-
-    if (stringValue.includes(";") || stringValue.includes('"') || stringValue.includes("\n")) {
-        return `"${stringValue.replace(/"/g, '""')}"`;
-    }
-
-    return stringValue;
-}
-
-// DOWNLOAD REPORT CSV
-function downloadReportCsv(fileName, rows) {
-    const csvContent = rows.map((row) => row.map(escapeReportCsvValue).join(";")).join("\n");
-
-    const blob = new Blob([csvContent], {
-        type: "text/csv;charset=utf-8;"
-    });
-
-    const url = URL.createObjectURL(blob);
-
-    const link = document.createElement("a");
-
-    link.href = url;
-    link.download = fileName;
-
-    document.body.appendChild(link);
-
-    link.click();
-
-    link.remove();
-
-    URL.revokeObjectURL(url);
-}
-
-// GET REPORT CSV TIMESTAMP
-function getReportCsvTimestamp() {
-    return new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
-}
-
 // GET REPORT CSV FILE NAME
 function getReportCsvFileName(reportType) {
     const reportName = REPORT_FILE_NAMES[reportType] || "report";
 
-    return `pxbr-report-${reportName}-${currentReportsPeriod}-${getReportCsvTimestamp()}.csv`;
+    return `pxbr-report-${reportName}-${currentReportsPeriod}-${getCsvTimestamp()}.csv`;
 }
 
 // GET TOP POKEMONS CSV ROWS
@@ -978,7 +938,7 @@ function confirmReportCsvExport() {
         return;
     }
 
-    downloadReportCsv(pendingReportCsvExport.fileName, pendingReportCsvExport.rows);
+    downloadCsv(pendingReportCsvExport.fileName, pendingReportCsvExport.rows);
 
     showSuccessToast("Relatório exportado com sucesso!");
 
