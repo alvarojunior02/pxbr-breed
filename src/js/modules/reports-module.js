@@ -297,7 +297,7 @@ function renderTopSellingHAReport() {
                         <div class="report-pokemon-info">
                             <h3>
                                 ${item.abilityName}
-                                <small class="pokemon-ha-label">(<span>HA</span>)</small>
+                                <small class="pokemon-ha-label">(HA)</small>
                             </h3>
 
                             <span>
