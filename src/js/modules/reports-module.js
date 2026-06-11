@@ -29,7 +29,7 @@ function getPokemonSalesReport() {
                 reportMap[pokemon.pokemonId] = {
                     pokemonId: pokemon.pokemonId,
                     pokemonName: pokemon.pokemonName,
-                    sprite: pokemon.sprite,
+                    sprite: getPokemonReportSprite(pokemon),
                     totalCount: 0,
                     totalRevenue: 0,
                     registered: { count: 0, revenue: 0 },
@@ -75,6 +75,28 @@ function getPokemonSalesReport() {
     });
 }
 
+// GET POKEMON REPORT SPRITE
+function getPokemonReportSprite(pokemon) {
+    const pokemonId = Number(pokemon.pokemonId);
+
+    const pokedexPokemon = getPokemonById(pokemonId);
+
+    if (pokedexPokemon?.sprite) {
+        return pokedexPokemon.sprite;
+    }
+
+    if (pokedexPokemon?.sprites?.front_default) {
+        return pokedexPokemon.sprites.front_default;
+    }
+
+    if (pokemon.sprite) {
+        return pokemon.sprite;
+    }
+
+    return "";
+}
+
+// RENDER REPORT CATEGORY
 function renderReportCategory(label, data) {
     if (data.count === 0) {
         return "";
@@ -88,6 +110,7 @@ function renderReportCategory(label, data) {
     `;
 }
 
+// RENDER TOP SELLING POKEMON REPORT
 function renderTopSellingPokemonReport() {
     const report = getPokemonSalesReport().slice(0, 10);
 
@@ -108,7 +131,10 @@ function renderTopSellingPokemonReport() {
                         <span class="report-position">${index + 1}º</span>
 
                         <div class="report-pokemon-image-wrapper">
-                            <img src="${item.sprite}" alt="${item.pokemonName}">
+                            <img
+                                src="${item.sprite}"
+                                alt="${item.pokemonName}"
+                                onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${item.pokemonId}.png'">
                         </div>
 
                         <div class="report-pokemon-info">
@@ -191,7 +217,7 @@ function getTopSellingHAReport() {
                 item.pokemons[pokemon.pokemonId] = {
                     pokemonId: pokemon.pokemonId,
                     pokemonName: pokemon.pokemonName,
-                    sprite: pokemon.sprite,
+                    sprite: getPokemonReportSprite(pokemon),
                     count: 0,
                     revenue: 0
                 };
@@ -225,7 +251,8 @@ function renderHAPokemonList(pokemons) {
                 <div class="report-ha-pokemon">
                     <img
                         src="${pokemon.sprite}"
-                        alt="${pokemon.pokemonName}">
+                        alt="${pokemon.pokemonName}"
+                        onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.pokemonId}.png'">
 
                     <span>
                         ${pokemon.pokemonName}

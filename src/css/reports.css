@@ -72,7 +72,7 @@
 
 .report-pokemon-header {
     display: grid;
-    grid-template-columns: auto 64px 1fr auto;
+    grid-template-columns: 42px 64px minmax(220px, 1fr) auto;
     align-items: center;
     gap: 0.75rem;
 }
@@ -100,8 +100,20 @@
     image-rendering: pixelated;
 }
 
+.report-pokemon-info {
+    min-width: 0;
+}
+
 .report-pokemon-info h3 {
+    display: block;
     margin: 0;
+    white-space: normal;
+    line-height: 1.25;
+}
+
+.report-pokemon-info .pokemon-ha-label {
+    white-space: nowrap;
+    display: inline-block;
 }
 
 .report-pokemon-info span {
@@ -177,6 +189,8 @@
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
+    min-width: 0;
+    max-width: 100%;
 
     background: rgba(255, 255, 255, 0.04);
     border-radius: 999px;
@@ -193,6 +207,7 @@
 .report-ha-pokemon span {
     font-size: 0.8rem;
     font-weight: 700;
+    white-space: nowrap;
 }
 
 @media (max-width: 520px) {
