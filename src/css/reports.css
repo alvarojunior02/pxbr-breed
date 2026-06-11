@@ -287,6 +287,14 @@
     font-size: 0.95rem;
 }
 
+.report-positive-value {
+    color: var(--success);
+}
+
+.report-danger-value {
+    color: var(--danger);
+}
+
 @media (max-width: 520px) {
     .reports-tabs {
         flex-direction: column;

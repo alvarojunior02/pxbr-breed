@@ -468,6 +468,100 @@ function renderTopBuyersReport() {
     `;
 }
 
+// RENDER TOP DEBTORS REPORT
+function renderTopDebtorsReport() {
+    const report = getPlayersFinancialReport()
+        .filter((item) => item.totalPending > 0)
+        .sort((a, b) => b.totalPending - a.totalPending)
+        .slice(0, 20);
+
+    if (!report.length) {
+        return `
+            <section class="reports-section-card">
+                <div class="reports-empty-card">
+                    <strong>
+                        Nenhum player com pendência encontrado
+                    </strong>
+
+                    <span>
+                        Todos os clientes estão sem valores pendentes.
+                    </span>
+                </div>
+            </section>
+        `;
+    }
+
+    const cards = report
+        .map((item, index) => {
+            return `
+                <article class="report-player-card">
+                    <div class="report-player-header">
+                        <span class="report-position">
+                            ${index + 1}º
+                        </span>
+
+                        ${renderPlayerInline(item.player, 48)}
+                    </div>
+
+                    <div class="report-player-metrics">
+                        <div>
+                            <span>Total Comprado</span>
+                            <strong>${formatMoney(item.totalPurchased)}</strong>
+                        </div>
+
+                        <div>
+                            <span>Pago</span>
+                            <strong class="report-positive-value">
+                                ${formatMoney(item.totalPaid)}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Pendente</span>
+                            <strong class="report-danger-value">
+                                ${formatMoney(item.totalPending)}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Encomendas</span>
+                            <strong>${item.ordersCount}</strong>
+                        </div>
+
+                        <div>
+                            <span>Pokémons</span>
+                            <strong>${item.pokemonsCount}</strong>
+                        </div>
+
+                        <div>
+                            <span>Ticket Médio</span>
+                            <strong>${formatMoney(item.averageTicket)}</strong>
+                        </div>
+                    </div>
+                </article>
+            `;
+        })
+        .join("");
+
+    return `
+        <section class="reports-section-card">
+            <div class="reports-section-header">
+                <div>
+                    <h3>⚠️ Players que Mais Devem</h3>
+
+                    <p>
+                        Ranking baseado nos maiores valores pendentes.
+                    </p>
+                </div>
+            </div>
+
+            <div class="report-player-list">
+                ${cards}
+            </div>
+        </section>
+    `;
+}
+
 function renderReportsModule() {
     reportTabs.forEach((tab) => {
         tab.classList.toggle("active", tab.dataset.report === currentReport);
@@ -489,10 +583,7 @@ function renderReportsModule() {
     }
 
     if (currentReport === "top-debtors") {
-        reportsContent.innerHTML = renderComingSoonReport(
-            "⚠️ Players que mais devem",
-            "Este relatório mostrará os clientes com maior valor pendente."
-        );
+        reportsContent.innerHTML = renderTopDebtorsReport();
         return;
     }
 }
