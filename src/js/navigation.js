@@ -41,14 +41,16 @@ navLinks.forEach((link) => {
 
 if (btnToggleSidebar && appSidebar) {
     btnToggleSidebar.addEventListener("click", () => {
-        if (window.innerWidth > 900) {
-            appSidebar.classList.toggle("collapsed");
+        if (!appSidebar) {
             return;
         }
 
-        appSidebar.classList.toggle("menu-open");
-        appSidebar.classList.remove("auto-collapsed");
-        shouldRestoreMobileMenuOnTop = false;
+        if (isMobileNavigation()) {
+            appSidebar.classList.toggle("menu-open");
+            return;
+        }
+
+        appSidebar.classList.toggle("collapsed");
     });
 }
 
@@ -85,8 +87,13 @@ window.addEventListener("resize", () => {
         return;
     }
 
-    if (!isMobileNavigation()) {
-        appSidebar.classList.remove("auto-collapsed");
-        shouldRestoreMobileMenuOnTop = false;
+    if (isMobileNavigation()) {
+        appSidebar.classList.remove("collapsed");
+        return;
     }
+
+    appSidebar.classList.remove("menu-open");
+    appSidebar.classList.remove("auto-collapsed");
+
+    shouldRestoreMobileMenuOnTop = false;
 });

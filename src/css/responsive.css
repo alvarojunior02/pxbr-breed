@@ -1,90 +1,24 @@
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .app-layout {
         flex-direction: column;
     }
 
     .sidebar {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+
         width: 100%;
+        height: auto;
+        overflow: visible;
+
+        background: var(--bg);
         border-right: none;
         border-bottom: 1px solid var(--border);
     }
 
-    .main-content {
-        padding: 16px;
-    }
-
-    .modal-content {
-        width: calc(100vw - 24px);
-    }
-
-    .pokemon-extra-fields {
-        grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr) minmax(100px, 140px);
-    }
-
-    .pokemon-breedable-wrapper {
-        margin-top: 0;
-    }
-}
-
-@media (max-width: 600px) {
-    .dashboard-card {
-        padding: 6px 4px;
-        gap: 4px;
-    }
-
-    .dashboard-card strong {
-        font-size: 0.5rem;
-    }
-
-    .dashboard-card span {
-        font-size: 0.75rem;
-    }
-
-    .dashboard-archived-count {
-        font-size: 0.48rem;
-    }
-
-    .dashboard-group-grid {
-        gap: 5px;
-    }
-
-    .orders-filters {
-        grid-template-columns: 1fr;
-    }
-
-    #financeSummaryCards {
-        gap: 6px;
-    }
-
-    #financeSummaryCards .dashboard-card {
-        padding: 8px 4px;
-    }
-
-    #financeSummaryCards .dashboard-card strong {
-        font-size: 0.55rem;
-    }
-
-    #financeSummaryCards .dashboard-card span {
-        font-size: 0.75rem;
-    }
-}
-
-@media (max-width: 900px) {
-    .orders-filters {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    #orderModal .modal-content {
-        width: calc(100vw - 24px);
-    }
-
-    .order-summary-extra-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .order-summary-header {
-        align-items: flex-start;
-        flex-direction: column;
+    .sidebar-header {
+        margin-bottom: 0.75rem;
     }
 
     .sidebar-nav {
@@ -137,25 +71,6 @@
         display: inline;
     }
 
-    .sidebar-header {
-        margin-bottom: 0.75rem;
-    }
-
-    .sidebar {
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-
-        background: var(--bg);
-        border-bottom: 1px solid var(--border);
-
-        height: auto;
-        overflow: visible;
-
-        transition:
-            padding 0.25s ease,
-            box-shadow 0.25s ease;
-    }
     .sidebar.auto-collapsed {
         box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
     }
@@ -185,5 +100,81 @@
 
     .sidebar.collapsed .sidebar-title {
         display: block;
+    }
+
+    .main-content {
+        padding: 16px;
+    }
+
+    .modal-content {
+        width: calc(100vw - 24px);
+    }
+
+    .orders-filters {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    #orderModal .modal-content {
+        width: calc(100vw - 24px);
+    }
+
+    .order-summary-extra-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .order-summary-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .pokemon-extra-fields {
+        grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr) minmax(100px, 140px);
+    }
+
+    .pokemon-breedable-wrapper {
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboard-card {
+        padding: 6px 4px;
+        gap: 4px;
+    }
+
+    .dashboard-card strong {
+        font-size: 0.5rem;
+    }
+
+    .dashboard-card span {
+        font-size: 0.75rem;
+    }
+
+    .dashboard-archived-count {
+        font-size: 0.48rem;
+    }
+
+    .dashboard-group-grid {
+        gap: 5px;
+    }
+
+    .orders-filters {
+        grid-template-columns: 1fr;
+    }
+
+    #financeSummaryCards {
+        gap: 6px;
+    }
+
+    #financeSummaryCards .dashboard-card {
+        padding: 8px 4px;
+    }
+
+    #financeSummaryCards .dashboard-card strong {
+        font-size: 0.55rem;
+    }
+
+    #financeSummaryCards .dashboard-card span {
+        font-size: 0.75rem;
     }
 }
