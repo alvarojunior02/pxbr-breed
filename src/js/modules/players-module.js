@@ -288,6 +288,17 @@ function savePlayerFromModal() {
         return;
     }
 
+    const minecraftNickRegex = /^[A-Za-z0-9_]{3,16}$/;
+
+    if (!minecraftNickRegex.test(nick)) {
+        showToast(
+            "Nick inválido. Utilize apenas letras, números e underscore (_), entre 3 e 16 caracteres.",
+            "warning"
+        );
+
+        return;
+    }
+
     const players = loadPlayers();
 
     const nickAlreadyExists = players.some((player) => {
