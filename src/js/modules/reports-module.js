@@ -149,6 +149,180 @@ function renderTopSellingPokemonReport() {
     `;
 }
 
+// GET TOP SELLING HA REPORT
+function getTopSellingHAReport() {
+    const orders = loadOrders();
+
+    const reportMap = {};
+
+    orders.forEach((order) => {
+        order.pokemons.forEach((pokemon) => {
+            const isHA = pokemon.ability?.isHA;
+
+            if (!isHA) {
+                return;
+            }
+
+            const abilityName = pokemon.ability.name;
+
+            if (!reportMap[abilityName]) {
+                reportMap[abilityName] = {
+                    abilityName,
+                    totalCount: 0,
+                    totalRevenue: 0,
+                    haRegistered: {
+                        count: 0,
+                        revenue: 0
+                    },
+                    haBreedable: {
+                        count: 0,
+                        revenue: 0
+                    },
+                    pokemons: {}
+                };
+            }
+
+            const item = reportMap[abilityName];
+
+            item.totalCount += 1;
+            item.totalRevenue += pokemon.value;
+
+            if (!item.pokemons[pokemon.pokemonId]) {
+                item.pokemons[pokemon.pokemonId] = {
+                    pokemonId: pokemon.pokemonId,
+                    pokemonName: pokemon.pokemonName,
+                    sprite: pokemon.sprite,
+                    count: 0,
+                    revenue: 0
+                };
+            }
+
+            item.pokemons[pokemon.pokemonId].count += 1;
+            item.pokemons[pokemon.pokemonId].revenue += pokemon.value;
+
+            if (pokemon.breedable) {
+                item.haBreedable.count += 1;
+                item.haBreedable.revenue += pokemon.value;
+                return;
+            }
+
+            item.haRegistered.count += 1;
+            item.haRegistered.revenue += pokemon.value;
+        });
+    });
+
+    return Object.values(reportMap).sort((a, b) => {
+        return b.totalCount - a.totalCount || b.totalRevenue - a.totalRevenue;
+    });
+}
+
+// RENDER HA POKEMON LIST
+function renderHAPokemonList(pokemons) {
+    return Object.values(pokemons)
+        .sort((a, b) => b.count - a.count || b.revenue - a.revenue)
+        .map((pokemon) => {
+            return `
+                <div class="report-ha-pokemon">
+                    <img
+                        src="${pokemon.sprite}"
+                        alt="${pokemon.pokemonName}">
+
+                    <span>
+                        ${pokemon.pokemonName}
+                    </span>
+                </div>
+            `;
+        })
+        .join("");
+}
+
+// RENDER TOP SELLING HA REPORT
+function renderTopSellingHAReport() {
+    const report = getTopSellingHAReport().slice(0, 10);
+
+    if (report.length === 0) {
+        return `
+            <div class="reports-empty-card">
+                <strong>
+                    Nenhum dado encontrado
+                </strong>
+
+                <span>
+                    Cadastre encomendas com Hidden Ability para visualizar este relatório.
+                </span>
+            </div>
+        `;
+    }
+
+    const cards = report
+        .map((item, index) => {
+            return `
+                <article class="report-pokemon-card">
+                    <div class="report-pokemon-header">
+                        <span class="report-position">
+                            ${index + 1}º
+                        </span>
+
+                        <div class="report-ha-icon">
+                            🧬
+                        </div>
+
+                        <div class="report-pokemon-info">
+                            <h3>
+                                ${item.abilityName}
+                                <small class="pokemon-ha-label">(<span>HA</span>)</small>
+                            </h3>
+
+                            <span>
+                                ${item.totalCount} venda${item.totalCount === 1 ? "" : "s"}
+                            </span>
+                        </div>
+
+                        <div class="report-total-revenue">
+                            <small>
+                                Receita total
+                            </small>
+
+                            <strong>
+                                ${formatMoney(item.totalRevenue)}
+                            </strong>
+                        </div>
+                    </div>
+
+                    <div class="report-ha-pokemon-list">
+                        ${renderHAPokemonList(item.pokemons)}
+                    </div>
+
+                    <div class="report-category-grid">
+                        ${renderReportCategory("HA Castrado", item.haRegistered)}
+                        ${renderReportCategory("HA Breedável", item.haBreedable)}
+                    </div>
+                </article>
+            `;
+        })
+        .join("");
+
+    return `
+        <section class="reports-section-card">
+            <div class="reports-section-header">
+                <div>
+                    <h3>
+                        🧬 HAs Mais Vendidas
+                    </h3>
+
+                    <p>
+                        Ranking baseado nas Hidden Abilities vendidas nas encomendas.
+                    </p>
+                </div>
+            </div>
+
+            <div class="report-pokemon-list">
+                ${cards}
+            </div>
+        </section>
+    `;
+}
+
 function renderReportsModule() {
     reportTabs.forEach((tab) => {
         tab.classList.toggle("active", tab.dataset.report === currentReport);
@@ -160,10 +334,7 @@ function renderReportsModule() {
     }
 
     if (currentReport === "top-ha") {
-        reportsContent.innerHTML = renderComingSoonReport(
-            "🧬 HAs mais vendidas",
-            "Este relatório será implementado na próxima etapa."
-        );
+        reportsContent.innerHTML = renderTopSellingHAReport();
         return;
     }
 
