@@ -281,8 +281,16 @@
                             autocomplete="off"
                         />
 
-                        <span id="playersCounter"></span>
+                        <select id="playerSortSelect">
+                            <option value="recent">Mais recentes</option>
+                            <option value="az">A-Z</option>
+                            <option value="total">Maior valor comprado</option>
+                            <option value="pending">Maior pendência</option>
+                            <option value="orders">Mais encomendas</option>
+                        </select>
                     </div>
+
+                    <span id="playersCounter"></span>
 
                     <div id="playersCards"></div>
                 </section>

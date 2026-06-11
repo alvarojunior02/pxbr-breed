@@ -1,6 +1,7 @@
 const playersCards = document.getElementById("playersCards");
 
 const playerSearchInput = document.getElementById("playerSearchInput");
+const playerSortSelect = document.getElementById("playerSortSelect");
 const playersCounter = document.getElementById("playersCounter");
 
 const btnOpenNewPlayerModal = document.getElementById("btnOpenNewPlayerModal");
@@ -24,10 +25,12 @@ const playerSkinPreview = document.getElementById("playerSkinPreview");
 let shouldSelectCreatedPlayerOnOrderForm = false;
 let editingPlayerId = null;
 
+// GET PLAYER ORDERS
 function getPlayerOrders(playerId) {
     return loadOrders().filter((order) => order.playerId === playerId);
 }
 
+// GET PLAYER FINANCIAL SUMMARY
 function getPlayerFinancialSummary(playerId) {
     const orders = getPlayerOrders(playerId);
 
@@ -43,6 +46,36 @@ function getPlayerFinancialSummary(playerId) {
     };
 }
 
+// SORT PLAYERS
+function sortPlayers(players) {
+    const sortBy = playerSortSelect.value;
+
+    return [...players].sort((playerA, playerB) => {
+        const summaryA = getPlayerFinancialSummary(playerA.id);
+        const summaryB = getPlayerFinancialSummary(playerB.id);
+
+        if (sortBy === "az") {
+            return playerA.nick.localeCompare(playerB.nick, "pt-BR", {
+                sensitivity: "base"
+            });
+        }
+
+        if (sortBy === "total") {
+            return summaryB.total - summaryA.total;
+        }
+
+        if (sortBy === "pending") {
+            return summaryB.pending - summaryA.pending;
+        }
+
+        if (sortBy === "orders") {
+            return summaryB.ordersCount - summaryA.ordersCount;
+        }
+
+        return new Date(playerB.createdAt || 0) - new Date(playerA.createdAt || 0);
+    });
+}
+
 // RENDER PLAYERS MODULE
 function renderPlayersModule() {
     const players = loadPlayers();
@@ -52,6 +85,8 @@ function renderPlayersModule() {
     const filteredPlayers = players.filter((player) => {
         return player.nick.toLowerCase().includes(searchTerm);
     });
+
+    const sortedPlayers = sortPlayers(filteredPlayers);
 
     playersCounter.textContent = `Exibindo ${filteredPlayers.length} de ${players.length} cliente${
         players.length === 1 ? "" : "s"
@@ -69,7 +104,7 @@ function renderPlayersModule() {
         return;
     }
 
-    filteredPlayers.forEach((player) => {
+    sortedPlayers.forEach((player) => {
         const summary = getPlayerFinancialSummary(player.id);
 
         const lastOrder = getPlayerLastOrder(player.id);
@@ -557,6 +592,8 @@ function previewPlayerSkin() {
 }
 
 playerSearchInput.addEventListener("input", renderPlayersModule);
+
+playerSortSelect.addEventListener("change", renderPlayersModule);
 
 btnOpenNewPlayerModal.addEventListener("click", openNewPlayerModal);
 

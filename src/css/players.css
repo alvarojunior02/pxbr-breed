@@ -2,6 +2,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 16px;
+    margin-top: 1rem;
 }
 
 #playersCards .order-card {
@@ -211,14 +212,16 @@
 }
 
 .players-toolbar {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(220px, 420px) minmax(180px, 240px) 1fr;
     align-items: center;
     gap: 1rem;
     margin-bottom: 1rem;
 }
 
-.players-toolbar input {
-    width: min(100%, 420px);
+.players-toolbar input,
+.players-toolbar select {
+    width: 100%;
 }
 
 .players-toolbar span {
