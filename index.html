@@ -435,6 +435,14 @@
                                 Importar Backup
                             </button>
 
+                            <button
+                                type="button"
+                                id="btnOpenBackupHistory"
+                                class="button-secondary"
+                            >
+                                Histórico de Backups
+                            </button>
+
                             <input
                                 type="file"
                                 id="backupImportInput"
@@ -509,6 +517,29 @@
 
                     <button type="button" class="button-success" id="btnConfirmSettingsSave">
                         Confirmar alterações
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Histórico de Backups -->
+        <div id="backupHistoryModal" class="modal hidden">
+            <div class="modal-content backup-history-modal-content">
+                <button type="button" class="modal-close-button" id="btnCloseBackupHistoryModal">
+                    ×
+                </button>
+
+                <h2>Histórico de Backups</h2>
+
+                <p class="settings-confirm-description">
+                    Registro dos backups exportados neste navegador.
+                </p>
+
+                <div id="backupHistoryList" class="backup-history-list"></div>
+
+                <div class="modal-footer">
+                    <button type="button" class="button-secondary" id="btnCloseBackupHistoryFooter">
+                        Fechar
                     </button>
                 </div>
             </div>

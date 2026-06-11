@@ -3,6 +3,8 @@ const DEFAULT_SETTINGS = {
     autoFillOwnedHAPriceOnOrder: true
 };
 
+const BACKUP_HISTORY_STORAGE_KEY = "pxbrBackupHistory";
+
 const settingShowMissingHAWarning = document.getElementById("settingShowMissingHAWarning");
 const settingAutoFillOwnedHAPrice = document.getElementById("settingAutoFillOwnedHAPrice");
 
@@ -22,6 +24,12 @@ const backupExportSummary = document.getElementById("backupExportSummary");
 const btnCloseBackupExportModal = document.getElementById("btnCloseBackupExportModal");
 const btnCancelBackupExport = document.getElementById("btnCancelBackupExport");
 const btnConfirmBackupExport = document.getElementById("btnConfirmBackupExport");
+
+const btnOpenBackupHistory = document.getElementById("btnOpenBackupHistory");
+const backupHistoryModal = document.getElementById("backupHistoryModal");
+const backupHistoryList = document.getElementById("backupHistoryList");
+const btnCloseBackupHistoryModal = document.getElementById("btnCloseBackupHistoryModal");
+const btnCloseBackupHistoryFooter = document.getElementById("btnCloseBackupHistoryFooter");
 
 let currentSettings = loadSystemSettings();
 let draftSettings = { ...currentSettings };
@@ -241,6 +249,96 @@ function closeBackupExportConfirmModal() {
     }
 }
 
+function loadBackupHistory() {
+    return JSON.parse(localStorage.getItem(BACKUP_HISTORY_STORAGE_KEY)) || [];
+}
+
+function saveBackupHistory(history) {
+    localStorage.setItem(BACKUP_HISTORY_STORAGE_KEY, JSON.stringify(history));
+}
+
+function createBackupHistoryEntry(fileName, backup) {
+    return {
+        id: generateUUID(),
+        fileName,
+        exportedAt: backup.exportedAt,
+        summary: {
+            players: backup.data.players.length,
+            orders: backup.data.orders.length,
+            transactions: backup.data.transactions.length,
+            ownedHiddenAbilities: backup.data.ownedHiddenAbilities.length,
+            settings: backup.data.systemSettings ? 1 : 0
+        }
+    };
+}
+
+function addBackupHistoryEntry(fileName, backup) {
+    const history = loadBackupHistory();
+
+    const entry = createBackupHistoryEntry(fileName, backup);
+
+    saveBackupHistory([entry, ...history]);
+}
+
+function renderBackupHistory() {
+    const history = loadBackupHistory();
+
+    if (history.length === 0) {
+        backupHistoryList.innerHTML = `
+            <div class="backup-history-empty">
+                Nenhum backup exportado neste navegador.
+            </div>
+        `;
+
+        return;
+    }
+
+    backupHistoryList.innerHTML = history
+        .map((entry) => {
+            return `
+                <article class="backup-history-card">
+                    <div class="backup-history-header">
+                        <div>
+                            <strong>
+                                ${entry.fileName}
+                            </strong>
+
+                            <span>
+                                ${formatDateTime(entry.exportedAt)}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="backup-history-summary">
+                        <span>Clientes: ${entry.summary.players}</span>
+                        <span>Encomendas: ${entry.summary.orders}</span>
+                        <span>Transações: ${entry.summary.transactions}</span>
+                        <span>HAs: ${entry.summary.ownedHiddenAbilities}</span>
+                        <span>Configurações: ${entry.summary.settings}</span>
+                    </div>
+                </article>
+            `;
+        })
+        .join("");
+}
+
+function openBackupHistoryModal() {
+    renderBackupHistory();
+
+    backupHistoryModal.classList.remove("hidden");
+    document.body.classList.add("modal-open");
+}
+
+function closeBackupHistoryModal() {
+    backupHistoryModal.classList.add("hidden");
+
+    const hasVisibleModal = document.querySelector(".modal:not(.hidden)");
+
+    if (!hasVisibleModal) {
+        document.body.classList.remove("modal-open");
+    }
+}
+
 function exportSystemBackup() {
     const backup = createSystemBackup();
 
@@ -255,7 +353,9 @@ function exportSystemBackup() {
     const link = document.createElement("a");
 
     link.href = url;
-    link.download = `pxbr-breed-backup-${timestamp}.json`;
+
+    const fileName = `pxbr-breed-backup-${timestamp}.json`;
+    link.download = fileName;
 
     document.body.appendChild(link);
 
@@ -264,6 +364,8 @@ function exportSystemBackup() {
     link.remove();
 
     URL.revokeObjectURL(url);
+
+    addBackupHistoryEntry(fileName, backup);
 
     showSuccessToast("Backup exportado com sucesso!");
 }
@@ -384,6 +486,12 @@ btnConfirmBackupExport.addEventListener("click", () => {
     exportSystemBackup();
     closeBackupExportConfirmModal();
 });
+
+btnOpenBackupHistory.addEventListener("click", openBackupHistoryModal);
+
+btnCloseBackupHistoryModal.addEventListener("click", closeBackupHistoryModal);
+
+btnCloseBackupHistoryFooter.addEventListener("click", closeBackupHistoryModal);
 
 renderSettingsModule();
 
