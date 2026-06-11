@@ -18,6 +18,10 @@ function showSection(sectionId) {
         renderSettingsModule();
     }
 
+    if (sectionId === "reportsSection" && typeof renderReportsModule === "function") {
+        renderReportsModule();
+    }
+
     document.getElementById(sectionId).classList.add("active-section");
 
     document.querySelector(`[data-section="${sectionId}"]`).classList.add("active");
