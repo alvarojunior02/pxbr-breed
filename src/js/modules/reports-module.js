@@ -242,25 +242,39 @@ function getTopSellingHAReport() {
     });
 }
 
-// RENDER HA POKEMON LIST
-function renderHAPokemonList(pokemons) {
-    return Object.values(pokemons)
-        .sort((a, b) => b.count - a.count || b.revenue - a.revenue)
-        .map((pokemon) => {
-            return `
-                <div class="report-ha-pokemon">
-                    <img
-                        src="${pokemon.sprite}"
-                        alt="${pokemon.pokemonName}"
-                        onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.pokemonId}.png'">
+// GET PLAYERS FINANCIAL REPORT
+function getPlayersFinancialReport() {
+    const players = loadPlayers();
+    const orders = loadOrders();
 
-                    <span>
-                        ${pokemon.pokemonName}
-                    </span>
-                </div>
-            `;
-        })
-        .join("");
+    return players.map((player) => {
+        const playerOrders = orders.filter((order) => order.playerId === player.id);
+
+        const totalPurchased = playerOrders.reduce((sum, order) => {
+            return sum + (order.total || 0);
+        }, 0);
+
+        const totalPaid = playerOrders.reduce((sum, order) => {
+            return sum + (order.paidAmount || 0);
+        }, 0);
+
+        const totalPending = totalPurchased - totalPaid;
+
+        const pokemonsCount = playerOrders.reduce(
+            (sum, order) => sum + (order.pokemons?.length || 0),
+            0
+        );
+
+        return {
+            player,
+            totalPurchased,
+            totalPaid,
+            totalPending,
+            ordersCount: playerOrders.length,
+            pokemonsCount,
+            averageTicket: playerOrders.length > 0 ? totalPurchased / playerOrders.length : 0
+        };
+    });
 }
 
 // RENDER TOP SELLING HA REPORT
@@ -350,6 +364,110 @@ function renderTopSellingHAReport() {
     `;
 }
 
+// RENDER HA POKEMON LIST
+function renderHAPokemonList(pokemons) {
+    return Object.values(pokemons)
+        .sort((a, b) => b.count - a.count || b.revenue - a.revenue)
+        .map((pokemon) => {
+            return `
+                <div class="report-ha-pokemon">
+                    <img
+                        src="${pokemon.sprite}"
+                        alt="${pokemon.pokemonName}"
+                        onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.pokemonId}.png'">
+
+                    <span>
+                        ${pokemon.pokemonName}
+                    </span>
+                </div>
+            `;
+        })
+        .join("");
+}
+
+// RENDER TOP BUYERS REPORT
+function renderTopBuyersReport() {
+    const report = getPlayersFinancialReport()
+        .sort((a, b) => b.totalPurchased - a.totalPurchased)
+        .slice(0, 20);
+
+    if (!report.length) {
+        return renderComingSoonReport("👑 Players que mais compraram", "Nenhum dado encontrado.");
+    }
+
+    const cards = report
+        .map((item, index) => {
+            return `
+                <article class="report-player-card">
+                    <div class="report-player-header">
+
+                        <span class="report-position">
+                            ${index + 1}º
+                        </span>
+
+                        ${renderPlayerInline(item.player, 48)}
+
+                    </div>
+
+                    <div class="report-player-metrics">
+
+                        <div>
+                            <span>Total Comprado</span>
+                            <strong>${formatMoney(item.totalPurchased)}</strong>
+                        </div>
+
+                        <div>
+                            <span>Pago</span>
+                            <strong>${formatMoney(item.totalPaid)}</strong>
+                        </div>
+
+                        <div>
+                            <span>Pendente</span>
+                            <strong>${formatMoney(item.totalPending)}</strong>
+                        </div>
+
+                        <div>
+                            <span>Encomendas</span>
+                            <strong>${item.ordersCount}</strong>
+                        </div>
+
+                        <div>
+                            <span>Pokémons</span>
+                            <strong>${item.pokemonsCount}</strong>
+                        </div>
+
+                        <div>
+                            <span>Ticket Médio</span>
+                            <strong>${formatMoney(item.averageTicket)}</strong>
+                        </div>
+
+                    </div>
+                </article>
+            `;
+        })
+        .join("");
+
+    return `
+        <section class="reports-section-card">
+
+            <div class="reports-section-header">
+                <div>
+                    <h3>👑 Players que Mais Compraram</h3>
+
+                    <p>
+                        Ranking baseado no valor total comprado.
+                    </p>
+                </div>
+            </div>
+
+            <div class="report-player-list">
+                ${cards}
+            </div>
+
+        </section>
+    `;
+}
+
 function renderReportsModule() {
     reportTabs.forEach((tab) => {
         tab.classList.toggle("active", tab.dataset.report === currentReport);
@@ -366,10 +484,7 @@ function renderReportsModule() {
     }
 
     if (currentReport === "top-buyers") {
-        reportsContent.innerHTML = renderComingSoonReport(
-            "👑 Players que mais compraram",
-            "Este relatório mostrará os clientes com maior valor comprado."
-        );
+        reportsContent.innerHTML = renderTopBuyersReport();
         return;
     }
 

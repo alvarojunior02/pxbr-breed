@@ -244,6 +244,49 @@
     min-width: 120px;
 }
 
+.report-player-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.report-player-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+.report-player-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.report-player-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+
+.report-player-metrics div {
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+}
+
+.report-player-metrics span {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
+}
+
+.report-player-metrics strong {
+    font-size: 0.95rem;
+}
+
 @media (max-width: 520px) {
     .reports-tabs {
         flex-direction: column;
