@@ -1,6 +1,36 @@
+const REPORT_LABELS = {
+    "top-pokemon": "Pokémons mais vendidos",
+    "top-ha": "HAs mais vendidas",
+    "top-buyers": "Players que mais compraram",
+    "top-debtors": "Players que mais devem"
+};
+
+const REPORT_FILE_NAMES = {
+    "top-pokemon": "top-pokemon",
+    "top-ha": "top-ha",
+    "top-buyers": "top-buyers",
+    "top-debtors": "top-debtors"
+};
+
+const REPORT_PERIOD_LABELS = {
+    today: "Hoje",
+    "7days": "Últimos 7 dias",
+    "30days": "Últimos 30 dias",
+    month: "Mês Atual",
+    all: "Tudo"
+};
+
 const reportsContent = document.getElementById("reportsContent");
 const reportTabs = document.querySelectorAll(".reports-tab");
 const reportPeriodButtons = document.querySelectorAll(".reports-period-button");
+
+const reportCsvExportConfirmModal = document.getElementById("reportCsvExportConfirmModal");
+const reportCsvExportSummary = document.getElementById("reportCsvExportSummary");
+const btnCloseReportCsvExportModal = document.getElementById("btnCloseReportCsvExportModal");
+const btnCancelReportCsvExport = document.getElementById("btnCancelReportCsvExport");
+const btnConfirmReportCsvExport = document.getElementById("btnConfirmReportCsvExport");
+
+let pendingReportCsvExport = null;
 
 let currentReport = "top-pokemon";
 let currentReportsPeriod = "7days";
@@ -215,11 +245,19 @@ function renderTopSellingPokemonReport() {
 
     return `
         <section class="reports-section-card">
-            <div class="reports-section-header">
+            <div class="reports-section-header report-list-header">
                 <div>
                     <h3>🏆 Pokémon Mais Vendidos</h3>
+
                     <p>Ranking baseado nas encomendas cadastradas no sistema.</p>
                 </div>
+
+                <button
+                    type="button"
+                    class="button-primary report-export-button"
+                    onclick="openReportCsvExportConfirmModal()">
+                    Exportar CSV
+                </button>
             </div>
 
             <div class="report-pokemon-list">
@@ -402,16 +440,19 @@ function renderTopSellingHAReport() {
 
     return `
         <section class="reports-section-card">
-            <div class="reports-section-header">
+            <div class="reports-section-header report-list-header">
                 <div>
-                    <h3>
-                        🧬 HAs Mais Vendidas
-                    </h3>
+                    <h3>🧬 HAs Mais Vendidas</h3>
 
-                    <p>
-                        Ranking baseado nas Hidden Abilities vendidas nas encomendas.
-                    </p>
+                    <p>Ranking baseado nas Hidden Abilities vendidas nas encomendas.</p>
                 </div>
+
+                <button
+                    type="button"
+                    class="button-primary report-export-button"
+                    onclick="openReportCsvExportConfirmModal()">
+                    Exportar CSV
+                </button>
             </div>
 
             <div class="report-ha-list">
@@ -510,8 +551,7 @@ function renderTopBuyersReport() {
 
     return `
         <section class="reports-section-card">
-
-            <div class="reports-section-header">
+            <div class="reports-section-header report-list-header">
                 <div>
                     <h3>👑 Players que Mais Compraram</h3>
 
@@ -519,6 +559,13 @@ function renderTopBuyersReport() {
                         Ranking baseado no valor total comprado.
                     </p>
                 </div>
+
+                <button
+                    type="button"
+                    class="button-primary report-export-button"
+                    onclick="openReportCsvExportConfirmModal()">
+                    Exportar CSV
+                </button>
             </div>
 
             <div class="report-player-list">
@@ -606,7 +653,7 @@ function renderTopDebtorsReport() {
 
     return `
         <section class="reports-section-card">
-            <div class="reports-section-header">
+            <div class="reports-section-header report-list-header">
                 <div>
                     <h3>⚠️ Players que Mais Devem</h3>
 
@@ -614,6 +661,13 @@ function renderTopDebtorsReport() {
                         Ranking baseado nos maiores valores pendentes.
                     </p>
                 </div>
+
+                <button
+                    type="button"
+                    class="button-primary report-export-button"
+                    onclick="openReportCsvExportConfirmModal()">
+                    Exportar CSV
+                </button>
             </div>
 
             <div class="report-player-list">
@@ -654,6 +708,283 @@ function renderReportsModule() {
     }
 }
 
+// ESPACE REPORT CSV VALUE
+function escapeReportCsvValue(value) {
+    const stringValue = String(value ?? "");
+
+    if (stringValue.includes(";") || stringValue.includes('"') || stringValue.includes("\n")) {
+        return `"${stringValue.replace(/"/g, '""')}"`;
+    }
+
+    return stringValue;
+}
+
+// DOWNLOAD REPORT CSV
+function downloadReportCsv(fileName, rows) {
+    const csvContent = rows.map((row) => row.map(escapeReportCsvValue).join(";")).join("\n");
+
+    const blob = new Blob([csvContent], {
+        type: "text/csv;charset=utf-8;"
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = fileName;
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+    URL.revokeObjectURL(url);
+}
+
+// GET REPORT CSV TIMESTAMP
+function getReportCsvTimestamp() {
+    return new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
+}
+
+// GET REPORT CSV FILE NAME
+function getReportCsvFileName(reportType) {
+    const reportName = REPORT_FILE_NAMES[reportType] || "report";
+
+    return `pxbr-report-${reportName}-${currentReportsPeriod}-${getReportCsvTimestamp()}.csv`;
+}
+
+// GET TOP POKEMONS CSV ROWS
+function getTopPokemonCsvRows() {
+    const report = getPokemonSalesReport();
+
+    const headers = [
+        "posicao",
+        "pokemon_id",
+        "pokemon",
+        "vendas",
+        "receita_total",
+        "cadastrado_qtd",
+        "cadastrado_receita",
+        "breedavel_qtd",
+        "breedavel_receita",
+        "ha_castrado_qtd",
+        "ha_castrado_receita",
+        "ha_breedavel_qtd",
+        "ha_breedavel_receita"
+    ];
+
+    const rows = report.map((item, index) => [
+        index + 1,
+        item.pokemonId,
+        item.pokemonName,
+        item.totalCount,
+        item.totalRevenue,
+        item.registered.count,
+        item.registered.revenue,
+        item.breedable.count,
+        item.breedable.revenue,
+        item.haRegistered.count,
+        item.haRegistered.revenue,
+        item.haBreedable.count,
+        item.haBreedable.revenue
+    ]);
+
+    return [headers, ...rows];
+}
+
+// GET TOP HA CSV ROWS
+function getTopHACsvRows() {
+    const report = getTopSellingHAReport();
+
+    const headers = [
+        "posicao",
+        "hidden_ability",
+        "vendas",
+        "receita_total",
+        "ha_castrado_qtd",
+        "ha_castrado_receita",
+        "ha_breedavel_qtd",
+        "ha_breedavel_receita",
+        "pokemons"
+    ];
+
+    const rows = report.map((item, index) => {
+        const pokemonNames = Object.values(item.pokemons)
+            .map((pokemon) => pokemon.pokemonName)
+            .join(" / ");
+
+        return [
+            index + 1,
+            item.abilityName,
+            item.totalCount,
+            item.totalRevenue,
+            item.haRegistered.count,
+            item.haRegistered.revenue,
+            item.haBreedable.count,
+            item.haBreedable.revenue,
+            pokemonNames
+        ];
+    });
+
+    return [headers, ...rows];
+}
+
+// GET TOP BUYERS CSV ROWS
+function getTopBuyersCsvRows() {
+    const report = getPlayersFinancialReport().sort((a, b) => b.totalPurchased - a.totalPurchased);
+
+    const headers = [
+        "posicao",
+        "player",
+        "total_comprado",
+        "pago",
+        "pendente",
+        "encomendas",
+        "pokemons",
+        "ticket_medio"
+    ];
+
+    const rows = report.map((item, index) => [
+        index + 1,
+        item.player.nick,
+        item.totalPurchased,
+        item.totalPaid,
+        item.totalPending,
+        item.ordersCount,
+        item.pokemonsCount,
+        item.averageTicket
+    ]);
+
+    return [headers, ...rows];
+}
+
+// GET TOP DEBTORS CSV ROWS
+function getTopDebtorsCsvRows() {
+    const report = getPlayersFinancialReport()
+        .filter((item) => item.totalPending > 0)
+        .sort((a, b) => b.totalPending - a.totalPending);
+
+    const headers = [
+        "posicao",
+        "player",
+        "total_comprado",
+        "pago",
+        "pendente",
+        "encomendas",
+        "pokemons",
+        "ticket_medio"
+    ];
+
+    const rows = report.map((item, index) => [
+        index + 1,
+        item.player.nick,
+        item.totalPurchased,
+        item.totalPaid,
+        item.totalPending,
+        item.ordersCount,
+        item.pokemonsCount,
+        item.averageTicket
+    ]);
+
+    return [headers, ...rows];
+}
+
+// GET CURRENT REPORT CSV ROWS
+function getCurrentReportCsvRows() {
+    if (currentReport === "top-pokemon") {
+        return getTopPokemonCsvRows();
+    }
+
+    if (currentReport === "top-ha") {
+        return getTopHACsvRows();
+    }
+
+    if (currentReport === "top-buyers") {
+        return getTopBuyersCsvRows();
+    }
+
+    if (currentReport === "top-debtors") {
+        return getTopDebtorsCsvRows();
+    }
+
+    return [];
+}
+
+// OPEN REPORT CSV EXPORT CONFIRM MODAL
+function openReportCsvExportConfirmModal() {
+    const rows = getCurrentReportCsvRows();
+
+    const recordsCount = Math.max(rows.length - 1, 0);
+
+    if (recordsCount === 0) {
+        showWarningToast("Não há registros para exportar neste relatório.");
+        return;
+    }
+
+    const fileName = getReportCsvFileName(currentReport);
+
+    pendingReportCsvExport = {
+        fileName,
+        rows
+    };
+
+    reportCsvExportSummary.innerHTML = `
+        <div class="backup-summary-grid">
+            <div class="backup-summary-item">
+                <strong>${REPORT_LABELS[currentReport]}</strong>
+                <span>Relatório</span>
+            </div>
+
+            <div class="backup-summary-item">
+                <strong>${REPORT_PERIOD_LABELS[currentReportsPeriod]}</strong>
+                <span>Período</span>
+            </div>
+
+            <div class="backup-summary-item">
+                <strong>${recordsCount}</strong>
+                <span>Registros</span>
+            </div>
+
+            <div class="backup-summary-item report-file-name-summary">
+                <strong>${fileName}</strong>
+                <span>Nome do Arquivo</span>
+            </div>
+        </div>
+    `;
+
+    reportCsvExportConfirmModal.classList.remove("hidden");
+    document.body.classList.add("modal-open");
+}
+
+// CLORE REPORT CSV EXPORT CONFIRM MODAL
+function closeReportCsvExportConfirmModal() {
+    reportCsvExportConfirmModal.classList.add("hidden");
+
+    pendingReportCsvExport = null;
+
+    const hasVisibleModal = document.querySelector(".modal:not(.hidden)");
+
+    if (!hasVisibleModal) {
+        document.body.classList.remove("modal-open");
+    }
+}
+
+// CONFIRM REPORT CSV EXPORT
+function confirmReportCsvExport() {
+    if (!pendingReportCsvExport) {
+        showWarningToast("Nenhum relatório selecionado para exportação.");
+        return;
+    }
+
+    downloadReportCsv(pendingReportCsvExport.fileName, pendingReportCsvExport.rows);
+
+    showSuccessToast("Relatório exportado com sucesso!");
+
+    closeReportCsvExportConfirmModal();
+}
+
 reportPeriodButtons.forEach((button) => {
     button.addEventListener("click", () => {
         currentReportsPeriod = button.dataset.period;
@@ -668,6 +999,12 @@ reportTabs.forEach((tab) => {
         renderReportsModule();
     });
 });
+
+btnCloseReportCsvExportModal.addEventListener("click", closeReportCsvExportConfirmModal);
+btnCancelReportCsvExport.addEventListener("click", closeReportCsvExportConfirmModal);
+btnConfirmReportCsvExport.addEventListener("click", confirmReportCsvExport);
+
+window.openReportCsvExportConfirmModal = openReportCsvExportConfirmModal;
 
 renderReportsModule();
 

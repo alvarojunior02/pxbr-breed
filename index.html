@@ -1041,6 +1041,33 @@
             </div>
         </div>
 
+        <!-- Modal de Confirmação de Exportação de Relatório CSV -->
+        <div id="reportCsvExportConfirmModal" class="modal hidden">
+            <div class="modal-content finance-csv-export-modal-content">
+                <button type="button" class="modal-close-button" id="btnCloseReportCsvExportModal">
+                    ×
+                </button>
+
+                <h2>Exportar Relatório</h2>
+
+                <p class="settings-confirm-description">
+                    Revise as informações antes de exportar o relatório em CSV.
+                </p>
+
+                <div id="reportCsvExportSummary" class="backup-export-summary"></div>
+
+                <div class="modal-footer">
+                    <button type="button" class="button-secondary" id="btnCancelReportCsvExport">
+                        Cancelar
+                    </button>
+
+                    <button type="button" class="button-success" id="btnConfirmReportCsvExport">
+                        Exportar CSV
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- SCRIPTS JS -->
 
         <!-- TOASTIFY JS -->
