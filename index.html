@@ -947,7 +947,9 @@
         <!-- Modal de Novo Player -->
         <div id="newPlayerModal" class="modal hidden">
             <div class="modal-content">
-                <button type="button" class="modal-close-button" data-close-modal>×</button>
+                <button type="button" class="modal-close-button" onclick="closeNewPlayerModal()">
+                    ×
+                </button>
 
                 <h2>Novo Cliente</h2>
 
@@ -988,10 +990,6 @@
                     </div>
 
                     <div class="player-form-actions">
-                        <button type="button" id="btnCancelNewPlayer" class="button-danger">
-                            Cancelar
-                        </button>
-
                         <button type="button" id="btnConfirmNewPlayer" class="button-success">
                             Salvar Cliente
                         </button>

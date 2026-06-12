@@ -8,7 +8,6 @@ const btnOpenNewPlayerModal = document.getElementById("btnOpenNewPlayerModal");
 const newPlayerModal = document.getElementById("newPlayerModal");
 const newPlayerNick = document.getElementById("newPlayerNick");
 const newPlayerNotes = document.getElementById("newPlayerNotes");
-const btnCancelNewPlayer = document.getElementById("btnCancelNewPlayer");
 const btnConfirmNewPlayer = document.getElementById("btnConfirmNewPlayer");
 
 const playerSummaryModal = document.getElementById("playerSummaryModal");
@@ -252,26 +251,21 @@ function openNewPlayerModal(selectOnOrderForm = false) {
 
 // CLOSE NEW PLAYER MODAL
 function closeNewPlayerModal() {
-    newPlayerModal.classList.add("hidden");
+    closeModal(newPlayerModal);
 
     editingPlayerId = null;
+    shouldSelectCreatedPlayerOnOrderForm = false;
 
     newPlayerNick.value = "";
-
     newPlayerNotes.value = "";
-
-    newPlayerModal.querySelector("h2").textContent = "Novo Cliente";
-
-    shouldSelectCreatedPlayerOnOrderForm = false;
 
     playerSkinPreview.classList.add("hidden");
     playerSkinPreview.innerHTML = "";
 
-    const hasVisibleModal = document.querySelector(".modal:not(.hidden)");
+    btnConfirmNewPlayer.disabled = true;
+    btnPreviewPlayerSkin.disabled = true;
 
-    if (!hasVisibleModal) {
-        document.body.classList.remove("modal-open");
-    }
+    newPlayerModal.querySelector("h2").textContent = "Novo Cliente";
 }
 
 // SAVE NEW PLAYER FROM MODAL
@@ -607,8 +601,6 @@ playerSearchInput.addEventListener("input", renderPlayersModule);
 playerSortSelect.addEventListener("change", renderPlayersModule);
 
 btnOpenNewPlayerModal.addEventListener("click", openNewPlayerModal);
-
-btnCancelNewPlayer.addEventListener("click", closeNewPlayerModal);
 
 btnConfirmNewPlayer.addEventListener("click", savePlayerFromModal);
 
