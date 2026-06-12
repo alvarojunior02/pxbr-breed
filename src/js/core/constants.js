@@ -62,36 +62,43 @@ const POKEMON_NATURES = [
     { name: "Quirky", positive: null, negative: null, neutral: true }
 ];
 
+// GET STATUS BY VALUE
 function getStatusByValue(value) {
     return ORDER_STATUS.find((status) => status.value === value);
 }
 
+// GET NATURE BY NAME
 function getNatureByName(name) {
     return POKEMON_NATURES.find((nature) => nature.name === name);
 }
 
+// GET NEXT STATUS
 function getNextStatus(currentValue) {
     const currentIndex = ORDER_STATUS.findIndex((status) => status.value === currentValue);
 
     return ORDER_STATUS[currentIndex + 1] || null;
 }
 
+// IS LAST STATUS
 function isLastStatus(value) {
     const lastStatus = ORDER_STATUS[ORDER_STATUS.length - 1];
 
     return value === lastStatus.value;
 }
 
+// GET FIRST STATUS
 function getFirstStatus() {
     return ORDER_STATUS[0];
 }
 
+// IS FIRST STATUS
 function isFirstStatus(value) {
     const firstStatus = ORDER_STATUS[0];
 
     return value === firstStatus.value;
 }
 
+// GET ORDER STATUS CLASS
 function getOrderStatusClass(statusValue) {
     return getStatusByValue(statusValue)?.cssClass ?? "";
 }

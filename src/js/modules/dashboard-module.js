@@ -1,6 +1,7 @@
 const dashboardRecentOrders = document.getElementById("dashboardRecentOrders");
 const dashboardRecentTransactions = document.getElementById("dashboardRecentTransactions");
 
+// GET POKEMON STATUS COUNTS
 function getPokemonStatusCounts(pokemons) {
     const counts = {};
 
@@ -15,6 +16,7 @@ function getPokemonStatusCounts(pokemons) {
     return counts;
 }
 
+// GET DASHBOARD METRICS
 function getDashboardMetrics() {
     const orders = loadOrders();
 
@@ -62,6 +64,7 @@ function getDashboardMetrics() {
     };
 }
 
+// CREATE DASHBOARD GROUP
 function createDashboardGroup(title, content, extraClass = "") {
     return `
         <section class="dashboard-group ${extraClass}">
@@ -175,6 +178,7 @@ function renderDashboard() {
     renderDashboardRecentTransactions();
 }
 
+// GET RECENT ORDERS
 function getRecentOrders(limit = 5) {
     return loadOrders()
         .filter((order) => !order.archived)
@@ -182,6 +186,7 @@ function getRecentOrders(limit = 5) {
         .slice(0, limit);
 }
 
+// RENDER DASHBOARD RECENT ORDERS
 function renderDashboardRecentOrders() {
     const recentOrders = getRecentOrders();
 
@@ -208,6 +213,7 @@ function renderDashboardRecentOrders() {
     });
 }
 
+// FILTER ORDERS BY STATUS
 function filterOrdersByStatus(statusValue) {
     const orderStatusFilter = document.getElementById("orderStatusFilter");
 
@@ -220,6 +226,7 @@ function filterOrdersByStatus(statusValue) {
     renderOrdersList();
 }
 
+// GET TOP BUYERS
 function getTopBuyers(limit = 5) {
     const players = loadPlayers();
 
@@ -241,6 +248,7 @@ function getTopBuyers(limit = 5) {
         .slice(0, limit);
 }
 
+// RENDER TOP BUYERS
 function renderTopBuyers() {
     const topBuyers = getTopBuyers();
 
@@ -277,12 +285,14 @@ function renderTopBuyers() {
     `;
 }
 
+// GET RECENT TRANSACTIONS
 function getRecentTransactions(limit = 5) {
     return loadTransactions()
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         .slice(0, limit);
 }
 
+// RENDER DASHBOARD RECENT TRANSACTIONS
 function renderDashboardRecentTransactions() {
     const transactions = getRecentTransactions();
 

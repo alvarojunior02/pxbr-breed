@@ -69,6 +69,8 @@
     line-height: 1;
 
     cursor: pointer;
+    z-index: 50;
+    pointer-events: auto;
 
     transition:
         background-color 0.2s ease,

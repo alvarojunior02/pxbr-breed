@@ -49,6 +49,7 @@ function getPlayerTransactions(playerId) {
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 }
 
+// GET TRANSACTIONS TOTAL BY ORDER
 function getTransactionTotalByOrder(orderId) {
     return getOrderTransactions(orderId).reduce(
         (total, transaction) => total + transaction.amount,

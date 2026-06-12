@@ -1,7 +1,9 @@
+// HAS VISIBLE MODAL
 function hasVisibleModal() {
     return Boolean(document.querySelector(".modal:not(.hidden)"));
 }
 
+// OPEN MODAL
 function openModal(modalElement) {
     if (!modalElement) {
         console.error("Modal não encontrado.");
@@ -13,6 +15,7 @@ function openModal(modalElement) {
     document.body.classList.add("modal-open");
 }
 
+// CLOSE MODAL
 function closeModal(modalElement) {
     if (!modalElement) {
         console.error("Modal não encontrado.");
@@ -26,6 +29,7 @@ function closeModal(modalElement) {
     }
 }
 
+// CLOSE ALL MODALS
 function closeAllModals() {
     document.querySelectorAll(".modal").forEach((modal) => {
         modal.classList.add("hidden");
@@ -34,6 +38,7 @@ function closeAllModals() {
     document.body.classList.remove("modal-open");
 }
 
+// SETUP MODAL CLOSE BUTTONS
 function setupModalCloseButtons() {
     document.querySelectorAll("[data-close-modal]").forEach((button) => {
         button.addEventListener("click", () => {

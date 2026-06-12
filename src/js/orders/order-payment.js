@@ -41,6 +41,7 @@ function openPaymentModal(orderId) {
     openModal(window.paymentModal);
 }
 
+// CLOSE PLAYMENT MODAL
 function closePaymentModal() {
     closeModal(window.paymentModal);
 

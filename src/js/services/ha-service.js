@@ -1,3 +1,4 @@
+// CREATE OWNED HIDDEN HABILITY
 function createOwnedHiddenAbility(data) {
     return {
         id: generateUUID(),
@@ -14,6 +15,7 @@ function createOwnedHiddenAbility(data) {
     };
 }
 
+// ADD OWNED HIDDEN HABILITY
 function addOwnedHiddenAbility(data) {
     const hiddenAbilities = loadOwnedHiddenAbilities();
 
@@ -35,6 +37,7 @@ function addOwnedHiddenAbility(data) {
     saveOwnedHiddenAbilities(hiddenAbilities);
 }
 
+// REMOVE OWNED HIDDEN HABILITY
 function removeOwnedHiddenAbility(hiddenAbilityId) {
     const hiddenAbilities = loadOwnedHiddenAbilities().filter((item) => {
         return item.id !== hiddenAbilityId;
@@ -43,6 +46,7 @@ function removeOwnedHiddenAbility(hiddenAbilityId) {
     saveOwnedHiddenAbilities(hiddenAbilities);
 }
 
+// UPDATE OWNED HIDDEN HABILITY
 function updateOwnedHiddenAbility(hiddenAbilityId, data) {
     const hiddenAbilities = loadOwnedHiddenAbilities();
 
@@ -63,6 +67,7 @@ function updateOwnedHiddenAbility(hiddenAbilityId, data) {
     saveOwnedHiddenAbilities(updatedHiddenAbilities);
 }
 
+// GET OWNED HIDDEN HABILITY
 function getOwnedHAByPokemonId(pokemonId) {
     return loadOwnedHiddenAbilities().find((hiddenAbility) => {
         const evolutionLine = hiddenAbility.evolutionLine || [];

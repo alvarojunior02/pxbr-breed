@@ -1,5 +1,6 @@
 const CSV_SEPARATOR = ";";
 
+// ESACAPE CSV VALUE
 function escapeCsvValue(value) {
     const stringValue = String(value ?? "");
 
@@ -14,10 +15,12 @@ function escapeCsvValue(value) {
     return stringValue;
 }
 
+// GET CSV TIMESTAMP
 function getCsvTimestamp() {
     return new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
 }
 
+// DOWNLOAD CSV
 function downloadCsv(fileName, rows) {
     const csvContent = rows.map((row) => row.map(escapeCsvValue).join(CSV_SEPARATOR)).join("\n");
 

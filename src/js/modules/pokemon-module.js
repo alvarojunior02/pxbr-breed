@@ -35,6 +35,7 @@ let addHAOrderRow = null;
 
 let isManualHAFlow = false;
 
+// LOAD POKEMON CATALOG
 async function loadPokemonCatalog() {
     const response = await fetch("./src/data/pokedex.json");
     pokedexCatalog = await response.json();
@@ -43,6 +44,7 @@ async function loadPokemonCatalog() {
     renderPokemonCatalog();
 }
 
+// NORMALIZE EGG GROUP
 function normalizeEggGroup(eggGroup) {
     const normalized = String(eggGroup).trim();
 
@@ -58,6 +60,7 @@ function normalizeEggGroup(eggGroup) {
     return map[normalized] || normalized;
 }
 
+// GET POKEMON GENERATION
 function getPokemonGeneration(pokemonId) {
     if (pokemonId <= 151) return "1";
     if (pokemonId <= 251) return "2";
@@ -70,6 +73,7 @@ function getPokemonGeneration(pokemonId) {
     return "9";
 }
 
+// POPULATE EGG GROUP FILTER
 function populateEggGroupFilter() {
     const eggGroups = new Set();
 
@@ -88,6 +92,7 @@ function populateEggGroupFilter() {
     });
 }
 
+// GET FILTERED POKEMON CATALOG
 function getFilteredPokemonCatalog() {
     const searchTerm = pokemonCatalogSearch.value.toLowerCase().trim();
     const selectedOwnedHAFilter = pokemonOwnedHAFilter.value;
@@ -142,6 +147,7 @@ function renderPokemonCatalog() {
         .join("");
 }
 
+// CREATE POKEMON CATALOG CARD
 function createPokemonCatalogCard(pokemon) {
     const types = pokemon.type
         .map((type) => `<span class="pokemon-type type-${type.toLowerCase()}">${type}</span>`)
@@ -211,14 +217,13 @@ function createPokemonCatalogCard(pokemon) {
     `;
 }
 
+// OPEN POKEMON DETAILS
 function openPokemonDetails(pokemonId) {
     const pokemon = pokedexCatalog.find((item) => Number(item.id) === Number(pokemonId));
 
     if (!pokemon) {
         return;
     }
-
-    pokemonDetailsContent.innerHTML = createPokemonDetailsContent(pokemon);
 
     pokemonDetailsContent.innerHTML = createPokemonDetailsContent(pokemon);
 
@@ -236,9 +241,7 @@ function openPokemonDetails(pokemonId) {
 
     pokemonDetailsAnimationDirection = "none";
 
-    pokemonDetailsModal.classList.remove("hidden");
-
-    document.body.classList.add("modal-open");
+    openModal(pokemonDetailsModal);
 
     const modalContent = pokemonDetailsModal.querySelector(".modal-content");
 
@@ -248,19 +251,79 @@ function openPokemonDetails(pokemonId) {
     });
 }
 
+// CLOSE POKEMON DETAILS
 function closePokemonDetails() {
-    pokemonDetailsModal.classList.add("hidden");
+    closeModal(pokemonDetailsModal);
 
     pokemonDetailsContent.innerHTML = "";
-
-    document.body.classList.remove("modal-open");
 }
 
+// SETUP POKEMON CATALOG EVENTS
 function setupPokemonCatalogEvents() {
     pokemonCatalogSearch.addEventListener("input", renderPokemonCatalog);
     pokemonOwnedHAFilter.addEventListener("change", renderPokemonCatalog);
     pokemonGenerationFilter.addEventListener("change", renderPokemonCatalog);
     pokemonEggGroupFilter.addEventListener("change", renderPokemonCatalog);
+}
+
+// CREATE POKEMON DETAILS EVOLUTION NAV HTML
+function createPokemonDetailsSequentialNavHtml(pokemon) {
+    const currentIndex = pokedexCatalog.findIndex((item) => {
+        return Number(item.id) === Number(pokemon.id);
+    });
+
+    const previousPokemon = currentIndex > 0 ? pokedexCatalog[currentIndex - 1] : null;
+
+    const nextPokemon =
+        currentIndex < pokedexCatalog.length - 1 ? pokedexCatalog[currentIndex + 1] : null;
+
+    return `
+        <div class="pokemon-details-sequential-nav">
+            ${
+                previousPokemon
+                    ? createPokemonSequentialNavCard(previousPokemon, "previous")
+                    : `<div class="pokemon-details-sequential-placeholder"></div>`
+            }
+
+            ${createPokemonSequentialNavCard(pokemon, "current")}
+
+            ${
+                nextPokemon
+                    ? createPokemonSequentialNavCard(nextPokemon, "next")
+                    : `<div class="pokemon-details-sequential-placeholder"></div>`
+            }
+        </div>
+    `;
+}
+
+// CREATE POKEMON SEQUENTIAL NAV CARD
+function createPokemonSequentialNavCard(pokemon, position) {
+    const isCurrent = position === "current";
+
+    return `
+        <button
+            type="button"
+            class="pokemon-details-sequential-card ${isCurrent ? "active" : ""}"
+            ${
+                isCurrent
+                    ? `disabled`
+                    : `onclick="navigatePokemonDetails(${pokemon.id}, '${position}')"`
+            }>
+
+            <img
+                src="${pokemon.image?.thumbnail || pokemon.image?.sprite || ""}"
+                alt="${pokemon.name.english}"
+            />
+
+            <span>
+                #${String(pokemon.id).padStart(3, "0")}
+            </span>
+
+            <strong>
+                ${pokemon.name.english}
+            </strong>
+        </button>
+    `;
 }
 
 // CREATE POKEMON DETAILS CONTENT
@@ -275,63 +338,13 @@ function createPokemonDetailsContent(pokemon) {
 
     const evolutionChain = createPokemonEvolutionChainHtml(pokemon);
 
-    const previousPokemon = getPreviousPokemon(pokemon.id);
-    const nextPokemon = getNextPokemon(pokemon.id);
+    const sequentialNav = createPokemonDetailsSequentialNavHtml(pokemon);
 
     const hiddenAbility = getPokemonHiddenAbility(pokemon);
 
     return `
-        <div class="pokemon-navigation">
-            ${
-                previousPokemon
-                    ? `
-                        <button
-                            type="button"
-                            class="pokemon-navigation-card"
-                            onclick="navigatePokemonDetails(${previousPokemon.id}, 'previous')">
+        ${sequentialNav}
 
-                            <img
-                                src="${previousPokemon.image.thumbnail}"
-                                alt="${previousPokemon.name.english}"
-                            />
-
-                            <span>
-                                #${String(previousPokemon.id).padStart(3, "0")}
-                            </span>
-
-                            <strong>
-                                ${previousPokemon.name.english}
-                            </strong>
-                        </button>
-                    `
-                    : "<div></div>"
-            }
-
-            ${
-                nextPokemon
-                    ? `
-                        <button
-                            type="button"
-                            class="pokemon-navigation-card"
-                            onclick="navigatePokemonDetails(${nextPokemon.id}, 'next')">
-
-                            <img
-                                src="${nextPokemon.image.thumbnail}"
-                                alt="${nextPokemon.name.english}"
-                            />
-
-                            <span>
-                                #${String(nextPokemon.id).padStart(3, "0")}
-                            </span>
-
-                            <strong>
-                                ${nextPokemon.name.english}
-                            </strong>
-                        </button>
-                    `
-                    : "<div></div>"
-            }
-        </div>
         <div class="pokemon-details-header">
             <div class="pokemon-details-image-wrapper">
                 <img
@@ -422,6 +435,7 @@ function createPokemonDetailsContent(pokemon) {
     `;
 }
 
+// CREATE POKEMON ABILITIES HTML
 function createPokemonAbilitiesHtml(pokemon) {
     if (!pokemon.profile?.ability?.length) {
         return "<span>-</span>";
@@ -442,6 +456,7 @@ function createPokemonAbilitiesHtml(pokemon) {
         .join("");
 }
 
+// CREATE POKEMON EGG GROUPS HTML
 function createPokemonEggGroupsHtml(pokemon) {
     if (!pokemon.profile?.egg?.length) {
         return "<span>-</span>";
@@ -450,6 +465,7 @@ function createPokemonEggGroupsHtml(pokemon) {
     return pokemon.profile.egg.map((eggGroup) => `<span>${eggGroup}</span>`).join("");
 }
 
+// CREATE POKEMON STATS HTML
 function createPokemonStatsHtml(pokemon) {
     if (!pokemon.base) {
         return "<p>Stats não disponíveis.</p>";
@@ -482,6 +498,7 @@ function createPokemonStatsHtml(pokemon) {
         .join("");
 }
 
+// FORMAT POKEMON STAT NAME
 function formatPokemonStatName(statName) {
     const statMap = {
         HP: "HP",
@@ -495,6 +512,7 @@ function formatPokemonStatName(statName) {
     return statMap[statName] || statName;
 }
 
+// GET STAT BAR CLASS
 function getStatBarClass(statValue) {
     if (statValue < 70) {
         return "stat-low";
@@ -511,10 +529,12 @@ function getStatBarClass(statValue) {
     return "stat-very-high";
 }
 
+// GET POKEMON BY ID
 function getPokemonById(pokemonId) {
     return pokedexCatalog.find((pokemon) => Number(pokemon.id) === Number(pokemonId));
 }
 
+// GET EVOLUTION CHAIN
 function getEvolutionChain(pokemon) {
     const basePokemon = getBaseEvolutionPokemon(pokemon);
     const chain = [];
@@ -546,6 +566,7 @@ function getEvolutionChain(pokemon) {
     return chain.sort((a, b) => Number(a.id) - Number(b.id));
 }
 
+// GET BASE EVOLUTION POKEMON
 function getBaseEvolutionPokemon(pokemon) {
     let currentPokemon = pokemon;
 
@@ -557,6 +578,7 @@ function getBaseEvolutionPokemon(pokemon) {
     return currentPokemon;
 }
 
+// COLLECT EVOLUTION BRANCH
 function collectEvolutionBranch(pokemon, chain) {
     if (!pokemon) {
         return;
@@ -578,6 +600,7 @@ function collectEvolutionBranch(pokemon, chain) {
     });
 }
 
+// GET EVOLUTION METHOD
 function getEvolutionMethod(fromPokemon, toPokemon) {
     const nextEvolution = fromPokemon.evolution?.next?.find((evolution) => {
         return Number(evolution[0]) === Number(toPokemon.id);
@@ -586,6 +609,7 @@ function getEvolutionMethod(fromPokemon, toPokemon) {
     return nextEvolution?.[1] || "";
 }
 
+// CREATE POKEMON EVOLUTION CHAIN HTML
 function createPokemonEvolutionChainHtml(pokemon) {
     const evolutionChain = getEvolutionChain(pokemon);
 
@@ -640,6 +664,7 @@ function createPokemonEvolutionChainHtml(pokemon) {
         .join("");
 }
 
+// FORMAT POKEMON GENDER
 function formatPokemonGender(gender) {
     if (!gender || gender === "-" || gender.toLowerCase() === "genderless") {
         return `
@@ -688,6 +713,7 @@ function formatPokemonGender(gender) {
     `;
 }
 
+// GET PREVIOUS POKEMON
 function getPreviousPokemon(pokemonId) {
     const currentIndex = pokedexCatalog.findIndex(
         (pokemon) => Number(pokemon.id) === Number(pokemonId)
@@ -700,6 +726,7 @@ function getPreviousPokemon(pokemonId) {
     return pokedexCatalog[currentIndex - 1];
 }
 
+// GET NEXT POKEMON
 function getNextPokemon(pokemonId) {
     const currentIndex = pokedexCatalog.findIndex(
         (pokemon) => Number(pokemon.id) === Number(pokemonId)
@@ -712,21 +739,25 @@ function getNextPokemon(pokemonId) {
     return pokedexCatalog[currentIndex + 1];
 }
 
+// NAVIGATE POKEMON DETAILS
 function navigatePokemonDetails(pokemonId, direction) {
     pokemonDetailsAnimationDirection = direction;
     openPokemonDetails(pokemonId);
 }
 
+// OPEN OWNED HA MODAL
 function openOwnedHAModal() {
     renderOwnedHAList();
     ownedHAModal.classList.remove("hidden");
     document.body.classList.add("modal-open");
 }
 
+// CLOSE OWNED HA MODAL
 function closeOwnedHAModal() {
     closeModal(ownedHAModal);
 }
 
+// RENDER OWNED HA LIST
 function renderOwnedHAList() {
     const hiddenAbilities = loadOwnedHiddenAbilities();
 
@@ -747,6 +778,7 @@ function renderOwnedHAList() {
     `;
 }
 
+// CREATE OWNED HA CARD
 function createOwnedHACard(item) {
     const evolutionLine = item.evolutionLine?.length
         ? item.evolutionLine
@@ -836,6 +868,7 @@ function createOwnedHACard(item) {
     `;
 }
 
+// DELETE OWNED HA
 function deleteOwnedHA(hiddenAbilityId) {
     showWarningToast("A remoção de HAs está desabilitada por segurança.");
 
@@ -1134,6 +1167,7 @@ function closeAddOwnedHAModal() {
     ownedHANotes.value = "";
 }
 
+// HAS OWNED HIDDEN ABILITY
 function hasOwnedHiddenAbility(pokemon) {
     const hiddenAbility = getPokemonHiddenAbility(pokemon);
 
@@ -1178,6 +1212,7 @@ function openEditOwnedHAModal(hiddenAbilityId) {
     document.body.classList.add("modal-open");
 }
 
+// CREATE EDIT OWNED HA SUMMARY
 function createEditOwnedHASummary(hiddenAbility) {
     const evolutionLine = hiddenAbility.evolutionLine?.length
         ? hiddenAbility.evolutionLine
@@ -1209,6 +1244,7 @@ function isOwnedHAFormValid() {
     return hasPokemon && castratedPrice > 0 && breedablePrice > 0;
 }
 
+// UPDATE SAVE OWNED HA BUTTON STATE
 function updateSaveOwnedHAButtonState() {
     btnSaveOwnedHA.disabled = !isOwnedHAFormValid();
 }
@@ -1291,6 +1327,7 @@ loadPokemonCatalog();
 window.renderPokemonCatalog = renderPokemonCatalog;
 window.openPokemonDetails = openPokemonDetails;
 window.navigatePokemonDetails = navigatePokemonDetails;
+window.closePokemonDetails = closePokemonDetails;
 
 window.openOwnedHAModal = openOwnedHAModal;
 window.closeOwnedHAModal = closeOwnedHAModal;

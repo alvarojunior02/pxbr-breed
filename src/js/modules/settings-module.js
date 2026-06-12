@@ -31,14 +31,17 @@ const btnCloseBackupHistoryModal = document.getElementById("btnCloseBackupHistor
 let currentSettings = loadSystemSettings();
 let draftSettings = { ...currentSettings };
 
+// LOAD SYSTEM SETTINGS
 function loadSystemSettings() {
     return JSON.parse(localStorage.getItem("systemSettings")) || DEFAULT_SETTINGS;
 }
 
+// SAVE SYSTEM SETTINGS
 function saveSystemSettings(settings) {
     localStorage.setItem("systemSettings", JSON.stringify(settings));
 }
 
+// RENDER SETTINGS MODULE
 function renderSettingsModule() {
     currentSettings = loadSystemSettings();
     draftSettings = { ...currentSettings };
@@ -49,6 +52,7 @@ function renderSettingsModule() {
     updateSettingsSaveButton();
 }
 
+// HAS SETTINGS CHANGES
 function hasSettingsChanges() {
     return (
         currentSettings.showMissingHAWarningOnOrder !== draftSettings.showMissingHAWarningOnOrder ||
@@ -56,10 +60,12 @@ function hasSettingsChanges() {
     );
 }
 
+// FORMAT BOOLEAN SETTING VALUE
 function formatBooleanSettingValue(value) {
     return value ? "Ativado" : "Desativado";
 }
 
+// GET SETTINGS CHANGES
 function getSettingsChanges() {
     const changes = [];
 
@@ -82,6 +88,7 @@ function getSettingsChanges() {
     return changes;
 }
 
+// RENDER SETTINGS CHANGES PREVIEW
 function renderSettingsChangesPreview() {
     const changes = getSettingsChanges();
 
@@ -118,16 +125,19 @@ function renderSettingsChangesPreview() {
         .join("");
 }
 
+// OPEN SETTINGS CONFIRM MODAL
 function openSettingsConfirmModal() {
     renderSettingsChangesPreview();
 
     openModal(settingsConfirmModal);
 }
 
+// CLOSE SETTINGS CONFIRM MODAL
 function closeSettingsConfirmModal() {
     closeModal(settingsConfirmModal);
 }
 
+// CONFIRM SETTINGS SAVE
 function confirmSettingsSave() {
     if (!hasSettingsChanges()) {
         showWarningToast("Nenhuma configuração foi alterada.");
@@ -144,10 +154,12 @@ function confirmSettingsSave() {
     renderSettingsModule();
 }
 
+// UPDATE SETTINGS SAVE BUTTON
 function updateSettingsSaveButton() {
     btnSaveSettings.disabled = !hasSettingsChanges();
 }
 
+// CREATE SYSTEM BACKUP
 function createSystemBackup() {
     return {
         version: "1.0.0",
@@ -162,6 +174,7 @@ function createSystemBackup() {
     };
 }
 
+// GET BACKUP SUMMARY
 function getBackupSummary() {
     const players = loadPlayers();
     const orders = loadOrders();
@@ -179,6 +192,7 @@ function getBackupSummary() {
     };
 }
 
+// RENDER BACKUP EXPORT SUMMARY
 function renderBackupExportSummary() {
     const summary = getBackupSummary();
 
@@ -222,24 +236,29 @@ function renderBackupExportSummary() {
     `;
 }
 
+// OPEN BACKUP EXPORT CONFIRM MODAL
 function openBackupExportConfirmModal() {
     renderBackupExportSummary();
 
     openModal(backupExportConfirmModal);
 }
 
+// CLOSE BACKUP EXPORT CONFIRM MODAL
 function closeBackupExportConfirmModal() {
     closeModal(backupExportConfirmModal);
 }
 
+// LOAD BACKUP HISTORY
 function loadBackupHistory() {
     return JSON.parse(localStorage.getItem(BACKUP_HISTORY_STORAGE_KEY)) || [];
 }
 
+// SAVE BACKUP HISTORY
 function saveBackupHistory(history) {
     localStorage.setItem(BACKUP_HISTORY_STORAGE_KEY, JSON.stringify(history));
 }
 
+// CREATE BACKUP HISTORY ENTRY
 function createBackupHistoryEntry(fileName, backup) {
     return {
         id: generateUUID(),
@@ -255,6 +274,7 @@ function createBackupHistoryEntry(fileName, backup) {
     };
 }
 
+// ADD BACKUP HISTORY ENTRY
 function addBackupHistoryEntry(fileName, backup) {
     const history = loadBackupHistory();
 
@@ -263,6 +283,7 @@ function addBackupHistoryEntry(fileName, backup) {
     saveBackupHistory([entry, ...history]);
 }
 
+// RENDER BACKUP HISTORY
 function renderBackupHistory() {
     const history = loadBackupHistory();
 
@@ -305,16 +326,19 @@ function renderBackupHistory() {
         .join("");
 }
 
+// OPEN BACKUP HISTORY MODAL
 function openBackupHistoryModal() {
     renderBackupHistory();
 
     openModal(backupHistoryModal);
 }
 
+// CLOSE BACKUP HISTORY MODAL
 function closeBackupHistoryModal() {
     closeModal(backupHistoryModal);
 }
 
+// EXPORT SYSTEM BACKUP
 function exportSystemBackup() {
     const backup = createSystemBackup();
 
@@ -346,6 +370,7 @@ function exportSystemBackup() {
     showSuccessToast("Backup exportado com sucesso!");
 }
 
+// IS VALID BACKUP FILE
 function isValidBackupFile(backup) {
     return (
         backup &&
@@ -358,6 +383,7 @@ function isValidBackupFile(backup) {
     );
 }
 
+// RESTORE SYSTEM BACKUP
 function restoreSystemBackup(backup) {
     localStorage.setItem(STORAGE_KEYS.PLAYERS, JSON.stringify(backup.data.players));
 
@@ -373,6 +399,7 @@ function restoreSystemBackup(backup) {
     localStorage.setItem("systemSettings", JSON.stringify(backup.data.systemSettings));
 }
 
+// REFRESH APP AFTER BACKUP RESTORE
 function refreshAppAfterBackupRestore() {
     renderDashboard();
     renderOrdersList();
@@ -382,6 +409,7 @@ function refreshAppAfterBackupRestore() {
     renderSettingsModule();
 }
 
+// IMPORT SYSTEM BACKUP
 function importSystemBackup(file) {
     if (!file) {
         return;

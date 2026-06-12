@@ -5,6 +5,7 @@ const appSections = document.querySelectorAll(".app-section");
 const btnToggleSidebar = document.getElementById("btnToggleSidebar");
 const appSidebar = document.querySelector(".sidebar");
 
+// SHOW SECTIONS
 function showSection(sectionId) {
     appSections.forEach((section) => {
         section.classList.remove("active-section");
@@ -56,10 +57,12 @@ if (btnToggleSidebar && appSidebar) {
 
 let shouldRestoreMobileMenuOnTop = false;
 
+// IS MOBILE NAVIGATION
 function isMobileNavigation() {
     return window.innerWidth <= 900;
 }
 
+// HANDLE MOBILE MENU SCROLL
 function handleMobileMenuScroll() {
     if (!appSidebar || !isMobileNavigation()) {
         return;

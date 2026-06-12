@@ -1,3 +1,4 @@
+// SHOW TOAST
 function showToast(message, type = "success") {
     const toastTypes = {
         success: {
@@ -37,18 +38,22 @@ function showToast(message, type = "success") {
     }).showToast();
 }
 
+// SHOW SUCCESS TOAST
 function showSuccessToast(message) {
     showToast(message, "success");
 }
 
+// SHOW ERROR TOAST
 function showErrorToast(message) {
     showToast(message, "error");
 }
 
+// SHOW WARNING TOAST
 function showWarningToast(message) {
     showToast(message, "warning");
 }
 
+// SHOW INFO TOAST
 function showInfoToast(message) {
     showToast(message, "info");
 }

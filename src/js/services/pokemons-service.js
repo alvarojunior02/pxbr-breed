@@ -4,10 +4,12 @@ const pokemonResults = document.getElementById("pokemonResults");
 let pokemonData = [];
 let pokemonLoaded = false;
 
+// FORMAT ABILITY NAME
 function formatAbilityName(abilityName) {
     return abilityName.replaceAll("-", " ");
 }
 
+// LOAD POKEMON DATA
 async function loadPokemonData() {
     try {
         const response = await fetch("./src/data/pokedex.json");
@@ -34,6 +36,7 @@ async function loadPokemonData() {
     }
 }
 
+// SEARCH POKEMON
 function searchPokemon(searchTerm) {
     if (!searchTerm) {
         return [];
@@ -47,16 +50,19 @@ function searchPokemon(searchTerm) {
     );
 }
 
+// GET POKEMON BY ID
 function getPokemonById(id) {
     return pokemonData.find((pokemon) => pokemon.id === Number(id));
 }
 
+// GET POKEMON THUMBNAIL
 function getPokemonThumbnail(pokemonId) {
     const pokemon = getPokemonById(pokemonId);
 
     return pokemon ? pokemon.thumbnail : "";
 }
 
+// GET BASE POKEMON
 function getBasePokemon(pokemonId) {
     let pokemon = getPokemonById(pokemonId);
 
@@ -69,10 +75,12 @@ function getBasePokemon(pokemonId) {
     return pokemon;
 }
 
+// IS POKEMON DATA LOADED
 function isPokemonDataLoaded() {
     return pokemonLoaded;
 }
 
+// RENDER POKEMON RESULTS
 function renderPokemonResults(results) {
     pokemonResults.innerHTML = "";
 

@@ -1,23 +1,29 @@
+// GENERATE UUID
 function generateUUID() {
     return crypto.randomUUID();
 }
 
+// FORMAT DATE
 function formatDate(date) {
     return new Date(date).toLocaleDateString("pt-BR");
 }
 
+// FORMAT CURRENCY
 function formatCurrency(value) {
     return value.toLocaleString("pt-BR");
 }
 
+// FORMAT MONEY
 function formatMoney(value) {
     return `$ ${Number(value).toLocaleString("pt-BR")}`;
 }
 
+// UNFORMAT MONEY
 function unformatMoney(value) {
     return Number(value.replace(/\D/g, "")) || 0;
 }
 
+// FORMAT DATE TIME
 function formatDateTime(date) {
     return new Date(date).toLocaleString("pt-BR", {
         dateStyle: "short",
@@ -25,6 +31,7 @@ function formatDateTime(date) {
     });
 }
 
+// RENDER PLAYER AVATAR
 function renderPlayerAvatar(player, size = 28) {
     if (!player) {
         return "";
@@ -42,6 +49,7 @@ function renderPlayerAvatar(player, size = 28) {
     `;
 }
 
+// RENDER PLAYER INLINE
 function renderPlayerInline(player, size = 28) {
     if (!player) {
         return `<span>-</span>`;
