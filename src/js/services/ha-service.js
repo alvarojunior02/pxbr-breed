@@ -9,6 +9,7 @@ function createOwnedHiddenAbility(data) {
         evolutionLine: data.evolutionLine || [],
         castratedPrice: Number(data.castratedPrice) || 0,
         breedablePrice: Number(data.breedablePrice) || 0,
+        nature: data.nature || null,
         notes: data.notes || "",
         createdAt: new Date().toISOString(),
         updatedAt: null
@@ -59,6 +60,7 @@ function updateOwnedHiddenAbility(hiddenAbilityId, data) {
             ...item,
             castratedPrice: Number(data.castratedPrice) || 0,
             breedablePrice: Number(data.breedablePrice) || 0,
+            nature: data.nature || null,
             notes: data.notes || "",
             updatedAt: new Date().toISOString()
         };

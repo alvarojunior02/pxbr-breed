@@ -450,6 +450,21 @@ function formatOwnedPokemonBreedLevel(value) {
     return labels[value] || value;
 }
 
+// FORMAT ORDER OWNED POKEMON NATURE
+function formatOrderOwnedPokemonNature(natureName) {
+    const nature = getNatureByName(natureName);
+
+    if (!nature) {
+        return natureName || "-";
+    }
+
+    if (nature.neutral) {
+        return `${nature.name} (Neutral)`;
+    }
+
+    return `${nature.name} (+${nature.positive}, -${nature.negative})`;
+}
+
 // GET ORDER OWNED POKEMON HINTS
 function getOrderOwnedPokemonHints(pokemon) {
     const ownedPokemons = typeof loadOwnedPokemons === "function" ? loadOwnedPokemons() : [];
@@ -493,12 +508,18 @@ function renderOwnedPokemonOrderHints(row, pokemon) {
 
     const femaleHints = ownedFemales.map((item) => {
         return `
-            <li>
-                Você já possui essa fêmea
-                <strong>${formatOwnedPokemonBreedLevel(item.breedLevel)}</strong>
-                na nature <strong>${item.nature}</strong>.
-            </li>
-        `;
+        <li class="owned-pokemon-order-hint">
+            <img
+                src="${getPokemonThumbnail(item.pokemonId, item.sprite)}"
+                alt="${item.pokemonName}">
+
+            <span>
+                Você já possui um <strong>${item.pokemonName}</strong>
+                fêmea <strong>${formatOwnedPokemonBreedLevel(item.breedLevel)}</strong>
+                na nature <strong>${formatOrderOwnedPokemonNature(item.nature)}</strong>.
+            </span>
+        </li>
+    `;
     });
 
     const maleF6Hints = ownedMaleF6ByEggGroup.map((item) => {
@@ -507,16 +528,23 @@ function renderOwnedPokemonOrderHints(row, pokemon) {
         });
 
         return `
-            <li>
-                Você já possui um macho <strong>F6</strong>
+        <li class="owned-pokemon-order-hint">
+            <img
+                src="${getPokemonThumbnail(item.pokemonId, item.sprite)}"
+                alt="${item.pokemonName}">
+
+            <span>
+                Você já possui um <strong>${item.pokemonName}</strong>
+                macho <strong>F6</strong>
                 ${
                     compatibleEggGroups.length
                         ? `do Egg Group <strong>${compatibleEggGroups.join(", ")}</strong>`
                         : "compatível"
                 }
                 para breedar.
-            </li>
-        `;
+            </span>
+        </li>
+    `;
     });
 
     const hints = [...femaleHints, ...maleF6Hints];

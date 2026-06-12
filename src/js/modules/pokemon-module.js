@@ -33,6 +33,7 @@ const addOwnedHAModal = document.getElementById("addOwnedHAModal");
 const addOwnedHASummary = document.getElementById("addOwnedHASummary");
 const ownedHACastratedPrice = document.getElementById("ownedHACastratedPrice");
 const ownedHABreedablePrice = document.getElementById("ownedHABreedablePrice");
+const ownedHANature = document.getElementById("ownedHANature");
 const ownedHANotes = document.getElementById("ownedHANotes");
 
 const manualHASelector = document.getElementById("manualHASelector");
@@ -947,7 +948,9 @@ function populateOwnedPokemonNatureOptions() {
         const option = document.createElement("option");
 
         option.value = nature.name;
-        option.textContent = nature.name;
+        option.textContent = nature.neutral
+            ? `${nature.name} (Neutral)`
+            : `${nature.name} (+${nature.positive}, -${nature.negative})`;
 
         ownedPokemonNature.appendChild(option);
     });
@@ -1463,8 +1466,28 @@ function getPokemonHiddenAbility(pokemon) {
     });
 }
 
+// POPULATE OWNED HA NATURE OPTIONS
+function populateOwnedHANatureOptions() {
+    if (ownedHANature.options.length > 1) {
+        return;
+    }
+
+    POKEMON_NATURES.forEach((nature) => {
+        const option = document.createElement("option");
+
+        option.value = nature.name;
+        option.textContent = nature.neutral
+            ? `${nature.name} (Neutral)`
+            : `${nature.name} (+${nature.positive}, -${nature.negative})`;
+
+        ownedHANature.appendChild(option);
+    });
+}
+
 // OPEN MANUAL ADD OWNED HA MODAL
 function openManualAddOwnedHAModal() {
+    populateOwnedHANatureOptions();
+
     isManualHAFlow = true;
     addHAOrigin = "manual";
 
@@ -1485,6 +1508,7 @@ function openManualAddOwnedHAModal() {
 
     ownedHACastratedPrice.value = formatMoney(0);
     ownedHABreedablePrice.value = formatMoney(0);
+    ownedHANature.value = "";
     ownedHANotes.value = "";
 
     setOwnedHAFormFieldsEnabled(false);
@@ -1495,6 +1519,8 @@ function openManualAddOwnedHAModal() {
 
 // OPEN ADD OWNED HA MODAL
 function openAddOwnedHAModal(pokemonId, origin = "pokemon-details", orderRow = null) {
+    populateOwnedHANatureOptions();
+
     addHAOrigin = origin;
     addHAOrderRow = orderRow;
 
@@ -1527,6 +1553,7 @@ function openAddOwnedHAModal(pokemonId, origin = "pokemon-details", orderRow = n
 
     ownedHACastratedPrice.value = "";
     ownedHABreedablePrice.value = "";
+    ownedHANature.value = "";
     ownedHANotes.value = "";
 
     setOwnedHAFormFieldsEnabled(true);
@@ -1646,6 +1673,7 @@ function saveOwnedHAFromModal() {
         updateOwnedHiddenAbility(selectedOwnedHAId, {
             castratedPrice,
             breedablePrice,
+            nature: ownedHANature.value || null,
             notes: ownedHANotes.value.trim()
         });
 
@@ -1686,6 +1714,7 @@ function saveOwnedHAFromModal() {
         evolutionLine: evolutionChain,
         castratedPrice: unformatMoney(ownedHACastratedPrice.value),
         breedablePrice: unformatMoney(ownedHABreedablePrice.value),
+        nature: ownedHANature.value || null,
         notes: ownedHANotes.value.trim()
     });
 
@@ -1729,6 +1758,7 @@ function closeAddOwnedHAModal() {
 
     ownedHACastratedPrice.value = "";
     ownedHABreedablePrice.value = "";
+    ownedHANature.value = "";
     ownedHANotes.value = "";
 }
 
@@ -1764,6 +1794,7 @@ function openEditOwnedHAModal(hiddenAbilityId) {
 
     ownedHACastratedPrice.value = formatMoney(hiddenAbility.castratedPrice);
     ownedHABreedablePrice.value = formatMoney(hiddenAbility.breedablePrice);
+    ownedHANature.value = hiddenAbility.nature || "";
     ownedHANotes.value = hiddenAbility.notes || "";
 
     setOwnedHAFormFieldsEnabled(true);
@@ -1797,6 +1828,7 @@ function createEditOwnedHASummary(hiddenAbility) {
 function setOwnedHAFormFieldsEnabled(enabled) {
     ownedHACastratedPrice.disabled = !enabled;
     ownedHABreedablePrice.disabled = !enabled;
+    ownedHANature.disabled = !enabled;
     ownedHANotes.disabled = !enabled;
 }
 
@@ -1884,6 +1916,7 @@ applyMoneyMask(ownedHABreedablePrice);
 
 ownedHACastratedPrice.addEventListener("input", updateSaveOwnedHAButtonState);
 ownedHABreedablePrice.addEventListener("input", updateSaveOwnedHAButtonState);
+ownedHANature.addEventListener("change", updateSaveOwnedHAButtonState);
 ownedHANotes.addEventListener("input", updateSaveOwnedHAButtonState);
 
 ownedPokemonSearch.addEventListener("input", searchOwnedPokemon);
