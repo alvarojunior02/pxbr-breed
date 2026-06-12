@@ -6,7 +6,6 @@ const btnExportFinanceCsv = document.getElementById("btnExportFinanceCsv");
 const financeCsvExportConfirmModal = document.getElementById("financeCsvExportConfirmModal");
 const financeCsvExportSummary = document.getElementById("financeCsvExportSummary");
 const btnCloseFinanceCsvExportModal = document.getElementById("btnCloseFinanceCsvExportModal");
-const btnCancelFinanceCsvExport = document.getElementById("btnCancelFinanceCsvExport");
 const btnConfirmFinanceCsvExport = document.getElementById("btnConfirmFinanceCsvExport");
 
 let currentFinancePeriod = "7days";
@@ -96,19 +95,12 @@ function openFinanceCsvExportConfirmModal() {
 
     renderFinanceCsvExportSummary();
 
-    financeCsvExportConfirmModal.classList.remove("hidden");
-    document.body.classList.add("modal-open");
+    openModal(financeCsvExportConfirmModal);
 }
 
 // CLOSE FINANCE CSV EXPORT CONFIRM MODAL
 function closeFinanceCsvExportConfirmModal() {
-    financeCsvExportConfirmModal.classList.add("hidden");
-
-    const hasVisibleModal = document.querySelector(".modal:not(.hidden)");
-
-    if (!hasVisibleModal) {
-        document.body.classList.remove("modal-open");
-    }
+    closeModal(financeCsvExportConfirmModal);
 }
 
 // EXPORT FINANCE TRANSACTIONS TO CSV
@@ -395,8 +387,6 @@ function setupFinancePeriodFilters() {
 }
 
 btnExportFinanceCsv.addEventListener("click", openFinanceCsvExportConfirmModal);
-
-btnCancelFinanceCsvExport.addEventListener("click", closeFinanceCsvExportConfirmModal);
 
 btnConfirmFinanceCsvExport.addEventListener("click", () => {
     exportFinanceTransactionsToCsv();

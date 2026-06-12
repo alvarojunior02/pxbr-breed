@@ -27,7 +27,6 @@ const reportPeriodButtons = document.querySelectorAll(".reports-period-button");
 const reportCsvExportConfirmModal = document.getElementById("reportCsvExportConfirmModal");
 const reportCsvExportSummary = document.getElementById("reportCsvExportSummary");
 const btnCloseReportCsvExportModal = document.getElementById("btnCloseReportCsvExportModal");
-const btnCancelReportCsvExport = document.getElementById("btnCancelReportCsvExport");
 const btnConfirmReportCsvExport = document.getElementById("btnConfirmReportCsvExport");
 
 let pendingReportCsvExport = null;
@@ -914,21 +913,12 @@ function openReportCsvExportConfirmModal() {
         </div>
     `;
 
-    reportCsvExportConfirmModal.classList.remove("hidden");
-    document.body.classList.add("modal-open");
+    openModal(reportCsvExportConfirmModal);
 }
 
 // CLORE REPORT CSV EXPORT CONFIRM MODAL
 function closeReportCsvExportConfirmModal() {
-    reportCsvExportConfirmModal.classList.add("hidden");
-
-    pendingReportCsvExport = null;
-
-    const hasVisibleModal = document.querySelector(".modal:not(.hidden)");
-
-    if (!hasVisibleModal) {
-        document.body.classList.remove("modal-open");
-    }
+    closeModal(reportCsvExportConfirmModal);
 }
 
 // CONFIRM REPORT CSV EXPORT
@@ -959,8 +949,6 @@ reportTabs.forEach((tab) => {
         renderReportsModule();
     });
 });
-
-btnCancelReportCsvExport.addEventListener("click", closeReportCsvExportConfirmModal);
 
 btnConfirmReportCsvExport.addEventListener("click", confirmReportCsvExport);
 

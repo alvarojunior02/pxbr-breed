@@ -13,7 +13,6 @@ const btnSaveSettings = document.getElementById("btnSaveSettings");
 const settingsConfirmModal = document.getElementById("settingsConfirmModal");
 const settingsChangesPreview = document.getElementById("settingsChangesPreview");
 const btnCloseSettingsConfirmModal = document.getElementById("btnCloseSettingsConfirmModal");
-const btnCancelSettingsConfirm = document.getElementById("btnCancelSettingsConfirm");
 const btnConfirmSettingsSave = document.getElementById("btnConfirmSettingsSave");
 
 const btnExportBackup = document.getElementById("btnExportBackup");
@@ -22,7 +21,6 @@ const backupImportInput = document.getElementById("backupImportInput");
 const backupExportConfirmModal = document.getElementById("backupExportConfirmModal");
 const backupExportSummary = document.getElementById("backupExportSummary");
 const btnCloseBackupExportModal = document.getElementById("btnCloseBackupExportModal");
-const btnCancelBackupExport = document.getElementById("btnCancelBackupExport");
 const btnConfirmBackupExport = document.getElementById("btnConfirmBackupExport");
 
 const btnOpenBackupHistory = document.getElementById("btnOpenBackupHistory");
@@ -123,18 +121,11 @@ function renderSettingsChangesPreview() {
 function openSettingsConfirmModal() {
     renderSettingsChangesPreview();
 
-    settingsConfirmModal.classList.remove("hidden");
-    document.body.classList.add("modal-open");
+    openModal(settingsConfirmModal);
 }
 
 function closeSettingsConfirmModal() {
-    settingsConfirmModal.classList.add("hidden");
-
-    const hasVisibleModal = document.querySelector(".modal:not(.hidden)");
-
-    if (!hasVisibleModal) {
-        document.body.classList.remove("modal-open");
-    }
+    closeModal(settingsConfirmModal);
 }
 
 function confirmSettingsSave() {
@@ -234,18 +225,11 @@ function renderBackupExportSummary() {
 function openBackupExportConfirmModal() {
     renderBackupExportSummary();
 
-    backupExportConfirmModal.classList.remove("hidden");
-    document.body.classList.add("modal-open");
+    openModal(backupExportConfirmModal);
 }
 
 function closeBackupExportConfirmModal() {
-    backupExportConfirmModal.classList.add("hidden");
-
-    const hasVisibleModal = document.querySelector(".modal:not(.hidden)");
-
-    if (!hasVisibleModal) {
-        document.body.classList.remove("modal-open");
-    }
+    closeModal(backupExportConfirmModal);
 }
 
 function loadBackupHistory() {
@@ -458,8 +442,6 @@ btnSaveSettings.addEventListener("click", () => {
     openSettingsConfirmModal();
 });
 
-btnCancelSettingsConfirm.addEventListener("click", closeSettingsConfirmModal);
-
 btnConfirmSettingsSave.addEventListener("click", confirmSettingsSave);
 
 btnExportBackup.addEventListener("click", openBackupExportConfirmModal);
@@ -467,8 +449,6 @@ btnExportBackup.addEventListener("click", openBackupExportConfirmModal);
 btnImportBackup.addEventListener("click", () => {
     backupImportInput.click();
 });
-
-btnCancelBackupExport.addEventListener("click", closeBackupExportConfirmModal);
 
 btnConfirmBackupExport.addEventListener("click", () => {
     exportSystemBackup();
