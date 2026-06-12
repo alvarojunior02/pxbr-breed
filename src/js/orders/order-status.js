@@ -70,12 +70,8 @@ function openStatusConfirmModal(orderId, pokemonId) {
         </p>
         `;
 
-    statusConfirmModal.classList.remove("hidden");
+    openModal(window.statusConfirmModal);
 }
-
-btnCancelStatusChange.addEventListener("click", () => {
-    statusConfirmModal.classList.add("hidden");
-});
 
 btnConfirmStatusChange.addEventListener("click", () => {
     const orders = loadOrders();
@@ -104,7 +100,7 @@ btnConfirmStatusChange.addEventListener("click", () => {
 
     showSuccessToast("Status atualizado com sucesso!");
 
-    statusConfirmModal.classList.add("hidden");
+    closeModal(window.statusConfirmModal);
 
     renderDashboard();
     renderOrdersList();

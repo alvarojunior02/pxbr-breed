@@ -78,8 +78,6 @@ window.statusConfirmModal = document.getElementById("statusConfirmModal");
 
 window.statusConfirmContent = document.getElementById("statusConfirmContent");
 
-window.btnCancelStatusChange = document.getElementById("btnCancelStatusChange");
-
 window.btnConfirmStatusChange = document.getElementById("btnConfirmStatusChange");
 
 // ==============================
