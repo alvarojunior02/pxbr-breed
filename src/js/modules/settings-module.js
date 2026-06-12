@@ -162,13 +162,16 @@ function updateSettingsSaveButton() {
 // CREATE SYSTEM BACKUP
 function createSystemBackup() {
     return {
-        version: "1.0.0",
+        version: "1.1.0",
         exportedAt: new Date().toISOString(),
         data: {
             players: loadPlayers(),
             orders: loadOrders(),
             transactions: loadTransactions(),
             ownedHiddenAbilities: loadOwnedHiddenAbilities(),
+            ownedPokemons: typeof loadOwnedPokemons === "function" ? loadOwnedPokemons() : [],
+            orderStatusHistory:
+                typeof loadOrderStatusHistory === "function" ? loadOrderStatusHistory() : [],
             systemSettings: loadSystemSettings()
         }
     };
@@ -180,6 +183,9 @@ function getBackupSummary() {
     const orders = loadOrders();
     const transactions = loadTransactions();
     const hiddenAbilities = loadOwnedHiddenAbilities();
+    const ownedPokemons = typeof loadOwnedPokemons === "function" ? loadOwnedPokemons() : [];
+    const orderStatusHistory =
+        typeof loadOrderStatusHistory === "function" ? loadOrderStatusHistory() : [];
 
     return {
         players: players.length,
@@ -188,6 +194,8 @@ function getBackupSummary() {
         archivedOrders: orders.filter((order) => order.archived).length,
         transactions: transactions.length,
         hiddenAbilities: hiddenAbilities.length,
+        ownedPokemons: ownedPokemons.length,
+        orderStatusHistory: orderStatusHistory.length,
         settings: 1
     };
 }
@@ -226,6 +234,16 @@ function renderBackupExportSummary() {
             <div class="backup-summary-item">
                 <strong>${summary.hiddenAbilities}</strong>
                 <span>HAs cadastradas</span>
+            </div>
+
+            <div class="backup-summary-item">
+                <strong>${summary.ownedPokemons}</strong>
+                <span>Pokémons próprios</span>
+            </div>
+
+            <div class="backup-summary-item">
+                <strong>${summary.orderStatusHistory}</strong>
+                <span>Histórico de status</span>
             </div>
 
             <div class="backup-summary-item">
@@ -269,6 +287,8 @@ function createBackupHistoryEntry(fileName, backup) {
             orders: backup.data.orders.length,
             transactions: backup.data.transactions.length,
             ownedHiddenAbilities: backup.data.ownedHiddenAbilities.length,
+            ownedPokemons: backup.data.ownedPokemons?.length || 0,
+            orderStatusHistory: backup.data.orderStatusHistory?.length || 0,
             settings: backup.data.systemSettings ? 1 : 0
         }
     };
@@ -318,6 +338,8 @@ function renderBackupHistory() {
                         <span>Encomendas: ${entry.summary.orders}</span>
                         <span>Transações: ${entry.summary.transactions}</span>
                         <span>HAs: ${entry.summary.ownedHiddenAbilities}</span>
+                        <span>Pokémons: ${entry.summary.ownedPokemons || 0}</span>
+                        <span>Status: ${entry.summary.orderStatusHistory || 0}</span>
                         <span>Configurações: ${entry.summary.settings}</span>
                     </div>
                 </article>
@@ -396,6 +418,16 @@ function restoreSystemBackup(backup) {
         JSON.stringify(backup.data.ownedHiddenAbilities)
     );
 
+    localStorage.setItem(
+        STORAGE_KEYS.OWNED_POKEMONS,
+        JSON.stringify(backup.data.ownedPokemons || [])
+    );
+
+    localStorage.setItem(
+        STORAGE_KEYS.ORDER_STATUS_HISTORY,
+        JSON.stringify(backup.data.orderStatusHistory || [])
+    );
+
     localStorage.setItem("systemSettings", JSON.stringify(backup.data.systemSettings));
 }
 
@@ -407,6 +439,14 @@ function refreshAppAfterBackupRestore() {
     renderFinanceModule();
     renderPokemonCatalog();
     renderSettingsModule();
+
+    if (typeof renderOwnedPokemonsList === "function") {
+        renderOwnedPokemonsList();
+    }
+
+    if (typeof renderOwnedHAList === "function") {
+        renderOwnedHAList();
+    }
 }
 
 // IMPORT SYSTEM BACKUP
