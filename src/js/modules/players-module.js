@@ -12,7 +12,6 @@ const btnConfirmNewPlayer = document.getElementById("btnConfirmNewPlayer");
 
 const playerSummaryModal = document.getElementById("playerSummaryModal");
 const playerSummaryContent = document.getElementById("playerSummaryContent");
-const btnClosePlayerSummary = document.getElementById("btnClosePlayerSummary");
 
 const playerTransactionsModal = document.getElementById("playerTransactionsModal");
 const playerTransactionsContent = document.getElementById("playerTransactionsContent");
@@ -452,7 +451,7 @@ function openPlayerSummaryModal(playerId) {
         }
     `;
 
-    playerSummaryModal.classList.remove("hidden");
+    openModal(playerSummaryModal);
 }
 
 // OPEN PLAYER TRANSACTIONS MODAL
@@ -603,10 +602,6 @@ playerSortSelect.addEventListener("change", renderPlayersModule);
 btnOpenNewPlayerModal.addEventListener("click", openNewPlayerModal);
 
 btnConfirmNewPlayer.addEventListener("click", savePlayerFromModal);
-
-btnClosePlayerSummary.addEventListener("click", () => {
-    playerSummaryModal.classList.add("hidden");
-});
 
 btnClosePlayerTransactions.addEventListener("click", () => {
     playerTransactionsModal.classList.add("hidden");
