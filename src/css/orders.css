@@ -469,3 +469,37 @@
 .order-status-history h3 {
     margin-bottom: 8px;
 }
+
+.owned-pokemon-order-info {
+    margin-top: 1rem;
+}
+
+.owned-pokemon-order-card {
+    border: 1px solid rgba(59, 130, 246, 0.45);
+    background: rgba(59, 130, 246, 0.08);
+    border-radius: 0.75rem;
+    padding: 0.85rem;
+}
+
+.owned-pokemon-order-card > strong {
+    display: block;
+    color: var(--accent);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.owned-pokemon-order-card ul {
+    margin: 0;
+    padding-left: 1.1rem;
+}
+
+.owned-pokemon-order-card li {
+    margin: 0.35rem 0;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    line-height: 1.4;
+}
+
+.owned-pokemon-order-card li strong {
+    color: var(--text);
+}

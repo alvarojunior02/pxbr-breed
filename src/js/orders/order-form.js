@@ -434,6 +434,114 @@ function createOwnedHAOrderInfoHtml(pokemon) {
     `;
 }
 
+// FORMAT OWNED POKEMON BREED LEVEL
+function formatOwnedPokemonBreedLevel(value) {
+    const labels = {
+        F6: "F6",
+        F5_PFT: "F5 PFT",
+        F5: "F5",
+        F4: "F4",
+        F3: "F3",
+        F2: "F2",
+        F1: "F1",
+        CAPTURED: "Capturado"
+    };
+
+    return labels[value] || value;
+}
+
+// GET ORDER OWNED POKEMON HINTS
+function getOrderOwnedPokemonHints(pokemon) {
+    const ownedPokemons = typeof loadOwnedPokemons === "function" ? loadOwnedPokemons() : [];
+
+    const pokemonEggGroups =
+        pokemon.eggGroups?.map((eggGroup) => normalizeEggGroup(eggGroup)) || [];
+
+    const selectedBasePokemon = getBasePokemon(pokemon.id);
+    const selectedBasePokemonId = Number(selectedBasePokemon?.id || pokemon.id);
+
+    const ownedFemales = ownedPokemons.filter((item) => {
+        const ownedBasePokemon = getBasePokemon(item.pokemonId);
+        const ownedBasePokemonId = Number(ownedBasePokemon?.id || item.pokemonId);
+
+        return ownedBasePokemonId === selectedBasePokemonId && item.gender === "FEMALE";
+    });
+
+    const ownedMaleF6ByEggGroup = ownedPokemons.filter((item) => {
+        const hasCompatibleEggGroup = item.eggGroups?.some((eggGroup) => {
+            return pokemonEggGroups.includes(normalizeEggGroup(eggGroup));
+        });
+
+        return item.gender === "MALE" && item.breedLevel === "F6" && hasCompatibleEggGroup;
+    });
+
+    return {
+        ownedFemales,
+        ownedMaleF6ByEggGroup
+    };
+}
+
+// RENDER OWNED POKEMON ORDER HINTS
+function renderOwnedPokemonOrderHints(row, pokemon) {
+    const container = row.querySelector(".owned-pokemon-order-info");
+
+    if (!container || !pokemon) {
+        return;
+    }
+
+    const { ownedFemales, ownedMaleF6ByEggGroup } = getOrderOwnedPokemonHints(pokemon);
+
+    const femaleHints = ownedFemales.map((item) => {
+        return `
+            <li>
+                Você já possui essa fêmea
+                <strong>${formatOwnedPokemonBreedLevel(item.breedLevel)}</strong>
+                na nature <strong>${item.nature}</strong>.
+            </li>
+        `;
+    });
+
+    const maleF6Hints = ownedMaleF6ByEggGroup.map((item) => {
+        const compatibleEggGroups = item.eggGroups.filter((eggGroup) => {
+            return pokemon.eggGroups?.map(normalizeEggGroup).includes(normalizeEggGroup(eggGroup));
+        });
+
+        return `
+            <li>
+                Você já possui um macho <strong>F6</strong>
+                ${
+                    compatibleEggGroups.length
+                        ? `do Egg Group <strong>${compatibleEggGroups.join(", ")}</strong>`
+                        : "compatível"
+                }
+                para breedar.
+            </li>
+        `;
+    });
+
+    const hints = [...femaleHints, ...maleF6Hints];
+
+    if (hints.length === 0) {
+        container.classList.add("hidden");
+        container.innerHTML = "";
+        return;
+    }
+
+    container.classList.remove("hidden");
+
+    container.innerHTML = `
+        <div class="owned-pokemon-order-card">
+            <strong>
+                📦 Pokémons próprios encontrados
+            </strong>
+
+            <ul>
+                ${hints.join("")}
+            </ul>
+        </div>
+    `;
+}
+
 // APPLY OWNED HA PRICE TO ROW
 function applyOwnedHAPriceToRow(row, pokemon) {
     const settings = loadSystemSettings();
@@ -579,6 +687,8 @@ function createPokemonOrderRow() {
             </div>
 
             <div class="owned-ha-order-info hidden"></div>
+
+            <div class="owned-pokemon-order-info hidden"></div>
         </div>
     `;
 
@@ -673,6 +783,8 @@ function createPokemonOrderRow() {
                 pokemonAutocomplete.innerHTML = "";
 
                 renderPokemonInfo(pokemon);
+
+                renderOwnedPokemonOrderHints(row, pokemon);
 
                 populateAbilitySelect(abilitySelect, pokemon.abilities, pokemon.id);
 
@@ -803,6 +915,8 @@ function refreshOrderPokemonOwnedHA(row, pokemonId) {
             </div>
         </div>
     `;
+
+    renderOwnedPokemonOrderHints(row, pokemon);
 
     populateAbilitySelect(abilitySelect, pokemon.abilities, pokemon.id);
 
