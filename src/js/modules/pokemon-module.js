@@ -14,10 +14,17 @@ const pokemonCatalogPaginationBottom = document.getElementById("pokemonCatalogPa
 
 const ownedHAModal = document.getElementById("ownedHAModal");
 const ownedHAList = document.getElementById("ownedHAList");
+const ownedHAListSearch = document.getElementById("ownedHAListSearch");
+const ownedHAListNature = document.getElementById("ownedHAListNature");
 
 const ownedPokemonsModal = document.getElementById("ownedPokemonsModal");
 const ownedPokemonFormModal = document.getElementById("ownedPokemonFormModal");
 const ownedPokemonsList = document.getElementById("ownedPokemonsList");
+const ownedPokemonListSearch = document.getElementById("ownedPokemonListSearch");
+const ownedPokemonListBreedLevel = document.getElementById("ownedPokemonListBreedLevel");
+const ownedPokemonListGender = document.getElementById("ownedPokemonListGender");
+const ownedPokemonListNature = document.getElementById("ownedPokemonListNature");
+
 const ownedPokemonFormTitle = document.getElementById("ownedPokemonFormTitle");
 const ownedPokemonSearch = document.getElementById("ownedPokemonSearch");
 const ownedPokemonSearchResults = document.getElementById("ownedPokemonSearchResults");
@@ -888,6 +895,7 @@ function navigatePokemonDetails(pokemonId, direction) {
 
 // OPEN OWNED HA MODAL
 function openOwnedHAModal() {
+    populateOwnedManagementNatureFilters();
     renderOwnedHAList();
 
     openModal(ownedHAModal);
@@ -898,8 +906,44 @@ function closeOwnedHAModal() {
     closeModal(ownedHAModal);
 }
 
+// FORMAT POKEMON NATURE LABEL
+function formatPokemonNatureLabel(natureName) {
+    const nature = getNatureByName(natureName);
+
+    if (!nature) {
+        return natureName || "Não definida";
+    }
+
+    if (nature.neutral) {
+        return `${nature.name} (Neutral)`;
+    }
+
+    return `${nature.name} (+${nature.positive}, -${nature.negative})`;
+}
+
+// POPULATE OWNED MANAGEMENT NATURE FILTERS
+function populateOwnedManagementNatureFilters() {
+    [ownedPokemonListNature, ownedHAListNature].forEach((select) => {
+        if (!select || select.dataset.populated === "true") {
+            return;
+        }
+
+        POKEMON_NATURES.forEach((nature) => {
+            const option = document.createElement("option");
+
+            option.value = nature.name;
+            option.textContent = formatPokemonNatureLabel(nature.name);
+
+            select.appendChild(option);
+        });
+
+        select.dataset.populated = "true";
+    });
+}
+
 // OPEN OWNED POKEMONS MODAL
 function openOwnedPokemonsModal() {
+    populateOwnedManagementNatureFilters();
     renderOwnedPokemonsList();
 
     openModal(ownedPokemonsModal);
@@ -1168,9 +1212,40 @@ function saveOwnedPokemonFromModal() {
     renderOwnedPokemonsList();
 }
 
+// GET FILTERED OWNED POKEMONS
+function getFilteredOwnedPokemons() {
+    const searchTerm = ownedPokemonListSearch.value.trim().toLowerCase();
+    const selectedBreedLevel = ownedPokemonListBreedLevel.value;
+    const selectedGender = ownedPokemonListGender.value;
+    const selectedNature = ownedPokemonListNature.value;
+
+    return loadOwnedPokemons().filter((item) => {
+        const searchableText = [
+            item.pokemonId,
+            item.pokemonName,
+            item.breedLevel,
+            item.gender,
+            item.nature,
+            item.notes,
+            ...(item.eggGroups || [])
+        ]
+            .join(" ")
+            .toLowerCase();
+
+        const matchesSearch = !searchTerm || searchableText.includes(searchTerm);
+        const matchesBreedLevel =
+            selectedBreedLevel === "all" || item.breedLevel === selectedBreedLevel;
+        const matchesGender = selectedGender === "all" || item.gender === selectedGender;
+        const matchesNature = selectedNature === "all" || item.nature === selectedNature;
+
+        return matchesSearch && matchesBreedLevel && matchesGender && matchesNature;
+    });
+}
+
 // RENDER OWNED POKEMONS LIST
 function renderOwnedPokemonsList() {
     const ownedPokemons = loadOwnedPokemons();
+    const filteredPokemons = getFilteredOwnedPokemons();
 
     if (ownedPokemons.length === 0) {
         ownedPokemonsList.innerHTML = `
@@ -1182,9 +1257,27 @@ function renderOwnedPokemonsList() {
         return;
     }
 
+    if (filteredPokemons.length === 0) {
+        ownedPokemonsList.innerHTML = `
+            <p class="owned-management-counter">
+                Exibindo 0 de ${ownedPokemons.length} Pokémons cadastrados.
+            </p>
+
+            <p class="empty-state">
+                Nenhum Pokémon encontrado com os filtros atuais.
+            </p>
+        `;
+
+        return;
+    }
+
     ownedPokemonsList.innerHTML = `
+        <p class="owned-management-counter">
+            Exibindo ${filteredPokemons.length} de ${ownedPokemons.length} Pokémons cadastrados.
+        </p>
+
         <div class="owned-pokemons-list">
-            ${ownedPokemons.map((item) => createOwnedPokemonCard(item)).join("")}
+            ${filteredPokemons.map((item) => createOwnedPokemonCard(item)).join("")}
         </div>
     `;
 }
@@ -1324,9 +1417,38 @@ function deleteOwnedPokemon(ownedPokemonId) {
     renderOwnedPokemonsList();
 }
 
+// GET FILTERED OWNED HAS
+function getFilteredOwnedHAs() {
+    const searchTerm = ownedHAListSearch.value.trim().toLowerCase();
+    const selectedNature = ownedHAListNature.value;
+
+    return loadOwnedHiddenAbilities().filter((item) => {
+        const evolutionNames = item.evolutionLine?.map((pokemon) => pokemon.pokemonName) || [];
+
+        const searchableText = [
+            item.pokemonName,
+            item.abilityName,
+            item.nature,
+            item.notes,
+            ...evolutionNames
+        ]
+            .join(" ")
+            .toLowerCase();
+
+        const matchesSearch = !searchTerm || searchableText.includes(searchTerm);
+        const matchesNature =
+            selectedNature === "all" ||
+            (selectedNature === "none" && !item.nature) ||
+            item.nature === selectedNature;
+
+        return matchesSearch && matchesNature;
+    });
+}
+
 // RENDER OWNED HA LIST
 function renderOwnedHAList() {
     const hiddenAbilities = loadOwnedHiddenAbilities();
+    const filteredHiddenAbilities = getFilteredOwnedHAs();
 
     if (hiddenAbilities.length === 0) {
         ownedHAList.innerHTML = `
@@ -1338,9 +1460,27 @@ function renderOwnedHAList() {
         return;
     }
 
+    if (filteredHiddenAbilities.length === 0) {
+        ownedHAList.innerHTML = `
+            <p class="owned-management-counter">
+                Exibindo 0 de ${hiddenAbilities.length} HAs cadastradas.
+            </p>
+
+            <p class="empty-state">
+                Nenhuma HA encontrada com os filtros atuais.
+            </p>
+        `;
+
+        return;
+    }
+
     ownedHAList.innerHTML = `
+        <p class="owned-management-counter">
+            Exibindo ${filteredHiddenAbilities.length} de ${hiddenAbilities.length} HAs cadastradas.
+        </p>
+
         <div class="owned-ha-list">
-            ${hiddenAbilities.map((item) => createOwnedHACard(item)).join("")}
+            ${filteredHiddenAbilities.map((item) => createOwnedHACard(item)).join("")}
         </div>
     `;
 }
@@ -1411,6 +1551,11 @@ function createOwnedHACard(item) {
                 <div>
                     <strong>Breedável</strong>
                     <span>${formatMoney(item.breedablePrice)}</span>
+                </div>
+
+                <div>
+                    <strong>Nature</strong>
+                    <span>${formatPokemonNatureLabel(item.nature)}</span>
                 </div>
             </div>
 
@@ -1918,12 +2063,19 @@ ownedHACastratedPrice.addEventListener("input", updateSaveOwnedHAButtonState);
 ownedHABreedablePrice.addEventListener("input", updateSaveOwnedHAButtonState);
 ownedHANature.addEventListener("change", updateSaveOwnedHAButtonState);
 ownedHANotes.addEventListener("input", updateSaveOwnedHAButtonState);
+ownedHAListSearch.addEventListener("input", renderOwnedHAList);
+ownedHAListNature.addEventListener("change", renderOwnedHAList);
 
 ownedPokemonSearch.addEventListener("input", searchOwnedPokemon);
 ownedPokemonBreedLevel.addEventListener("change", updateOwnedPokemonSaveButtonState);
 ownedPokemonGender.addEventListener("change", updateOwnedPokemonSaveButtonState);
 ownedPokemonNature.addEventListener("change", updateOwnedPokemonSaveButtonState);
 ownedPokemonNotes.addEventListener("input", updateOwnedPokemonSaveButtonState);
+
+ownedPokemonListSearch.addEventListener("input", renderOwnedPokemonsList);
+ownedPokemonListBreedLevel.addEventListener("change", renderOwnedPokemonsList);
+ownedPokemonListGender.addEventListener("change", renderOwnedPokemonsList);
+ownedPokemonListNature.addEventListener("change", renderOwnedPokemonsList);
 
 btnSaveOwnedPokemon.addEventListener("click", saveOwnedPokemonFromModal);
 btnCancelOwnedPokemonEdit.addEventListener("click", resetOwnedPokemonForm);

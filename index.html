@@ -924,6 +924,37 @@
                     <button type="button" class="modal-close-button" data-close-modal>×</button>
                 </div>
 
+                <div class="owned-management-filters">
+                    <input
+                        type="text"
+                        id="ownedPokemonListSearch"
+                        placeholder="Buscar por nome, número ou observação..."
+                    />
+
+                    <select id="ownedPokemonListBreedLevel">
+                        <option value="all">Todos os status</option>
+                        <option value="F6">F6</option>
+                        <option value="F5_PFT">F5 PFT</option>
+                        <option value="F5">F5</option>
+                        <option value="F4">F4</option>
+                        <option value="F3">F3</option>
+                        <option value="F2">F2</option>
+                        <option value="F1">F1</option>
+                        <option value="CAPTURED">Capturado</option>
+                    </select>
+
+                    <select id="ownedPokemonListGender">
+                        <option value="all">Todos os gêneros</option>
+                        <option value="MALE">Macho</option>
+                        <option value="FEMALE">Fêmea</option>
+                        <option value="GENDERLESS">Genderless</option>
+                    </select>
+
+                    <select id="ownedPokemonListNature">
+                        <option value="all">Todas as natures</option>
+                    </select>
+                </div>
+
                 <div id="ownedPokemonsList"></div>
             </div>
         </div>
@@ -1023,6 +1054,19 @@
                     <h2>Gerenciar Meus HAs</h2>
 
                     <button type="button" class="modal-close-button" data-close-modal>×</button>
+                </div>
+
+                <div class="owned-management-filters owned-ha-management-filters">
+                    <input
+                        type="text"
+                        id="ownedHAListSearch"
+                        placeholder="Buscar por Pokémon, ability ou observação..."
+                    />
+
+                    <select id="ownedHAListNature">
+                        <option value="all">Todas as natures</option>
+                        <option value="none">Sem nature definida</option>
+                    </select>
                 </div>
 
                 <div id="ownedHAList"></div>
