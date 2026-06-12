@@ -3,12 +3,13 @@ function openOrderDetails(orderId) {
     const order = loadOrders().find((order) => order.id === orderId);
 
     if (!order) {
+        showWarningToast("Encomenda não encontrada.");
         return;
     }
 
     renderOrderDetails(order);
 
-    orderDetailsModal.classList.remove("hidden");
+    openModal(window.orderDetailsModal);
 }
 
 // RENDER ORDER DETAILS
@@ -19,7 +20,7 @@ function renderOrderDetails(order) {
 
     const pokemonHtml = order.pokemons.map((pokemon) => createPokemonDetailsCard(pokemon)).join("");
 
-    orderDetailsContent.innerHTML = `
+    window.orderDetailsContent.innerHTML = `
         <p>
             <strong>ID do Pedido:</strong>
             ${order.id}
@@ -30,13 +31,10 @@ function renderOrderDetails(order) {
             ${formatDate(order.createdAt)}
         </p>
 
-        <p>
+        <p class="order-details-player-line">
             <strong>Cliente:</strong>
-            <p class="order-details-player-line">
-                <strong>Cliente:</strong>
 
-                ${renderPlayerInline(player, 28)}
-            </p>
+            ${renderPlayerInline(player, 28)}
         </p>
 
         ${
@@ -274,9 +272,5 @@ function renderOrderTransactionsTable(orderId) {
         </div>
     `;
 }
-
-btnCloseOrderDetails.addEventListener("click", () => {
-    orderDetailsModal.classList.add("hidden");
-});
 
 window.openOrderDetails = openOrderDetails;

@@ -70,8 +70,6 @@ window.orderDetailsModal = document.getElementById("orderDetailsModal");
 
 window.orderDetailsContent = document.getElementById("orderDetailsContent");
 
-window.btnCloseOrderDetails = document.getElementById("btnCloseOrderDetails");
-
 // ==============================
 // STATUS CONFIRMATION MODAL
 // ==============================
