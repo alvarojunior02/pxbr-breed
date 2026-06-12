@@ -748,8 +748,8 @@ function navigatePokemonDetails(pokemonId, direction) {
 // OPEN OWNED HA MODAL
 function openOwnedHAModal() {
     renderOwnedHAList();
-    ownedHAModal.classList.remove("hidden");
-    document.body.classList.add("modal-open");
+
+    openModal(ownedHAModal);
 }
 
 // CLOSE OWNED HA MODAL
@@ -926,8 +926,7 @@ function openManualAddOwnedHAModal() {
     setOwnedHAFormFieldsEnabled(false);
     updateSaveOwnedHAButtonState();
 
-    addOwnedHAModal.classList.remove("hidden");
-    document.body.classList.add("modal-open");
+    openModal(addOwnedHAModal);
 }
 
 // OPEN ADD OWNED HA MODAL
@@ -973,8 +972,8 @@ function openAddOwnedHAModal(pokemonId, origin = "pokemon-details", orderRow = n
     applyMoneyMask(ownedHABreedablePrice);
 
     addOwnedHAModal.querySelector("h2").textContent = "Adicionar HA";
-    addOwnedHAModal.classList.remove("hidden");
-    document.body.classList.add("modal-open");
+
+    openModal(addOwnedHAModal);
 }
 
 // CREATE OWNED HA SUMMARY
@@ -1210,8 +1209,8 @@ function openEditOwnedHAModal(hiddenAbilityId) {
     applyMoneyMask(ownedHABreedablePrice);
 
     addOwnedHAModal.querySelector("h2").textContent = "Editar HA";
-    addOwnedHAModal.classList.remove("hidden");
-    document.body.classList.add("modal-open");
+
+    openModal(addOwnedHAModal);
 }
 
 // CREATE EDIT OWNED HA SUMMARY

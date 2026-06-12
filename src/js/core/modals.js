@@ -6,19 +6,16 @@ function hasVisibleModal() {
 // OPEN MODAL
 function openModal(modalElement) {
     if (!modalElement) {
-        console.error("Modal não encontrado.");
         return;
     }
 
     modalElement.classList.remove("hidden");
-
     document.body.classList.add("modal-open");
 }
 
 // CLOSE MODAL
 function closeModal(modalElement) {
     if (!modalElement) {
-        console.error("Modal não encontrado.");
         return;
     }
 

@@ -1033,7 +1033,7 @@ function renderOrderSummary(order) {
 
 // OPEN CREATE ORDER MODAL
 function openCreateOrderModal() {
-    createOrderModal.classList.remove("hidden");
+    openModal(window.createOrderModal);
 }
 
 // CLOSE CREATE ORDER MODAL

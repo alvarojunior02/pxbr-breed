@@ -220,7 +220,7 @@ function openEditPlayerModal(playerId) {
 
     updateSavePlayerButtonState();
 
-    newPlayerModal.classList.remove("hidden");
+    openModal(newPlayerModal);
 
     document.body.classList.add("modal-open");
 
@@ -240,7 +240,7 @@ function openNewPlayerModal(selectOnOrderForm = false) {
 
     btnConfirmNewPlayer.disabled = true;
 
-    newPlayerModal.classList.remove("hidden");
+    openModal(newPlayerModal);
 
     document.body.classList.add("modal-open");
 
@@ -521,7 +521,7 @@ function openPlayerTransactionsModal(playerId) {
         }
     `;
 
-    playerTransactionsModal.classList.remove("hidden");
+    openModal(playerTransactionsModal);
 }
 
 // OPEN ORDER DETAILS FORM PLAYER TRANSACTIONS
