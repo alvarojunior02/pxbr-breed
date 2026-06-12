@@ -1039,7 +1039,8 @@ function openCreateOrderModal() {
 // CLOSE CREATE ORDER MODAL
 function closeCreateOrderModal() {
     resetOrderForm();
-    closeModal(createOrderModal);
+
+    closeModal(window.createOrderModal);
 }
 
 // CLOSE ORDER CONFIRMATION MODAL
@@ -1186,5 +1187,6 @@ document.querySelectorAll("input[name='needsFemale']").forEach((radio) => {
 });
 
 window.openCreateOrderModal = openCreateOrderModal;
+window.closeCreateOrderModal = closeCreateOrderModal;
 window.selectOrderPlayer = selectOrderPlayer;
 window.refreshOrderPokemonOwnedHA = refreshOrderPokemonOwnedHA;
