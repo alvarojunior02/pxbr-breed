@@ -487,9 +487,11 @@
         <!-- Modal de Confirmação de Exportação de Backup -->
         <div id="backupExportConfirmModal" class="modal hidden">
             <div class="modal-content backup-export-modal-content">
-                <button type="button" class="modal-close-button" data-close-modal>×</button>
+                <div class="modal-header">
+                    <h2>Confirmar Exportação</h2>
 
-                <h2>Confirmar Exportação</h2>
+                    <button type="button" class="modal-close-button" data-close-modal>×</button>
+                </div>
 
                 <p class="settings-confirm-description">
                     Revise os dados que serão incluídos no arquivo de backup.
@@ -508,9 +510,11 @@
         <!-- Modal de Confirmação das Configurações -->
         <div id="settingsConfirmModal" class="modal hidden">
             <div class="modal-content settings-confirm-modal-content">
-                <button type="button" class="modal-close-button" data-close-modal>×</button>
+                <div class="modal-header">
+                    <h2>Confirmar alterações</h2>
 
-                <h2>Confirmar alterações</h2>
+                    <button type="button" class="modal-close-button" data-close-modal>×</button>
+                </div>
 
                 <p class="settings-confirm-description">
                     Revise as alterações antes de salvar as configurações do sistema.
@@ -529,9 +533,11 @@
         <!-- Modal de Histórico de Backups -->
         <div id="backupHistoryModal" class="modal hidden">
             <div class="modal-content backup-history-modal-content">
-                <button type="button" class="modal-close-button" data-close-modal>×</button>
+                <div class="modal-header">
+                    <h2>Histórico de Backups</h2>
 
-                <h2>Histórico de Backups</h2>
+                    <button type="button" class="modal-close-button" data-close-modal>×</button>
+                </div>
 
                 <p class="settings-confirm-description">
                     Registro dos backups exportados neste navegador.
@@ -544,9 +550,10 @@
         <!-- Modal de Confirmação de Exportação CSV -->
         <div id="financeCsvExportConfirmModal" class="modal hidden">
             <div class="modal-content finance-csv-export-modal-content">
-                <button type="button" class="modal-close-button" data-close-modal>×</button>
-
-                <h2>Confirmar Exportação CSV</h2>
+                <div class="modal-header">
+                    <h2>Confirmar Exportação CSV</h2>
+                    <button type="button" class="modal-close-button" data-close-modal>×</button>
+                </div>
 
                 <p class="settings-confirm-description">
                     Revise as transações que serão exportadas para o arquivo CSV.
@@ -565,11 +572,17 @@
         <!-- Modal de Criar Encomenda -->
         <div id="createOrderModal" class="modal hidden">
             <div class="modal-content">
-                <button type="button" class="modal-close-button" onclick="closeCreateOrderModal()">
-                    ×
-                </button>
+                <div class="modal-header">
+                    <h2>Nova Encomenda</h2>
 
-                <h2>Nova Encomenda</h2>
+                    <button
+                        type="button"
+                        class="modal-close-button"
+                        onclick="closeCreateOrderModal()"
+                    >
+                        ×
+                    </button>
+                </div>
 
                 <div id="orderForm">
                     <div class="form-field">
@@ -656,13 +669,15 @@
         <!-- Modal de Confirmação de Nova Encomenda -->
         <div id="orderModal" class="modal hidden">
             <div class="modal-content">
-                <button
-                    type="button"
-                    class="modal-close-button"
-                    onclick="closeOrderConfirmationModal()"
-                >
-                    ×
-                </button>
+                <div class="modal-header">
+                    <button
+                        type="button"
+                        class="modal-close-button"
+                        onclick="closeOrderConfirmationModal()"
+                    >
+                        ×
+                    </button>
+                </div>
 
                 <div id="orderSummary"></div>
 
@@ -727,9 +742,11 @@
         <!-- Modal de Detalhes da Encomenda -->
         <div id="orderDetailsModal" class="modal hidden">
             <div class="modal-content">
-                <button type="button" class="modal-close-button" data-close-modal>×</button>
+                <div class="modal-header">
+                    <h2>Detalhes da Encomenda</h2>
 
-                <h2>Detalhes da Encomenda</h2>
+                    <button type="button" class="modal-close-button" data-close-modal>×</button>
+                </div>
 
                 <div id="orderDetailsContent"></div>
             </div>
@@ -738,11 +755,12 @@
         <!-- Modal de Registrar Pagamento -->
         <div id="paymentModal" class="modal hidden">
             <div class="modal-content">
-                <button type="button" class="modal-close-button" onclick="closePaymentModal()">
-                    ×
-                </button>
-
-                <h2>Registrar Pagamento</h2>
+                <div class="modal-header">
+                    <h2>Registrar Pagamento</h2>
+                    <button type="button" class="modal-close-button" onclick="closePaymentModal()">
+                        ×
+                    </button>
+                </div>
 
                 <div id="paymentSummary"></div>
 
@@ -763,9 +781,11 @@
         <!-- Modal de Confirmação do Registro de Pagamento -->
         <div id="paymentConfirmModal" class="modal hidden">
             <div class="modal-content">
-                <button type="button" class="modal-close-button" data-close-modal>×</button>
+                <div class="modal-header">
+                    <h2>Confirmar Registro de Pagamento</h2>
 
-                <h2>Confirmar Registro de Pagamento</h2>
+                    <button type="button" class="modal-close-button" data-close-modal>×</button>
+                </div>
 
                 <div class="payment-warning">
                     <strong> ⚠ Atenção - Tem certeza que deseja registrar este pagamento? </strong>
@@ -790,9 +810,11 @@
         <!-- Modal de Confirmação para Avançar Status -->
         <div id="statusConfirmModal" class="modal hidden">
             <div class="modal-content">
-                <button type="button" class="modal-close-button" data-close-modal>×</button>
+                <div class="modal-header">
+                    <h2>Confirmar Alteração</h2>
 
-                <h2>Confirmar Alteração</h2>
+                    <button type="button" class="modal-close-button" data-close-modal>×</button>
+                </div>
 
                 <div id="statusConfirmContent"></div>
 
@@ -807,9 +829,11 @@
         <!-- Modal de Confirmação para Arquivar Encomenda -->
         <div id="archiveConfirmModal" class="modal hidden">
             <div class="modal-content">
-                <button type="button" class="modal-close-button" data-close-modal>×</button>
+                <div class="modal-header">
+                    <h2>Confirmar Arquivamento</h2>
 
-                <h2>Confirmar Arquivamento</h2>
+                    <button type="button" class="modal-close-button" data-close-modal>×</button>
+                </div>
 
                 <div class="payment-warning">
                     <strong>⚠ Atenção</strong>
@@ -832,9 +856,15 @@
         <!-- Modal de Detalhes do Pokémon -->
         <div id="pokemonDetailsModal" class="modal hidden">
             <div class="modal-content pokemon-details-modal-content">
-                <button type="button" class="modal-close-button" onclick="closePokemonDetails()">
-                    ×
-                </button>
+                <div class="modal-header">
+                    <button
+                        type="button"
+                        class="modal-close-button"
+                        onclick="closePokemonDetails()"
+                    >
+                        ×
+                    </button>
+                </div>
 
                 <div id="pokemonDetailsContent"></div>
             </div>
@@ -856,11 +886,17 @@
         <!-- Modal de Adicionar nova HA -->
         <div id="addOwnedHAModal" class="modal hidden">
             <div class="modal-content pokemon-add-ha-modal-content">
-                <button type="button" class="modal-close-button" onclick="closeAddOwnedHAModal()">
-                    ×
-                </button>
+                <div class="modal-header">
+                    <h2>Adicionar HA</h2>
 
-                <h2>Adicionar HA</h2>
+                    <button
+                        type="button"
+                        class="modal-close-button"
+                        onclick="closeAddOwnedHAModal()"
+                    >
+                        ×
+                    </button>
+                </div>
 
                 <div id="manualHASelector" class="manual-ha-selector hidden">
                     <div class="form-field">
@@ -926,11 +962,17 @@
         <!-- Modal de Novo Player -->
         <div id="newPlayerModal" class="modal hidden">
             <div class="modal-content">
-                <button type="button" class="modal-close-button" onclick="closeNewPlayerModal()">
-                    ×
-                </button>
+                <div class="modal-header">
+                    <h2>Novo Cliente</h2>
 
-                <h2>Novo Cliente</h2>
+                    <button
+                        type="button"
+                        class="modal-close-button"
+                        onclick="closeNewPlayerModal()"
+                    >
+                        ×
+                    </button>
+                </div>
 
                 <div class="player-form">
                     <div class="player-nick-row">
@@ -980,9 +1022,11 @@
         <!-- Modal de Resumo do Player -->
         <div id="playerSummaryModal" class="modal hidden">
             <div class="modal-content">
-                <button type="button" class="modal-close-button" data-close-modal>×</button>
+                <div class="modal-header">
+                    <h2>Resumo do Cliente</h2>
 
-                <h2>Resumo do Cliente</h2>
+                    <button type="button" class="modal-close-button" data-close-modal>×</button>
+                </div>
 
                 <div id="playerSummaryContent"></div>
             </div>
@@ -991,9 +1035,11 @@
         <!-- Modal de Transações do Player -->
         <div id="playerTransactionsModal" class="modal hidden">
             <div class="modal-content">
-                <button type="button" class="modal-close-button" data-close-modal>×</button>
+                <div class="modal-header">
+                    <h2>Transações do Cliente</h2>
 
-                <h2>Transações do Cliente</h2>
+                    <button type="button" class="modal-close-button" data-close-modal>×</button>
+                </div>
 
                 <div id="playerTransactionsContent"></div>
             </div>
@@ -1002,9 +1048,11 @@
         <!-- Modal de Confirmação de Exportação de Relatório CSV -->
         <div id="reportCsvExportConfirmModal" class="modal hidden">
             <div class="modal-content finance-csv-export-modal-content">
-                <button type="button" class="modal-close-button" data-close-modal>×</button>
+                <div class="modal-header">
+                    <h2>Exportar Relatório</h2>
 
-                <h2>Exportar Relatório</h2>
+                    <button type="button" class="modal-close-button" data-close-modal>×</button>
+                </div>
 
                 <p class="settings-confirm-description">
                     Revise as informações antes de exportar o relatório em CSV.
