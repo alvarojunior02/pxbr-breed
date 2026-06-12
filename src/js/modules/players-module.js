@@ -16,6 +16,9 @@ const playerSummaryContent = document.getElementById("playerSummaryContent");
 const playerTransactionsModal = document.getElementById("playerTransactionsModal");
 const playerTransactionsContent = document.getElementById("playerTransactionsContent");
 
+const playerOrdersModal = document.getElementById("playerOrdersModal");
+const playerOrdersContent = document.getElementById("playerOrdersContent");
+
 const btnPreviewPlayerSkin = document.getElementById("btnPreviewPlayerSkin");
 const playerSkinPreview = document.getElementById("playerSkinPreview");
 
@@ -353,29 +356,201 @@ function updatePlayer(playerId, data) {
     savePlayers(updatedPlayers);
 }
 
+// CREATE PLAYER ORDER CARD
+function createPlayerOrderCard(order) {
+    const statusSummary = getOrderStatusSummary(order);
+
+    const statusHtml = Object.entries(statusSummary)
+        .map(
+            ([status, count]) =>
+                `
+                    <li>
+                        ${count}
+                        <span class="${getOrderStatusClass(status)}">
+                            ${getStatusByValue(status).name}
+                        </span>
+                    </li>
+                `
+        )
+        .join("");
+
+    return `
+        <article class="player-order-card order-card">
+            ${
+                order.archived
+                    ? `
+                        <p class="archived-label">
+                            Arquivada
+                        </p>
+                    `
+                    : ""
+            }
+
+            <div class="order-card-header">
+                <div>
+                    <h3 class="order-card-title">
+                        Pedido #${order.id.slice(0, 8)}
+                        <span>
+                            - ${formatDate(order.createdAt)}
+                        </span>
+                    </h3>
+
+                    <p class="order-card-created-ago">
+                        ${formatRelativeOrderTime(order.createdAt)}
+                    </p>
+                </div>
+            </div>
+
+            <p>
+                Pokémons:
+                ${order.pokemons.length}
+            </p>
+
+            <p>
+                Total:
+                ${formatMoney(order.total)}
+            </p>
+
+            <strong>Pagamento:</strong>
+
+            <p>
+                ${getPaymentStatusHtml(order)}
+            </p>
+
+            <strong>Status de Breeds:</strong>
+
+            <ul>
+                ${statusHtml}
+            </ul>
+
+            ${getArchiveReadyHtml(order)}
+
+            <div class="order-card-actions">
+                <button
+                    type="button"
+                    onclick="openOrderDetailsFromPlayerOrders('${order.id}')">
+                    Detalhes
+                </button>
+
+                ${
+                    canRegisterPayment(order)
+                        ? `
+                            <button
+                                type="button"
+                                class="button-success"
+                                onclick="openPaymentFromPlayerOrders('${order.id}')">
+                                Pagamento
+                            </button>
+                        `
+                        : ""
+                }
+
+                ${
+                    canArchiveOrder(order)
+                        ? `
+                            <button
+                                type="button"
+                                class="button-archive"
+                                onclick="archiveOrderFromPlayerOrders('${order.id}')">
+                                Arquivar
+                            </button>
+                        `
+                        : ""
+                }
+            </div>
+        </article>
+    `;
+}
+
 // SHOW PLAYER ORDERS
 function showPlayerOrders(playerId) {
     const player = loadPlayers().find((player) => player.id === playerId);
 
     if (!player) {
+        showWarningToast("Cliente não encontrado.");
         return;
     }
 
-    const orderSearchPlayer = document.getElementById("orderSearchPlayer");
+    const orders = getPlayerOrders(playerId).sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
 
-    const orderStatusFilter = document.getElementById("orderStatusFilter");
+    const summary = getPlayerFinancialSummary(playerId);
 
-    const orderArchiveFilter = document.getElementById("orderArchiveFilter");
+    playerOrdersContent.innerHTML = `
+        <div class="player-orders-header">
+            <div class="player-card-header">
+                ${renderPlayerAvatar(player, 48)}
 
-    orderSearchPlayer.value = player.nick;
+                <div>
+                    <h3>
+                        ${player.nick}
+                    </h3>
 
-    orderStatusFilter.value = "";
+                    <p>
+                        ${summary.ordersCount}
+                        encomenda${summary.ordersCount === 1 ? "" : "s"} registrada${
+                            summary.ordersCount === 1 ? "" : "s"
+                        }
+                    </p>
+                </div>
+            </div>
 
-    orderArchiveFilter.value = "all";
+            <div class="player-orders-summary">
+                <span>
+                    Total vendido:
+                    <strong>${formatMoney(summary.total)}</strong>
+                </span>
 
-    showSection("ordersSection");
+                <span>
+                    Recebido:
+                    <strong class="payment-paid">${formatMoney(summary.paid)}</strong>
+                </span>
 
-    renderOrdersList();
+                <span>
+                    Pendente:
+                    <strong class="payment-pending">${formatMoney(summary.pending)}</strong>
+                </span>
+            </div>
+        </div>
+
+        ${
+            orders.length === 0
+                ? `
+                    <p class="empty-state">
+                        Nenhuma encomenda registrada para este cliente.
+                    </p>
+                `
+                : `
+                    <div class="player-orders-grid">
+                        ${orders.map((order) => createPlayerOrderCard(order)).join("")}
+                    </div>
+                `
+        }
+    `;
+
+    openModal(playerOrdersModal);
+}
+
+// OPEN ORDER DETAILS FROM PLAYER ORDERS
+function openOrderDetailsFromPlayerOrders(orderId) {
+    closeModal(playerOrdersModal);
+
+    openOrderDetails(orderId);
+}
+
+// OPEN PAYMENT FROM PLAYER ORDERS
+function openPaymentFromPlayerOrders(orderId) {
+    closeModal(playerOrdersModal);
+
+    openPaymentModal(orderId);
+}
+
+// ARCHIVE ORDER FROM PLAYER ORDERS
+function archiveOrderFromPlayerOrders(orderId) {
+    closeModal(playerOrdersModal);
+
+    archiveOrder(orderId);
 }
 
 // OPEN PLAYERS SUMMARY MODAL
@@ -623,3 +798,7 @@ window.openNewPlayerModal = openNewPlayerModal;
 window.openOrderDetailsFromPlayerTransactions = openOrderDetailsFromPlayerTransactions;
 window.openEditPlayerModal = openEditPlayerModal;
 window.savePlayerFromModal = savePlayerFromModal;
+
+window.openOrderDetailsFromPlayerOrders = openOrderDetailsFromPlayerOrders;
+window.openPaymentFromPlayerOrders = openPaymentFromPlayerOrders;
+window.archiveOrderFromPlayerOrders = archiveOrderFromPlayerOrders;
