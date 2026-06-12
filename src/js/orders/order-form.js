@@ -1100,7 +1100,7 @@ btnCreateOrder.addEventListener("click", () => {
         .querySelectorAll("input[name='needsFemale']")
         .forEach((radio) => (radio.checked = false));
 
-    orderModal.classList.remove("hidden");
+    openModal(window.orderModal);
 });
 
 btnOpenCreateOrderModal.forEach((button) => {
@@ -1188,5 +1188,6 @@ document.querySelectorAll("input[name='needsFemale']").forEach((radio) => {
 
 window.openCreateOrderModal = openCreateOrderModal;
 window.closeCreateOrderModal = closeCreateOrderModal;
+window.closeOrderConfirmationModal = closeOrderConfirmationModal;
 window.selectOrderPlayer = selectOrderPlayer;
 window.refreshOrderPokemonOwnedHA = refreshOrderPokemonOwnedHA;
