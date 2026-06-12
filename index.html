@@ -87,6 +87,14 @@
                                 + Nova Encomenda
                             </button>
 
+                            <button
+                                type="button"
+                                class="button-primary"
+                                onclick="openOwnedPokemonsModal()"
+                            >
+                                📦 Gerenciar meus Pokémons
+                            </button>
+
                             <button type="button" class="button-ha" onclick="openOwnedHAModal()">
                                 ✨ Gerenciar meus HAs
                             </button>
@@ -202,6 +210,22 @@
                             <p>Consulte dados da Pokédex, tipos, abilities e egg groups.</p>
 
                             <div class="pokemon-page-actions">
+                                <button
+                                    type="button"
+                                    class="button-primary"
+                                    onclick="openOwnedPokemonsModal()"
+                                >
+                                    📦 Gerenciar meus Pokémons
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="button-primary"
+                                    onclick="openAddOwnedPokemonModal()"
+                                >
+                                    + Adicionar aos meus Pokémons
+                                </button>
+
                                 <button
                                     type="button"
                                     class="button-ha"
@@ -891,6 +915,107 @@
             </div>
         </div>
 
+        <!-- Modal de Gerenciar Meus Pokémons -->
+        <div id="ownedPokemonsModal" class="modal hidden">
+            <div class="modal-content owned-pokemons-modal-content">
+                <div class="modal-header">
+                    <h2>Gerenciar meus Pokémons</h2>
+
+                    <button type="button" class="modal-close-button" data-close-modal>×</button>
+                </div>
+
+                <div id="ownedPokemonsList"></div>
+            </div>
+        </div>
+
+        <!-- Modal de Adicionar/Editar Meu Pokémon -->
+        <div id="ownedPokemonFormModal" class="modal hidden">
+            <div class="modal-content owned-pokemon-form-modal-content">
+                <div class="modal-header">
+                    <h2 id="ownedPokemonFormTitle">Adicionar Pokémon</h2>
+
+                    <button type="button" class="modal-close-button" data-close-modal>×</button>
+                </div>
+
+                <div class="owned-pokemon-form">
+                    <div class="form-field">
+                        <label for="ownedPokemonSearch">Pokémon</label>
+                        <input
+                            type="text"
+                            id="ownedPokemonSearch"
+                            placeholder="Buscar por nome ou número..."
+                        />
+
+                        <div id="ownedPokemonSearchResults" class="manual-ha-search-results"></div>
+                    </div>
+
+                    <div id="ownedPokemonSelectedSummary"></div>
+
+                    <div class="owned-pokemon-form-grid">
+                        <div class="form-field">
+                            <label for="ownedPokemonBreedLevel">Status do Pokémon</label>
+                            <select id="ownedPokemonBreedLevel">
+                                <option value="">Selecione</option>
+                                <option value="F6">F6</option>
+                                <option value="F5_PFT">F5 PFT</option>
+                                <option value="F5">F5</option>
+                                <option value="F4">F4</option>
+                                <option value="F3">F3</option>
+                                <option value="F2">F2</option>
+                                <option value="F1">F1</option>
+                                <option value="CAPTURED">Capturado</option>
+                            </select>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="ownedPokemonGender">Gênero</label>
+                            <select id="ownedPokemonGender">
+                                <option value="">Selecione</option>
+                                <option value="MALE">Macho</option>
+                                <option value="FEMALE">Fêmea</option>
+                                <option value="GENDERLESS">Genderless</option>
+                            </select>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="ownedPokemonNature">Nature</label>
+                            <select id="ownedPokemonNature">
+                                <option value="">Selecione</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="ownedPokemonNotes">Observações</label>
+                        <textarea
+                            id="ownedPokemonNotes"
+                            rows="3"
+                            placeholder="Ex: usado para breed de Monster, comprado pronto, etc."
+                        ></textarea>
+                    </div>
+
+                    <div class="owned-pokemon-form-actions">
+                        <button
+                            type="button"
+                            id="btnCancelOwnedPokemonEdit"
+                            class="button-secondary hidden"
+                        >
+                            Cancelar edição
+                        </button>
+
+                        <button
+                            type="button"
+                            id="btnSaveOwnedPokemon"
+                            class="button-success"
+                            disabled
+                        >
+                            Salvar Pokémon
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Modal de Gerenciar HAs -->
         <div id="ownedHAModal" class="modal hidden">
             <div class="modal-content pokemon-ha-modal-content">
@@ -904,7 +1029,7 @@
             </div>
         </div>
 
-        <!-- Modal de Adicionar nova HA -->
+        <!-- Modal de Adicionar/Editar nova HA -->
         <div id="addOwnedHAModal" class="modal hidden">
             <div class="modal-content pokemon-add-ha-modal-content">
                 <div class="modal-header">

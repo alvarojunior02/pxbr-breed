@@ -2,6 +2,7 @@ const STORAGE_KEYS = {
     PLAYERS: "players",
     ORDERS: "orders",
     TRANSACTIONS: "transactions",
+    OWNED_POKEMONS: "ownedPokemons",
     OWNED_HIDDEN_ABILITIES: "ownedHiddenAbilities",
     ORDER_STATUS_HISTORY: "orderStatusHistory"
 };
@@ -42,6 +43,16 @@ function loadTransactions() {
     return data ? JSON.parse(data) : [];
 }
 
+// SAVE OWNED POKEMONS
+function saveOwnedPokemons(pokemons) {
+    localStorage.setItem(STORAGE_KEYS.OWNED_POKEMONS, JSON.stringify(pokemons));
+}
+
+// LOAD OWNED POKEMONS
+function loadOwnedPokemons() {
+    return JSON.parse(localStorage.getItem(STORAGE_KEYS.OWNED_POKEMONS)) || [];
+}
+
 // SAVE OWNED HIDDEN ABILITIES
 function saveOwnedHiddenAbilities(hiddenAbilities) {
     localStorage.setItem(STORAGE_KEYS.OWNED_HIDDEN_ABILITIES, JSON.stringify(hiddenAbilities));
@@ -77,6 +88,9 @@ window.loadOrders = loadOrders;
 
 window.saveTransactions = saveTransactions;
 window.loadTransactions = loadTransactions;
+
+window.saveOwnedPokemons = saveOwnedPokemons;
+window.loadOwnedPokemons = loadOwnedPokemons;
 
 window.saveOwnedHiddenAbilities = saveOwnedHiddenAbilities;
 window.loadOwnedHiddenAbilities = loadOwnedHiddenAbilities;

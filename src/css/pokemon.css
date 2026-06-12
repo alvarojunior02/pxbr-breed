@@ -951,6 +951,133 @@
     cursor: not-allowed;
 }
 
+.owned-pokemons-modal-content {
+    max-width: 1180px;
+}
+
+.owned-pokemon-form-modal-content {
+    max-width: 760px;
+}
+
+.owned-pokemon-form {
+    display: grid;
+    gap: 14px;
+}
+
+.owned-pokemon-form h3 {
+    margin: 0;
+}
+
+.owned-pokemon-form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(160px, 1fr));
+    gap: 12px;
+}
+
+.owned-pokemon-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.owned-pokemon-selected-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px;
+    background: rgba(15, 23, 42, 0.35);
+}
+
+.owned-pokemon-selected-card img {
+    width: 56px;
+    height: 56px;
+    image-rendering: pixelated;
+}
+
+.owned-pokemons-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 14px;
+}
+
+.owned-pokemon-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    background: var(--surface);
+}
+
+.owned-pokemon-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.owned-pokemon-card-header img {
+    width: 56px;
+    height: 56px;
+    image-rendering: pixelated;
+}
+
+.owned-pokemon-card-header span {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+}
+
+.owned-pokemon-card-header h3 {
+    margin: 2px 0 0;
+}
+
+.owned-pokemon-card-info {
+    margin: 12px 0;
+}
+
+.owned-pokemon-card-info p {
+    margin: 6px 0;
+}
+
+.owned-pokemon-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.owned-pokemon-tags span {
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: rgba(148, 163, 184, 0.15);
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.owned-pokemon-notes {
+    margin-top: 10px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.owned-pokemon-card-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+}
+
+.pokemon-details-action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 12px 0;
+}
+
+.pokemon-details-action-buttons button {
+    width: fit-content;
+}
+
 @keyframes pokemonSlideFromLeft {
     from {
         opacity: 0;
@@ -987,6 +1114,12 @@
 
 @media (max-width: 900px) {
     .pokemon-info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 720px) {
+    .owned-pokemon-form-grid {
         grid-template-columns: 1fr;
     }
 }
