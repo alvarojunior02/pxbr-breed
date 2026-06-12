@@ -101,17 +101,25 @@ function createOrderCard(order) {
                 `
                 : ""
         }
-        
-        <h3>
-            Pedido #${order.id.slice(0, 8)}
-            <span style="font-weight: normal;">
-                - ${formatDate(order.createdAt)}
-            </span>
-        </h3>
 
-        <p>
-            Cliente:
-            ${player?.nick ?? "-"}
+        <div class="order-card-header">
+            <div>
+                <h3 class="order-card-title">
+                    Pedido #${order.id.slice(0, 8)}
+                    <span>
+                        - ${formatDate(order.createdAt)}
+                    </span>
+                </h3>
+
+                <p class="order-card-created-ago">
+                    ${formatRelativeOrderTime(order.createdAt)}
+                </p>
+            </div>
+        </div>
+
+        <p class="order-card-client">
+            <strong>Cliente:</strong>
+            ${renderPlayerInline(player, 28)}
         </p>
 
         <p>

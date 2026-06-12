@@ -8,6 +8,39 @@ function formatDate(date) {
     return new Date(date).toLocaleDateString("pt-BR");
 }
 
+// FORMAT DATE TIME
+function formatDateTime(date) {
+    return new Date(date).toLocaleString("pt-BR", {
+        dateStyle: "short",
+        timeStyle: "short"
+    });
+}
+
+// FORMAT RELATIVE ORDER TIME
+function formatRelativeOrderTime(date) {
+    const createdAt = new Date(date);
+    const now = new Date();
+
+    const diffInMilliseconds = Math.max(now - createdAt, 0);
+    const diffInHours = Math.floor(diffInMilliseconds / (1000 * 60 * 60));
+    const diffInDays = Math.floor(diffInHours / 24);
+    const remainingHours = diffInHours % 24;
+
+    const formatNumber = (value) => String(value).padStart(2, "0");
+
+    if (diffInHours < 1) {
+        return "Feito há menos de 01 hora";
+    }
+
+    if (diffInDays < 1) {
+        return `Feito há ${formatNumber(diffInHours)} ${diffInHours === 1 ? "hora" : "horas"}`;
+    }
+
+    return `Feito há ${formatNumber(diffInDays)} ${
+        diffInDays === 1 ? "dia" : "dias"
+    } e ${formatNumber(remainingHours)} ${remainingHours === 1 ? "hora" : "horas"}`;
+}
+
 // FORMAT CURRENCY
 function formatCurrency(value) {
     return value.toLocaleString("pt-BR");
@@ -21,14 +54,6 @@ function formatMoney(value) {
 // UNFORMAT MONEY
 function unformatMoney(value) {
     return Number(value.replace(/\D/g, "")) || 0;
-}
-
-// FORMAT DATE TIME
-function formatDateTime(date) {
-    return new Date(date).toLocaleString("pt-BR", {
-        dateStyle: "short",
-        timeStyle: "short"
-    });
 }
 
 // RENDER PLAYER AVATAR
@@ -116,5 +141,6 @@ function getPokemonThumbnail(pokemonId, fallbackSprite = "") {
 
 window.formatMoney = formatMoney;
 window.formatDateTime = formatDateTime;
+window.formatRelativeOrderTime = formatRelativeOrderTime;
 window.getPokemonSprite = getPokemonSprite;
 window.getPokemonThumbnail = getPokemonThumbnail;
