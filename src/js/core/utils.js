@@ -66,5 +66,44 @@ function renderPlayerInline(player, size = 28) {
     `;
 }
 
+// IS VALID IMAGE SRC
+function isValidImageSrc(src) {
+    return (
+        typeof src === "string" &&
+        src.trim() !== "" &&
+        src !== "undefined" &&
+        src !== "null" &&
+        src !== "[object Object]"
+    );
+}
+
+// GET POKEMON SPRITE
+function getPokemonSprite(pokemonId, fallbackSprite = "") {
+    if (isValidImageSrc(fallbackSprite)) {
+        return fallbackSprite;
+    }
+
+    const pokemon = typeof getPokemonById === "function" ? getPokemonById(pokemonId) : null;
+
+    if (isValidImageSrc(pokemon?.image?.thumbnail)) {
+        return pokemon.image.thumbnail;
+    }
+
+    if (isValidImageSrc(pokemon?.image?.sprite)) {
+        return pokemon.image.sprite;
+    }
+
+    if (isValidImageSrc(pokemon?.image?.hires)) {
+        return pokemon.image.hires;
+    }
+
+    return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`;
+}
+
+// GET POKEMON THUMBNAIL
+function getPokemonThumbnail(pokemonId, fallbackSprite = "") {
+    return getPokemonSprite(pokemonId, fallbackSprite);
+}
+
 window.formatMoney = formatMoney;
 window.formatDateTime = formatDateTime;

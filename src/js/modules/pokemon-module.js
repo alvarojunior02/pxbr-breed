@@ -177,7 +177,7 @@ function createPokemonCatalogCard(pokemon) {
         <article class="pokemon-catalog-card">
             <div class="pokemon-catalog-image-wrapper">
                 <img
-                    src="${pokemon.image?.thumbnail || pokemon.image?.sprite || ""}"
+                    src="${getPokemonThumbnail(pokemon.id)}"
                     alt="${pokemon.name.english}"
                     class="pokemon-catalog-image"
                 />
@@ -311,7 +311,7 @@ function createPokemonSequentialNavCard(pokemon, position) {
             }>
 
             <img
-                src="${pokemon.image?.thumbnail || pokemon.image?.sprite || ""}"
+                src="${getPokemonThumbnail(pokemon.id)}"
                 alt="${pokemon.name.english}"
             />
 
@@ -348,7 +348,7 @@ function createPokemonDetailsContent(pokemon) {
         <div class="pokemon-details-header">
             <div class="pokemon-details-image-wrapper">
                 <img
-                    src="${pokemon.image?.hires || pokemon.image?.thumbnail || pokemon.image?.sprite || ""}"
+                    src="${getPokemonThumbnail(pokemon.id)}"
                     alt="${pokemon.name.english}"
                     class="pokemon-details-image"
                 />
@@ -637,7 +637,7 @@ function createPokemonEvolutionChainHtml(pokemon) {
                     onclick="openPokemonDetails(${chainPokemon.id})">
 
                     <img
-                        src="${chainPokemon.image?.thumbnail || chainPokemon.image?.sprite || ""}"
+                        src="${getPokemonThumbnail(chainPokemon.id)}"
                         alt="${chainPokemon.name.english}"
                     />
 
@@ -795,8 +795,9 @@ function createOwnedHACard(item) {
             return `
                 <div class="owned-ha-evolution-pokemon">
                     <img
-                        src="${pokemon.sprite || ""}"
+                        src="${getPokemonThumbnail(pokemon.pokemonId, pokemon.sprite)}"
                         alt="${pokemon.pokemonName}"
+                        onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.pokemonId}.png';"
                     />
 
                     <span>
@@ -954,7 +955,7 @@ function openAddOwnedHAModal(pokemonId, origin = "pokemon-details", orderRow = n
         return {
             pokemonId: Number(chainPokemon.id),
             pokemonName: chainPokemon.name.english,
-            sprite: chainPokemon.image?.thumbnail || chainPokemon.image?.sprite || "",
+            sprite: getPokemonThumbnail(chainPokemon.id),
             abilityName: chainHiddenAbility?.[0] || hiddenAbility[0]
         };
     });
@@ -986,8 +987,9 @@ function createOwnedHASummary(evolutionLine) {
                         return `
                             <div class="owned-ha-evolution-pokemon">
                                 <img
-                                    src="${pokemon.sprite || ""}"
+                                    src="${getPokemonThumbnail(pokemon.pokemonId, pokemon.sprite)}"
                                     alt="${pokemon.pokemonName}"
+                                    onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.pokemonId}.png';"
                                 />
 
                                 <span>
@@ -1034,7 +1036,7 @@ function selectManualHAPokemon(pokemonId) {
         return {
             pokemonId: Number(chainPokemon.id),
             pokemonName: chainPokemon.name.english,
-            sprite: chainPokemon.image?.thumbnail || chainPokemon.image?.sprite || "",
+            sprite: getPokemonThumbnail(chainPokemon.id),
             abilityName: chainHiddenAbility?.[0] || hiddenAbility[0]
         };
     });
@@ -1108,7 +1110,7 @@ function saveOwnedHAFromModal() {
         return {
             pokemonId: Number(chainPokemon.id),
             pokemonName: chainPokemon.name.english,
-            sprite: chainPokemon.image?.thumbnail || chainPokemon.image?.sprite || "",
+            sprite: getPokemonThumbnail(chainPokemon.id),
             abilityName: chainHiddenAbility?.[0] || hiddenAbility[0]
         };
     });
@@ -1117,7 +1119,7 @@ function saveOwnedHAFromModal() {
         pokemonId: pokemon.id,
         pokemonName: pokemon.name.english,
         abilityName: hiddenAbility[0],
-        sprite: pokemon.image?.thumbnail || pokemon.image?.sprite || "",
+        sprite: getPokemonThumbnail(pokemon.id),
         evolutionLine: evolutionChain,
         castratedPrice: unformatMoney(ownedHACastratedPrice.value),
         breedablePrice: unformatMoney(ownedHABreedablePrice.value),
@@ -1296,7 +1298,7 @@ manualHASearch.addEventListener("input", () => {
                     onclick="selectManualHAPokemon(${pokemon.id})">
 
                     <img
-                        src="${pokemon.image?.thumbnail || pokemon.image?.sprite || ""}"
+                        src="${getPokemonThumbnail(pokemon.id)}"
                         alt="${pokemon.name.english}">
 
                     <span>

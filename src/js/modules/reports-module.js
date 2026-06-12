@@ -160,23 +160,7 @@ function getPokemonSalesReport() {
 
 // GET POKEMON REPORT SPRITE
 function getPokemonReportSprite(pokemon) {
-    const pokemonId = Number(pokemon.pokemonId);
-
-    const pokedexPokemon = getPokemonById(pokemonId);
-
-    if (pokedexPokemon?.sprite) {
-        return pokedexPokemon.sprite;
-    }
-
-    if (pokedexPokemon?.sprites?.front_default) {
-        return pokedexPokemon.sprites.front_default;
-    }
-
-    if (pokemon.sprite) {
-        return pokemon.sprite;
-    }
-
-    return "";
+    return getPokemonThumbnail(pokemon.pokemonId, pokemon.sprite);
 }
 
 // RENDER REPORT CATEGORY

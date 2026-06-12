@@ -133,7 +133,7 @@ function createPokemonDetailsCard(pokemon) {
 
     const nextStatus = getNextStatus(pokemon.status);
 
-    const thumbnail = getPokemonThumbnail(pokemon.pokemonId);
+    const thumbnail = getPokemonThumbnail(pokemon.pokemonId, pokemon.sprite);
 
     const canAdvanceStatus = !isLastStatus(pokemon.status);
 

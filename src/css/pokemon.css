@@ -727,8 +727,8 @@
 }
 
 .owned-ha-price-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: flex;
+    flex-direction: column-reverse;
     gap: 0.75rem;
     margin-top: auto;
     padding-top: 1rem;
