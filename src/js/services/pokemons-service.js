@@ -24,9 +24,10 @@ async function loadPokemonData() {
                 name: formatAbilityName(ability[0]),
                 isHA: ability[1] === "true"
             })),
-            sprite: pokemon.image.sprite,
-            thumbnail: pokemon.image.thumbnail,
-            hires: pokemon.image.hires,
+            sprite: pokemon.image?.sprite || pokemon.image?.thumbnail || pokemon.image?.hires || "",
+            thumbnail:
+                pokemon.image?.thumbnail || pokemon.image?.sprite || pokemon.image?.hires || "",
+            hires: pokemon.image?.hires || pokemon.image?.thumbnail || pokemon.image?.sprite || "",
             evolution: pokemon.evolution || null
         }));
 
@@ -56,10 +57,28 @@ function getPokemonById(id) {
 }
 
 // GET POKEMON THUMBNAIL
-function getPokemonThumbnail(pokemonId) {
+function getPokemonThumbnail(pokemonId, fallbackSprite = "") {
     const pokemon = getPokemonById(pokemonId);
 
-    return pokemon ? pokemon.thumbnail : "";
+    const spriteCandidates = [fallbackSprite, pokemon?.thumbnail, pokemon?.sprite, pokemon?.hires];
+
+    const validSprite = spriteCandidates.find((src) => {
+        if (typeof isValidImageSrc === "function") {
+            return isValidImageSrc(src);
+        }
+
+        return Boolean(src && src !== "undefined" && src !== "null");
+    });
+
+    if (validSprite) {
+        return validSprite;
+    }
+
+    if (typeof getPokemonSprite === "function") {
+        return getPokemonSprite(pokemonId, fallbackSprite);
+    }
+
+    return "";
 }
 
 // GET BASE POKEMON

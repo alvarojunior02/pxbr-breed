@@ -133,24 +133,16 @@ function getPokemonRowData(row) {
 
     return {
         pokemonId: Number(row.dataset.pokemonId),
-
         pokemonName: row.dataset.pokemonName,
-
-        sprite: pokemon.sprite,
-
+        sprite: getPokemonThumbnail(pokemon.id, pokemon.sprite),
         breedPokemonId: Number(row.dataset.breedPokemonId),
-
         breedPokemonName: row.dataset.breedPokemonName,
-
         nature: natureSelect.value,
-
         ability: {
             name: abilitySelect.value,
             isHA: abilitySelect.selectedOptions[0]?.dataset.isHa === "true"
         },
-
         value: unformatMoney(valueInput.value),
-
         breedable: breedableToggle.checked
     };
 }
@@ -656,7 +648,7 @@ function createPokemonOrderRow() {
             item.innerHTML = `
 
                         <img
-                            src="${pokemon.sprite}"
+                            src="${getPokemonThumbnail(pokemon.id, pokemon.sprite)}"
                             width="32">
 
                         #${pokemon.id}
@@ -919,7 +911,7 @@ function renderOrderSummary(order) {
                 <div class="modal-pokemon">
 
                     <img
-                        src="${pokemon.sprite}"
+                        src="${getPokemonThumbnail(pokemon.pokemonId, pokemon.sprite)}"
                         alt="${pokemon.pokemonName}"
                         class="modal-pokemon-sprite">
 

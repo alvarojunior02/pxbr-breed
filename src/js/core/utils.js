@@ -79,25 +79,34 @@ function isValidImageSrc(src) {
 
 // GET POKEMON SPRITE
 function getPokemonSprite(pokemonId, fallbackSprite = "") {
-    if (isValidImageSrc(fallbackSprite)) {
-        return fallbackSprite;
+    const normalizedPokemonId = Number(pokemonId);
+
+    const pokemon =
+        typeof getPokemonById === "function" && !Number.isNaN(normalizedPokemonId)
+            ? getPokemonById(normalizedPokemonId)
+            : null;
+
+    const spriteCandidates = [
+        fallbackSprite,
+        pokemon?.image?.thumbnail,
+        pokemon?.image?.sprite,
+        pokemon?.image?.hires,
+        pokemon?.thumbnail,
+        pokemon?.sprite,
+        pokemon?.hires
+    ];
+
+    const validSprite = spriteCandidates.find((src) => isValidImageSrc(src));
+
+    if (validSprite) {
+        return validSprite;
     }
 
-    const pokemon = typeof getPokemonById === "function" ? getPokemonById(pokemonId) : null;
-
-    if (isValidImageSrc(pokemon?.image?.thumbnail)) {
-        return pokemon.image.thumbnail;
+    if (!Number.isNaN(normalizedPokemonId) && normalizedPokemonId > 0) {
+        return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${normalizedPokemonId}.png`;
     }
 
-    if (isValidImageSrc(pokemon?.image?.sprite)) {
-        return pokemon.image.sprite;
-    }
-
-    if (isValidImageSrc(pokemon?.image?.hires)) {
-        return pokemon.image.hires;
-    }
-
-    return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`;
+    return "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
 }
 
 // GET POKEMON THUMBNAIL
@@ -107,3 +116,5 @@ function getPokemonThumbnail(pokemonId, fallbackSprite = "") {
 
 window.formatMoney = formatMoney;
 window.formatDateTime = formatDateTime;
+window.getPokemonSprite = getPokemonSprite;
+window.getPokemonThumbnail = getPokemonThumbnail;
