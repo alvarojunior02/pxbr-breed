@@ -1497,6 +1497,9 @@ function createOwnedHACard(item) {
               }
           ];
 
+    const hasCompactEvolutionLine = evolutionLine.length >= 3;
+    const hasLongEvolutionLine = evolutionLine.length >= 4;
+
     const evolutionHtml = evolutionLine
         .map((pokemon) => {
             return `
@@ -1520,7 +1523,7 @@ function createOwnedHACard(item) {
         .join("");
 
     return `
-        <article class="owned-ha-card">
+        <article class="owned-ha-card ${hasCompactEvolutionLine ? "owned-ha-card-compact-evolution" : ""} ${hasLongEvolutionLine ? "owned-ha-card-wide" : ""}">
             <div class="owned-ha-card-header">
                 <div>
                     <span class="owned-ha-card-label">
