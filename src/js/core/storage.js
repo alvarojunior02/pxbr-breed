@@ -2,7 +2,8 @@ const STORAGE_KEYS = {
     PLAYERS: "players",
     ORDERS: "orders",
     TRANSACTIONS: "transactions",
-    OWNED_HIDDEN_ABILITIES: "ownedHiddenAbilities"
+    OWNED_HIDDEN_ABILITIES: "ownedHiddenAbilities",
+    ORDER_STATUS_HISTORY: "orderStatusHistory"
 };
 
 // SAVE PLAYERS
@@ -51,6 +52,23 @@ function loadOwnedHiddenAbilities() {
     return JSON.parse(localStorage.getItem(STORAGE_KEYS.OWNED_HIDDEN_ABILITIES)) || [];
 }
 
+// SAVE ORDER STATUS HISTORY
+function saveOrderStatusHistory(history) {
+    localStorage.setItem(STORAGE_KEYS.ORDER_STATUS_HISTORY, JSON.stringify(history));
+}
+
+// LOAD ORDER STATUS HISTORY
+function loadOrderStatusHistory() {
+    return JSON.parse(localStorage.getItem(STORAGE_KEYS.ORDER_STATUS_HISTORY)) || [];
+}
+
+// ADD ORDER STATUS HISTORY
+function addOrderStatusHistory(entry) {
+    const history = loadOrderStatusHistory();
+
+    saveOrderStatusHistory([entry, ...history]);
+}
+
 window.savePlayers = savePlayers;
 window.loadPlayers = loadPlayers;
 
@@ -62,3 +80,7 @@ window.loadTransactions = loadTransactions;
 
 window.saveOwnedHiddenAbilities = saveOwnedHiddenAbilities;
 window.loadOwnedHiddenAbilities = loadOwnedHiddenAbilities;
+
+window.saveOrderStatusHistory = saveOrderStatusHistory;
+window.loadOrderStatusHistory = loadOrderStatusHistory;
+window.addOrderStatusHistory = addOrderStatusHistory;

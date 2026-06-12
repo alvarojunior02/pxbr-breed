@@ -69,6 +69,8 @@ function renderOrderDetails(order) {
 
         ${renderOrderTransactionsTable(order.id)}
 
+        ${renderOrderStatusHistoryTable(order.id)}
+
         ${getArchiveReadyHtml(order)}
 
         ${
@@ -261,6 +263,73 @@ function renderOrderTransactionsTable(orderId) {
                             <th>
                                 Valor
                             </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        ${rows}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    `;
+}
+
+// RENDER ORDER STATUS HISTORY TABLE
+function renderOrderStatusHistoryTable(orderId) {
+    const history = loadOrderStatusHistory()
+        .filter((entry) => entry.orderId === orderId)
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    if (history.length === 0) {
+        return "";
+    }
+
+    const rows = history
+        .map((entry) => {
+            const previousStatus = getStatusByValue(entry.previousStatus);
+            const newStatus = getStatusByValue(entry.newStatus);
+
+            return `
+                <tr>
+                    <td>
+                        ${formatDateTime(entry.createdAt)}
+                    </td>
+
+                    <td>
+                        ${entry.pokemonName}
+                    </td>
+
+                    <td>
+                        <span class="${getOrderStatusClass(entry.previousStatus)}">
+                            ${previousStatus?.name || entry.previousStatus}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="${getOrderStatusClass(entry.newStatus)}">
+                            ${newStatus?.name || entry.newStatus}
+                        </span>
+                    </td>
+                </tr>
+            `;
+        })
+        .join("");
+
+    return `
+        <div class="order-status-history">
+            <h3>
+                Histórico de Status
+            </h3>
+
+            <div class="table-wrapper">
+                <table class="finance-table">
+                    <thead>
+                        <tr>
+                            <th>Data/Hora</th>
+                            <th>Pokémon</th>
+                            <th>Status anterior</th>
+                            <th>Novo status</th>
                         </tr>
                     </thead>
 

@@ -461,3 +461,11 @@
     align-items: center;
     gap: 0.5rem;
 }
+
+.order-status-history {
+    margin: 16px 0;
+}
+
+.order-status-history h3 {
+    margin-bottom: 8px;
+}

@@ -88,13 +88,26 @@ btnConfirmStatusChange.addEventListener("click", () => {
         return;
     }
 
-    const nextStatus = getNextStatus(pokemon.status);
+    const previousStatus = pokemon.status;
+
+    const nextStatus = getNextStatus(previousStatus);
 
     if (!nextStatus) {
         return;
     }
 
     pokemon.status = nextStatus.value;
+
+    addOrderStatusHistory({
+        id: generateUUID(),
+        orderId: order.id,
+        pokemonId: pokemon.id,
+        pokemonDexId: pokemon.pokemonId,
+        pokemonName: pokemon.pokemonName,
+        previousStatus,
+        newStatus: nextStatus.value,
+        createdAt: new Date().toISOString()
+    });
 
     saveOrders(orders);
 
