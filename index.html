@@ -736,7 +736,9 @@
         <!-- Modal de Registrar Pagamento -->
         <div id="paymentModal" class="modal hidden">
             <div class="modal-content">
-                <button type="button" class="modal-close-button" data-close-modal>×</button>
+                <button type="button" class="modal-close-button" onclick="closePaymentModal()">
+                    ×
+                </button>
 
                 <h2>Registrar Pagamento</h2>
 
@@ -749,8 +751,6 @@
                 <input type="text" id="paymentAmount" placeholder="Valor pago" />
 
                 <br /><br />
-
-                <button type="button" id="btnCancelPayment" class="button-danger">Cancelar</button>
 
                 <button type="button" id="btnConfirmPayment" class="button-success">
                     Registrar

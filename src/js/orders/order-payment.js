@@ -38,12 +38,16 @@ function openPaymentModal(orderId) {
 
     paymentAmount.value = formatMoney(remaining);
 
-    paymentModal.classList.remove("hidden");
+    openModal(window.paymentModal);
 }
 
-btnCancelPayment.addEventListener("click", () => {
-    paymentModal.classList.add("hidden");
-});
+function closePaymentModal() {
+    closeModal(window.paymentModal);
+
+    window.paymentOrderId = null;
+
+    paymentAmount.value = formatMoney(0);
+}
 
 btnConfirmPayment.addEventListener("click", () => {
     const orders = loadOrders();
