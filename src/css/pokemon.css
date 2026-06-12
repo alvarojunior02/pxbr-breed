@@ -117,6 +117,7 @@
 }
 
 /* TYPES */
+
 .pokemon-types {
     display: flex;
     flex-wrap: wrap;
@@ -208,6 +209,7 @@
 }
 
 /* SHARED */
+
 .empty-state {
     color: var(--text-muted);
 }
@@ -235,6 +237,7 @@
 }
 
 /* POKEMON DETAILS */
+
 .pokemon-details-modal-content {
     max-width: 980px;
     width: 95%;
@@ -453,6 +456,7 @@
 }
 
 /* EVOLUTION */
+
 .pokemon-evolution-chain {
     display: flex;
     flex-wrap: wrap;
@@ -512,6 +516,7 @@
 }
 
 /* SEQUENTIAL NAV */
+
 .pokemon-details-sequential-nav {
     display: grid;
     grid-template-columns: 120px 140px 120px;
@@ -587,6 +592,7 @@
 }
 
 /* CATALOG PAGINATION */
+
 .pokemon-catalog-pagination-toolbar {
     justify-content: space-between;
     gap: 14px;
@@ -640,6 +646,7 @@
 }
 
 /* PAGE ACTIONS */
+
 .pokemon-page-actions {
     display: flex;
     gap: 0.75rem;
@@ -720,6 +727,7 @@
 }
 
 /* OWNED HA LIST */
+
 .owned-ha-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 300px));
@@ -855,6 +863,7 @@
 }
 
 /* OWNED HA METADATA */
+
 .owned-ha-price-grid {
     margin-top: auto;
     display: grid;
@@ -934,6 +943,7 @@
 }
 
 /* MANUAL HA SEARCH */
+
 .manual-ha-selector {
     margin-bottom: 1rem;
 }
@@ -980,6 +990,7 @@
 }
 
 /* OWNED POKEMON MODALS */
+
 .owned-pokemons-modal-content {
     max-width: 1180px;
 }
@@ -1027,6 +1038,7 @@
 }
 
 /* OWNED POKEMON LIST */
+
 .owned-pokemons-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 300px));
@@ -1041,6 +1053,11 @@
     border-radius: 12px;
     padding: 14px;
     background: var(--surface);
+}
+
+.owned-pokemon-card-wide {
+    grid-column: span 2;
+    max-width: 616px;
 }
 
 .owned-pokemon-card-header {
@@ -1062,6 +1079,69 @@
 
 .owned-pokemon-card-header h3 {
     margin: 2px 0 0;
+}
+
+.owned-pokemon-evolution-line {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 1rem 0;
+}
+
+.owned-pokemon-evolution-item {
+    min-width: 110px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 0.75rem;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.owned-pokemon-evolution-item img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.owned-pokemon-evolution-item span {
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.owned-pokemon-evolution-item strong {
+    font-size: 0.72rem;
+    text-align: center;
+}
+
+.owned-pokemon-card-compact-evolution:not(.owned-pokemon-card-wide) .owned-pokemon-evolution-line,
+.owned-pokemon-card-wide .owned-pokemon-evolution-line {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.owned-pokemon-card-compact-evolution:not(.owned-pokemon-card-wide) .owned-pokemon-evolution-item,
+.owned-pokemon-card-wide .owned-pokemon-evolution-item {
+    min-width: 0;
+    padding: 8px 6px;
+}
+
+.owned-pokemon-card-compact-evolution:not(.owned-pokemon-card-wide)
+    .owned-pokemon-evolution-item
+    img {
+    width: 38px;
+    height: 38px;
+}
+
+.owned-pokemon-card-wide .owned-pokemon-evolution-item img {
+    width: 42px;
+    height: 42px;
 }
 
 .owned-pokemon-card-info {
@@ -1101,6 +1181,7 @@
 }
 
 /* ANIMATIONS */
+
 .pokemon-slide-from-left {
     animation: pokemonSlideFromLeft 0.28s ease-out;
 }
@@ -1138,6 +1219,7 @@
 }
 
 /* RESPONSIVE */
+
 @media (max-width: 1200px) {
     .pokemon-catalog-filters {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1169,6 +1251,15 @@
     }
 
     .owned-ha-card-wide .owned-ha-evolution-line {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .owned-pokemon-card-wide {
+        grid-column: span 1;
+        max-width: 300px;
+    }
+
+    .owned-pokemon-card-wide .owned-pokemon-evolution-line {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }

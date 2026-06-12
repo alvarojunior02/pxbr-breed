@@ -1166,10 +1166,17 @@ function saveOwnedPokemonFromModal() {
 
     const ownedPokemons = loadOwnedPokemons();
 
+    const evolutionLine = getEvolutionChain(pokemon).map((chainPokemon) => ({
+        pokemonId: Number(chainPokemon.id),
+        pokemonName: chainPokemon.name.english,
+        sprite: getPokemonThumbnail(chainPokemon.id)
+    }));
+
     const payload = {
         pokemonId: Number(pokemon.id),
         pokemonName: pokemon.name.english,
         sprite: getPokemonThumbnail(pokemon.id),
+        evolutionLine,
         eggGroups: pokemon.profile?.egg?.map((eggGroup) => normalizeEggGroup(eggGroup)) || [],
         breedLevel: ownedPokemonBreedLevel.value,
         gender: ownedPokemonGender.value,
@@ -1288,8 +1295,43 @@ function createOwnedPokemonCard(item) {
         ? item.eggGroups.map((eggGroup) => `<span>${eggGroup}</span>`).join("")
         : "<span>-</span>";
 
+    const evolutionLine = item.evolutionLine?.length
+        ? item.evolutionLine
+        : [
+              {
+                  pokemonId: item.pokemonId,
+                  pokemonName: item.pokemonName,
+                  sprite: item.sprite
+              }
+          ];
+
+    const hasCompactEvolutionLine = evolutionLine.length >= 3;
+    const hasLongEvolutionLine = evolutionLine.length >= 4;
+
+    const evolutionHtml = evolutionLine
+        .map((pokemon) => {
+            return `
+                <div class="owned-pokemon-evolution-item">
+                    <img
+                        src="${getPokemonThumbnail(pokemon.pokemonId, pokemon.sprite)}"
+                        alt="${pokemon.pokemonName}">
+
+                    <span>
+                        #${String(pokemon.pokemonId).padStart(3, "0")}
+                    </span>
+
+                    <strong>
+                        ${pokemon.pokemonName}
+                    </strong>
+                </div>
+            `;
+        })
+        .join("");
+
     return `
-        <article class="owned-pokemon-card">
+        <article class="owned-pokemon-card ${
+            hasCompactEvolutionLine ? "owned-pokemon-card-compact-evolution" : ""
+        } ${hasLongEvolutionLine ? "owned-pokemon-card-wide" : ""}">
             <div class="owned-pokemon-card-header">
                 <img
                     src="${getPokemonThumbnail(item.pokemonId, item.sprite)}"
@@ -1304,6 +1346,10 @@ function createOwnedPokemonCard(item) {
                         ${item.pokemonName}
                     </h3>
                 </div>
+            </div>
+
+            <div class="owned-pokemon-evolution-line">
+                ${evolutionHtml}
             </div>
 
             <div class="owned-pokemon-card-info">
@@ -1355,7 +1401,6 @@ function createOwnedPokemonCard(item) {
         </article>
     `;
 }
-
 // OPEN EDIT OWNED POKEMON MODAL
 function openEditOwnedPokemonModal(ownedPokemonId) {
     const item = loadOwnedPokemons().find((pokemon) => pokemon.id === ownedPokemonId);
