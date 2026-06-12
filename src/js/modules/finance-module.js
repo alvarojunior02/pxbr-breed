@@ -396,8 +396,6 @@ function setupFinancePeriodFilters() {
 
 btnExportFinanceCsv.addEventListener("click", openFinanceCsvExportConfirmModal);
 
-btnCloseFinanceCsvExportModal.addEventListener("click", closeFinanceCsvExportConfirmModal);
-
 btnCancelFinanceCsvExport.addEventListener("click", closeFinanceCsvExportConfirmModal);
 
 btnConfirmFinanceCsvExport.addEventListener("click", () => {

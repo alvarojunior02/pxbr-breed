@@ -960,8 +960,8 @@ reportTabs.forEach((tab) => {
     });
 });
 
-btnCloseReportCsvExportModal.addEventListener("click", closeReportCsvExportConfirmModal);
 btnCancelReportCsvExport.addEventListener("click", closeReportCsvExportConfirmModal);
+
 btnConfirmReportCsvExport.addEventListener("click", confirmReportCsvExport);
 
 window.openReportCsvExportConfirmModal = openReportCsvExportConfirmModal;

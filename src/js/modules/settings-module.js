@@ -29,7 +29,6 @@ const btnOpenBackupHistory = document.getElementById("btnOpenBackupHistory");
 const backupHistoryModal = document.getElementById("backupHistoryModal");
 const backupHistoryList = document.getElementById("backupHistoryList");
 const btnCloseBackupHistoryModal = document.getElementById("btnCloseBackupHistoryModal");
-const btnCloseBackupHistoryFooter = document.getElementById("btnCloseBackupHistoryFooter");
 
 let currentSettings = loadSystemSettings();
 let draftSettings = { ...currentSettings };
@@ -325,18 +324,11 @@ function renderBackupHistory() {
 function openBackupHistoryModal() {
     renderBackupHistory();
 
-    backupHistoryModal.classList.remove("hidden");
-    document.body.classList.add("modal-open");
+    openModal(backupHistoryModal);
 }
 
 function closeBackupHistoryModal() {
-    backupHistoryModal.classList.add("hidden");
-
-    const hasVisibleModal = document.querySelector(".modal:not(.hidden)");
-
-    if (!hasVisibleModal) {
-        document.body.classList.remove("modal-open");
-    }
+    closeModal(backupHistoryModal);
 }
 
 function exportSystemBackup() {
@@ -466,8 +458,6 @@ btnSaveSettings.addEventListener("click", () => {
     openSettingsConfirmModal();
 });
 
-btnCloseSettingsConfirmModal.addEventListener("click", closeSettingsConfirmModal);
-
 btnCancelSettingsConfirm.addEventListener("click", closeSettingsConfirmModal);
 
 btnConfirmSettingsSave.addEventListener("click", confirmSettingsSave);
@@ -478,8 +468,6 @@ btnImportBackup.addEventListener("click", () => {
     backupImportInput.click();
 });
 
-btnCloseBackupExportModal.addEventListener("click", closeBackupExportConfirmModal);
-
 btnCancelBackupExport.addEventListener("click", closeBackupExportConfirmModal);
 
 btnConfirmBackupExport.addEventListener("click", () => {
@@ -488,10 +476,6 @@ btnConfirmBackupExport.addEventListener("click", () => {
 });
 
 btnOpenBackupHistory.addEventListener("click", openBackupHistoryModal);
-
-btnCloseBackupHistoryModal.addEventListener("click", closeBackupHistoryModal);
-
-btnCloseBackupHistoryFooter.addEventListener("click", closeBackupHistoryModal);
 
 renderSettingsModule();
 

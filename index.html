@@ -487,9 +487,7 @@
         <!-- Modal de Confirmação de Exportação de Backup -->
         <div id="backupExportConfirmModal" class="modal hidden">
             <div class="modal-content backup-export-modal-content">
-                <button type="button" class="modal-close-button" id="btnCloseBackupExportModal">
-                    ×
-                </button>
+                <button type="button" class="modal-close-button" data-close-modal>×</button>
 
                 <h2>Confirmar Exportação</h2>
 
@@ -514,9 +512,7 @@
         <!-- Modal de Confirmação das Configurações -->
         <div id="settingsConfirmModal" class="modal hidden">
             <div class="modal-content settings-confirm-modal-content">
-                <button type="button" class="modal-close-button" id="btnCloseSettingsConfirmModal">
-                    ×
-                </button>
+                <button type="button" class="modal-close-button" data-close-modal>×</button>
 
                 <h2>Confirmar alterações</h2>
 
@@ -541,9 +537,7 @@
         <!-- Modal de Histórico de Backups -->
         <div id="backupHistoryModal" class="modal hidden">
             <div class="modal-content backup-history-modal-content">
-                <button type="button" class="modal-close-button" id="btnCloseBackupHistoryModal">
-                    ×
-                </button>
+                <button type="button" class="modal-close-button" data-close-modal>×</button>
 
                 <h2>Histórico de Backups</h2>
 
@@ -552,21 +546,13 @@
                 </p>
 
                 <div id="backupHistoryList" class="backup-history-list"></div>
-
-                <div class="modal-footer">
-                    <button type="button" class="button-secondary" id="btnCloseBackupHistoryFooter">
-                        Fechar
-                    </button>
-                </div>
             </div>
         </div>
 
         <!-- Modal de Confirmação de Exportação CSV -->
         <div id="financeCsvExportConfirmModal" class="modal hidden">
             <div class="modal-content finance-csv-export-modal-content">
-                <button type="button" class="modal-close-button" id="btnCloseFinanceCsvExportModal">
-                    ×
-                </button>
+                <button type="button" class="modal-close-button" data-close-modal>×</button>
 
                 <h2>Confirmar Exportação CSV</h2>
 
@@ -591,6 +577,8 @@
         <!-- Modal de Criar Encomenda -->
         <div id="createOrderModal" class="modal hidden">
             <div class="modal-content">
+                <button type="button" class="modal-close-button" data-close-modal>×</button>
+
                 <h2>Nova Encomenda</h2>
 
                 <div id="orderForm">
@@ -682,6 +670,8 @@
         <!-- Modal de Confirmação de Nova Encomenda -->
         <div id="orderModal" class="modal hidden">
             <div class="modal-content">
+                <button type="button" class="modal-close-button" data-close-modal>×</button>
+
                 <div id="orderSummary"></div>
 
                 <hr />
@@ -747,6 +737,7 @@
         <!-- Modal de Detalhes da Encomenda -->
         <div id="orderDetailsModal" class="modal hidden">
             <div class="modal-content">
+                <button type="button" class="modal-close-button" data-close-modal>×</button>
                 <h2>Detalhes da Encomenda</h2>
 
                 <div id="orderDetailsContent"></div>
@@ -760,6 +751,8 @@
         <!-- Modal de Registrar Pagamento -->
         <div id="paymentModal" class="modal hidden">
             <div class="modal-content">
+                <button type="button" class="modal-close-button" data-close-modal>×</button>
+
                 <h2>Registrar Pagamento</h2>
 
                 <div id="paymentSummary"></div>
@@ -783,6 +776,8 @@
         <!-- Modal de Confirmação do Registro de Pagamento -->
         <div id="paymentConfirmModal" class="modal hidden">
             <div class="modal-content">
+                <button type="button" class="modal-close-button" data-close-modal>×</button>
+
                 <h2>Confirmar Registro de Pagamento</h2>
 
                 <div class="payment-warning">
@@ -812,6 +807,8 @@
         <!-- Modal de Confirmação para Avançar Status -->
         <div id="statusConfirmModal" class="modal hidden">
             <div class="modal-content">
+                <button type="button" class="modal-close-button" data-close-modal>×</button>
+
                 <h2>Confirmar Alteração</h2>
 
                 <div id="statusConfirmContent"></div>
@@ -831,6 +828,8 @@
         <!-- Modal de Confirmação para Arquivar Encomenda -->
         <div id="archiveConfirmModal" class="modal hidden">
             <div class="modal-content">
+                <button type="button" class="modal-close-button" data-close-modal>×</button>
+
                 <h2>Confirmar Arquivamento</h2>
 
                 <div class="payment-warning">
@@ -856,6 +855,8 @@
         <!-- Modal de Detalhes do Pokémon -->
         <div id="pokemonDetailsModal" class="modal hidden">
             <div class="modal-content pokemon-details-modal-content">
+                <button type="button" class="modal-close-button" data-close-modal>×</button>
+
                 <div id="pokemonDetailsContent"></div>
 
                 <div class="modal-footer">
@@ -869,9 +870,7 @@
         <!-- Modal de Gerenciar HAs -->
         <div id="ownedHAModal" class="modal hidden">
             <div class="modal-content pokemon-ha-modal-content">
-                <button type="button" class="modal-close-button" onclick="closeOwnedHAModal()">
-                    ×
-                </button>
+                <button type="button" class="modal-close-button" data-close-modal>×</button>
 
                 <h2>Gerenciar Meus HAs</h2>
 
@@ -888,9 +887,7 @@
         <!-- Modal de Adicionar nova HA -->
         <div id="addOwnedHAModal" class="modal hidden">
             <div class="modal-content pokemon-add-ha-modal-content">
-                <button type="button" class="modal-close-button" onclick="closeAddOwnedHAModal()">
-                    ×
-                </button>
+                <button type="button" class="modal-close-button" data-close-modal>×</button>
 
                 <h2>Adicionar HA</h2>
 
@@ -962,6 +959,8 @@
         <!-- Modal de Novo Player -->
         <div id="newPlayerModal" class="modal hidden">
             <div class="modal-content">
+                <button type="button" class="modal-close-button" data-close-modal>×</button>
+
                 <h2>Novo Cliente</h2>
 
                 <div class="player-form">
@@ -1016,6 +1015,8 @@
         <!-- Modal de Resumo do Player -->
         <div id="playerSummaryModal" class="modal hidden">
             <div class="modal-content">
+                <button type="button" class="modal-close-button" data-close-modal>×</button>
+
                 <h2>Resumo do Cliente</h2>
 
                 <div id="playerSummaryContent"></div>
@@ -1029,6 +1030,8 @@
         <!-- Modal de Transações do Player -->
         <div id="playerTransactionsModal" class="modal hidden">
             <div class="modal-content">
+                <button type="button" class="modal-close-button" data-close-modal>×</button>
+
                 <h2>Transações do Cliente</h2>
 
                 <div id="playerTransactionsContent"></div>
@@ -1044,9 +1047,7 @@
         <!-- Modal de Confirmação de Exportação de Relatório CSV -->
         <div id="reportCsvExportConfirmModal" class="modal hidden">
             <div class="modal-content finance-csv-export-modal-content">
-                <button type="button" class="modal-close-button" id="btnCloseReportCsvExportModal">
-                    ×
-                </button>
+                <button type="button" class="modal-close-button" data-close-modal>×</button>
 
                 <h2>Exportar Relatório</h2>
 
@@ -1078,6 +1079,7 @@
         <script src="src/js/core/utils.js"></script>
         <script src="src/js/core/csv.js"></script>
         <script src="src/js/core/toasts.js"></script>
+        <script src="src/js/core/modals.js"></script>
         <script src="src/js/core/constants.js"></script>
         <script src="src/js/core/transactions.js"></script>
 

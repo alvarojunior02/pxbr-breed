@@ -19,6 +19,7 @@
     overflow-y: auto;
     border-radius: 12px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    position: relative;
 }
 
 .modal-footer {
@@ -47,21 +48,34 @@
 
 .modal-close-button {
     position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    width: 32px;
-    height: 32px;
-    border: none;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.08);
-    color: var(--text-color);
-    font-size: 1.25rem;
-    cursor: pointer;
+    top: 1rem;
+    right: 1rem;
+
+    width: 36px;
+    height: 36px;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-color);
+
+    font-size: 1.4rem;
+    font-weight: 800;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
 }
 
 .modal-close-button:hover {
-    background: rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.14);
+    transform: scale(1.05);
 }
