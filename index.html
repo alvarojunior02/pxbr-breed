@@ -254,9 +254,30 @@
                         </div>
                     </div>
 
-                    <div class="pokemon-catalog-toolbar">
+                    <div class="pokemon-catalog-toolbar pokemon-catalog-pagination-toolbar">
                         <span id="pokemonCatalogCounter"></span>
+
+                        <div class="pokemon-page-size-control">
+                            <label for="pokemonCatalogPageSize">Registros por página:</label>
+
+                            <select id="pokemonCatalogPageSize">
+                                <option value="10">10</option>
+                                <option value="25" selected>25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                                <option value="200">200</option>
+                            </select>
+                        </div>
                     </div>
+
+                    <div id="pokemonCatalogPagination" class="pokemon-catalog-pagination"></div>
+
+                    <div id="pokemonCatalogGrid" class="pokemon-catalog-grid"></div>
+
+                    <div
+                        id="pokemonCatalogPaginationBottom"
+                        class="pokemon-catalog-pagination"
+                    ></div>
 
                     <div id="pokemonCatalogGrid" class="pokemon-catalog-grid"></div>
                 </section>

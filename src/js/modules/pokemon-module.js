@@ -8,6 +8,9 @@ const pokemonDetailsModal = document.getElementById("pokemonDetailsModal");
 const pokemonDetailsContent = document.getElementById("pokemonDetailsContent");
 
 const pokemonCatalogCounter = document.getElementById("pokemonCatalogCounter");
+const pokemonCatalogPageSize = document.getElementById("pokemonCatalogPageSize");
+const pokemonCatalogPagination = document.getElementById("pokemonCatalogPagination");
+const pokemonCatalogPaginationBottom = document.getElementById("pokemonCatalogPaginationBottom");
 
 const ownedHAModal = document.getElementById("ownedHAModal");
 const ownedHAList = document.getElementById("ownedHAList");
@@ -24,6 +27,7 @@ const manualHASearchResults = document.getElementById("manualHASearchResults");
 const btnSaveOwnedHA = document.getElementById("btnSaveOwnedHA");
 
 let pokedexCatalog = [];
+let currentPokemonCatalogPage = 1;
 
 let pokemonDetailsAnimationDirection = "none";
 
@@ -105,8 +109,7 @@ function getFilteredPokemonCatalog() {
             String(pokemon.id).includes(searchTerm);
 
         const matchesGeneration =
-            selectedGeneration === "all" ||
-            getPokemonGeneration(pokemon.id) === Number(selectedGeneration);
+            selectedGeneration === "all" || getPokemonGeneration(pokemon.id) === selectedGeneration;
 
         const matchesEggGroup =
             selectedEggGroup === "all" ||
@@ -130,7 +133,24 @@ function getFilteredPokemonCatalog() {
 function renderPokemonCatalog() {
     const filteredPokemons = getFilteredPokemonCatalog();
 
+    const pageSize = Number(pokemonCatalogPageSize.value);
+    const totalPokemons = filteredPokemons.length;
+    const totalPages = Math.max(Math.ceil(totalPokemons / pageSize), 1);
+
+    if (currentPokemonCatalogPage > totalPages) {
+        currentPokemonCatalogPage = totalPages;
+    }
+
+    const startIndex = (currentPokemonCatalogPage - 1) * pageSize;
+    const endIndex = Math.min(startIndex + pageSize, totalPokemons);
+    const paginatedPokemons = filteredPokemons.slice(startIndex, endIndex);
+
     if (filteredPokemons.length === 0) {
+        pokemonCatalogCounter.textContent = "Exibindo pokémons de 0 a 0 de 0 totais";
+
+        pokemonCatalogPagination.innerHTML = "";
+        pokemonCatalogPaginationBottom.innerHTML = "";
+
         pokemonCatalogGrid.innerHTML = `
             <p class="empty-state">
                 Nenhum Pokémon encontrado.
@@ -140,11 +160,104 @@ function renderPokemonCatalog() {
         return;
     }
 
-    pokemonCatalogCounter.textContent = `Exibindo ${filteredPokemons.length} de ${pokedexCatalog.length} Pokémon`;
+    pokemonCatalogCounter.textContent = `Exibindo pokémons de ${startIndex + 1} a ${endIndex} de ${totalPokemons} totais`;
 
-    pokemonCatalogGrid.innerHTML = filteredPokemons
+    const paginationHtml = createPokemonCatalogPagination(totalPages);
+
+    pokemonCatalogPagination.innerHTML = paginationHtml;
+    pokemonCatalogPaginationBottom.innerHTML = paginationHtml;
+
+    pokemonCatalogGrid.innerHTML = paginatedPokemons
         .map((pokemon) => createPokemonCatalogCard(pokemon))
         .join("");
+}
+
+// RESET POKEMON CATALOG PAGE
+function resetPokemonCatalogPage() {
+    currentPokemonCatalogPage = 1;
+
+    renderPokemonCatalog();
+}
+
+// CHANGE POKEMON CATALOG PAGE
+function changePokemonCatalogPage(page) {
+    const pageSize = Number(pokemonCatalogPageSize.value);
+    const totalPages = Math.max(Math.ceil(getFilteredPokemonCatalog().length / pageSize), 1);
+
+    currentPokemonCatalogPage = Math.min(Math.max(Number(page), 1), totalPages);
+
+    renderPokemonCatalog();
+}
+
+// CREATE POKEMON CATALOG PAGINATION
+function createPokemonCatalogPagination(totalPages) {
+    if (totalPages <= 1) {
+        return "";
+    }
+
+    const pages = getPokemonCatalogPaginationPages(totalPages);
+
+    return `
+        <button
+            type="button"
+            onclick="changePokemonCatalogPage(1)"
+            ${currentPokemonCatalogPage === 1 ? "disabled" : ""}>
+            &lt;&lt;&lt;
+        </button>
+
+        <button
+            type="button"
+            onclick="changePokemonCatalogPage(${currentPokemonCatalogPage - 1})"
+            ${currentPokemonCatalogPage === 1 ? "disabled" : ""}>
+            &lt;
+        </button>
+
+        ${pages
+            .map(
+                (page) => `
+                    <button
+                        type="button"
+                        class="${page === currentPokemonCatalogPage ? "active" : ""}"
+                        onclick="changePokemonCatalogPage(${page})">
+                        ${page}
+                    </button>
+                `
+            )
+            .join("")}
+
+        <button
+            type="button"
+            onclick="changePokemonCatalogPage(${currentPokemonCatalogPage + 1})"
+            ${currentPokemonCatalogPage === totalPages ? "disabled" : ""}>
+            &gt;
+        </button>
+
+        <button
+            type="button"
+            onclick="changePokemonCatalogPage(${totalPages})"
+            ${currentPokemonCatalogPage === totalPages ? "disabled" : ""}>
+            &gt;&gt;&gt;
+        </button>
+    `;
+}
+
+// GET POKEMON CATALOG PAGINATION PAGES
+function getPokemonCatalogPaginationPages(totalPages) {
+    const pages = new Set();
+
+    pages.add(1);
+
+    for (let page = currentPokemonCatalogPage - 1; page <= currentPokemonCatalogPage + 1; page++) {
+        if (page > 1 && page < totalPages) {
+            pages.add(page);
+        }
+    }
+
+    if (totalPages > 1) {
+        pages.add(totalPages);
+    }
+
+    return [...pages].sort((a, b) => a - b);
 }
 
 // CREATE POKEMON CATALOG CARD
@@ -260,10 +373,11 @@ function closePokemonDetails() {
 
 // SETUP POKEMON CATALOG EVENTS
 function setupPokemonCatalogEvents() {
-    pokemonCatalogSearch.addEventListener("input", renderPokemonCatalog);
-    pokemonOwnedHAFilter.addEventListener("change", renderPokemonCatalog);
-    pokemonGenerationFilter.addEventListener("change", renderPokemonCatalog);
-    pokemonEggGroupFilter.addEventListener("change", renderPokemonCatalog);
+    pokemonCatalogSearch.addEventListener("input", resetPokemonCatalogPage);
+    pokemonOwnedHAFilter.addEventListener("change", resetPokemonCatalogPage);
+    pokemonGenerationFilter.addEventListener("change", resetPokemonCatalogPage);
+    pokemonEggGroupFilter.addEventListener("change", resetPokemonCatalogPage);
+    pokemonCatalogPageSize.addEventListener("change", resetPokemonCatalogPage);
 }
 
 // CREATE POKEMON DETAILS EVOLUTION NAV HTML
@@ -1341,3 +1455,5 @@ window.openEditOwnedHAModal = openEditOwnedHAModal;
 
 window.openManualAddOwnedHAModal = openManualAddOwnedHAModal;
 window.selectManualHAPokemon = selectManualHAPokemon;
+
+window.changePokemonCatalogPage = changePokemonCatalogPage;

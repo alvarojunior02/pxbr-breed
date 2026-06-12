@@ -899,6 +899,58 @@
     width: 100%;
 }
 
+.pokemon-catalog-pagination-toolbar {
+    justify-content: space-between;
+    gap: 14px;
+}
+
+.pokemon-page-size-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.pokemon-page-size-control label {
+    margin: 0;
+}
+
+.pokemon-page-size-control select {
+    width: auto;
+    min-width: 88px;
+}
+
+.pokemon-catalog-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin: 14px 0;
+}
+
+.pokemon-catalog-pagination:empty {
+    display: none;
+}
+
+.pokemon-catalog-pagination button {
+    min-width: 40px;
+    padding: 8px 10px;
+    border-radius: 8px;
+}
+
+.pokemon-catalog-pagination button.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+
+.pokemon-catalog-pagination button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
 @keyframes pokemonSlideFromLeft {
     from {
         opacity: 0;
