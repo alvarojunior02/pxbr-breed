@@ -565,7 +565,9 @@
         <!-- Modal de Criar Encomenda -->
         <div id="createOrderModal" class="modal hidden">
             <div class="modal-content">
-                <button type="button" class="modal-close-button" data-close-modal>×</button>
+                <button type="button" class="modal-close-button" onclick="closeCreateOrderModal()">
+                    ×
+                </button>
 
                 <h2>Nova Encomenda</h2>
 
@@ -635,10 +637,6 @@
                     <br />
 
                     <div class="form-actions">
-                        <button type="button" id="btnCancelCreateOrder" class="button-danger">
-                            Cancelar
-                        </button>
-
                         <button type="button" id="btnCreateOrder" class="button-success">
                             Criar Encomenda
                         </button>
@@ -658,7 +656,13 @@
         <!-- Modal de Confirmação de Nova Encomenda -->
         <div id="orderModal" class="modal hidden">
             <div class="modal-content">
-                <button type="button" class="modal-close-button" data-close-modal>×</button>
+                <button
+                    type="button"
+                    class="modal-close-button"
+                    onclick="closeOrderConfirmationModal()"
+                >
+                    ×
+                </button>
 
                 <div id="orderSummary"></div>
 
@@ -713,8 +717,6 @@
                 </div>
 
                 <hr />
-
-                <button type="button" id="btnCancelOrder" class="button-danger">Cancelar</button>
 
                 <button type="button" id="btnConfirmOrder" class="button-success" disabled>
                     Confirmar
@@ -833,12 +835,6 @@
                 <button type="button" class="modal-close-button" data-close-modal>×</button>
 
                 <div id="pokemonDetailsContent"></div>
-
-                <div class="modal-footer">
-                    <button type="button" class="button-secondary" id="btnClosePokemonDetails">
-                        Fechar
-                    </button>
-                </div>
             </div>
         </div>
 
@@ -850,19 +846,15 @@
                 <h2>Gerenciar Meus HAs</h2>
 
                 <div id="ownedHAList"></div>
-
-                <div class="modal-footer">
-                    <button type="button" class="button-secondary" onclick="closeOwnedHAModal()">
-                        Fechar
-                    </button>
-                </div>
             </div>
         </div>
 
         <!-- Modal de Adicionar nova HA -->
         <div id="addOwnedHAModal" class="modal hidden">
             <div class="modal-content pokemon-add-ha-modal-content">
-                <button type="button" class="modal-close-button" data-close-modal>×</button>
+                <button type="button" class="modal-close-button" onclick="closeAddOwnedHAModal()">
+                    ×
+                </button>
 
                 <h2>Adicionar HA</h2>
 
@@ -915,10 +907,6 @@
                 </p>
 
                 <div class="modal-footer">
-                    <button type="button" class="button-secondary" onclick="closeAddOwnedHAModal()">
-                        Cancelar
-                    </button>
-
                     <button
                         type="button"
                         id="btnSaveOwnedHA"
@@ -1004,12 +992,6 @@
                 <h2>Transações do Cliente</h2>
 
                 <div id="playerTransactionsContent"></div>
-
-                <div class="modal-footer">
-                    <button type="button" id="btnClosePlayerTransactions" class="button-danger">
-                        Fechar
-                    </button>
-                </div>
             </div>
         </div>
 

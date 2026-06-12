@@ -32,8 +32,6 @@ window.btnOpenCreateOrderModal = document.querySelectorAll(".btn-open-create-ord
 
 window.createOrderModal = document.getElementById("createOrderModal");
 
-window.btnCancelCreateOrder = document.getElementById("btnCancelCreateOrder");
-
 window.btnClearCreateOrder = document.getElementById("btnClearCreateOrder");
 
 window.btnQuickNewPlayer = document.getElementById("btnQuickNewPlayer");
@@ -45,8 +43,6 @@ window.btnQuickNewPlayer = document.getElementById("btnQuickNewPlayer");
 window.orderModal = document.getElementById("orderModal");
 
 window.orderSummary = document.getElementById("orderSummary");
-
-window.btnCancelOrder = document.getElementById("btnCancelOrder");
 
 window.btnConfirmOrder = document.getElementById("btnConfirmOrder");
 

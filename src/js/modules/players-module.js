@@ -15,7 +15,6 @@ const playerSummaryContent = document.getElementById("playerSummaryContent");
 
 const playerTransactionsModal = document.getElementById("playerTransactionsModal");
 const playerTransactionsContent = document.getElementById("playerTransactionsContent");
-const btnClosePlayerTransactions = document.getElementById("btnClosePlayerTransactions");
 
 const btnPreviewPlayerSkin = document.getElementById("btnPreviewPlayerSkin");
 const playerSkinPreview = document.getElementById("playerSkinPreview");
@@ -602,10 +601,6 @@ playerSortSelect.addEventListener("change", renderPlayersModule);
 btnOpenNewPlayerModal.addEventListener("click", openNewPlayerModal);
 
 btnConfirmNewPlayer.addEventListener("click", savePlayerFromModal);
-
-btnClosePlayerTransactions.addEventListener("click", () => {
-    playerTransactionsModal.classList.add("hidden");
-});
 
 newPlayerNick.addEventListener("input", () => {
     updateSavePlayerButtonState();

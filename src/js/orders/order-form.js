@@ -1038,9 +1038,25 @@ function openCreateOrderModal() {
 
 // CLOSE CREATE ORDER MODAL
 function closeCreateOrderModal() {
-    createOrderModal.classList.add("hidden");
+    resetOrderForm();
+    closeModal(createOrderModal);
+}
 
-    document.body.classList.remove("modal-open");
+// CLOSE ORDER CONFIRMATION MODAL
+function closeOrderConfirmationModal() {
+    closeModal(orderModal);
+
+    document.querySelectorAll("input[name='needsFemale']").forEach((radio) => {
+        radio.checked = false;
+    });
+
+    orderObservations.value = "";
+
+    orderPaid.checked = false;
+    orderPaidAmount.value = formatMoney(0);
+    orderPaidAmountWrapper.classList.add("hidden");
+
+    btnConfirmOrder.disabled = true;
 }
 
 // SELECT ORDER PLAYER
@@ -1090,16 +1106,7 @@ btnOpenCreateOrderModal.forEach((button) => {
     button.addEventListener("click", openCreateOrderModal);
 });
 
-btnCancelCreateOrder.addEventListener("click", () => {
-    resetOrderForm();
-    closeCreateOrderModal();
-});
-
 btnClearCreateOrder.addEventListener("click", resetOrderForm);
-
-btnCancelOrder.addEventListener("click", () => {
-    orderModal.classList.add("hidden");
-});
 
 btnConfirmOrder.addEventListener("click", () => {
     const orderData = buildOrder();

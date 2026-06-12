@@ -6,7 +6,6 @@ const pokemonCatalogGrid = document.getElementById("pokemonCatalogGrid");
 
 const pokemonDetailsModal = document.getElementById("pokemonDetailsModal");
 const pokemonDetailsContent = document.getElementById("pokemonDetailsContent");
-const btnClosePokemonDetails = document.getElementById("btnClosePokemonDetails");
 
 const pokemonCatalogCounter = document.getElementById("pokemonCatalogCounter");
 
@@ -725,8 +724,7 @@ function openOwnedHAModal() {
 }
 
 function closeOwnedHAModal() {
-    ownedHAModal.classList.add("hidden");
-    document.body.classList.remove("modal-open");
+    closeModal(ownedHAModal);
 }
 
 function renderOwnedHAList() {
@@ -1114,7 +1112,7 @@ function saveOwnedHAFromModal() {
 
 // CLOSE ADD OWNED HA MODAL
 function closeAddOwnedHAModal() {
-    addOwnedHAModal.classList.add("hidden");
+    closeModal(addOwnedHAModal);
 
     selectedHAPokemonId = null;
     selectedOwnedHAId = null;
@@ -1129,11 +1127,11 @@ function closeAddOwnedHAModal() {
 
     addOwnedHAModal.querySelector("h2").textContent = "Adicionar HA";
 
-    const hasVisibleModal = document.querySelector(".modal:not(.hidden)");
+    addOwnedHASummary.innerHTML = "";
 
-    if (!hasVisibleModal) {
-        document.body.classList.remove("modal-open");
-    }
+    ownedHACastratedPrice.value = "";
+    ownedHABreedablePrice.value = "";
+    ownedHANotes.value = "";
 }
 
 function hasOwnedHiddenAbility(pokemon) {
@@ -1214,8 +1212,6 @@ function isOwnedHAFormValid() {
 function updateSaveOwnedHAButtonState() {
     btnSaveOwnedHA.disabled = !isOwnedHAFormValid();
 }
-
-btnClosePokemonDetails.addEventListener("click", closePokemonDetails);
 
 pokemonDetailsModal.addEventListener("click", (event) => {
     if (event.target === pokemonDetailsModal) {
