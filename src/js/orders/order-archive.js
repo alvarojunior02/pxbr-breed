@@ -14,14 +14,8 @@ function archiveOrder(orderId) {
 
     selectedArchiveOrderId = orderId;
 
-    archiveConfirmModal.classList.remove("hidden");
+    openModal(window.archiveConfirmModal);
 }
-
-btnCancelArchive.addEventListener("click", () => {
-    archiveConfirmModal.classList.add("hidden");
-
-    selectedArchiveOrderId = null;
-});
 
 btnConfirmArchive.addEventListener("click", () => {
     const orders = loadOrders();
@@ -44,7 +38,7 @@ btnConfirmArchive.addEventListener("click", () => {
 
     showSuccessToast("Encomenda arquivada com sucesso!");
 
-    archiveConfirmModal.classList.add("hidden");
+    closeModal(window.archiveConfirmModal);
 
     orderDetailsModal.classList.add("hidden");
 

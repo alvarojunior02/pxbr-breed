@@ -110,8 +110,6 @@ window.btnConfirmPaymentRegister = document.getElementById("btnConfirmPaymentReg
 
 window.archiveConfirmModal = document.getElementById("archiveConfirmModal");
 
-window.btnCancelArchive = document.getElementById("btnCancelArchive");
-
 window.btnConfirmArchive = document.getElementById("btnConfirmArchive");
 
 // ==============================
