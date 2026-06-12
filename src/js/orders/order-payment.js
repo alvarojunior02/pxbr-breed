@@ -104,11 +104,7 @@ btnConfirmPayment.addEventListener("click", () => {
             </p>
         `;
 
-    paymentConfirmModal.classList.remove("hidden");
-});
-
-btnCancelPaymentConfirm.addEventListener("click", () => {
-    paymentConfirmModal.classList.add("hidden");
+    openModal(window.paymentConfirmModal);
 });
 
 btnConfirmPaymentRegister.addEventListener("click", () => {
@@ -138,7 +134,7 @@ btnConfirmPaymentRegister.addEventListener("click", () => {
 
     saveTransaction(transaction);
 
-    paymentConfirmModal.classList.add("hidden");
+    closeModal(window.paymentConfirmModal);
 
     paymentModal.classList.add("hidden");
 

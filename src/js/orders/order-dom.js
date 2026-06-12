@@ -104,8 +104,6 @@ window.paymentConfirmModal = document.getElementById("paymentConfirmModal");
 
 window.paymentConfirmSummary = document.getElementById("paymentConfirmSummary");
 
-window.btnCancelPaymentConfirm = document.getElementById("btnCancelPaymentConfirm");
-
 window.btnConfirmPaymentRegister = document.getElementById("btnConfirmPaymentRegister");
 
 // ==============================
