@@ -1764,13 +1764,113 @@ function deleteOwnedPokemon(ownedPokemonId) {
     renderOwnedPokemonsList();
 }
 
+// SHOULD USE API OWNED HAS
+function shouldUseApiOwnedHAs() {
+    return Boolean(window.PXBROwnedHAsApiService && window.PXBRAuthService?.getAccessToken?.());
+}
+
+// MAP OWNED HA FROM API
+function mapOwnedHAFromApi(item) {
+    const evolutionLine = (item.pokemons || []).map((pokemon) => ({
+        id: pokemon.id,
+        pokemonId: pokemon.pokemonDexId,
+        pokemonName: pokemon.pokemonName,
+        sprite: pokemon.pokemonSprite,
+        isBase: Boolean(pokemon.isBase),
+        abilityName: item.abilityName,
+        regionalForm: item.regionalForm || "",
+        regionalFormLabel: item.regionalFormLabel || ""
+    }));
+
+    const basePokemon = evolutionLine.find((pokemon) => pokemon.isBase) || evolutionLine[0];
+
+    return {
+        id: item.id,
+        pokemonId: basePokemon?.pokemonId,
+        pokemonName: basePokemon?.pokemonName,
+        sprite: basePokemon?.sprite,
+        abilityName: item.abilityName,
+        evolutionLine,
+        castratedPrice: item.castratedValue,
+        breedablePrice: item.breedableValue,
+        nature: item.nature || null,
+        notes: item.notes || "",
+        regionalForm: item.regionalForm || "",
+        regionalFormLabel: item.regionalFormLabel || "",
+        regionalFormDisplayName: item.regionalFormDisplayName || "",
+        createdAt: item.createdAt,
+        updatedAt: item.updatedAt
+    };
+}
+
+// MAP OWNED HA TO API PAYLOAD
+function mapOwnedHAToApiPayload(payload) {
+    return {
+        abilityName: payload.abilityName,
+        nature: payload.nature || null,
+        breedableValue: payload.breedablePrice,
+        castratedValue: payload.castratedPrice,
+        notes: payload.notes || null,
+        regionalForm: payload.regionalForm || null,
+        regionalFormLabel: payload.regionalFormLabel || null,
+        regionalFormDisplayName: payload.regionalFormDisplayName || null,
+        pokemons: (payload.evolutionLine || []).map((pokemon) => ({
+            pokemonDexId: Number(pokemon.pokemonId),
+            pokemonName: pokemon.pokemonName,
+            pokemonSprite: pokemon.sprite || null,
+            isBase: Number(pokemon.pokemonId) === Number(payload.pokemonId)
+        }))
+    };
+}
+
+// LOAD OWNED HAS FROM SOURCE
+async function loadOwnedHAsFromSource() {
+    if (shouldUseApiOwnedHAs()) {
+        const ownedHAs = await window.PXBROwnedHAsApiService.getOwnedHAs();
+
+        return ownedHAs.map(mapOwnedHAFromApi);
+    }
+
+    return loadOwnedHiddenAbilities();
+}
+
+// SAVE OWNED HA TO SOURCE
+async function saveOwnedHAToSource(payload) {
+    if (shouldUseApiOwnedHAs()) {
+        if (selectedOwnedHAId) {
+            const updatedHA = await window.PXBROwnedHAsApiService.update(
+                selectedOwnedHAId,
+                mapOwnedHAToApiPayload(payload)
+            );
+
+            return mapOwnedHAFromApi(updatedHA);
+        }
+
+        const createdHA = await window.PXBROwnedHAsApiService.create(
+            mapOwnedHAToApiPayload(payload)
+        );
+
+        return mapOwnedHAFromApi(createdHA);
+    }
+
+    if (selectedOwnedHAId) {
+        updateOwnedHiddenAbility(selectedOwnedHAId, payload);
+
+        return loadOwnedHiddenAbilities().find((item) => item.id === selectedOwnedHAId);
+    }
+
+    addOwnedHiddenAbility(payload);
+
+    return loadOwnedHiddenAbilities()[0];
+}
+
 // GET FILTERED OWNED HAS
-function getFilteredOwnedHAs() {
+function getFilteredOwnedHAs(hiddenAbilities) {
     const searchTerm = ownedHAListSearch.value.trim().toLowerCase();
     const selectedNature = ownedHAListNature.value;
     const selectedRegionalForm = ownedHAListRegionalForm.value;
 
-    return loadOwnedHiddenAbilities().filter((item) => {
+    return hiddenAbilities.filter((item) => {
         const evolutionNames = item.evolutionLine?.map((pokemon) => pokemon.pokemonName) || [];
 
         const searchableText = [
@@ -1805,43 +1905,54 @@ function getFilteredOwnedHAs() {
 }
 
 // RENDER OWNED HA LIST
-function renderOwnedHAList() {
-    const hiddenAbilities = loadOwnedHiddenAbilities();
-    const filteredHiddenAbilities = sortWideOwnedCardsLast(getFilteredOwnedHAs());
+async function renderOwnedHAList() {
+    try {
+        const hiddenAbilities = await loadOwnedHAsFromSource();
+        const filteredHiddenAbilities = sortWideOwnedCardsLast(
+            getFilteredOwnedHAs(hiddenAbilities)
+        );
 
-    if (hiddenAbilities.length === 0) {
-        ownedHAList.innerHTML = `
-            <p class="empty-state">
-                Nenhuma Hidden Ability cadastrada.
-            </p>
-        `;
+        if (hiddenAbilities.length === 0) {
+            ownedHAList.innerHTML = `
+                <p class="empty-state">
+                    Nenhuma Hidden Ability cadastrada.
+                </p>
+            `;
 
-        return;
-    }
+            return;
+        }
 
-    if (filteredHiddenAbilities.length === 0) {
+        if (filteredHiddenAbilities.length === 0) {
+            ownedHAList.innerHTML = `
+                <p class="owned-management-counter">
+                    Exibindo 0 de ${hiddenAbilities.length} HAs cadastradas.
+                </p>
+
+                <p class="empty-state">
+                    Nenhuma HA encontrada com os filtros atuais.
+                </p>
+            `;
+
+            return;
+        }
+
         ownedHAList.innerHTML = `
             <p class="owned-management-counter">
-                Exibindo 0 de ${hiddenAbilities.length} HAs cadastradas.
+                Exibindo ${filteredHiddenAbilities.length} de ${hiddenAbilities.length} HAs cadastradas.
             </p>
 
+            <div class="owned-ha-list">
+                ${filteredHiddenAbilities.map((item) => createOwnedHACard(item)).join("")}
+            </div>
+        `;
+    } catch (error) {
+        console.error(error);
+        ownedHAList.innerHTML = `
             <p class="empty-state">
-                Nenhuma HA encontrada com os filtros atuais.
+                Erro ao carregar HAs cadastradas.
             </p>
         `;
-
-        return;
     }
-
-    ownedHAList.innerHTML = `
-        <p class="owned-management-counter">
-            Exibindo ${filteredHiddenAbilities.length} de ${hiddenAbilities.length} HAs cadastradas.
-        </p>
-
-        <div class="owned-ha-list">
-            ${filteredHiddenAbilities.map((item) => createOwnedHACard(item)).join("")}
-        </div>
-    `;
 }
 
 // CREATE OWNED HA CARD
@@ -2178,7 +2289,7 @@ function createOwnedHASummary(evolutionLine) {
 }
 
 // SELECT MANUAL HA POKEMON
-function selectManualHAPokemon(pokemonId) {
+async function selectManualHAPokemon(pokemonId) {
     const pokemon = getPokemonById(pokemonId);
     const hiddenAbility = getPokemonHiddenAbility(pokemon);
 
@@ -2187,7 +2298,7 @@ function selectManualHAPokemon(pokemonId) {
         return;
     }
 
-    if (hasOwnedHiddenAbility(pokemon)) {
+    if (await hasOwnedHiddenAbility(pokemon)) {
         showWarningToast("Esta HA já está cadastrada nos seus HAs.");
         return;
     }
@@ -2217,7 +2328,7 @@ function selectManualHAPokemon(pokemonId) {
 }
 
 // SAVE OWNED HA FROM MODAL
-function saveOwnedHAFromModal() {
+async function saveOwnedHAFromModal() {
     if (!selectedHAPokemonId && !selectedOwnedHAId) {
         showWarningToast("Selecione um Pokémon antes de salvar a HA.");
         return;
@@ -2240,38 +2351,8 @@ function saveOwnedHAFromModal() {
     const hiddenAbility = getPokemonHiddenAbility(pokemon);
     const regionalForm = getPokemonRegionalForm(pokemon?.id, ownedHARegionalForm.value);
 
-    if (castratedPrice <= 0 || breedablePrice <= 0) {
-        showWarningToast("Informe valores maiores que zero para castrado e breedável.");
-
-        return;
-    }
-
-    if (selectedOwnedHAId) {
-        updateOwnedHiddenAbility(selectedOwnedHAId, {
-            castratedPrice,
-            breedablePrice,
-            nature: ownedHANature.value || null,
-            regionalForm: regionalForm?.value || "",
-            regionalFormLabel: regionalForm?.label || "",
-            regionalFormDisplayName: regionalForm?.displayName || "",
-            notes: ownedHANotes.value.trim()
-        });
-
-        showSuccessToast("HA atualizada com sucesso!");
-
-        closeAddOwnedHAModal();
-
-        renderOwnedHAList();
-
-        return;
-    }
-
-    if (!selectedHAPokemonId) {
-        showWarningToast("Selecione um Pokémon antes de salvar a HA.");
-        return;
-    }
-
     if (!pokemon || !hiddenAbility) {
+        showWarningToast("Pokémon com HA não encontrado.");
         return;
     }
 
@@ -2300,37 +2381,50 @@ function saveOwnedHAFromModal() {
         };
     });
 
-    addOwnedHiddenAbility({
+    const payload = {
         pokemonId: pokemon.id,
         pokemonName: pokemon.name.english,
         abilityName: hiddenAbility[0],
         sprite: getPokemonThumbnail(pokemon.id),
         evolutionLine: evolutionChain,
-        castratedPrice: unformatMoney(ownedHACastratedPrice.value),
-        breedablePrice: unformatMoney(ownedHABreedablePrice.value),
+        castratedPrice,
+        breedablePrice,
         nature: ownedHANature.value || null,
         notes: ownedHANotes.value.trim(),
         regionalForm: regionalForm?.value || "",
         regionalFormLabel: regionalForm?.label || "",
         regionalFormDisplayName: regionalForm?.displayName || ""
-    });
+    };
 
-    showSuccessToast("HA adicionada com sucesso!");
+    try {
+        btnSaveOwnedHA.disabled = true;
 
-    const pokemonIdToRefresh = selectedHAPokemonId;
-    const orderRowToRefresh = addHAOrderRow;
-    const originToRefresh = addHAOrigin;
+        await saveOwnedHAToSource(payload);
 
-    closeAddOwnedHAModal();
-    renderOwnedHAList();
+        showSuccessToast(
+            selectedOwnedHAId ? "HA atualizada com sucesso!" : "HA adicionada com sucesso!"
+        );
 
-    if (originToRefresh === "order-form" && orderRowToRefresh && pokemonIdToRefresh) {
-        refreshOrderPokemonOwnedHA(orderRowToRefresh, pokemonIdToRefresh);
-        return;
-    }
+        const pokemonIdToRefresh = selectedHAPokemonId;
+        const orderRowToRefresh = addHAOrderRow;
+        const originToRefresh = addHAOrigin;
 
-    if (originToRefresh === "pokemon-details" && pokemonIdToRefresh) {
-        openPokemonDetails(pokemonIdToRefresh);
+        closeAddOwnedHAModal();
+        await renderOwnedHAList();
+
+        if (originToRefresh === "order-form" && orderRowToRefresh && pokemonIdToRefresh) {
+            refreshOrderPokemonOwnedHA(orderRowToRefresh, pokemonIdToRefresh);
+            return;
+        }
+
+        if (originToRefresh === "pokemon-details" && pokemonIdToRefresh) {
+            openPokemonDetails(pokemonIdToRefresh);
+        }
+    } catch (error) {
+        console.error(error);
+        showErrorToast(error.message || "Erro ao salvar HA.");
+    } finally {
+        btnSaveOwnedHA.disabled = false;
     }
 }
 
@@ -2362,14 +2456,16 @@ function closeAddOwnedHAModal() {
 }
 
 // HAS OWNED HIDDEN ABILITY
-function hasOwnedHiddenAbility(pokemon) {
+async function hasOwnedHiddenAbility(pokemon) {
     const hiddenAbility = getPokemonHiddenAbility(pokemon);
 
     if (!pokemon || !hiddenAbility) {
         return false;
     }
 
-    return loadOwnedHiddenAbilities().some((item) => {
+    const hiddenAbilities = await loadOwnedHAsFromSource();
+
+    return hiddenAbilities.some((item) => {
         return item.evolutionLine?.some((evolutionPokemon) => {
             return Number(evolutionPokemon.pokemonId) === Number(pokemon.id);
         });
@@ -2377,8 +2473,10 @@ function hasOwnedHiddenAbility(pokemon) {
 }
 
 // OPEN EDIT OWNED HA MODAL
-function openEditOwnedHAModal(hiddenAbilityId) {
-    const hiddenAbility = loadOwnedHiddenAbilities().find((item) => {
+async function openEditOwnedHAModal(hiddenAbilityId) {
+    const hiddenAbilities = await loadOwnedHAsFromSource();
+
+    const hiddenAbility = hiddenAbilities.find((item) => {
         return item.id === hiddenAbilityId;
     });
 
@@ -2522,9 +2620,17 @@ ownedHABreedablePrice.addEventListener("input", updateSaveOwnedHAButtonState);
 ownedHANature.addEventListener("change", updateSaveOwnedHAButtonState);
 
 ownedHANotes.addEventListener("input", updateSaveOwnedHAButtonState);
-ownedHAListSearch.addEventListener("input", renderOwnedHAList);
-ownedHAListNature.addEventListener("change", renderOwnedHAList);
-ownedHAListRegionalForm.addEventListener("change", renderOwnedHAList);
+ownedHAListSearch.addEventListener("input", () => {
+    renderOwnedHAList();
+});
+
+ownedHAListNature.addEventListener("change", () => {
+    renderOwnedHAList();
+});
+
+ownedHAListRegionalForm.addEventListener("change", () => {
+    renderOwnedHAList();
+});
 
 ownedPokemonSearch.addEventListener("input", searchOwnedPokemon);
 ownedPokemonBreedLevel.addEventListener("change", updateOwnedPokemonSaveButtonState);
@@ -2594,3 +2700,6 @@ window.selectManualHAPokemon = selectManualHAPokemon;
 window.changePokemonCatalogPage = changePokemonCatalogPage;
 
 window.renderOwnedPokemonsList = renderOwnedPokemonsList;
+window.loadOwnedPokemonsFromSource = loadOwnedPokemonsFromSource;
+window.renderOwnedHAList = renderOwnedHAList;
+window.loadOwnedHAsFromSource = loadOwnedHAsFromSource;
