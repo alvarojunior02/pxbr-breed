@@ -31,6 +31,16 @@ const btnCloseBackupHistoryModal = document.getElementById("btnCloseBackupHistor
 let currentSettings = loadSystemSettings();
 let draftSettings = { ...currentSettings };
 
+// SHOULD USE API SETTINGS
+function shouldUseApiSettings() {
+    return Boolean(window.PXBRSettingsApiService && window.PXBRAuthService?.getAccessToken?.());
+}
+
+// SHOULD USE API BACKUP
+function shouldUseApiBackup() {
+    return Boolean(window.PXBRBackupApiService && window.PXBRAuthService?.getAccessToken?.());
+}
+
 // LOAD SYSTEM SETTINGS
 function loadSystemSettings() {
     return JSON.parse(localStorage.getItem("systemSettings")) || DEFAULT_SETTINGS;
@@ -42,14 +52,59 @@ function saveSystemSettings(settings) {
 }
 
 // RENDER SETTINGS MODULE
-function renderSettingsModule() {
-    currentSettings = loadSystemSettings();
-    draftSettings = { ...currentSettings };
+async function renderSettingsModule() {
+    try {
+        currentSettings = await loadSystemSettingsFromSource();
+        draftSettings = { ...currentSettings };
 
-    settingShowMissingHAWarning.checked = currentSettings.showMissingHAWarningOnOrder;
-    settingAutoFillOwnedHAPrice.checked = currentSettings.autoFillOwnedHAPriceOnOrder;
+        settingShowMissingHAWarning.checked = currentSettings.showMissingHAWarningOnOrder;
+        settingAutoFillOwnedHAPrice.checked = currentSettings.autoFillOwnedHAPriceOnOrder;
 
-    updateSettingsSaveButton();
+        updateSettingsSaveButton();
+    } catch (error) {
+        console.error(error);
+        showErrorToast(error.message || "Erro ao carregar configurações.");
+    }
+}
+
+// LOAD SYSTEM SETTINGS FROM SOURCE
+async function loadSystemSettingsFromSource() {
+    if (shouldUseApiSettings()) {
+        const apiSettings = await window.PXBRSettingsApiService.getSettings();
+
+        const settings = {
+            ...DEFAULT_SETTINGS,
+            ...(apiSettings?.preferences || apiSettings || {})
+        };
+
+        saveSystemSettings(settings);
+
+        return settings;
+    }
+
+    return loadSystemSettings();
+}
+
+// SAVE SYSTEM SETTINGS TO SOURCE
+async function saveSystemSettingsToSource(settings) {
+    if (shouldUseApiSettings()) {
+        const apiSettings = await window.PXBRSettingsApiService.update({
+            preferences: settings
+        });
+
+        const savedSettings = {
+            ...DEFAULT_SETTINGS,
+            ...(apiSettings?.preferences || apiSettings || settings)
+        };
+
+        saveSystemSettings(savedSettings);
+
+        return savedSettings;
+    }
+
+    saveSystemSettings(settings);
+
+    return settings;
 }
 
 // HAS SETTINGS CHANGES
@@ -138,20 +193,29 @@ function closeSettingsConfirmModal() {
 }
 
 // CONFIRM SETTINGS SAVE
-function confirmSettingsSave() {
+async function confirmSettingsSave() {
     if (!hasSettingsChanges()) {
         showWarningToast("Nenhuma configuração foi alterada.");
         closeSettingsConfirmModal();
         return;
     }
 
-    saveSystemSettings(draftSettings);
+    try {
+        btnConfirmSettingsSave.disabled = true;
 
-    showSuccessToast("Configurações salvas com sucesso!");
+        await saveSystemSettingsToSource(draftSettings);
 
-    closeSettingsConfirmModal();
+        showSuccessToast("Configurações salvas com sucesso!");
 
-    renderSettingsModule();
+        closeSettingsConfirmModal();
+
+        await renderSettingsModule();
+    } catch (error) {
+        console.error(error);
+        showErrorToast(error.message || "Erro ao salvar configurações.");
+    } finally {
+        btnConfirmSettingsSave.disabled = false;
+    }
 }
 
 // UPDATE SETTINGS SAVE BUTTON
@@ -178,7 +242,24 @@ function createSystemBackup() {
 }
 
 // GET BACKUP SUMMARY
-function getBackupSummary() {
+async function getBackupSummary() {
+    if (shouldUseApiBackup()) {
+        const backup = await window.PXBRBackupApiService.exportBackup();
+        const data = backup.data || backup;
+
+        return {
+            players: data.players?.length || 0,
+            orders: data.orders?.length || 0,
+            activeOrders: data.orders?.filter((order) => !order.archived).length || 0,
+            archivedOrders: data.orders?.filter((order) => order.archived).length || 0,
+            transactions: data.transactions?.length || 0,
+            hiddenAbilities: data.ownedHiddenAbilities?.length || data.ownedHas?.length || 0,
+            ownedPokemons: data.ownedPokemons?.length || 0,
+            orderStatusHistory: data.orderStatusHistory?.length || 0,
+            settings: data.systemSettings ? 1 : 0
+        };
+    }
+
     const players = loadPlayers();
     const orders = loadOrders();
     const transactions = loadTransactions();
@@ -201,8 +282,8 @@ function getBackupSummary() {
 }
 
 // RENDER BACKUP EXPORT SUMMARY
-function renderBackupExportSummary() {
-    const summary = getBackupSummary();
+async function renderBackupExportSummary() {
+    const summary = await getBackupSummary();
 
     backupExportSummary.innerHTML = `
         <div class="backup-summary-grid">
@@ -255,10 +336,22 @@ function renderBackupExportSummary() {
 }
 
 // OPEN BACKUP EXPORT CONFIRM MODAL
-function openBackupExportConfirmModal() {
-    renderBackupExportSummary();
+async function openBackupExportConfirmModal() {
+    try {
+        backupExportSummary.innerHTML = `
+            <p class="empty-state">
+                Carregando prévia do backup...
+            </p>
+        `;
 
-    openModal(backupExportConfirmModal);
+        openModal(backupExportConfirmModal);
+
+        await renderBackupExportSummary();
+    } catch (error) {
+        console.error(error);
+        closeBackupExportConfirmModal();
+        showErrorToast(error.message || "Erro ao carregar prévia do backup.");
+    }
 }
 
 // CLOSE BACKUP EXPORT CONFIRM MODAL
@@ -361,8 +454,10 @@ function closeBackupHistoryModal() {
 }
 
 // EXPORT SYSTEM BACKUP
-function exportSystemBackup() {
-    const backup = createSystemBackup();
+async function exportSystemBackup() {
+    const backup = shouldUseApiBackup()
+        ? await window.PXBRBackupApiService.exportBackup()
+        : createSystemBackup();
 
     const blob = new Blob([JSON.stringify(backup, null, 2)], {
         type: "application/json"
@@ -432,20 +527,21 @@ function restoreSystemBackup(backup) {
 }
 
 // REFRESH APP AFTER BACKUP RESTORE
-function refreshAppAfterBackupRestore() {
-    renderDashboard();
-    renderOrdersList();
-    renderPlayersModule();
-    renderFinanceModule();
+async function refreshAppAfterBackupRestore() {
+    await renderDashboard();
+    await renderOrdersList();
+    await renderPlayersModule();
+    await renderFinanceModule();
+
     renderPokemonCatalog();
-    renderSettingsModule();
+    await renderSettingsModule();
 
     if (typeof renderOwnedPokemonsList === "function") {
-        renderOwnedPokemonsList();
+        await renderOwnedPokemonsList();
     }
 
     if (typeof renderOwnedHAList === "function") {
-        renderOwnedHAList();
+        await renderOwnedHAList();
     }
 }
 
@@ -457,7 +553,7 @@ function importSystemBackup(file) {
 
     const reader = new FileReader();
 
-    reader.onload = (event) => {
+    reader.onload = async (event) => {
         let backup;
 
         try {
@@ -476,7 +572,9 @@ function importSystemBackup(file) {
         }
 
         const confirmed = confirm(
-            "Tem certeza que deseja restaurar este backup? Os dados atuais serão substituídos."
+            shouldUseApiBackup()
+                ? "Tem certeza que deseja importar este backup na API? Os registros já existentes serão ignorados."
+                : "Tem certeza que deseja restaurar este backup? Os dados atuais serão substituídos."
         );
 
         if (!confirmed) {
@@ -485,13 +583,24 @@ function importSystemBackup(file) {
         }
 
         try {
-            restoreSystemBackup(backup);
-            refreshAppAfterBackupRestore();
+            if (shouldUseApiBackup()) {
+                await window.PXBRBackupApiService.importBackup(backup);
+            } else {
+                restoreSystemBackup(backup);
+            }
 
-            showSuccessToast("Backup restaurado com sucesso!");
+            await refreshAppAfterBackupRestore();
+
+            showSuccessToast(
+                shouldUseApiBackup()
+                    ? "Backup importado com sucesso na API!"
+                    : "Backup restaurado com sucesso!"
+            );
         } catch (error) {
             console.error("Backup restore error:", error);
-            showErrorToast("O backup foi lido, mas houve erro ao restaurar os dados.");
+            showErrorToast(
+                error.message || "O backup foi lido, mas houve erro ao restaurar os dados."
+            );
         } finally {
             backupImportInput.value = "";
         }
@@ -526,9 +635,13 @@ btnSaveSettings.addEventListener("click", () => {
     openSettingsConfirmModal();
 });
 
-btnConfirmSettingsSave.addEventListener("click", confirmSettingsSave);
+btnConfirmSettingsSave.addEventListener("click", () => {
+    confirmSettingsSave();
+});
 
-btnExportBackup.addEventListener("click", openBackupExportConfirmModal);
+btnExportBackup.addEventListener("click", () => {
+    openBackupExportConfirmModal();
+});
 
 btnImportBackup.addEventListener("click", () => {
     backupImportInput.click();
@@ -540,9 +653,19 @@ backupImportInput.addEventListener("change", (event) => {
     importSystemBackup(file);
 });
 
-btnConfirmBackupExport.addEventListener("click", () => {
-    exportSystemBackup();
-    closeBackupExportConfirmModal();
+btnConfirmBackupExport.addEventListener("click", async () => {
+    try {
+        btnConfirmBackupExport.disabled = true;
+
+        await exportSystemBackup();
+
+        closeBackupExportConfirmModal();
+    } catch (error) {
+        console.error(error);
+        showErrorToast(error.message || "Erro ao exportar backup.");
+    } finally {
+        btnConfirmBackupExport.disabled = false;
+    }
 });
 
 btnOpenBackupHistory.addEventListener("click", openBackupHistoryModal);
