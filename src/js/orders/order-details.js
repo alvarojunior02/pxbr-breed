@@ -76,7 +76,7 @@ function renderOrderDetails(order) {
 
         <div id="orderTransactionsDetails"></div>
 
-        ${renderOrderStatusHistoryTable(order.id)}
+        <div id="orderStatusHistoryDetails"></div>
 
         ${getArchiveReadyHtml(order)}
 
@@ -136,6 +136,7 @@ function renderOrderDetails(order) {
     `;
 
     renderOrderTransactionsDetails(order.id);
+    renderOrderStatusHistoryDetails(order.id);
 }
 
 // RENDER ORDER POKEMON ABILITY TEXT
@@ -331,19 +332,38 @@ function createOrderTransactionsTable(transactions) {
     `;
 }
 
-// RENDER ORDER STATUS HISTORY TABLE
-function renderOrderStatusHistoryTable(orderId) {
-    const history = loadOrderStatusHistory()
-        .filter((entry) => entry.orderId === orderId)
-        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+// RENDER ORDER STATUS HISTORY DETAILS
+async function renderOrderStatusHistoryDetails(orderId) {
+    const container = document.getElementById("orderStatusHistoryDetails");
 
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = "";
+
+    try {
+        const history = await getOrderStatusHistoryFromSource(orderId);
+
+        container.innerHTML = createOrderStatusHistoryTable(history);
+    } catch (error) {
+        container.innerHTML = `
+            <p class="empty-state">
+                Não foi possível carregar o histórico de status desta encomenda.
+            </p>
+        `;
+    }
+}
+
+// CREATE ORDER STATUS HISTORY TABLE
+function createOrderStatusHistoryTable(history) {
     if (history.length === 0) {
         return "";
     }
 
     const rows = history
         .map((entry) => {
-            const previousStatus = getStatusByValue(entry.previousStatus);
+            const previousStatus = getStatusByValue(entry.previousStatus || entry.oldStatus);
             const newStatus = getStatusByValue(entry.newStatus);
 
             return `
@@ -353,12 +373,12 @@ function renderOrderStatusHistoryTable(orderId) {
                     </td>
 
                     <td>
-                        ${entry.pokemonName}
+                        ${entry.pokemonName || "-"}
                     </td>
 
                     <td>
-                        <span class="${getOrderStatusClass(entry.previousStatus)}">
-                            ${previousStatus?.name || entry.previousStatus}
+                        <span class="${getOrderStatusClass(entry.previousStatus || entry.oldStatus)}">
+                            ${previousStatus?.name || entry.previousStatus || entry.oldStatus || "-"}
                         </span>
                     </td>
 
@@ -400,3 +420,4 @@ function renderOrderStatusHistoryTable(orderId) {
 
 window.openOrderDetails = openOrderDetails;
 window.renderOrderTransactionsDetails = renderOrderTransactionsDetails;
+window.renderOrderStatusHistoryDetails = renderOrderStatusHistoryDetails;

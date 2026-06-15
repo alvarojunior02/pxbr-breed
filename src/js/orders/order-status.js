@@ -1,3 +1,14 @@
+// GET ORDER STATUS HISTORY FROM SOURCE
+async function getOrderStatusHistoryFromSource(orderId) {
+    if (shouldUseApiOrders()) {
+        return window.PXBROrderStatusHistoryApiService.getByOrder(orderId);
+    }
+
+    return loadOrderStatusHistory()
+        .filter((entry) => entry.orderId === orderId)
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+}
+
 // OPEN STATUS CONFIRM MODAL
 function openStatusConfirmModal(orderId, pokemonId) {
     const order = loadOrders().find((order) => order.id === orderId);
@@ -123,3 +134,4 @@ btnConfirmStatusChange.addEventListener("click", () => {
 });
 
 window.openStatusConfirmModal = openStatusConfirmModal;
+window.getOrderStatusHistoryFromSource = getOrderStatusHistoryFromSource;
