@@ -8,6 +8,15 @@ const financeCsvExportSummary = document.getElementById("financeCsvExportSummary
 const btnCloseFinanceCsvExportModal = document.getElementById("btnCloseFinanceCsvExportModal");
 const btnConfirmFinanceCsvExport = document.getElementById("btnConfirmFinanceCsvExport");
 
+const btnOpenManualTransactionModal = document.getElementById("btnOpenManualTransactionModal");
+const manualTransactionModal = document.getElementById("manualTransactionModal");
+const manualTransactionPlayer = document.getElementById("manualTransactionPlayer");
+const manualTransactionOrder = document.getElementById("manualTransactionOrder");
+const manualTransactionType = document.getElementById("manualTransactionType");
+const manualTransactionAmount = document.getElementById("manualTransactionAmount");
+const manualTransactionNotes = document.getElementById("manualTransactionNotes");
+const btnSaveManualTransaction = document.getElementById("btnSaveManualTransaction");
+
 let currentFinancePeriod = "7days";
 let currentFilteredFinanceTransactions = [];
 
@@ -51,6 +60,205 @@ async function loadFinanceTransactionsFromSource() {
     }
 
     return loadTransactions();
+}
+
+// LOAD FINANCE PLAYERS FROM SOURCE
+async function loadFinancePlayersFromSource() {
+    if (window.shouldUseApiPlayers?.()) {
+        return window.PXBRPlayersApiService.getPlayers();
+    }
+
+    return loadPlayers();
+}
+
+// LOAD FINANCE ORDERS FROM SOURCE
+async function loadFinanceOrdersFromSource() {
+    if (window.shouldUseApiOrders?.()) {
+        return window.PXBROrdersApiService.getOrders({
+            archived: false
+        });
+    }
+
+    return loadOrders().filter((order) => !order.archived);
+}
+
+// OPEN MANUAL TRANSACTION MODAL
+async function openManualTransactionModal() {
+    try {
+        manualTransactionPlayer.innerHTML = `
+            <option value="">Carregando clientes...</option>
+        `;
+
+        manualTransactionOrder.innerHTML = `
+            <option value="">Selecione um cliente primeiro</option>
+        `;
+
+        manualTransactionType.value = "ORDER_PAYMENT";
+        manualTransactionAmount.value = "";
+        manualTransactionNotes.value = "";
+
+        openModal(manualTransactionModal);
+
+        const players = await loadFinancePlayersFromSource();
+
+        renderManualTransactionPlayerOptions(players);
+    } catch (error) {
+        console.error(error);
+        closeManualTransactionModal();
+        showErrorToast(error.message || "Erro ao carregar clientes.");
+    }
+}
+
+// CLOSE MANUAL TRANSACTION MODAL
+function closeManualTransactionModal() {
+    closeModal(manualTransactionModal);
+}
+
+// GET FINANCE ORDER DISPLAY NUMBER
+function getFinanceOrderDisplayNumber(order) {
+    if (order.displayNumber) {
+        return order.displayNumber;
+    }
+
+    if (order.number) {
+        return order.number;
+    }
+
+    if (order.orderNumber) {
+        return order.orderNumber;
+    }
+
+    return String(order.id).slice(0, 8);
+}
+
+// RENDER MANUAL TRANSACTION PLAYER OPTIONS
+function renderManualTransactionPlayerOptions(players) {
+    const sortedPlayers = [...players].sort((a, b) => {
+        return a.nick.localeCompare(b.nick);
+    });
+
+    manualTransactionPlayer.innerHTML = `
+        <option value="">Selecione um cliente</option>
+        ${sortedPlayers
+            .map((player) => {
+                return `
+                    <option value="${player.id}">
+                        ${player.nick}
+                    </option>
+                `;
+            })
+            .join("")}
+    `;
+}
+
+// RENDER MANUAL TRANSACTION ORDER OPTIONS
+async function renderManualTransactionOrderOptions(playerId) {
+    if (!playerId) {
+        manualTransactionOrder.innerHTML = `
+            <option value="">Selecione um cliente primeiro</option>
+        `;
+        return;
+    }
+
+    manualTransactionOrder.innerHTML = `
+        <option value="">Carregando encomendas...</option>
+    `;
+
+    const orders = await loadFinanceOrdersFromSource();
+
+    const playerOrders = orders
+        .filter((order) => order.playerId === playerId)
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    if (playerOrders.length === 0) {
+        manualTransactionOrder.innerHTML = `
+            <option value="">Nenhuma encomenda ativa encontrada</option>
+        `;
+        return;
+    }
+
+    manualTransactionOrder.innerHTML = `
+        <option value="">Selecione uma encomenda</option>
+        ${playerOrders
+            .map((order) => {
+                const remainingAmount = Math.max(0, (order.total || 0) - (order.paidAmount || 0));
+
+                return `
+                    <option value="${order.id}">
+                        Pedido #${getFinanceOrderDisplayNumber(order)} - ${formatMoney(remainingAmount)} a pagar
+                    </option>
+                `;
+            })
+            .join("")}
+    `;
+}
+
+// PARSE MANUAL TRANSACTION AMOUNT
+function parseManualTransactionAmount() {
+    const rawValue = manualTransactionAmount.value.replace(/\D/g, "");
+
+    return Number(rawValue || 0);
+}
+
+// SAVE MANUAL TRANSACTION
+async function saveManualTransaction() {
+    const playerId = manualTransactionPlayer.value;
+    const orderId = manualTransactionOrder.value;
+    const type = manualTransactionType.value;
+    const amount = parseManualTransactionAmount();
+    const notes = manualTransactionNotes.value.trim() || null;
+
+    if (!playerId) {
+        showWarningToast("Selecione um cliente.");
+        return;
+    }
+
+    if (!orderId) {
+        showWarningToast("Selecione uma encomenda.");
+        return;
+    }
+
+    if (amount <= 0) {
+        showWarningToast("Informe um valor maior que zero.");
+        return;
+    }
+
+    try {
+        btnSaveManualTransaction.disabled = true;
+
+        if (window.shouldUseApiOrders?.()) {
+            await window.PXBRTransactionsApiService.create({
+                playerId,
+                orderId,
+                type,
+                amount,
+                notes
+            });
+        } else {
+            const transaction = createTransaction({
+                type,
+                amount,
+                playerId,
+                orderId
+            });
+
+            saveTransaction(transaction);
+        }
+
+        closeManualTransactionModal();
+        await renderFinanceModule();
+
+        if (window.renderDashboard) {
+            await window.renderDashboard();
+        }
+
+        showSuccessToast("Transação registrada com sucesso!");
+    } catch (error) {
+        console.error(error);
+        showErrorToast(error.message || "Erro ao registrar transação.");
+    } finally {
+        btnSaveManualTransaction.disabled = false;
+    }
 }
 
 // GET FINANCE CSV EXPORT SUMMARY
@@ -409,6 +617,23 @@ function setupFinancePeriodFilters() {
     });
 }
 
+btnOpenManualTransactionModal.addEventListener("click", openManualTransactionModal);
+
+manualTransactionPlayer.addEventListener("change", async () => {
+    try {
+        await renderManualTransactionOrderOptions(manualTransactionPlayer.value);
+    } catch (error) {
+        console.error(error);
+        showErrorToast(error.message || "Erro ao carregar encomendas do cliente.");
+    }
+});
+
+manualTransactionAmount.addEventListener("input", () => {
+    manualTransactionAmount.value = formatMoney(parseManualTransactionAmount());
+});
+
+btnSaveManualTransaction.addEventListener("click", saveManualTransaction);
+
 btnExportFinanceCsv.addEventListener("click", openFinanceCsvExportConfirmModal);
 
 btnConfirmFinanceCsvExport.addEventListener("click", () => {
@@ -419,3 +644,5 @@ btnConfirmFinanceCsvExport.addEventListener("click", () => {
 renderFinanceModule();
 
 window.renderFinanceModule = renderFinanceModule;
+window.openManualTransactionModal = openManualTransactionModal;
+window.closeManualTransactionModal = closeManualTransactionModal;

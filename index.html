@@ -415,6 +415,14 @@
 
                             <p>Acompanhe todas as movimentações financeiras.</p>
                         </div>
+
+                        <button
+                            type="button"
+                            id="btnOpenManualTransactionModal"
+                            class="button-primary"
+                        >
+                            + Nova Transação
+                        </button>
                     </div>
 
                     <div class="finance-period-filters">
@@ -696,6 +704,76 @@
                 <div class="modal-footer">
                     <button type="button" class="button-success" id="btnConfirmFinanceCsvExport">
                         Exportar CSV
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Nova Transação Manual -->
+        <div id="manualTransactionModal" class="modal hidden">
+            <div class="modal-content finance-manual-transaction-modal-content">
+                <div class="modal-header">
+                    <h2>Nova Transação</h2>
+
+                    <button
+                        type="button"
+                        class="modal-close-button"
+                        onclick="closeManualTransactionModal()"
+                    >
+                        ×
+                    </button>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label for="manualTransactionPlayer">Cliente *</label>
+                        <select id="manualTransactionPlayer"></select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="manualTransactionOrder">Encomenda *</label>
+                        <select id="manualTransactionOrder"></select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="manualTransactionType">Tipo *</label>
+                        <select id="manualTransactionType">
+                            <option value="ORDER_PAYMENT">Pagamento de encomenda</option>
+                            <option value="MANUAL_PAYMENT">Pagamento manual</option>
+                            <option value="ADJUSTMENT">Ajuste</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label for="manualTransactionAmount">Valor *</label>
+                        <input type="text" id="manualTransactionAmount" placeholder="$ 0" />
+                    </div>
+                </div>
+
+                <div class="form-field">
+                    <label for="manualTransactionNotes">Observações</label>
+                    <textarea
+                        id="manualTransactionNotes"
+                        rows="3"
+                        placeholder="Ex: pagamento complementar, ajuste manual, etc."
+                    ></textarea>
+                </div>
+
+                <p class="form-hint">
+                    * A transação manual precisa estar vinculada a um cliente e uma encomenda.
+                </p>
+
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="button-secondary"
+                        onclick="closeManualTransactionModal()"
+                    >
+                        Cancelar
+                    </button>
+
+                    <button type="button" class="button-success" id="btnSaveManualTransaction">
+                        Salvar Transação
                     </button>
                 </div>
             </div>
