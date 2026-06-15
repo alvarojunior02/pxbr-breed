@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="./src/css/pokemon.css" />
         <link rel="stylesheet" href="./src/css/settings.css" />
         <link rel="stylesheet" href="./src/css/reports.css" />
+        <link rel="stylesheet" href="./src/css/auth.css" />
 
         <link
             rel="stylesheet"
@@ -27,6 +28,52 @@
     </head>
 
     <body>
+        <section id="authScreen" class="auth-screen">
+            <div class="auth-card">
+                <div class="auth-brand">
+                    <h1>PXBR Breed</h1>
+                    <p>Entre para gerenciar encomendas, clientes, financeiro e relatórios.</p>
+                </div>
+
+                <form id="authLoginForm" class="auth-form">
+                    <div class="auth-form-field">
+                        <label for="authEmail">E-mail</label>
+                        <input
+                            type="email"
+                            id="authEmail"
+                            autocomplete="email"
+                            placeholder="admin@pxbr.local"
+                            required
+                        />
+                    </div>
+
+                    <div class="auth-form-field">
+                        <label for="authPassword">Senha</label>
+                        <input
+                            type="password"
+                            id="authPassword"
+                            autocomplete="current-password"
+                            placeholder="Digite sua senha"
+                            required
+                        />
+                    </div>
+
+                    <div class="auth-options">
+                        <label class="auth-checkbox" for="authRememberMe">
+                            <input type="checkbox" id="authRememberMe" />
+                            <span>Manter-me logado</span>
+                        </label>
+                    </div>
+
+                    <div id="authError" class="auth-error"></div>
+
+                    <button type="submit" id="authSubmitButton" class="auth-submit">Entrar</button>
+                </form>
+
+                <div class="auth-footer">Ambiente protegido por autenticação JWT.</div>
+            </div>
+        </section>
+
         <div class="app-layout">
             <aside class="sidebar">
                 <div class="sidebar-header">
@@ -71,6 +118,14 @@
                         <span class="nav-icon">⚙️</span>
                         <span class="nav-text">Configurações</span>
                     </button>
+
+                    <div id="authenticatedUserBox" class="authenticated-user-box hidden">
+                        <p id="authenticatedUserName" class="authenticated-user-name"></p>
+
+                        <button type="button" id="btnAuthLogout" class="auth-logout-button">
+                            Sair
+                        </button>
+                    </div>
                 </nav>
             </aside>
 
@@ -1363,6 +1418,7 @@
         <!-- API -->
         <script src="src/js/api/api-client.js"></script>
         <script src="src/js/api/auth-service.js"></script>
+        <script src="src/js/api/auth-ui.js"></script>
 
         <!-- SERVICES -->
         <script src="src/js/services/pokemons-service.js"></script>
