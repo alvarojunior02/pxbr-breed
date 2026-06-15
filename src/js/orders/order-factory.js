@@ -30,6 +30,8 @@ function getInitialPokemonStatus() {
 function createPersistedOrder(orderData) {
     const order = createOrder(orderData.playerId);
 
+    order.subtotal = orderData.subtotal;
+
     order.total = orderData.total;
 
     order.discount = orderData.discount;
