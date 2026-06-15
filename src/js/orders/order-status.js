@@ -10,8 +10,8 @@ async function getOrderStatusHistoryFromSource(orderId) {
 }
 
 // OPEN STATUS CONFIRM MODAL
-function openStatusConfirmModal(orderId, pokemonId) {
-    const order = loadOrders().find((order) => order.id === orderId);
+async function openStatusConfirmModal(orderId, pokemonId) {
+    const order = await getOrderByIdFromSource(orderId);
 
     if (!order) {
         return;
@@ -44,47 +44,35 @@ function openStatusConfirmModal(orderId, pokemonId) {
         ${renderOrderPokemonRegionalForm(pokemon)}
 
         <p>
-
             <strong>
                 Status Atual:
             </strong>
 
-            <span
-                class="${currentStatus.cssClass}">
-
+            <span class="${currentStatus.cssClass}">
                 ${currentStatus.name}
-
             </span>
-
         </p>
 
         <p>
-
             <strong>
                 Próximo Status:
             </strong>
 
-            <span
-                class="${nextStatus.cssClass}">
-
+            <span class="${nextStatus.cssClass}">
                 ${nextStatus.name}
-
             </span>
-
         </p>
 
         <p>
             Deseja realmente avançar o status?
         </p>
-        `;
+    `;
 
     openModal(window.statusConfirmModal);
 }
 
-btnConfirmStatusChange.addEventListener("click", () => {
-    const orders = loadOrders();
-
-    const order = orders.find((order) => order.id === selectedOrderId);
+btnConfirmStatusChange.addEventListener("click", async () => {
+    const order = await getOrderByIdFromSource(selectedOrderId);
 
     if (!order) {
         return;
@@ -104,33 +92,77 @@ btnConfirmStatusChange.addEventListener("click", () => {
         return;
     }
 
-    pokemon.status = nextStatus.value;
+    try {
+        if (shouldUseApiOrders()) {
+            const updatedPokemons = order.pokemons.map((item) => {
+                if (item.id !== pokemon.id) {
+                    return mapOrderPokemonToApiPayload(item);
+                }
 
-    addOrderStatusHistory({
-        id: generateUUID(),
-        orderId: order.id,
-        pokemonId: pokemon.id,
-        pokemonDexId: pokemon.pokemonId,
-        pokemonName: getOrderPokemonDisplayName(pokemon),
-        regionalForm: pokemon.regionalForm || "",
-        regionalFormLabel: pokemon.regionalFormLabel || "",
-        previousStatus,
-        newStatus: nextStatus.value,
-        createdAt: new Date().toISOString()
-    });
+                return mapOrderPokemonToApiPayload({
+                    ...item,
+                    status: nextStatus.value
+                });
+            });
 
-    saveOrders(orders);
+            await window.PXBROrdersApiService.update(order.id, {
+                pokemons: updatedPokemons
+            });
 
-    showSuccessToast("Status atualizado com sucesso!");
+            await window.PXBROrderStatusHistoryApiService.create(order.id, {
+                orderPokemonId: pokemon.id,
+                pokemonDexId: pokemon.pokemonId,
+                pokemonName: getOrderPokemonDisplayName(pokemon),
+                oldStatus: previousStatus,
+                newStatus: nextStatus.value,
+                notes: null
+            });
+        } else {
+            const orders = loadOrders();
 
-    closeModal(window.statusConfirmModal);
+            const localOrder = orders.find((item) => item.id === selectedOrderId);
 
-    renderDashboard();
-    renderOrdersList();
-    renderFinanceModule();
-    renderPlayersModule();
+            if (!localOrder) {
+                return;
+            }
 
-    openOrderDetails(selectedOrderId);
+            const localPokemon = localOrder.pokemons.find((item) => item.id === selectedPokemonId);
+
+            if (!localPokemon) {
+                return;
+            }
+
+            localPokemon.status = nextStatus.value;
+
+            addOrderStatusHistory({
+                id: generateUUID(),
+                orderId: localOrder.id,
+                pokemonId: localPokemon.id,
+                pokemonDexId: localPokemon.pokemonId,
+                pokemonName: getOrderPokemonDisplayName(localPokemon),
+                regionalForm: localPokemon.regionalForm || "",
+                regionalFormLabel: localPokemon.regionalFormLabel || "",
+                previousStatus,
+                newStatus: nextStatus.value,
+                createdAt: new Date().toISOString()
+            });
+
+            saveOrders(orders);
+        }
+
+        showSuccessToast("Status atualizado com sucesso!");
+
+        closeModal(window.statusConfirmModal);
+
+        renderDashboard();
+        renderOrdersList();
+        renderFinanceModule();
+        renderPlayersModule();
+
+        openOrderDetails(selectedOrderId);
+    } catch (error) {
+        showToast(error?.data?.message || error?.message || "Erro ao atualizar status.", "error");
+    }
 });
 
 window.openStatusConfirmModal = openStatusConfirmModal;
