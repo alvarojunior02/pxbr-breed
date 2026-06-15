@@ -77,134 +77,151 @@ function sortPlayers(players) {
 }
 
 // RENDER PLAYERS MODULE
-function renderPlayersModule() {
-    const players = loadPlayers();
+async function renderPlayersModule() {
+    const searchTerm = playerSearchInput.value.trim();
 
-    const searchTerm = playerSearchInput.value.trim().toLowerCase();
+    playersCards.innerHTML = `
+        <p class="empty-state">
+            Carregando clientes...
+        </p>
+    `;
 
-    const filteredPlayers = players.filter((player) => {
-        return player.nick.toLowerCase().includes(searchTerm);
-    });
+    try {
+        const players = await loadPlayersFromSource(searchTerm);
+        const normalizedSearch = searchTerm.toLowerCase();
 
-    const sortedPlayers = sortPlayers(filteredPlayers);
+        const filteredPlayers = shouldUseApiPlayers()
+            ? players
+            : players.filter((player) => {
+                  return player.nick.toLowerCase().includes(normalizedSearch);
+              });
 
-    playersCounter.textContent = `Exibindo ${filteredPlayers.length} de ${players.length} cliente${
-        players.length === 1 ? "" : "s"
-    }`;
+        const sortedPlayers = sortPlayers(filteredPlayers);
 
-    playersCards.innerHTML = "";
+        playersCounter.textContent = `Exibindo ${filteredPlayers.length} de ${players.length} cliente${
+            players.length === 1 ? "" : "s"
+        }`;
 
-    if (filteredPlayers.length === 0) {
+        playersCards.innerHTML = "";
+
+        if (filteredPlayers.length === 0) {
+            playersCards.innerHTML = `
+                <p class="empty-state">
+                    Nenhum cliente encontrado.
+                </p>
+            `;
+
+            return;
+        }
+
+        sortedPlayers.forEach((player) => {
+            const summary = getPlayerFinancialSummary(player.id);
+
+            const lastOrder = getPlayerLastOrder(player.id);
+
+            const card = document.createElement("div");
+
+            card.classList.add("order-card");
+
+            card.innerHTML = `
+                <div class="player-card-header">
+                    <img
+                        src="${player.avatarUrl || getMinecraftAvatarUrl(player.nick)}"
+                        alt="${player.nick}"
+                        class="player-avatar"
+                        onerror="this.src='${getDefaultMinecraftAvatarUrl()}'">
+
+                    <h3>
+                        ${player.nick}
+                    </h3>
+                </div>
+
+                <p>
+                    Encomendas:
+                    ${summary.ordersCount}
+                </p>
+
+                <p>
+                    Última encomenda:
+                    ${
+                        lastOrder
+                            ? `
+                                ${formatDate(lastOrder.createdAt)}
+                                (${getDaysSince(lastOrder.createdAt)} dias atrás)
+                            `
+                            : "Nenhuma"
+                    }
+                </p>
+
+                <p>
+                    Total vendido:
+                    ${formatMoney(summary.total)}
+                </p>
+
+                <p>
+                    Recebido:
+                    <span class="payment-paid">
+                        ${formatMoney(summary.paid)}
+                    </span>
+                </p>
+
+                <p>
+                    Pendente:
+                    <span class="payment-pending">
+                        ${formatMoney(summary.pending)}
+                    </span>
+                </p>
+
+                ${
+                    player.notes
+                        ? `
+                            <p class="player-notes">
+                                ${player.notes}
+                            </p>
+                        `
+                        : ""
+                }
+
+                <div class="player-card-actions">
+                    <button
+                        type="button"
+                        class="button-secondary"
+                        onclick="openEditPlayerModal('${player.id}')">
+                        Editar
+                    </button>
+
+                    <button
+                        type="button"
+                        onclick="showPlayerOrders('${player.id}')">
+                        Encomendas
+                    </button>
+
+                    <button
+                        type="button"
+                        onclick="openPlayerTransactionsModal('${player.id}')">
+                        Transações
+                    </button>
+                </div>
+            `;
+
+            playersCards.appendChild(card);
+        });
+    } catch (error) {
         playersCards.innerHTML = `
             <p class="empty-state">
-                Nenhum cliente encontrado.
+                Não foi possível carregar os clientes.
             </p>
         `;
 
-        return;
+        showToast(error?.message || "Erro ao carregar clientes.", "error");
     }
-
-    sortedPlayers.forEach((player) => {
-        const summary = getPlayerFinancialSummary(player.id);
-
-        const lastOrder = getPlayerLastOrder(player.id);
-
-        const card = document.createElement("div");
-
-        card.classList.add("order-card");
-
-        card.innerHTML = `
-            <div class="player-card-header">
-                <img
-                    src="${player.avatarUrl || getMinecraftAvatarUrl(player.nick)}"
-                    alt="${player.nick}"
-                    class="player-avatar"
-                    onerror="this.src='${getDefaultMinecraftAvatarUrl()}'">
-
-                <h3>
-                    ${player.nick}
-                </h3>
-            </div>
-
-            <p>
-                Encomendas:
-                ${summary.ordersCount}
-            </p>
-
-            <p>
-                Última encomenda:
-                ${
-                    lastOrder
-                        ? `
-                            ${formatDate(lastOrder.createdAt)}
-                            (${getDaysSince(lastOrder.createdAt)} dias atrás)
-                        `
-                        : "Nenhuma"
-                }
-            </p>
-
-            <p>
-                Total vendido:
-                ${formatMoney(summary.total)}
-            </p>
-
-            <p>
-                Recebido:
-                <span class="payment-paid">
-                    ${formatMoney(summary.paid)}
-                </span>
-            </p>
-
-            <p>
-                Pendente:
-                <span class="payment-pending">
-                    ${formatMoney(summary.pending)}
-                </span>
-            </p>
-
-            ${
-                player.notes
-                    ? `
-                        <p class="player-notes">
-                            ${player.notes}
-                        </p>
-                    `
-                    : ""
-            }
-
-            <div class="player-card-actions">
-                <button
-                    type="button"
-                    class="button-secondary"
-                    onclick="openEditPlayerModal('${player.id}')">
-                    Editar
-                </button>
-
-                <button
-                    type="button"
-                    onclick="showPlayerOrders('${player.id}')">
-
-                    Encomendas
-
-                </button>
-
-                <button
-                    type="button"
-                    onclick="openPlayerTransactionsModal('${player.id}')">
-
-                    Transações
-
-                </button>
-            </div>
-        `;
-
-        playersCards.appendChild(card);
-    });
 }
 
 // OPEN EDIT PLAYER MODAL
-function openEditPlayerModal(playerId) {
-    const player = loadPlayers().find((item) => item.id === playerId);
+async function openEditPlayerModal(playerId) {
+    const player = shouldUseApiPlayers()
+        ? await window.PXBRPlayersApiService.getById(playerId)
+        : loadPlayers().find((item) => item.id === playerId);
 
     if (!player) {
         showWarningToast("Cliente não encontrado.");
@@ -270,7 +287,7 @@ function closeNewPlayerModal() {
 }
 
 // SAVE NEW PLAYER FROM MODAL
-function savePlayerFromModal() {
+async function savePlayerFromModal() {
     const nick = newPlayerNick.value.trim();
 
     if (!nick) {
@@ -294,38 +311,40 @@ function savePlayerFromModal() {
         return;
     }
 
-    const players = loadPlayers();
+    const players = shouldUseApiPlayers() ? [] : loadPlayers();
 
-    const nickAlreadyExists = players.some((player) => {
-        return player.nick.toLowerCase() === nick.toLowerCase() && player.id !== editingPlayerId;
-    });
+    const nickAlreadyExists =
+        !shouldUseApiPlayers() &&
+        players.some((player) => {
+            return (
+                player.nick.toLowerCase() === nick.toLowerCase() && player.id !== editingPlayerId
+            );
+        });
 
     if (nickAlreadyExists) {
         showWarningToast("Já existe um cliente cadastrado com esse nick.");
         return;
     }
 
-    if (editingPlayerId) {
-        updatePlayer(editingPlayerId, {
+    try {
+        const savedPlayer = await savePlayerToSource({
+            playerId: editingPlayerId,
             nick,
             notes: newPlayerNotes.value.trim()
         });
 
-        showSuccessToast("Cliente atualizado com sucesso!");
-    } else {
-        const player = {
-            ...createPlayer(nick),
-            avatarUrl: `https://mc-heads.net/avatar/${nick}`,
-            notes: newPlayerNotes.value.trim()
-        };
+        if (editingPlayerId) {
+            showSuccessToast("Cliente atualizado com sucesso!");
+        } else {
+            showSuccessToast("Cliente cadastrado com sucesso!");
 
-        savePlayers([...players, player]);
-
-        showSuccessToast("Cliente cadastrado com sucesso!");
-
-        if (shouldSelectCreatedPlayerOnOrderForm && typeof selectOrderPlayer === "function") {
-            selectOrderPlayer(player);
+            if (shouldSelectCreatedPlayerOnOrderForm && typeof selectOrderPlayer === "function") {
+                selectOrderPlayer(savedPlayer);
+            }
         }
+    } catch (error) {
+        showToast(error?.data?.message || error?.message || "Erro ao salvar cliente.", "error");
+        return;
     }
 
     renderPlayersModule();
