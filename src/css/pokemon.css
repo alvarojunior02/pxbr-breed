@@ -83,6 +83,10 @@
     flex: 1;
 }
 
+.pokemon-catalog-content .button-secondary {
+    margin-top: auto;
+}
+
 .pokemon-catalog-id {
     font-size: 0.75rem;
     color: var(--text-muted);
