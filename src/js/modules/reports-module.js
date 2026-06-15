@@ -57,6 +57,47 @@ let currentReportsCustomDateRange = {
 
 let currentReportChart = null;
 
+let reportsOrdersCache = [];
+let reportsPlayersCache = [];
+
+// LOAD REPORTS DATA CACHE
+async function loadReportsDataCache() {
+    if (window.shouldUseApiOrders?.()) {
+        const [orders, players] = await Promise.all([
+            window.PXBROrdersApiService.getOrders(),
+            window.PXBRPlayersApiService.getPlayers()
+        ]);
+
+        reportsOrdersCache = orders || [];
+        reportsPlayersCache = players || [];
+
+        return;
+    }
+
+    reportsOrdersCache = loadOrders();
+    reportsPlayersCache = loadPlayers();
+}
+
+// GET REPORTS ORDERS
+function getReportsOrders() {
+    return reportsOrdersCache.length ? reportsOrdersCache : loadOrders();
+}
+
+// GET REPORTS PLAYERS
+function getReportsPlayers() {
+    return reportsPlayersCache.length ? reportsPlayersCache : loadPlayers();
+}
+
+// IS REPORT POKEMON HA
+function isReportPokemonHA(pokemon) {
+    return Boolean(pokemon.ability?.isHA || pokemon.abilityIsHa);
+}
+
+// GET REPORT POKEMON ABILITY NAME
+function getReportPokemonAbilityName(pokemon) {
+    return pokemon.ability?.name || pokemon.abilityName || "Sem ability";
+}
+
 // RENDER REPORT ACTIVE PERIOD BADGE
 function renderReportActivePeriodBadge() {
     return `
@@ -319,7 +360,7 @@ function getDateAtEndOfDay(dateValue) {
 
 // GET FILTERED ORDERS BY REPORT PERIOD
 function getFilteredOrdersByReportPeriod() {
-    const orders = loadOrders();
+    const orders = getReportsOrders();
 
     const now = new Date();
 
@@ -403,7 +444,7 @@ function getPokemonSalesReport() {
             item.totalCount += 1;
             item.totalRevenue += pokemon.value;
 
-            const isHA = pokemon.ability?.isHA;
+            const isHA = isReportPokemonHA(pokemon);
             const isBreedable = pokemon.breedable;
 
             if (isHA && isBreedable) {
@@ -541,13 +582,13 @@ function getTopSellingHAReport() {
 
     orders.forEach((order) => {
         order.pokemons.forEach((pokemon) => {
-            const isHA = pokemon.ability?.isHA;
+            const isHA = isReportPokemonHA(pokemon);
 
             if (!isHA) {
                 return;
             }
 
-            const abilityName = pokemon.ability.name;
+            const abilityName = getReportPokemonAbilityName(pokemon);
 
             if (!reportMap[abilityName]) {
                 reportMap[abilityName] = {
@@ -602,7 +643,7 @@ function getTopSellingHAReport() {
 
 // GET PLAYERS FINANCIAL REPORT
 function getPlayersFinancialReport() {
-    const players = loadPlayers();
+    const players = getReportsPlayers();
     const orders = getFilteredOrdersByReportPeriod();
 
     return players
@@ -961,43 +1002,57 @@ function renderTopDebtorsReport() {
 }
 
 // RENDER REPORTS MODULE
-function renderReportsModule() {
-    reportPeriodButtons.forEach((button) => {
-        button.classList.toggle(
-            "active",
-            currentReportsPeriod !== "custom" && button.dataset.period === currentReportsPeriod
-        );
-    });
+async function renderReportsModule() {
+    try {
+        await loadReportsDataCache();
 
-    reportTabs.forEach((tab) => {
-        tab.classList.toggle("active", tab.dataset.report === currentReport);
-    });
+        reportPeriodButtons.forEach((button) => {
+            button.classList.toggle(
+                "active",
+                currentReportsPeriod !== "custom" && button.dataset.period === currentReportsPeriod
+            );
+        });
 
-    if (currentReport === "top-pokemon") {
-        reportsContent.innerHTML = renderTopSellingPokemonReport();
-        renderCurrentReportChart();
-        return;
+        reportTabs.forEach((tab) => {
+            tab.classList.toggle("active", tab.dataset.report === currentReport);
+        });
+
+        if (currentReport === "top-pokemon") {
+            reportsContent.innerHTML = renderTopSellingPokemonReport();
+            renderCurrentReportChart();
+            return;
+        }
+
+        if (currentReport === "top-ha") {
+            reportsContent.innerHTML = renderTopSellingHAReport();
+            renderCurrentReportChart();
+            return;
+        }
+
+        if (currentReport === "top-buyers") {
+            reportsContent.innerHTML = renderTopBuyersReport();
+            renderCurrentReportChart();
+            return;
+        }
+
+        if (currentReport === "top-debtors") {
+            reportsContent.innerHTML = renderTopDebtorsReport();
+            renderCurrentReportChart();
+            return;
+        }
+
+        destroyCurrentReportChart();
+    } catch (error) {
+        console.error(error);
+        showErrorToast(error.message || "Erro ao carregar relatórios.");
+
+        reportsContent.innerHTML = `
+            <div class="reports-empty-card">
+                <strong>Erro ao carregar relatórios</strong>
+                <span>Tente novamente em alguns instantes.</span>
+            </div>
+        `;
     }
-
-    if (currentReport === "top-ha") {
-        reportsContent.innerHTML = renderTopSellingHAReport();
-        renderCurrentReportChart();
-        return;
-    }
-
-    if (currentReport === "top-buyers") {
-        reportsContent.innerHTML = renderTopBuyersReport();
-        renderCurrentReportChart();
-        return;
-    }
-
-    if (currentReport === "top-debtors") {
-        reportsContent.innerHTML = renderTopDebtorsReport();
-        renderCurrentReportChart();
-        return;
-    }
-
-    destroyCurrentReportChart();
 }
 
 // GET REPORT CSV FILE NAME
