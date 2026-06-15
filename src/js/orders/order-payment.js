@@ -1,12 +1,12 @@
 // OPEN PAYMENT MODAL
-function openPaymentModal(orderId) {
-    const order = loadOrders().find((order) => order.id === orderId);
+async function openPaymentModal(orderId) {
+    const order = await getOrderByIdFromSource(orderId);
 
     if (!order) {
         return;
     }
 
-    const player = loadPlayers().find((player) => player.id === order.playerId);
+    const player = order.player || loadPlayers().find((player) => player.id === order.playerId);
 
     const paidAmount = order.paidAmount || 0;
 
@@ -50,16 +50,14 @@ function closePaymentModal() {
     paymentAmount.value = formatMoney(0);
 }
 
-btnConfirmPayment.addEventListener("click", () => {
-    const orders = loadOrders();
-
-    const order = orders.find((order) => order.id === selectedPaymentOrderId);
+btnConfirmPayment.addEventListener("click", async () => {
+    const order = await getOrderByIdFromSource(selectedPaymentOrderId);
 
     if (!order) {
         return;
     }
 
-    const player = loadPlayers().find((player) => player.id === order.playerId);
+    const player = order.player || loadPlayers().find((player) => player.id === order.playerId);
 
     const amount = unformatMoney(paymentAmount.value);
 
@@ -74,44 +72,42 @@ btnConfirmPayment.addEventListener("click", () => {
     pendingPaymentAmount = amount;
 
     paymentConfirmSummary.innerHTML = `
-            <h3>
-                Cliente:
-                ${player?.nick ?? "Player"}
-            </h3>
+        <h3>
+            Cliente:
+            ${player?.nick ?? "Player"}
+        </h3>
 
-            <p>
-                <strong>Total:</strong>
-                ${formatMoney(order.total)}
-            </p>
+        <p>
+            <strong>Total:</strong>
+            ${formatMoney(order.total)}
+        </p>
 
-            <p>
-                <strong>Já pago:</strong>
-                ${formatMoney(currentPaid)}
-            </p>
+        <p>
+            <strong>Já pago:</strong>
+            ${formatMoney(currentPaid)}
+        </p>
 
-            <p>
-                <strong>Restante antes do pagamento:</strong>
-                ${formatMoney(remaining)}
-            </p>
+        <p>
+            <strong>Restante antes do pagamento:</strong>
+            ${formatMoney(remaining)}
+        </p>
 
-            <p>
-                <strong>Valor a registrar agora:</strong>
-                ${formatMoney(amount)}
-            </p>
+        <p>
+            <strong>Valor a registrar agora:</strong>
+            ${formatMoney(amount)}
+        </p>
 
-            <p>
-                <strong>Restante após pagamento:</strong>
-                ${formatMoney(remaining - amount)}
-            </p>
-        `;
+        <p>
+            <strong>Restante após pagamento:</strong>
+            ${formatMoney(remaining - amount)}
+        </p>
+    `;
 
     openModal(window.paymentConfirmModal);
 });
 
-btnConfirmPaymentRegister.addEventListener("click", () => {
-    const orders = loadOrders();
-
-    const order = orders.find((order) => order.id === selectedPaymentOrderId);
+btnConfirmPaymentRegister.addEventListener("click", async () => {
+    const order = await getOrderByIdFromSource(selectedPaymentOrderId);
 
     if (!order) {
         return;
@@ -121,32 +117,56 @@ btnConfirmPaymentRegister.addEventListener("click", () => {
         return;
     }
 
-    order.paidAmount = (order.paidAmount || 0) + pendingPaymentAmount;
+    try {
+        if (shouldUseApiOrders()) {
+            await window.PXBRTransactionsApiService.create({
+                amount: pendingPaymentAmount,
+                playerId: order.playerId,
+                orderId: order.id,
+                type: "ORDER_PAYMENT",
+                notes: "Pagamento registrado pela tela de encomenda."
+            });
+        } else {
+            const orders = loadOrders();
 
-    order.paid = order.paidAmount >= order.total;
+            const localOrder = orders.find((item) => item.id === selectedPaymentOrderId);
 
-    saveOrders(orders);
+            if (!localOrder) {
+                return;
+            }
 
-    const transaction = createOrderPaymentTransaction({
-        amount: pendingPaymentAmount,
-        playerId: order.playerId,
-        orderId: order.id
-    });
+            localOrder.paidAmount = (localOrder.paidAmount || 0) + pendingPaymentAmount;
 
-    saveTransaction(transaction);
+            localOrder.paid = localOrder.paidAmount >= localOrder.total;
 
-    closeModal(window.paymentConfirmModal);
+            saveOrders(orders);
 
-    paymentModal.classList.add("hidden");
+            const transaction = createOrderPaymentTransaction({
+                amount: pendingPaymentAmount,
+                playerId: localOrder.playerId,
+                orderId: localOrder.id
+            });
 
-    pendingPaymentAmount = 0;
+            saveTransaction(transaction);
+        }
 
-    renderDashboard();
-    renderOrdersList();
-    renderPlayersModule();
-    renderFinanceModule();
+        closeModal(window.paymentConfirmModal);
 
-    openOrderDetails(selectedPaymentOrderId);
+        paymentModal.classList.add("hidden");
+
+        pendingPaymentAmount = 0;
+
+        renderDashboard();
+        renderOrdersList();
+        renderPlayersModule();
+        renderFinanceModule();
+
+        openOrderDetails(selectedPaymentOrderId);
+    } catch (error) {
+        showToast(
+            error?.data?.message || error?.message || "Erro ao registrar pagamento.",
+            "error"
+        );
+    }
 });
-
 window.openPaymentModal = openPaymentModal;

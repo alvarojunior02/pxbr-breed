@@ -179,7 +179,15 @@ function renderDashboard() {
 }
 
 // GET RECENT ORDERS
-function getRecentOrders(limit = 5) {
+async function getRecentOrders(limit = 5) {
+    if (window.shouldUseApiOrders?.()) {
+        const orders = await window.PXBROrdersApiService.getOrders({
+            archived: false
+        });
+
+        return orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, limit);
+    }
+
     return loadOrders()
         .filter((order) => !order.archived)
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
@@ -187,30 +195,43 @@ function getRecentOrders(limit = 5) {
 }
 
 // RENDER DASHBOARD RECENT ORDERS
-function renderDashboardRecentOrders() {
-    const recentOrders = getRecentOrders();
+async function renderDashboardRecentOrders() {
+    try {
+        const recentOrders = await getRecentOrders();
 
-    dashboardRecentOrders.innerHTML = "";
+        dashboardRecentOrders.innerHTML = "";
 
-    if (recentOrders.length === 0) {
+        if (recentOrders.length === 0) {
+            dashboardRecentOrders.innerHTML = `
+                <p>
+                    Nenhuma encomenda recém cadastrada encontra-se ativa.
+                </p>
+            `;
+
+            return;
+        }
+
+        recentOrders.forEach((order) => {
+            const card = document.createElement("div");
+
+            card.classList.add("order-card");
+
+            card.innerHTML = createOrderCard(order);
+
+            dashboardRecentOrders.appendChild(card);
+        });
+    } catch (error) {
         dashboardRecentOrders.innerHTML = `
             <p>
-                Nenhuma encomenda recém cadastrada encontra-se ativa.
+                Não foi possível carregar as encomendas recentes.
             </p>
         `;
 
-        return;
+        showToast(
+            error?.data?.message || error?.message || "Erro ao carregar encomendas.",
+            "error"
+        );
     }
-
-    recentOrders.forEach((order) => {
-        const card = document.createElement("div");
-
-        card.classList.add("order-card");
-
-        card.innerHTML = createOrderCard(order);
-
-        dashboardRecentOrders.appendChild(card);
-    });
 }
 
 // FILTER ORDERS BY STATUS
