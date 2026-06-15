@@ -17,6 +17,7 @@ const ownedHAModal = document.getElementById("ownedHAModal");
 const ownedHAList = document.getElementById("ownedHAList");
 const ownedHAListSearch = document.getElementById("ownedHAListSearch");
 const ownedHAListNature = document.getElementById("ownedHAListNature");
+const ownedHAListRegionalForm = document.getElementById("ownedHAListRegionalForm");
 
 const ownedPokemonsModal = document.getElementById("ownedPokemonsModal");
 const ownedPokemonFormModal = document.getElementById("ownedPokemonFormModal");
@@ -45,6 +46,8 @@ const addOwnedHASummary = document.getElementById("addOwnedHASummary");
 const ownedHACastratedPrice = document.getElementById("ownedHACastratedPrice");
 const ownedHABreedablePrice = document.getElementById("ownedHABreedablePrice");
 const ownedHANature = document.getElementById("ownedHANature");
+const ownedHARegionalFormWrapper = document.getElementById("ownedHARegionalFormWrapper");
+const ownedHARegionalForm = document.getElementById("ownedHARegionalForm");
 const ownedHANotes = document.getElementById("ownedHANotes");
 
 const manualHASelector = document.getElementById("manualHASelector");
@@ -1657,6 +1660,7 @@ function deleteOwnedPokemon(ownedPokemonId) {
 function getFilteredOwnedHAs() {
     const searchTerm = ownedHAListSearch.value.trim().toLowerCase();
     const selectedNature = ownedHAListNature.value;
+    const selectedRegionalForm = ownedHAListRegionalForm.value;
 
     return loadOwnedHiddenAbilities().filter((item) => {
         const evolutionNames = item.evolutionLine?.map((pokemon) => pokemon.pokemonName) || [];
@@ -1666,18 +1670,29 @@ function getFilteredOwnedHAs() {
             item.abilityName,
             item.nature,
             item.notes,
+            item.regionalForm,
+            item.regionalFormLabel,
+            item.regionalFormDisplayName,
             ...evolutionNames
         ]
             .join(" ")
             .toLowerCase();
 
         const matchesSearch = !searchTerm || searchableText.includes(searchTerm);
+
         const matchesNature =
             selectedNature === "all" ||
             (selectedNature === "none" && !item.nature) ||
             item.nature === selectedNature;
 
-        return matchesSearch && matchesNature;
+        const matchesRegionalForm =
+            selectedRegionalForm === "all" ||
+            (selectedRegionalForm === "none" && !item.regionalForm) ||
+            (selectedRegionalForm === "with-regional-form" && Boolean(item.regionalForm)) ||
+            item.regionalForm === selectedRegionalForm ||
+            item.regionalForm?.startsWith(selectedRegionalForm);
+
+        return matchesSearch && matchesNature && matchesRegionalForm;
     });
 }
 
@@ -1796,6 +1811,17 @@ function createOwnedHACard(item) {
                     <strong>Nature</strong>
                     <span>${formatPokemonNatureLabel(item.nature)}</span>
                 </div>
+
+                ${
+                    item.regionalForm
+                        ? `
+                            <div>
+                                <strong>Forma</strong>
+                                <span>${item.regionalFormLabel}</span>
+                            </div>
+                        `
+                        : ""
+                }
             </div>
 
             ${
@@ -1868,6 +1894,38 @@ function populateOwnedHANatureOptions() {
     });
 }
 
+// POPULATE OWNED HA REGIONAL FORM OPTIONS
+function populateOwnedHARegionalFormOptions(pokemon, selectedRegionalForm = "") {
+    if (!ownedHARegionalForm || !ownedHARegionalFormWrapper) {
+        return;
+    }
+
+    const regionalForms = getPokemonRegionalForms(pokemon?.id);
+
+    ownedHARegionalForm.innerHTML = `
+        <option value="">Forma padrão</option>
+    `;
+
+    ownedHARegionalForm.value = "";
+    ownedHARegionalFormWrapper.classList.add("hidden");
+
+    if (!regionalForms.length) {
+        return;
+    }
+
+    regionalForms.forEach((form) => {
+        const option = document.createElement("option");
+
+        option.value = form.value;
+        option.textContent = form.label;
+
+        ownedHARegionalForm.appendChild(option);
+    });
+
+    ownedHARegionalForm.value = selectedRegionalForm || "";
+    ownedHARegionalFormWrapper.classList.remove("hidden");
+}
+
 // OPEN MANUAL ADD OWNED HA MODAL
 function openManualAddOwnedHAModal() {
     populateOwnedHANatureOptions();
@@ -1894,6 +1952,8 @@ function openManualAddOwnedHAModal() {
     ownedHABreedablePrice.value = formatMoney(0);
     ownedHANature.value = "";
     ownedHANotes.value = "";
+    ownedHARegionalForm.value = "";
+    ownedHARegionalFormWrapper.classList.add("hidden");
 
     setOwnedHAFormFieldsEnabled(false);
     updateSaveOwnedHAButtonState();
@@ -1921,6 +1981,8 @@ function openAddOwnedHAModal(pokemonId, origin = "pokemon-details", orderRow = n
 
     selectedHAPokemonId = pokemon.id;
     selectedOwnedHAId = null;
+
+    populateOwnedHARegionalFormOptions(pokemon);
 
     const evolutionChain = getEvolutionChain(pokemon).map((chainPokemon) => {
         const chainHiddenAbility = getPokemonHiddenAbility(chainPokemon);
@@ -1958,11 +2020,21 @@ function createOwnedHASummary(evolutionLine) {
             <div class="owned-ha-evolution-line">
                 ${evolutionLine
                     .map((pokemon) => {
+                        const regionalForm = getPokemonRegionalForm(
+                            pokemon.pokemonId,
+                            ownedHARegionalForm.value
+                        );
+
+                        const displayName = regionalForm?.displayName || pokemon.pokemonName;
+                        const displaySprite =
+                            regionalForm?.sprite ||
+                            getPokemonThumbnail(pokemon.pokemonId, pokemon.sprite);
+
                         return `
                             <div class="owned-ha-evolution-pokemon">
                                 <img
-                                    src="${getPokemonThumbnail(pokemon.pokemonId, pokemon.sprite)}"
-                                    alt="${pokemon.pokemonName}"
+                                    src="${displaySprite}"
+                                    alt="${displayName}"
                                     onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.pokemonId}.png';"
                                 />
 
@@ -1971,8 +2043,18 @@ function createOwnedHASummary(evolutionLine) {
                                 </span>
 
                                 <strong>
-                                    ${pokemon.pokemonName}
+                                    ${displayName}
                                 </strong>
+
+                                ${
+                                    regionalForm
+                                        ? `
+                                            <small class="pokemon-regional-form-line">
+                                                ${regionalForm.label}
+                                            </small>
+                                        `
+                                        : ""
+                                }
 
                                 <small class="owned-ha-ability-name">
                                     ${pokemon.abilityName}
@@ -2003,6 +2085,8 @@ function selectManualHAPokemon(pokemonId) {
     }
 
     selectedHAPokemonId = pokemon.id;
+
+    populateOwnedHARegionalFormOptions(pokemon);
 
     const evolutionChain = getEvolutionChain(pokemon).map((chainPokemon) => {
         const chainHiddenAbility = getPokemonHiddenAbility(chainPokemon);
@@ -2046,6 +2130,7 @@ function saveOwnedHAFromModal() {
 
     const pokemon = getPokemonById(selectedHAPokemonId);
     const hiddenAbility = getPokemonHiddenAbility(pokemon);
+    const regionalForm = getPokemonRegionalForm(pokemon?.id, ownedHARegionalForm.value);
 
     if (castratedPrice <= 0 || breedablePrice <= 0) {
         showWarningToast("Informe valores maiores que zero para castrado e breedável.");
@@ -2058,6 +2143,9 @@ function saveOwnedHAFromModal() {
             castratedPrice,
             breedablePrice,
             nature: ownedHANature.value || null,
+            regionalForm: regionalForm?.value || "",
+            regionalFormLabel: regionalForm?.label || "",
+            regionalFormDisplayName: regionalForm?.displayName || "",
             notes: ownedHANotes.value.trim()
         });
 
@@ -2084,8 +2172,22 @@ function saveOwnedHAFromModal() {
 
         return {
             pokemonId: Number(chainPokemon.id),
-            pokemonName: chainPokemon.name.english,
-            sprite: getPokemonThumbnail(chainPokemon.id),
+            pokemonName:
+                Number(chainPokemon.id) === Number(pokemon.id) && regionalForm
+                    ? regionalForm.displayName
+                    : chainPokemon.name.english,
+            sprite:
+                Number(chainPokemon.id) === Number(pokemon.id) && regionalForm
+                    ? regionalForm.sprite
+                    : getPokemonThumbnail(chainPokemon.id),
+            regionalForm:
+                Number(chainPokemon.id) === Number(pokemon.id) && regionalForm
+                    ? regionalForm.value
+                    : "",
+            regionalFormLabel:
+                Number(chainPokemon.id) === Number(pokemon.id) && regionalForm
+                    ? regionalForm.label
+                    : "",
             abilityName: chainHiddenAbility?.[0] || hiddenAbility[0]
         };
     });
@@ -2099,7 +2201,10 @@ function saveOwnedHAFromModal() {
         castratedPrice: unformatMoney(ownedHACastratedPrice.value),
         breedablePrice: unformatMoney(ownedHABreedablePrice.value),
         nature: ownedHANature.value || null,
-        notes: ownedHANotes.value.trim()
+        notes: ownedHANotes.value.trim(),
+        regionalForm: regionalForm?.value || "",
+        regionalFormLabel: regionalForm?.label || "",
+        regionalFormDisplayName: regionalForm?.displayName || ""
     });
 
     showSuccessToast("HA adicionada com sucesso!");
@@ -2144,6 +2249,8 @@ function closeAddOwnedHAModal() {
     ownedHABreedablePrice.value = "";
     ownedHANature.value = "";
     ownedHANotes.value = "";
+    ownedHARegionalForm.value = "";
+    ownedHARegionalFormWrapper.classList.add("hidden");
 }
 
 // HAS OWNED HIDDEN ABILITY
@@ -2173,6 +2280,9 @@ function openEditOwnedHAModal(hiddenAbilityId) {
 
     selectedOwnedHAId = hiddenAbility.id;
     selectedHAPokemonId = hiddenAbility.pokemonId;
+
+    const pokemon = getPokemonById(hiddenAbility.pokemonId);
+    populateOwnedHARegionalFormOptions(pokemon, hiddenAbility.regionalForm || "");
 
     addOwnedHASummary.innerHTML = createEditOwnedHASummary(hiddenAbility);
 
@@ -2213,6 +2323,7 @@ function setOwnedHAFormFieldsEnabled(enabled) {
     ownedHACastratedPrice.disabled = !enabled;
     ownedHABreedablePrice.disabled = !enabled;
     ownedHANature.disabled = !enabled;
+    ownedHARegionalForm.disabled = !enabled;
     ownedHANotes.disabled = !enabled;
 }
 
@@ -2301,9 +2412,11 @@ applyMoneyMask(ownedHABreedablePrice);
 ownedHACastratedPrice.addEventListener("input", updateSaveOwnedHAButtonState);
 ownedHABreedablePrice.addEventListener("input", updateSaveOwnedHAButtonState);
 ownedHANature.addEventListener("change", updateSaveOwnedHAButtonState);
+
 ownedHANotes.addEventListener("input", updateSaveOwnedHAButtonState);
 ownedHAListSearch.addEventListener("input", renderOwnedHAList);
 ownedHAListNature.addEventListener("change", renderOwnedHAList);
+ownedHAListRegionalForm.addEventListener("change", renderOwnedHAList);
 
 ownedPokemonSearch.addEventListener("input", searchOwnedPokemon);
 ownedPokemonBreedLevel.addEventListener("change", updateOwnedPokemonSaveButtonState);
