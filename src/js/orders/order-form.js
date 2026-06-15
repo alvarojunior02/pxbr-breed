@@ -198,8 +198,8 @@ function mapOrderToApiPayload(order) {
         subtotal: order.subtotal,
         discount: order.discount,
         total: order.total,
-        paidAmount: order.paidAmount || 0,
-        paid: Boolean(order.paid),
+        paidAmount: shouldUseApiOrders() ? 0 : order.paidAmount || 0,
+        paid: shouldUseApiOrders() ? false : Boolean(order.paid),
         needsFemale: Boolean(order.needsFemale),
         observations: order.observations || null,
         archived: Boolean(order.archived),
@@ -232,7 +232,19 @@ async function createOrderFromSource(orderData) {
     const order = createPersistedOrder(orderData);
 
     if (shouldUseApiOrders()) {
-        return window.PXBROrdersApiService.create(mapOrderToApiPayload(order));
+        const createdOrder = await window.PXBROrdersApiService.create(mapOrderToApiPayload(order));
+
+        if (order.paidAmount > 0) {
+            await window.PXBRTransactionsApiService.create({
+                playerId: createdOrder.playerId,
+                orderId: createdOrder.id,
+                amount: order.paidAmount,
+                type: "ORDER_PAYMENT",
+                notes: "Pagamento inicial da encomenda."
+            });
+        }
+
+        return createdOrder;
     }
 
     saveOrder(order);
