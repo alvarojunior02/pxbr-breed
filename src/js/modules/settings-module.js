@@ -458,32 +458,48 @@ function importSystemBackup(file) {
     const reader = new FileReader();
 
     reader.onload = (event) => {
+        let backup;
+
         try {
-            const backup = JSON.parse(event.target.result);
+            backup = JSON.parse(event.target.result);
+        } catch (error) {
+            console.error("Backup JSON parse error:", error);
+            showErrorToast("Não foi possível ler o arquivo de backup.");
+            backupImportInput.value = "";
+            return;
+        }
 
-            if (!isValidBackupFile(backup)) {
-                showErrorToast("Arquivo de backup inválido.");
-                return;
-            }
+        if (!isValidBackupFile(backup)) {
+            showErrorToast("Arquivo de backup inválido.");
+            backupImportInput.value = "";
+            return;
+        }
 
-            const confirmed = confirm(
-                "Tem certeza que deseja restaurar este backup? Os dados atuais serão substituídos."
-            );
+        const confirmed = confirm(
+            "Tem certeza que deseja restaurar este backup? Os dados atuais serão substituídos."
+        );
 
-            if (!confirmed) {
-                return;
-            }
+        if (!confirmed) {
+            backupImportInput.value = "";
+            return;
+        }
 
+        try {
             restoreSystemBackup(backup);
-
             refreshAppAfterBackupRestore();
 
             showSuccessToast("Backup restaurado com sucesso!");
         } catch (error) {
-            showErrorToast("Não foi possível ler o arquivo de backup.");
+            console.error("Backup restore error:", error);
+            showErrorToast("O backup foi lido, mas houve erro ao restaurar os dados.");
         } finally {
             backupImportInput.value = "";
         }
+    };
+
+    reader.onerror = () => {
+        showErrorToast("Não foi possível abrir o arquivo de backup.");
+        backupImportInput.value = "";
     };
 
     reader.readAsText(file);
@@ -516,6 +532,12 @@ btnExportBackup.addEventListener("click", openBackupExportConfirmModal);
 
 btnImportBackup.addEventListener("click", () => {
     backupImportInput.click();
+});
+
+backupImportInput.addEventListener("change", (event) => {
+    const [file] = event.target.files;
+
+    importSystemBackup(file);
 });
 
 btnConfirmBackupExport.addEventListener("click", () => {
