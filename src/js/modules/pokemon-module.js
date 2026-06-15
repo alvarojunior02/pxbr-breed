@@ -25,6 +25,7 @@ const ownedPokemonListSearch = document.getElementById("ownedPokemonListSearch")
 const ownedPokemonListBreedLevel = document.getElementById("ownedPokemonListBreedLevel");
 const ownedPokemonListGender = document.getElementById("ownedPokemonListGender");
 const ownedPokemonListNature = document.getElementById("ownedPokemonListNature");
+const ownedPokemonListRegionalForm = document.getElementById("ownedPokemonListRegionalForm");
 
 const ownedPokemonFormTitle = document.getElementById("ownedPokemonFormTitle");
 const ownedPokemonSearch = document.getElementById("ownedPokemonSearch");
@@ -33,6 +34,8 @@ const ownedPokemonSelectedSummary = document.getElementById("ownedPokemonSelecte
 const ownedPokemonBreedLevel = document.getElementById("ownedPokemonBreedLevel");
 const ownedPokemonGender = document.getElementById("ownedPokemonGender");
 const ownedPokemonNature = document.getElementById("ownedPokemonNature");
+const ownedPokemonRegionalFormWrapper = document.getElementById("ownedPokemonRegionalFormWrapper");
+const ownedPokemonRegionalForm = document.getElementById("ownedPokemonRegionalForm");
 const ownedPokemonNotes = document.getElementById("ownedPokemonNotes");
 const btnSaveOwnedPokemon = document.getElementById("btnSaveOwnedPokemon");
 const btnCancelOwnedPokemonEdit = document.getElementById("btnCancelOwnedPokemonEdit");
@@ -1085,6 +1088,34 @@ function populateOwnedPokemonNatureOptions() {
     });
 }
 
+// POPULATE OWNED POKEMON REGIONAL FORM OPTIONS
+function populateOwnedPokemonRegionalFormOptions(pokemon, selectedRegionalForm = "") {
+    const regionalForms = getPokemonRegionalForms(pokemon?.id);
+
+    ownedPokemonRegionalForm.innerHTML = `
+        <option value="">Forma padrão</option>
+    `;
+
+    ownedPokemonRegionalForm.value = "";
+    ownedPokemonRegionalFormWrapper.classList.add("hidden");
+
+    if (!regionalForms.length) {
+        return;
+    }
+
+    regionalForms.forEach((form) => {
+        const option = document.createElement("option");
+
+        option.value = form.value;
+        option.textContent = form.label;
+
+        ownedPokemonRegionalForm.appendChild(option);
+    });
+
+    ownedPokemonRegionalForm.value = selectedRegionalForm || "";
+    ownedPokemonRegionalFormWrapper.classList.remove("hidden");
+}
+
 // RESET OWNED POKEMON FORM
 function resetOwnedPokemonForm() {
     selectedOwnedPokemonDexId = null;
@@ -1100,6 +1131,8 @@ function resetOwnedPokemonForm() {
     ownedPokemonBreedLevel.value = "";
     ownedPokemonGender.value = "";
     ownedPokemonNature.value = "";
+    ownedPokemonRegionalForm.value = "";
+    ownedPokemonRegionalFormWrapper.classList.add("hidden");
     ownedPokemonNotes.value = "";
 
     btnSaveOwnedPokemon.disabled = true;
@@ -1171,12 +1204,18 @@ function selectOwnedPokemon(pokemonId) {
     ownedPokemonSearch.value = pokemon.name.english;
     ownedPokemonSearchResults.innerHTML = "";
 
+    populateOwnedPokemonRegionalFormOptions(pokemon);
     renderOwnedPokemonSelectedSummary(pokemon);
     updateOwnedPokemonSaveButtonState();
 }
 
 // RENDER OWNED POKEMON SELECTED SUMMARY
 function renderOwnedPokemonSelectedSummary(pokemon) {
+    const regionalForm = getPokemonRegionalForm(pokemon.id, ownedPokemonRegionalForm.value);
+
+    const displayName = regionalForm?.displayName || pokemon.name.english;
+    const displaySprite = regionalForm?.sprite || getPokemonThumbnail(pokemon.id);
+
     const eggGroups = pokemon.profile?.egg?.length
         ? pokemon.profile.egg
               .map((eggGroup) => `<span>${normalizeEggGroup(eggGroup)}</span>`)
@@ -1186,14 +1225,25 @@ function renderOwnedPokemonSelectedSummary(pokemon) {
     ownedPokemonSelectedSummary.innerHTML = `
         <div class="owned-pokemon-selected-card">
             <img
-                src="${getPokemonThumbnail(pokemon.id)}"
-                alt="${pokemon.name.english}">
+                src="${displaySprite}"
+                alt="${displayName}">
 
             <div>
                 <strong>
                     #${String(pokemon.id).padStart(3, "0")}
-                    ${pokemon.name.english}
+                    ${displayName}
                 </strong>
+
+                ${
+                    regionalForm
+                        ? `
+                            <p class="pokemon-regional-form-line">
+                                Forma regional:
+                                <strong>${regionalForm.label}</strong>
+                            </p>
+                        `
+                        : ""
+                }
 
                 <div class="owned-pokemon-tags">
                     ${eggGroups}
@@ -1251,6 +1301,10 @@ function saveOwnedPokemonFromModal() {
 
     const ownedPokemons = loadOwnedPokemons();
 
+    const regionalForm = getPokemonRegionalForm(pokemon.id, ownedPokemonRegionalForm.value);
+    const displayName = regionalForm?.displayName || pokemon.name.english;
+    const displaySprite = regionalForm?.sprite || getPokemonThumbnail(pokemon.id);
+
     const evolutionLine = getEvolutionChain(pokemon).map((chainPokemon) => ({
         pokemonId: Number(chainPokemon.id),
         pokemonName: chainPokemon.name.english,
@@ -1259,8 +1313,11 @@ function saveOwnedPokemonFromModal() {
 
     const payload = {
         pokemonId: Number(pokemon.id),
-        pokemonName: pokemon.name.english,
-        sprite: getPokemonThumbnail(pokemon.id),
+        pokemonName: displayName,
+        sprite: displaySprite,
+        regionalForm: regionalForm?.value || "",
+        regionalFormLabel: regionalForm?.label || "",
+        regionalFormDisplayName: regionalForm?.displayName || "",
         evolutionLine,
         eggGroups: pokemon.profile?.egg?.map((eggGroup) => normalizeEggGroup(eggGroup)) || [],
         breedLevel: ownedPokemonBreedLevel.value,
@@ -1310,6 +1367,7 @@ function getFilteredOwnedPokemons() {
     const selectedBreedLevel = ownedPokemonListBreedLevel.value;
     const selectedGender = ownedPokemonListGender.value;
     const selectedNature = ownedPokemonListNature.value;
+    const selectedRegionalForm = ownedPokemonListRegionalForm.value;
 
     return loadOwnedPokemons().filter((item) => {
         const searchableText = [
@@ -1319,18 +1377,37 @@ function getFilteredOwnedPokemons() {
             item.gender,
             item.nature,
             item.notes,
+            item.regionalForm,
+            item.regionalFormLabel,
+            item.regionalFormDisplayName,
             ...(item.eggGroups || [])
         ]
             .join(" ")
             .toLowerCase();
 
         const matchesSearch = !searchTerm || searchableText.includes(searchTerm);
+
         const matchesBreedLevel =
             selectedBreedLevel === "all" || item.breedLevel === selectedBreedLevel;
+
         const matchesGender = selectedGender === "all" || item.gender === selectedGender;
+
         const matchesNature = selectedNature === "all" || item.nature === selectedNature;
 
-        return matchesSearch && matchesBreedLevel && matchesGender && matchesNature;
+        const matchesRegionalForm =
+            selectedRegionalForm === "all" ||
+            (selectedRegionalForm === "none" && !item.regionalForm) ||
+            (selectedRegionalForm === "with-regional-form" && Boolean(item.regionalForm)) ||
+            item.regionalForm === selectedRegionalForm ||
+            item.regionalForm?.startsWith(selectedRegionalForm);
+
+        return (
+            matchesSearch &&
+            matchesBreedLevel &&
+            matchesGender &&
+            matchesNature &&
+            matchesRegionalForm
+        );
     });
 }
 
@@ -1469,6 +1546,17 @@ function createOwnedPokemonCard(item) {
                     <strong>Nature:</strong>
                     ${item.nature}
                 </p>
+
+                ${
+                    item.regionalForm
+                        ? `
+                            <p>
+                                <strong>Forma:</strong>
+                                ${item.regionalFormLabel}
+                            </p>
+                        `
+                        : ""
+                }
             </div>
 
             <div class="owned-pokemon-tags">
@@ -1535,6 +1623,7 @@ function openEditOwnedPokemonModal(ownedPokemonId) {
     ownedPokemonBreedLevel.value = item.breedLevel;
     ownedPokemonGender.value = item.gender;
     ownedPokemonNature.value = item.nature;
+    populateOwnedPokemonRegionalFormOptions(pokemon, item.regionalForm || "");
     ownedPokemonNotes.value = item.notes || "";
 
     renderOwnedPokemonSelectedSummary(pokemon);
@@ -2220,12 +2309,22 @@ ownedPokemonSearch.addEventListener("input", searchOwnedPokemon);
 ownedPokemonBreedLevel.addEventListener("change", updateOwnedPokemonSaveButtonState);
 ownedPokemonGender.addEventListener("change", updateOwnedPokemonSaveButtonState);
 ownedPokemonNature.addEventListener("change", updateOwnedPokemonSaveButtonState);
+ownedPokemonRegionalForm.addEventListener("change", () => {
+    const pokemon = getPokemonById(selectedOwnedPokemonDexId);
+
+    if (pokemon) {
+        renderOwnedPokemonSelectedSummary(pokemon);
+    }
+
+    updateOwnedPokemonSaveButtonState();
+});
 ownedPokemonNotes.addEventListener("input", updateOwnedPokemonSaveButtonState);
 
 ownedPokemonListSearch.addEventListener("input", renderOwnedPokemonsList);
 ownedPokemonListBreedLevel.addEventListener("change", renderOwnedPokemonsList);
 ownedPokemonListGender.addEventListener("change", renderOwnedPokemonsList);
 ownedPokemonListNature.addEventListener("change", renderOwnedPokemonsList);
+ownedPokemonListRegionalForm.addEventListener("change", renderOwnedPokemonsList);
 
 btnSaveOwnedPokemon.addEventListener("click", saveOwnedPokemonFromModal);
 btnCancelOwnedPokemonEdit.addEventListener("click", resetOwnedPokemonForm);

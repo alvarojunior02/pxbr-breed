@@ -965,6 +965,16 @@
                     <select id="ownedPokemonListNature">
                         <option value="all">Todas as natures</option>
                     </select>
+
+                    <select id="ownedPokemonListRegionalForm">
+                        <option value="all">Todas as formas</option>
+                        <option value="none">Forma padrão</option>
+                        <option value="with-regional-form">Com forma regional</option>
+                        <option value="ALOLA">Alola</option>
+                        <option value="GALAR">Galar</option>
+                        <option value="HISUI">Hisui</option>
+                        <option value="PALDEA">Paldea</option>
+                    </select>
                 </div>
 
                 <div id="ownedPokemonsList"></div>
@@ -1024,6 +1034,13 @@
                             <label for="ownedPokemonNature">Nature</label>
                             <select id="ownedPokemonNature">
                                 <option value="">Selecione</option>
+                            </select>
+                        </div>
+
+                        <div class="form-field hidden" id="ownedPokemonRegionalFormWrapper">
+                            <label for="ownedPokemonRegionalForm">Forma regional</label>
+                            <select id="ownedPokemonRegionalForm">
+                                <option value="">Forma padrão</option>
                             </select>
                         </div>
                     </div>
