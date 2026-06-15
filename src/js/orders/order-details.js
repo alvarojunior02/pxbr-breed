@@ -74,7 +74,7 @@ function renderOrderDetails(order) {
             ${getPaymentStatusHtml(order)}
         </p>
 
-        ${renderOrderTransactionsTable(order.id)}
+        <div id="orderTransactionsDetails"></div>
 
         ${renderOrderStatusHistoryTable(order.id)}
 
@@ -134,6 +134,8 @@ function renderOrderDetails(order) {
             ${pokemonHtml}
         </div>
     `;
+
+    renderOrderTransactionsDetails(order.id);
 }
 
 // RENDER ORDER POKEMON ABILITY TEXT
@@ -255,10 +257,31 @@ function createPokemonDetailsCard(pokemon) {
     `;
 }
 
-// RENDER ORDER TRANSACTIONS TABLE
-function renderOrderTransactionsTable(orderId) {
-    const transactions = getOrderTransactions(orderId);
+// RENDER ORDER TRANSACTIONS DETAILS
+async function renderOrderTransactionsDetails(orderId) {
+    const container = document.getElementById("orderTransactionsDetails");
 
+    if (!container) {
+        return;
+    }
+
+    container.innerHTML = "";
+
+    try {
+        const transactions = await getOrderTransactionsFromSource(orderId);
+
+        container.innerHTML = createOrderTransactionsTable(transactions);
+    } catch (error) {
+        container.innerHTML = `
+            <p class="empty-state">
+                Não foi possível carregar as transações desta encomenda.
+            </p>
+        `;
+    }
+}
+
+// CREATE ORDER TRANSACTIONS TABLE
+function createOrderTransactionsTable(transactions) {
     if (transactions.length === 0) {
         return "";
     }
@@ -376,3 +399,4 @@ function renderOrderStatusHistoryTable(orderId) {
 }
 
 window.openOrderDetails = openOrderDetails;
+window.renderOrderTransactionsDetails = renderOrderTransactionsDetails;

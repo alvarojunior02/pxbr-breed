@@ -1,3 +1,14 @@
+// GET ORDER TRANSACTIONS FROM SOURCE
+async function getOrderTransactionsFromSource(orderId) {
+    if (shouldUseApiOrders()) {
+        return window.PXBRTransactionsApiService.getTransactions({
+            orderId
+        });
+    }
+
+    return getOrderTransactions(orderId);
+}
+
 // OPEN PAYMENT MODAL
 async function openPaymentModal(orderId) {
     const order = await getOrderByIdFromSource(orderId);
@@ -169,4 +180,6 @@ btnConfirmPaymentRegister.addEventListener("click", async () => {
         );
     }
 });
+
 window.openPaymentModal = openPaymentModal;
+window.getOrderTransactionsFromSource = getOrderTransactionsFromSource;
