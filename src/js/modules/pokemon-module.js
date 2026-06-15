@@ -1249,10 +1249,27 @@ function getFilteredOwnedPokemons() {
     });
 }
 
+// SORT WIDE OWNED CARDS LAST
+function sortWideOwnedCardsLast(items) {
+    return [...items].sort((itemA, itemB) => {
+        const itemAEvolutionLength = itemA.evolutionLine?.length || 1;
+        const itemBEvolutionLength = itemB.evolutionLine?.length || 1;
+
+        const itemAIsWide = itemAEvolutionLength >= 4;
+        const itemBIsWide = itemBEvolutionLength >= 4;
+
+        if (itemAIsWide !== itemBIsWide) {
+            return itemAIsWide ? 1 : -1;
+        }
+
+        return new Date(itemB.createdAt || 0) - new Date(itemA.createdAt || 0);
+    });
+}
+
 // RENDER OWNED POKEMONS LIST
 function renderOwnedPokemonsList() {
     const ownedPokemons = loadOwnedPokemons();
-    const filteredPokemons = getFilteredOwnedPokemons();
+    const filteredPokemons = sortWideOwnedCardsLast(getFilteredOwnedPokemons());
 
     if (ownedPokemons.length === 0) {
         ownedPokemonsList.innerHTML = `
@@ -1493,7 +1510,7 @@ function getFilteredOwnedHAs() {
 // RENDER OWNED HA LIST
 function renderOwnedHAList() {
     const hiddenAbilities = loadOwnedHiddenAbilities();
-    const filteredHiddenAbilities = getFilteredOwnedHAs();
+    const filteredHiddenAbilities = sortWideOwnedCardsLast(getFilteredOwnedHAs());
 
     if (hiddenAbilities.length === 0) {
         ownedHAList.innerHTML = `

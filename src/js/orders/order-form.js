@@ -7,6 +7,14 @@ const BREEDABLE_UNDISCOVERED_EXCEPTIONS = [
     490 // Manaphy
 ];
 
+const POKEMON_REGIONAL_FORMS = [
+    { value: "", label: "Forma padrão" },
+    { value: "ALOLA", label: "Alola" },
+    { value: "GALAR", label: "Galar" },
+    { value: "HISUI", label: "Hisui" },
+    { value: "PALDEA", label: "Paldea" }
+];
+
 // IS POKEMON BREEDABLE
 function isPokemonBreedable(pokemon) {
     const eggGroups = pokemon.eggGroups || [];
@@ -128,6 +136,7 @@ function getPokemonRowData(row) {
     const natureSelect = row.querySelector(".pokemon-nature");
     const abilitySelect = row.querySelector(".pokemon-ability");
     const breedableToggle = row.querySelector(".pokemon-breedable");
+    const regionalFormSelect = row.querySelector(".pokemon-regional-form");
 
     const pokemon = getPokemonById(row.dataset.pokemonId);
 
@@ -138,6 +147,8 @@ function getPokemonRowData(row) {
         breedPokemonId: Number(row.dataset.breedPokemonId),
         breedPokemonName: row.dataset.breedPokemonName,
         nature: natureSelect.value,
+        regionalForm: regionalFormSelect?.value || "",
+        regionalFormLabel: regionalFormSelect?.selectedOptions?.[0]?.textContent || "Forma padrão",
         ability: {
             name: abilitySelect.value,
             isHA: abilitySelect.selectedOptions[0]?.dataset.isHa === "true"
@@ -686,6 +697,22 @@ function createPokemonOrderRow() {
 
                 <div>
                     <label>
+                        Forma regional
+                    </label>
+
+                    <select
+                        class="pokemon-regional-form"
+                        disabled>
+
+                        <option value="">
+                            Forma padrão
+                        </option>
+
+                    </select>
+                </div>
+
+                <div>
+                    <label>
                         Ability
                     </label>
 
@@ -728,6 +755,7 @@ function createPokemonOrderRow() {
     const removeButton = row.querySelector(".btn-remove-pokemon");
     const abilitySelect = row.querySelector(".pokemon-ability");
     const natureSelect = row.querySelector(".pokemon-nature");
+    const regionalFormSelect = row.querySelector(".pokemon-regional-form");
     const breedableToggle = row.querySelector(".pokemon-breedable");
     const pokemonSearchInput = row.querySelector(".pokemon-search");
     const pokemonAutocomplete = row.querySelector(".pokemon-autocomplete");
@@ -741,6 +769,7 @@ function createPokemonOrderRow() {
     function enablePokemonFields() {
         abilitySelect.disabled = false;
         natureSelect.disabled = false;
+        regionalFormSelect.disabled = false;
         valueInput.disabled = false;
         breedableToggle.disabled = false;
 
@@ -765,6 +794,21 @@ function createPokemonOrderRow() {
         });
 
         natureSelect.value = POKEMON_NATURES[0].name;
+    }
+
+    function populateRegionalFormSelect() {
+        regionalFormSelect.innerHTML = "";
+
+        POKEMON_REGIONAL_FORMS.forEach((form) => {
+            const option = document.createElement("option");
+
+            option.value = form.value;
+            option.textContent = form.label;
+
+            regionalFormSelect.appendChild(option);
+        });
+
+        regionalFormSelect.value = "";
     }
 
     pokemonSearchInput.addEventListener("input", (e) => {
@@ -803,8 +847,9 @@ function createPokemonOrderRow() {
                 row.dataset.pokemonName = pokemon.name;
 
                 const basePokemon = getBasePokemon(pokemon.id);
-                row.dataset.breedPokemonId = basePokemon.id;
-                row.dataset.breedPokemonName = basePokemon.name;
+
+                row.dataset.breedPokemonId = basePokemon?.id || pokemon.id;
+                row.dataset.breedPokemonName = getDisplayPokemonName(basePokemon || pokemon);
 
                 pokemonSearchInput.value = pokemon.name;
 
@@ -817,6 +862,8 @@ function createPokemonOrderRow() {
                 populateAbilitySelect(abilitySelect, pokemon.abilities, pokemon.id);
 
                 populateNatureSelect();
+
+                populateRegionalFormSelect();
 
                 enablePokemonFields();
 
@@ -928,7 +975,7 @@ function refreshOrderPokemonOwnedHA(row, pokemonId) {
 
                     <p>
                         Breed Base:
-                        ${basePokemon?.name || "N/A"}
+                        ${getDisplayPokemonName(basePokemon || pokemon)}
                     </p>
 
                     <p>
@@ -1071,8 +1118,19 @@ function renderOrderSummary(order) {
 
                         <p>
                             Breed Base:
-                            ${pokemon.breedPokemonName}
+                            ${pokemon.breedPokemonName || getDisplayPokemonName(getBasePokemon(pokemon.pokemonId))}
                         </p>
+
+                        ${
+                            pokemon.regionalForm
+                                ? `
+                                    <p>
+                                        Forma regional:
+                                        <strong>${pokemon.regionalFormLabel}</strong>
+                                    </p>
+                                `
+                                : ""
+                        }
 
                         <p>
                             Nature:
