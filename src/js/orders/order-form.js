@@ -2,6 +2,9 @@ applyMoneyMask(orderPaidAmount);
 applyMoneyMask(discountValue);
 applyMoneyMask(paymentAmount);
 
+let orderOwnedPokemonsCache = [];
+let orderOwnedHAsCache = [];
+
 const BREEDABLE_UNDISCOVERED_EXCEPTIONS = [
     489, // Phione
     490 // Manaphy
@@ -88,6 +91,53 @@ function updatePokemonRowLabels() {
     });
 }
 
+// LOAD ORDER OWNED DATA CACHE
+async function loadOrderOwnedDataCache() {
+    const [ownedPokemons, ownedHAs] = await Promise.all([
+        typeof loadOwnedPokemonsFromSource === "function"
+            ? loadOwnedPokemonsFromSource()
+            : Promise.resolve(typeof loadOwnedPokemons === "function" ? loadOwnedPokemons() : []),
+
+        typeof loadOwnedHAsFromSource === "function"
+            ? loadOwnedHAsFromSource()
+            : Promise.resolve(
+                  typeof loadOwnedHiddenAbilities === "function" ? loadOwnedHiddenAbilities() : []
+              )
+    ]);
+
+    orderOwnedPokemonsCache = ownedPokemons || [];
+    orderOwnedHAsCache = ownedHAs || [];
+}
+
+// GET ORDER OWNED POKEMONS CACHE
+function getOrderOwnedPokemonsCache() {
+    return orderOwnedPokemonsCache.length
+        ? orderOwnedPokemonsCache
+        : typeof loadOwnedPokemons === "function"
+          ? loadOwnedPokemons()
+          : [];
+}
+
+// GET ORDER OWNED HAS CACHE
+function getOrderOwnedHAsCache() {
+    return orderOwnedHAsCache.length
+        ? orderOwnedHAsCache
+        : typeof loadOwnedHiddenAbilities === "function"
+          ? loadOwnedHiddenAbilities()
+          : [];
+}
+
+// GET ORDER OWNED HA BY POKEMON ID
+function getOrderOwnedHAByPokemonId(pokemonId) {
+    const ownedHAs = getOrderOwnedHAsCache();
+
+    return ownedHAs.find((item) => {
+        return item.evolutionLine?.some((evolutionPokemon) => {
+            return Number(evolutionPokemon.pokemonId) === Number(pokemonId);
+        });
+    });
+}
+
 // POPULATE ABILITY SELECT
 function populateAbilitySelect(select, abilities, pokemonId = null) {
     if (!select) {
@@ -97,7 +147,7 @@ function populateAbilitySelect(select, abilities, pokemonId = null) {
 
     select.innerHTML = "";
 
-    const ownedHA = pokemonId ? getOwnedHAByPokemonId(pokemonId) : null;
+    const ownedHA = pokemonId ? getOrderOwnedHAByPokemonId(pokemonId) : null;
 
     const filteredAbilities = abilities.filter((ability) => {
         if (!ability.isHA) {
@@ -401,7 +451,7 @@ function renderOwnedHAOrderInfo(row, pokemon) {
         return;
     }
 
-    const ownedHA = getOwnedHAByPokemonId(pokemon.id);
+    const ownedHA = getOrderOwnedHAByPokemonId(pokemon.id);
 
     if (!ownedHA) {
         container.classList.add("hidden");
@@ -443,7 +493,7 @@ function renderOwnedHAOrderInfo(row, pokemon) {
 
 // CREATE OWNED HA ORDER INFO HTML
 function createOwnedHAOrderInfoHtml(pokemon) {
-    const ownedHA = getOwnedHAByPokemonId(pokemon.id);
+    const ownedHA = getOrderOwnedHAByPokemonId(pokemon.id);
 
     if (ownedHA) {
         const currentEvolutionPokemon = ownedHA.evolutionLine?.find((item) => {
@@ -548,7 +598,7 @@ function formatOrderOwnedPokemonNature(natureName) {
 
 // GET ORDER OWNED POKEMON HINTS
 function getOrderOwnedPokemonHints(pokemon) {
-    const ownedPokemons = typeof loadOwnedPokemons === "function" ? loadOwnedPokemons() : [];
+    const ownedPokemons = getOrderOwnedPokemonsCache();
 
     const pokemonEggGroups =
         pokemon.eggGroups?.map((eggGroup) => normalizeEggGroup(eggGroup)) || [];
@@ -659,7 +709,7 @@ function applyOwnedHAPriceToRow(row, pokemon) {
         return;
     }
 
-    const ownedHA = getOwnedHAByPokemonId(pokemon.id);
+    const ownedHA = getOrderOwnedHAByPokemonId(pokemon.id);
     const valueInput = row.querySelector(".pokemon-value");
     const breedableToggle = row.querySelector(".pokemon-breedable");
     const abilitySelect = row.querySelector(".pokemon-ability");
@@ -701,7 +751,7 @@ function getDisplayPokemonName(pokemon) {
 }
 
 // CREATE POKEMON ORDER ROW
-function createPokemonOrderRow() {
+async function createPokemonOrderRow() {
     const row = document.createElement("div");
 
     row.classList.add("pokemon-order-row");
@@ -900,7 +950,7 @@ function createPokemonOrderRow() {
         regionalFormWrapper.classList.remove("hidden");
     }
 
-    pokemonSearchInput.addEventListener("input", (e) => {
+    pokemonSearchInput.addEventListener("input", async (e) => {
         const searchTerm = e.target.value.trim();
 
         pokemonAutocomplete.innerHTML = "";
@@ -913,7 +963,7 @@ function createPokemonOrderRow() {
             .filter((pokemon) => isPokemonBreedable(pokemon))
             .slice(0, 10);
 
-        results.forEach((pokemon) => {
+        results.forEach(async (pokemon) => {
             const item = document.createElement("div");
 
             item.innerHTML = `
@@ -929,7 +979,7 @@ function createPokemonOrderRow() {
 
             item.style.cursor = "pointer";
 
-            item.addEventListener("click", () => {
+            item.addEventListener("click", async () => {
                 selectedPokemon = pokemon;
 
                 row.dataset.pokemonId = pokemon.id;
@@ -945,6 +995,8 @@ function createPokemonOrderRow() {
                 pokemonAutocomplete.innerHTML = "";
 
                 renderPokemonInfo(pokemon);
+
+                await loadOrderOwnedDataCache();
 
                 renderOwnedPokemonOrderHints(row, pokemon);
 
@@ -1046,7 +1098,9 @@ function createPokemonOrderRow() {
 }
 
 // REFRESH ORDER POKEMON OWNED HA
-function refreshOrderPokemonOwnedHA(row, pokemonId) {
+async function refreshOrderPokemonOwnedHA(row, pokemonId) {
+    await loadOrderOwnedDataCache();
+
     const pokemon = searchPokemon(String(pokemonId)).find((item) => {
         return Number(item.id) === Number(pokemonId);
     });
@@ -1092,11 +1146,13 @@ function refreshOrderPokemonOwnedHA(row, pokemonId) {
         </div>
     `;
 
+    await loadOrderOwnedDataCache();
+
     renderOwnedPokemonOrderHints(row, pokemon);
 
     populateAbilitySelect(abilitySelect, pokemon.abilities, pokemon.id);
 
-    const ownedHA = getOwnedHAByPokemonId(pokemon.id);
+    const ownedHA = getOrderOwnedHAByPokemonId(pokemon.id);
 
     if (ownedHA) {
         const currentEvolutionPokemon = ownedHA.evolutionLine?.find((item) => {
@@ -1316,7 +1372,9 @@ function renderOrderSummary(order) {
 }
 
 // OPEN CREATE ORDER MODAL
-function openCreateOrderModal() {
+async function openCreateOrderModal() {
+    await loadOrderOwnedDataCache();
+
     openModal(window.createOrderModal);
 }
 
@@ -1477,3 +1535,6 @@ window.refreshOrderPokemonOwnedHA = refreshOrderPokemonOwnedHA;
 window.mapOrderToApiPayload = mapOrderToApiPayload;
 window.mapOrderPokemonToApiPayload = mapOrderPokemonToApiPayload;
 window.createOrderFromSource = createOrderFromSource;
+
+window.loadOrderOwnedDataCache = loadOrderOwnedDataCache;
+window.getOrderOwnedHAByPokemonId = getOrderOwnedHAByPokemonId;

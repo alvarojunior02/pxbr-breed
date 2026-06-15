@@ -2413,7 +2413,7 @@ async function saveOwnedHAFromModal() {
         await renderOwnedHAList();
 
         if (originToRefresh === "order-form" && orderRowToRefresh && pokemonIdToRefresh) {
-            refreshOrderPokemonOwnedHA(orderRowToRefresh, pokemonIdToRefresh);
+            await refreshOrderPokemonOwnedHA(orderRowToRefresh, pokemonIdToRefresh);
             return;
         }
 
