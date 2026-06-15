@@ -25,9 +25,54 @@ const playerSkinPreview = document.getElementById("playerSkinPreview");
 let shouldSelectCreatedPlayerOnOrderForm = false;
 let editingPlayerId = null;
 
+let playersOrdersCache = [];
+let playersTransactionsCache = [];
+
+// LOAD PLAYERS RELATED DATA CACHE
+async function loadPlayersRelatedDataCache() {
+    if (window.shouldUseApiOrders?.()) {
+        const [orders, transactions] = await Promise.all([
+            window.PXBROrdersApiService.getOrders(),
+            window.PXBRTransactionsApiService.getTransactions()
+        ]);
+
+        playersOrdersCache = orders || [];
+        playersTransactionsCache = transactions || [];
+
+        return;
+    }
+
+    playersOrdersCache = loadOrders();
+    playersTransactionsCache = loadTransactions();
+}
+
+// GET PLAYERS ORDERS CACHE
+function getPlayersOrdersCache() {
+    return playersOrdersCache.length ? playersOrdersCache : loadOrders();
+}
+
+// GET PLAYERS TRANSACTIONS CACHE
+function getPlayersTransactionsCache() {
+    return playersTransactionsCache.length ? playersTransactionsCache : loadTransactions();
+}
+
 // GET PLAYER ORDERS
 function getPlayerOrders(playerId) {
-    return loadOrders().filter((order) => order.playerId === playerId);
+    return getPlayersOrdersCache().filter((order) => order.playerId === playerId);
+}
+
+// GET PLAYER TRANSACTIONS FROM CACHE
+function getPlayerTransactionsFromCache(playerId) {
+    return getPlayersTransactionsCache()
+        .filter((transaction) => transaction.playerId === playerId)
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+}
+
+// GET PLAYER LAST ORDER
+function getPlayerLastOrder(playerId) {
+    return getPlayerOrders(playerId).sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    )[0];
 }
 
 // GET PLAYER FINANCIAL SUMMARY
@@ -87,6 +132,8 @@ async function renderPlayersModule() {
     `;
 
     try {
+        await loadPlayersRelatedDataCache();
+
         const players = await loadPlayersFromSource(searchTerm);
         const normalizedSearch = searchTerm.toLowerCase();
 
@@ -482,73 +529,82 @@ function createPlayerOrderCard(order) {
 }
 
 // SHOW PLAYER ORDERS
-function showPlayerOrders(playerId) {
-    const player = loadPlayers().find((player) => player.id === playerId);
+async function showPlayerOrders(playerId) {
+    try {
+        await loadPlayersRelatedDataCache();
 
-    if (!player) {
-        showWarningToast("Cliente não encontrado.");
-        return;
-    }
+        const player = shouldUseApiPlayers()
+            ? await window.PXBRPlayersApiService.getById(playerId)
+            : loadPlayers().find((player) => player.id === playerId);
 
-    const orders = getPlayerOrders(playerId).sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-    );
+        if (!player) {
+            showWarningToast("Cliente não encontrado.");
+            return;
+        }
 
-    const summary = getPlayerFinancialSummary(playerId);
+        const orders = getPlayerOrders(playerId).sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
 
-    playerOrdersContent.innerHTML = `
-        <div class="player-orders-header">
-            <div class="player-card-header">
-                ${renderPlayerAvatar(player, 48)}
+        const summary = getPlayerFinancialSummary(playerId);
 
-                <div>
-                    <h3>
-                        ${player.nick}
-                    </h3>
+        playerOrdersContent.innerHTML = `
+            <div class="player-orders-header">
+                <div class="player-card-header">
+                    ${renderPlayerAvatar(player, 48)}
 
-                    <p>
-                        ${summary.ordersCount}
-                        encomenda${summary.ordersCount === 1 ? "" : "s"} registrada${
-                            summary.ordersCount === 1 ? "" : "s"
-                        }
-                    </p>
+                    <div>
+                        <h3>
+                            ${player.nick}
+                        </h3>
+
+                        <p>
+                            ${summary.ordersCount}
+                            encomenda${summary.ordersCount === 1 ? "" : "s"} registrada${
+                                summary.ordersCount === 1 ? "" : "s"
+                            }
+                        </p>
+                    </div>
+                </div>
+
+                <div class="player-orders-summary">
+                    <span>
+                        Total vendido:
+                        <strong>${formatMoney(summary.total)}</strong>
+                    </span>
+
+                    <span>
+                        Recebido:
+                        <strong class="payment-paid">${formatMoney(summary.paid)}</strong>
+                    </span>
+
+                    <span>
+                        Pendente:
+                        <strong class="payment-pending">${formatMoney(summary.pending)}</strong>
+                    </span>
                 </div>
             </div>
 
-            <div class="player-orders-summary">
-                <span>
-                    Total vendido:
-                    <strong>${formatMoney(summary.total)}</strong>
-                </span>
+            ${
+                orders.length === 0
+                    ? `
+                        <p class="empty-state">
+                            Nenhuma encomenda registrada para este cliente.
+                        </p>
+                    `
+                    : `
+                        <div class="player-orders-grid">
+                            ${orders.map((order) => createPlayerOrderCard(order)).join("")}
+                        </div>
+                    `
+            }
+        `;
 
-                <span>
-                    Recebido:
-                    <strong class="payment-paid">${formatMoney(summary.paid)}</strong>
-                </span>
-
-                <span>
-                    Pendente:
-                    <strong class="payment-pending">${formatMoney(summary.pending)}</strong>
-                </span>
-            </div>
-        </div>
-
-        ${
-            orders.length === 0
-                ? `
-                    <p class="empty-state">
-                        Nenhuma encomenda registrada para este cliente.
-                    </p>
-                `
-                : `
-                    <div class="player-orders-grid">
-                        ${orders.map((order) => createPlayerOrderCard(order)).join("")}
-                    </div>
-                `
-        }
-    `;
-
-    openModal(playerOrdersModal);
+        openModal(playerOrdersModal);
+    } catch (error) {
+        console.error(error);
+        showErrorToast(error.message || "Erro ao carregar encomendas do cliente.");
+    }
 }
 
 // OPEN ORDER DETAILS FROM PLAYER ORDERS
@@ -573,154 +629,171 @@ function archiveOrderFromPlayerOrders(orderId) {
 }
 
 // OPEN PLAYERS SUMMARY MODAL
-function openPlayerSummaryModal(playerId) {
-    const player = loadPlayers().find((player) => player.id === playerId);
+async function openPlayerSummaryModal(playerId) {
+    try {
+        await loadPlayersRelatedDataCache();
 
-    if (!player) {
-        return;
-    }
+        const player = shouldUseApiPlayers()
+            ? await window.PXBRPlayersApiService.getById(playerId)
+            : loadPlayers().find((player) => player.id === playerId);
 
-    const summary = getPlayerFinancialSummary(player.id);
-
-    const lastOrder = getPlayerLastOrder(player.id);
-
-    playerSummaryContent.innerHTML = `
-        <div class="player-card-header">
-            <img
-                src="${player.avatarUrl || getMinecraftAvatarUrl(player.nick)}"
-                alt="${player.nick}"
-                class="player-avatar"
-                onerror="this.src='${getDefaultMinecraftAvatarUrl()}'">
-
-            <h3>
-                ${player.nick}
-            </h3>
-        </div>
-
-        <p>
-            Encomendas:
-            ${summary.ordersCount}
-        </p>
-
-        <p>
-            Última encomenda:
-            ${
-                lastOrder
-                    ? `
-                        ${formatDate(lastOrder.createdAt)}
-                        (${getDaysSince(lastOrder.createdAt)} dias atrás)
-                    `
-                    : "Nenhuma"
-            }
-        </p>
-
-        <p>
-            Total vendido:
-            ${formatMoney(summary.total)}
-        </p>
-
-        <p>
-            Recebido:
-            <span class="payment-paid">
-                ${formatMoney(summary.paid)}
-            </span>
-        </p>
-
-        <p>
-            Pendente:
-            <span class="payment-pending">
-                ${formatMoney(summary.pending)}
-            </span>
-        </p>
-
-        ${
-            player.notes
-                ? `
-            <p class="player-notes">
-                ${player.notes}
-            </p>
-        `
-                : ""
+        if (!player) {
+            return;
         }
-    `;
 
-    openModal(playerSummaryModal);
+        const summary = getPlayerFinancialSummary(player.id);
+
+        const lastOrder = getPlayerLastOrder(player.id);
+
+        playerSummaryContent.innerHTML = `
+            <div class="player-card-header">
+                <img
+                    src="${player.avatarUrl || getMinecraftAvatarUrl(player.nick)}"
+                    alt="${player.nick}"
+                    class="player-avatar"
+                    onerror="this.src='${getDefaultMinecraftAvatarUrl()}'">
+
+                <h3>
+                    ${player.nick}
+                </h3>
+            </div>
+
+            <p>
+                Encomendas:
+                ${summary.ordersCount}
+            </p>
+
+            <p>
+                Última encomenda:
+                ${
+                    lastOrder
+                        ? `
+                            ${formatDate(lastOrder.createdAt)}
+                            (${getDaysSince(lastOrder.createdAt)} dias atrás)
+                        `
+                        : "Nenhuma"
+                }
+            </p>
+
+            <p>
+                Total vendido:
+                ${formatMoney(summary.total)}
+            </p>
+
+            <p>
+                Recebido:
+                <span class="payment-paid">
+                    ${formatMoney(summary.paid)}
+                </span>
+            </p>
+
+            <p>
+                Pendente:
+                <span class="payment-pending">
+                    ${formatMoney(summary.pending)}
+                </span>
+            </p>
+
+            ${
+                player.notes
+                    ? `
+                        <p class="player-notes">
+                            ${player.notes}
+                        </p>
+                    `
+                    : ""
+            }
+        `;
+
+        openModal(playerSummaryModal);
+    } catch (error) {
+        console.error(error);
+        showErrorToast(error.message || "Erro ao carregar resumo do cliente.");
+    }
 }
 
 // OPEN PLAYER TRANSACTIONS MODAL
-function openPlayerTransactionsModal(playerId) {
-    const player = loadPlayers().find((player) => player.id === playerId);
+async function openPlayerTransactionsModal(playerId) {
+    try {
+        await loadPlayersRelatedDataCache();
 
-    if (!player) {
-        return;
-    }
+        const player = shouldUseApiPlayers()
+            ? await window.PXBRPlayersApiService.getById(playerId)
+            : loadPlayers().find((player) => player.id === playerId);
 
-    const transactions = getPlayerTransactions(playerId);
-
-    const rows = transactions
-        .map(
-            (transaction) => `
-                <tr>
-                    <td>
-                        ${formatDateTime(transaction.createdAt)}
-                    </td>
-
-                    <td>
-                        ${formatMoney(transaction.amount)}
-                    </td>
-
-                    <td>
-                        <button
-                            type="button"
-                            onclick="openOrderDetailsFromPlayerTransactions('${transaction.orderId}')">
-
-                            Ver Encomenda
-
-                        </button>
-                    </td>
-                </tr>
-            `
-        )
-        .join("");
-
-    playerTransactionsContent.innerHTML = `
-        <h3 class="player-transactions-title">
-            ${renderPlayerInline(player, 32)}
-        </h3>
-
-        ${
-            transactions.length === 0
-                ? `
-                    <p>
-                        Nenhuma transação registrada para este cliente.
-                    </p>
-                `
-                : `
-                    <div class="table-wrapper">
-                        <table class="finance-table">
-                            <thead>
-                                <tr>
-                                    <th>Data/Hora</th>
-                                    <th>Valor</th>
-                                    <th>Encomenda</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                ${rows}
-                            </tbody>
-                        </table>
-                    </div>
-                `
+        if (!player) {
+            return;
         }
-    `;
 
-    openModal(playerTransactionsModal);
+        const transactions = getPlayerTransactionsFromCache(playerId);
+
+        const rows = transactions
+            .map(
+                (transaction) => `
+                    <tr>
+                        <td>
+                            ${formatDateTime(transaction.createdAt)}
+                        </td>
+
+                        <td>
+                            ${formatMoney(transaction.amount)}
+                        </td>
+
+                        <td>
+                            <button
+                                type="button"
+                                onclick="openOrderDetailsFromPlayerTransactions('${transaction.orderId}')">
+
+                                Ver Encomenda
+
+                            </button>
+                        </td>
+                    </tr>
+                `
+            )
+            .join("");
+
+        playerTransactionsContent.innerHTML = `
+            <h3 class="player-transactions-title">
+                ${renderPlayerInline(player, 32)}
+            </h3>
+
+            ${
+                transactions.length === 0
+                    ? `
+                        <p>
+                            Nenhuma transação registrada para este cliente.
+                        </p>
+                    `
+                    : `
+                        <div class="table-wrapper">
+                            <table class="finance-table">
+                                <thead>
+                                    <tr>
+                                        <th>Data/Hora</th>
+                                        <th>Valor</th>
+                                        <th>Encomenda</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    ${rows}
+                                </tbody>
+                            </table>
+                        </div>
+                    `
+            }
+        `;
+
+        openModal(playerTransactionsModal);
+    } catch (error) {
+        console.error(error);
+        showErrorToast(error.message || "Erro ao carregar transações do cliente.");
+    }
 }
-
 // OPEN ORDER DETAILS FORM PLAYER TRANSACTIONS
 function openOrderDetailsFromPlayerTransactions(orderId) {
-    playerTransactionsModal.classList.add("hidden");
+    closeModal(playerTransactionsModal);
 
     openOrderDetails(orderId);
 }
