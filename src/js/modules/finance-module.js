@@ -12,18 +12,23 @@ let currentFinancePeriod = "7days";
 let currentFilteredFinanceTransactions = [];
 
 // RENDER FINANCE MODULE
-function renderFinanceModule() {
-    const transactions = loadTransactions();
-    const filteredTransactions = getFilteredTransactionsByPeriod(
-        transactions,
-        currentFinancePeriod
-    );
+async function renderFinanceModule() {
+    try {
+        const transactions = await loadFinanceTransactionsFromSource();
+        const filteredTransactions = getFilteredTransactionsByPeriod(
+            transactions,
+            currentFinancePeriod
+        );
 
-    currentFilteredFinanceTransactions = filteredTransactions;
+        currentFilteredFinanceTransactions = filteredTransactions;
 
-    setupFinancePeriodFilters();
-    renderFinanceSummary(filteredTransactions);
-    renderFinanceTransactions(filteredTransactions);
+        setupFinancePeriodFilters();
+        renderFinanceSummary(filteredTransactions);
+        renderFinanceTransactions(filteredTransactions);
+    } catch (error) {
+        console.error(error);
+        showErrorToast(error.message || "Erro ao carregar dados financeiros.");
+    }
 }
 
 // GET FINANCE PERIOD LABEL
@@ -37,6 +42,15 @@ function getFinancePeriodLabel(period) {
     };
 
     return labels[period] || "Período selecionado";
+}
+
+// LOAD FINANCE TRANSACTIONS FROM SOURCE
+async function loadFinanceTransactionsFromSource() {
+    if (window.shouldUseApiOrders?.()) {
+        return window.PXBRTransactionsApiService.getTransactions();
+    }
+
+    return loadTransactions();
 }
 
 // GET FINANCE CSV EXPORT SUMMARY
@@ -115,7 +129,8 @@ function exportFinanceTransactionsToCsv() {
     const headers = ["id", "tipo", "data", "cliente_id", "cliente_nick", "valor", "encomenda_id"];
 
     const rows = currentFilteredFinanceTransactions.map((transaction) => {
-        const player = players.find((player) => player.id === transaction.playerId);
+        const player =
+            transaction.player || players.find((player) => player.id === transaction.playerId);
 
         return [
             transaction.id,
@@ -142,6 +157,7 @@ function getFinanceTopBuyer(transactions) {
     const players = loadPlayers();
 
     const totalsByPlayer = {};
+    const playersById = {};
 
     transactions.forEach((transaction) => {
         if (!transaction.playerId) {
@@ -153,6 +169,10 @@ function getFinanceTopBuyer(transactions) {
         }
 
         totalsByPlayer[transaction.playerId] += transaction.amount;
+
+        if (transaction.player) {
+            playersById[transaction.playerId] = transaction.player;
+        }
     });
 
     let topBuyer = null;
@@ -160,7 +180,9 @@ function getFinanceTopBuyer(transactions) {
 
     Object.entries(totalsByPlayer).forEach(([playerId, total]) => {
         if (total > topBuyerTotal) {
-            topBuyer = players.find((player) => player.id === playerId) || null;
+            topBuyer =
+                playersById[playerId] || players.find((player) => player.id === playerId) || null;
+
             topBuyerTotal = total;
         }
     });
@@ -277,7 +299,8 @@ function renderFinanceTransactions(transactions) {
 
     const rows = sortedTransactions
         .map((transaction) => {
-            const player = players.find((player) => player.id === transaction.playerId);
+            const player =
+                transaction.player || players.find((player) => player.id === transaction.playerId);
 
             return `
                 <tr>
