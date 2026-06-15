@@ -2,6 +2,7 @@ const pokemonCatalogSearch = document.getElementById("pokemonCatalogSearch");
 const pokemonOwnedHAFilter = document.getElementById("pokemonOwnedHAFilter");
 const pokemonGenerationFilter = document.getElementById("pokemonGenerationFilter");
 const pokemonEggGroupFilter = document.getElementById("pokemonEggGroupFilter");
+const pokemonRegionalFormFilter = document.getElementById("pokemonRegionalFormFilter");
 const pokemonCatalogGrid = document.getElementById("pokemonCatalogGrid");
 
 const pokemonDetailsModal = document.getElementById("pokemonDetailsModal");
@@ -127,6 +128,7 @@ function getFilteredPokemonCatalog() {
     const selectedOwnedHAFilter = pokemonOwnedHAFilter.value;
     const selectedGeneration = pokemonGenerationFilter.value;
     const selectedEggGroup = pokemonEggGroupFilter.value;
+    const selectedRegionalForm = pokemonRegionalFormFilter.value;
 
     return pokedexCatalog.filter((pokemon) => {
         const matchesSearch =
@@ -142,6 +144,23 @@ function getFilteredPokemonCatalog() {
                 return normalizeEggGroup(eggGroup) === selectedEggGroup;
             });
 
+        const regionalForms = getPokemonRegionalForms(pokemon.id);
+
+        const matchesRegionalForm =
+            selectedRegionalForm === "all" ||
+            (selectedRegionalForm === "with-regional-form" && regionalForms.length > 0) ||
+            regionalForms.some((form) => {
+                if (selectedRegionalForm === "PALDEA") {
+                    return form.value.startsWith("PALDEA");
+                }
+
+                if (selectedRegionalForm === "HISUI") {
+                    return form.value.startsWith("HISUI");
+                }
+
+                return form.value === selectedRegionalForm;
+            });
+
         const pokemonHasHA = Boolean(getPokemonHiddenAbility(pokemon));
         const hasOwnedHA = hasOwnedHiddenAbility(pokemon);
 
@@ -150,7 +169,13 @@ function getFilteredPokemonCatalog() {
             (selectedOwnedHAFilter === "owned" && hasOwnedHA) ||
             (selectedOwnedHAFilter === "missing" && pokemonHasHA && !hasOwnedHA);
 
-        return matchesSearch && matchesGeneration && matchesEggGroup && matchesOwnedHA;
+        return (
+            matchesSearch &&
+            matchesGeneration &&
+            matchesEggGroup &&
+            matchesRegionalForm &&
+            matchesOwnedHA
+        );
     });
 }
 
@@ -285,6 +310,25 @@ function getPokemonCatalogPaginationPages(totalPages) {
     return [...pages].sort((a, b) => a - b);
 }
 
+// CREATE POKEMON REGIONAL FORMS BADGES HTML
+function createPokemonRegionalFormsBadgesHtml(pokemon) {
+    const regionalForms = getPokemonRegionalForms(pokemon.id);
+
+    if (regionalForms.length === 0) {
+        return "";
+    }
+
+    return `
+        <div class="pokemon-card-info pokemon-regional-forms-info">
+            <strong>Formas regionais</strong>
+
+            <div class="pokemon-regional-form-tags">
+                ${regionalForms.map((form) => `<span>${form.label}</span>`).join("")}
+            </div>
+        </div>
+    `;
+}
+
 // CREATE POKEMON CATALOG CARD
 function createPokemonCatalogCard(pokemon) {
     const types = pokemon.type
@@ -338,6 +382,8 @@ function createPokemonCatalogCard(pokemon) {
                     <strong>Egg Groups</strong>
                     <div>${eggGroups}</div>
                 </div>
+
+                ${createPokemonRegionalFormsBadgesHtml(pokemon)}
 
                 <div class="pokemon-card-info">
                     <strong>Abilities</strong>
@@ -402,6 +448,7 @@ function setupPokemonCatalogEvents() {
     pokemonOwnedHAFilter.addEventListener("change", resetPokemonCatalogPage);
     pokemonGenerationFilter.addEventListener("change", resetPokemonCatalogPage);
     pokemonEggGroupFilter.addEventListener("change", resetPokemonCatalogPage);
+    pokemonRegionalFormFilter.addEventListener("change", resetPokemonCatalogPage);
     pokemonCatalogPageSize.addEventListener("change", resetPokemonCatalogPage);
 }
 
@@ -465,6 +512,40 @@ function createPokemonSequentialNavCard(pokemon, position) {
     `;
 }
 
+// CREATE POKEMON REGIONAL FORMS DETAILS HTML
+function createPokemonRegionalFormsDetailsHtml(pokemon) {
+    const regionalForms = getPokemonRegionalForms(pokemon.id);
+
+    if (regionalForms.length === 0) {
+        return "";
+    }
+
+    return `
+        <div class="pokemon-details-section pokemon-regional-forms-section">
+            <h3>Formas Regionais</h3>
+
+            <div class="pokemon-regional-forms-grid">
+                ${regionalForms
+                    .map((form) => {
+                        return `
+                            <article class="pokemon-regional-form-card">
+                                <img
+                                    src="${form.sprite}"
+                                    alt="${form.displayName}">
+
+                                <div>
+                                    <strong>${form.displayName}</strong>
+                                    <span>${form.label}</span>
+                                </div>
+                            </article>
+                        `;
+                    })
+                    .join("")}
+            </div>
+        </div>
+    `;
+}
+
 // CREATE POKEMON DETAILS CONTENT
 function createPokemonDetailsContent(pokemon) {
     const types = pokemon.type
@@ -480,6 +561,8 @@ function createPokemonDetailsContent(pokemon) {
     const sequentialNav = createPokemonDetailsSequentialNavHtml(pokemon);
 
     const hiddenAbility = getPokemonHiddenAbility(pokemon);
+
+    const regionalFormsDetails = createPokemonRegionalFormsDetailsHtml(pokemon);
 
     return `
         ${sequentialNav}
@@ -533,6 +616,8 @@ function createPokemonDetailsContent(pokemon) {
                 </p>
             </div>
         </div>
+
+        ${regionalFormsDetails}
 
         <div class="pokemon-details-grid">
             <div class="pokemon-details-section pokemon-info-section">
