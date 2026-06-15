@@ -135,7 +135,7 @@ function createPokemonDetailsCard(pokemon) {
 
     const nextStatus = getNextStatus(pokemon.status);
 
-    const thumbnail = getPokemonThumbnail(pokemon.pokemonId, pokemon.sprite);
+    const thumbnail = getPokemonThumbnail(pokemon.pokemonId, getOrderPokemonDisplaySprite(pokemon));
 
     const canAdvanceStatus = !isLastStatus(pokemon.status);
 
@@ -145,18 +145,20 @@ function createPokemonDetailsCard(pokemon) {
 
             <img
                 src="${thumbnail}"
-                alt="${pokemon.pokemonName}"
+                alt="${getOrderPokemonDisplayName(pokemon)}"
             >
 
             <h3>
                 <strong>
-                    ${pokemon.pokemonName}
+                    ${getOrderPokemonDisplayName(pokemon)}
                 </strong>
 
                 <span class="pokemon-summary-id">
                     (#${String(pokemon.pokemonId).padStart(3, "0")})
                 </span>
             </h3>
+
+            ${renderOrderPokemonRegionalForm(pokemon)}
 
             <p>
                 Nature:

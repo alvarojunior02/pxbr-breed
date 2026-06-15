@@ -1130,15 +1130,15 @@ function renderOrderSummary(order) {
                 <div class="modal-pokemon">
 
                     <img
-                        src="${getPokemonThumbnail(pokemon.pokemonId, pokemon.sprite)}"
-                        alt="${pokemon.pokemonName}"
+                        src="${getPokemonThumbnail(pokemon.pokemonId, getOrderPokemonDisplaySprite(pokemon))}"
+                        alt="${getOrderPokemonDisplayName(pokemon)}"
                         class="modal-pokemon-sprite">
 
                     <div>
 
                         <p>
                             <strong>
-                                ${pokemon.pokemonName}
+                                ${getOrderPokemonDisplayName(pokemon)}
                             </strong>
 
                             <span class="pokemon-summary-id">
@@ -1151,16 +1151,7 @@ function renderOrderSummary(order) {
                             ${pokemon.breedPokemonName || getDisplayPokemonName(getBasePokemon(pokemon.pokemonId))}
                         </p>
 
-                        ${
-                            pokemon.regionalForm
-                                ? `
-                                    <p>
-                                        Forma regional:
-                                        <strong>${pokemon.regionalFormLabel}</strong>
-                                    </p>
-                                `
-                                : ""
-                        }
+                        ${renderOrderPokemonRegionalForm(pokemon)}
 
                         <p>
                             Nature:

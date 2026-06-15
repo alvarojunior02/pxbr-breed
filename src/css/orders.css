@@ -520,3 +520,12 @@
 .owned-pokemon-order-hint span {
     min-width: 0;
 }
+
+.pokemon-regional-form-line {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.pokemon-regional-form-line strong {
+    color: var(--primary-color);
+}

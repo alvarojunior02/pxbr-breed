@@ -148,6 +148,52 @@ function renderBreedableText(isBreedable) {
         `;
 }
 
+// GET ORDER POKEMON REGIONAL FORM
+function getOrderPokemonRegionalForm(pokemon) {
+    if (!pokemon?.regionalForm) {
+        return null;
+    }
+
+    return (
+        getPokemonRegionalForm(pokemon.pokemonId, pokemon.regionalForm) || {
+            value: pokemon.regionalForm,
+            label: pokemon.regionalFormLabel,
+            displayName: pokemon.regionalFormDisplayName || pokemon.pokemonName,
+            sprite: pokemon.sprite
+        }
+    );
+}
+
+// GET ORDER POKEMON DISPLAY NAME
+function getOrderPokemonDisplayName(pokemon) {
+    const regionalForm = getOrderPokemonRegionalForm(pokemon);
+
+    return regionalForm?.displayName || pokemon.pokemonName;
+}
+
+// GET ORDER POKEMON DISPLAY SPRITE
+function getOrderPokemonDisplaySprite(pokemon) {
+    const regionalForm = getOrderPokemonRegionalForm(pokemon);
+
+    return regionalForm?.sprite || pokemon.sprite;
+}
+
+// RENDER ORDER POKEMON REGIONAL FORM
+function renderOrderPokemonRegionalForm(pokemon) {
+    const regionalForm = getOrderPokemonRegionalForm(pokemon);
+
+    if (!regionalForm) {
+        return "";
+    }
+
+    return `
+        <p class="pokemon-regional-form-line">
+            Forma regional:
+            <strong>${regionalForm.label}</strong>
+        </p>
+    `;
+}
+
 // GET NEXT STATUS BUTTON TEXT
 function getNextStatusButtonText(statusValue) {
     const nextStatus = getNextStatus(statusValue);

@@ -26,14 +26,11 @@ function openStatusConfirmModal(orderId, pokemonId) {
 
     statusConfirmContent.innerHTML = `
         <p>
-
-            <strong>
-                Pokémon:
-            </strong>
-
-            ${pokemon.pokemonName}
-
+            <strong> Pokémon:</strong>
+            ${getOrderPokemonDisplayName(pokemon)}
         </p>
+
+        ${renderOrderPokemonRegionalForm(pokemon)}
 
         <p>
 
@@ -103,7 +100,9 @@ btnConfirmStatusChange.addEventListener("click", () => {
         orderId: order.id,
         pokemonId: pokemon.id,
         pokemonDexId: pokemon.pokemonId,
-        pokemonName: pokemon.pokemonName,
+        pokemonName: getOrderPokemonDisplayName(pokemon),
+        regionalForm: pokemon.regionalForm || "",
+        regionalFormLabel: pokemon.regionalFormLabel || "",
         previousStatus,
         newStatus: nextStatus.value,
         createdAt: new Date().toISOString()
