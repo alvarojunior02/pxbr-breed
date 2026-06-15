@@ -1,7 +1,7 @@
 const PXBR_API_BASE_URL =
     window.PXBR_API_BASE_URL ||
     localStorage.getItem("pxbrApiBaseUrl") ||
-    "http://localhost:3001/api";
+    "http://127.0.0.1:3001/api";
 
 const PXBR_AUTH_STORAGE_KEYS = {
     accessToken: "pxbrAccessToken",
