@@ -57,6 +57,16 @@ let currentReportsCustomDateRange = {
 
 let currentReportChart = null;
 
+// RENDER REPORT ACTIVE PERIOD BADGE
+function renderReportActivePeriodBadge() {
+    return `
+        <p class="report-active-period">
+            Período:
+            <strong>${getCurrentReportPeriodLabel()}</strong>
+        </p>
+    `;
+}
+
 // GET CURRENT REPORT PERIOD LABEL
 function getCurrentReportPeriodLabel() {
     if (currentReportsPeriod !== "custom") {
@@ -499,6 +509,8 @@ function renderTopSellingPokemonReport() {
                     <h3>🏆 Pokémon Mais Vendidos</h3>
 
                     <p>Ranking baseado nas encomendas cadastradas no sistema.</p>
+
+                    ${renderReportActivePeriodBadge()}
                 </div>
 
                 <button
@@ -699,6 +711,8 @@ function renderTopSellingHAReport() {
                     <h3>🧬 HAs Mais Vendidas</h3>
 
                     <p>Ranking baseado nas Hidden Abilities vendidas nas encomendas.</p>
+
+                    ${renderReportActivePeriodBadge()}
                 </div>
 
                 <button
@@ -814,9 +828,9 @@ function renderTopBuyersReport() {
                 <div>
                     <h3>👑 Players que Mais Compraram</h3>
 
-                    <p>
-                        Ranking baseado no valor total comprado.
-                    </p>
+                    <p>Ranking baseado no valor total comprado.</p>
+
+                    ${renderReportActivePeriodBadge()}
                 </div>
 
                 <button
@@ -921,9 +935,9 @@ function renderTopDebtorsReport() {
                 <div>
                     <h3>⚠️ Players que Mais Devem</h3>
 
-                    <p>
-                        Ranking baseado nos maiores valores pendentes.
-                    </p>
+                    <p>Ranking baseado nos maiores valores pendentes.</p>
+
+                    ${renderReportActivePeriodBadge()}
                 </div>
 
                 <button

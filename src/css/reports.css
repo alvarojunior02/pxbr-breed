@@ -394,6 +394,16 @@
     padding: 0.65rem 0.75rem;
 }
 
+.report-active-period {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 0.35rem;
+}
+
+.report-active-period strong {
+    color: var(--primary-color);
+}
+
 @media (max-width: 768px) {
     .reports-custom-period-filter {
         grid-template-columns: 1fr;
