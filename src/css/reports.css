@@ -347,6 +347,32 @@
     font-size: 1.2rem;
 }
 
+.report-chart-card {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.report-chart-header {
+    margin-bottom: 1rem;
+}
+
+.report-chart-header h4 {
+    margin: 0 0 0.25rem;
+}
+
+.report-chart-header span {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.report-chart-wrapper {
+    position: relative;
+    height: 320px;
+}
+
 @media (max-width: 640px) {
     .report-list-header {
         flex-direction: column;
@@ -355,6 +381,10 @@
 
     .report-export-button {
         width: 100%;
+    }
+
+    .report-chart-wrapper {
+        height: 260px;
     }
 }
 

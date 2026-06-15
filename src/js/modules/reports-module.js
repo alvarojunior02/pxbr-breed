@@ -34,6 +34,220 @@ let pendingReportCsvExport = null;
 let currentReport = "top-pokemon";
 let currentReportsPeriod = "7days";
 
+let currentReportChart = null;
+
+const REPORT_CHART_COLORS = [
+    "#3b82f6",
+    "#22c55e",
+    "#facc15",
+    "#f97316",
+    "#ef4444",
+    "#a855f7",
+    "#06b6d4",
+    "#ec4899",
+    "#84cc16",
+    "#64748b"
+];
+
+// RENDER REPORT CHART SECTION
+function renderReportChartSection(title, description) {
+    return `
+        <div class="report-chart-card">
+            <div class="report-chart-header">
+                <h4>${title}</h4>
+                <span>${description}</span>
+            </div>
+
+            <div class="report-chart-wrapper">
+                <canvas id="reportChart"></canvas>
+            </div>
+        </div>
+    `;
+}
+
+// DESTROY CURRENT REPORT CHART
+function destroyCurrentReportChart() {
+    if (currentReportChart) {
+        currentReportChart.destroy();
+        currentReportChart = null;
+    }
+}
+
+// GET REPORT CHART OPTIONS
+function getReportChartOptions(formatAsMoney = false) {
+    return {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                labels: {
+                    color: "#cbd5e1",
+                    font: {
+                        weight: "700"
+                    }
+                }
+            },
+            tooltip: {
+                callbacks: {
+                    label(context) {
+                        const label = context.dataset.label || context.label || "";
+                        const value = context.raw || 0;
+
+                        return formatAsMoney
+                            ? `${label}: ${formatMoney(value)}`
+                            : `${label}: ${value}`;
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: "#94a3b8"
+                },
+                grid: {
+                    color: "rgba(148, 163, 184, 0.12)"
+                }
+            },
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    color: "#94a3b8",
+                    callback(value) {
+                        return formatAsMoney ? formatMoney(value) : value;
+                    }
+                },
+                grid: {
+                    color: "rgba(148, 163, 184, 0.12)"
+                }
+            }
+        }
+    };
+}
+
+// GET CURRENT REPORT CHART CONFIG
+function getCurrentReportChartConfig() {
+    if (currentReport === "top-pokemon") {
+        const report = getPokemonSalesReport().slice(0, 10);
+
+        return {
+            type: "bar",
+            data: {
+                labels: report.map((item) => item.pokemonName),
+                datasets: [
+                    {
+                        label: "Vendas",
+                        data: report.map((item) => item.totalCount),
+                        backgroundColor: REPORT_CHART_COLORS[0],
+                        borderRadius: 8
+                    }
+                ]
+            },
+            options: getReportChartOptions()
+        };
+    }
+
+    if (currentReport === "top-ha") {
+        const report = getTopSellingHAReport().slice(0, 10);
+
+        return {
+            type: "doughnut",
+            data: {
+                labels: report.map((item) => item.abilityName),
+                datasets: [
+                    {
+                        label: "Vendas",
+                        data: report.map((item) => item.totalCount),
+                        backgroundColor: REPORT_CHART_COLORS,
+                        borderWidth: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: "bottom",
+                        labels: {
+                            color: "#cbd5e1",
+                            font: {
+                                weight: "700"
+                            }
+                        }
+                    }
+                }
+            }
+        };
+    }
+
+    if (currentReport === "top-buyers") {
+        const report = getPlayersFinancialReport()
+            .sort((a, b) => b.totalPurchased - a.totalPurchased)
+            .slice(0, 10);
+
+        return {
+            type: "bar",
+            data: {
+                labels: report.map((item) => item.player.nick),
+                datasets: [
+                    {
+                        label: "Total comprado",
+                        data: report.map((item) => item.totalPurchased),
+                        backgroundColor: REPORT_CHART_COLORS[1],
+                        borderRadius: 8
+                    }
+                ]
+            },
+            options: getReportChartOptions(true)
+        };
+    }
+
+    if (currentReport === "top-debtors") {
+        const report = getPlayersFinancialReport()
+            .filter((item) => item.totalPending > 0)
+            .sort((a, b) => b.totalPending - a.totalPending)
+            .slice(0, 10);
+
+        return {
+            type: "bar",
+            data: {
+                labels: report.map((item) => item.player.nick),
+                datasets: [
+                    {
+                        label: "Valor pendente",
+                        data: report.map((item) => item.totalPending),
+                        backgroundColor: REPORT_CHART_COLORS[4],
+                        borderRadius: 8
+                    }
+                ]
+            },
+            options: getReportChartOptions(true)
+        };
+    }
+
+    return null;
+}
+
+// RENDER CURRENT REPORT CHART
+function renderCurrentReportChart() {
+    destroyCurrentReportChart();
+
+    const canvas = document.getElementById("reportChart");
+
+    if (!canvas || typeof Chart === "undefined") {
+        return;
+    }
+
+    const config = getCurrentReportChartConfig();
+
+    if (!config || config.data.labels.length === 0) {
+        return;
+    }
+
+    currentReportChart = new Chart(canvas, config);
+}
+
 // RENDER COMING SOON REPORT
 function renderComingSoonReport(title, description) {
     return `
@@ -243,6 +457,11 @@ function renderTopSellingPokemonReport() {
                 </button>
             </div>
 
+            ${renderReportChartSection(
+                "Top Pokémons por vendas",
+                "Comparativo dos Pokémons mais vendidos no período selecionado."
+            )}
+
             <div class="report-pokemon-list">
                 ${cards}
             </div>
@@ -438,6 +657,11 @@ function renderTopSellingHAReport() {
                 </button>
             </div>
 
+            ${renderReportChartSection(
+                "Participação das HAs nas vendas",
+                "Distribuição das Hidden Abilities mais vendidas no período."
+            )}
+
             <div class="report-ha-list">
                 ${cards}
             </div>
@@ -551,6 +775,11 @@ function renderTopBuyersReport() {
                 </button>
             </div>
 
+            ${renderReportChartSection(
+                "Top compradores por valor",
+                "Comparativo do total comprado por player no período."
+            )}
+
             <div class="report-player-list">
                 ${cards}
             </div>
@@ -653,6 +882,11 @@ function renderTopDebtorsReport() {
                 </button>
             </div>
 
+            ${renderReportChartSection(
+                "Maiores pendências por player",
+                "Comparativo dos maiores valores pendentes no período."
+            )}
+
             <div class="report-player-list">
                 ${cards}
             </div>
@@ -672,23 +906,29 @@ function renderReportsModule() {
 
     if (currentReport === "top-pokemon") {
         reportsContent.innerHTML = renderTopSellingPokemonReport();
+        renderCurrentReportChart();
         return;
     }
 
     if (currentReport === "top-ha") {
         reportsContent.innerHTML = renderTopSellingHAReport();
+        renderCurrentReportChart();
         return;
     }
 
     if (currentReport === "top-buyers") {
         reportsContent.innerHTML = renderTopBuyersReport();
+        renderCurrentReportChart();
         return;
     }
 
     if (currentReport === "top-debtors") {
         reportsContent.innerHTML = renderTopDebtorsReport();
+        renderCurrentReportChart();
         return;
     }
+
+    destroyCurrentReportChart();
 }
 
 // GET REPORT CSV FILE NAME
