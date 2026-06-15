@@ -1,6 +1,6 @@
 // ARCHIVE ORDER
-function archiveOrder(orderId) {
-    const order = loadOrders().find((order) => order.id === orderId);
+async function archiveOrder(orderId) {
+    const order = await getOrderByIdFromSource(orderId);
 
     if (!order) {
         return;
@@ -17,10 +17,9 @@ function archiveOrder(orderId) {
     openModal(window.archiveConfirmModal);
 }
 
-btnConfirmArchive.addEventListener("click", () => {
-    const orders = loadOrders();
-
-    const order = orders.find((order) => order.id === selectedArchiveOrderId);
+// CONFIRM ARCHIVE ORDER
+async function confirmArchiveOrder() {
+    const order = await getOrderByIdFromSource(selectedArchiveOrderId);
 
     if (!order) {
         return;
@@ -32,21 +31,42 @@ btnConfirmArchive.addEventListener("click", () => {
         return;
     }
 
-    order.archived = true;
+    try {
+        if (shouldUseApiOrders()) {
+            await window.PXBROrdersApiService.update(selectedArchiveOrderId, {
+                archived: true
+            });
+        } else {
+            const orders = loadOrders();
 
-    saveOrders(orders);
+            const localOrder = orders.find((item) => item.id === selectedArchiveOrderId);
 
-    showSuccessToast("Encomenda arquivada com sucesso!");
+            if (!localOrder) {
+                return;
+            }
 
-    closeModal(window.archiveConfirmModal);
+            localOrder.archived = true;
 
-    orderDetailsModal.classList.add("hidden");
+            saveOrders(orders);
+        }
 
-    selectedArchiveOrderId = null;
+        showSuccessToast("Encomenda arquivada com sucesso!");
 
-    renderDashboard();
-    renderOrdersList();
-    renderFinanceModule();
-});
+        closeModal(window.archiveConfirmModal);
+
+        orderDetailsModal.classList.add("hidden");
+
+        selectedArchiveOrderId = null;
+
+        renderDashboard();
+        renderOrdersList();
+        renderFinanceModule();
+    } catch (error) {
+        showToast(error?.data?.message || error?.message || "Erro ao arquivar encomenda.", "error");
+    }
+}
+
+btnConfirmArchive.addEventListener("click", confirmArchiveOrder);
 
 window.archiveOrder = archiveOrder;
+window.confirmArchiveOrder = confirmArchiveOrder;
