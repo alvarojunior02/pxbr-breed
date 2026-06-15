@@ -1,5 +1,6 @@
 const PXBR_FEATURE_FLAGS = {
-    useApiPlayers: localStorage.getItem("pxbrUseApiPlayers") === "true"
+    useApiPlayers: localStorage.getItem("pxbrUseApiPlayers") === "true",
+    useApiOrders: localStorage.getItem("pxbrUseApiOrders") === "true"
 };
 
 // SET FEATURE FLAG

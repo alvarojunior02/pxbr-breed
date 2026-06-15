@@ -1,3 +1,49 @@
+// SHOULD USE API ORDERS
+function shouldUseApiOrders() {
+    return window.getPxbrFeatureFlag?.("useApiOrders") === true;
+}
+
+// GET ORDER API FILTERS
+function getOrderApiFilters() {
+    const searchTerm = orderSearchPlayer.value.trim();
+    const selectedStatus = orderStatusFilter.value;
+    const paymentFilter = orderPaymentFilter.value;
+    const archiveFilter = orderArchiveFilter.value;
+
+    const filters = {};
+
+    if (searchTerm) {
+        filters.search = searchTerm;
+    }
+
+    if (selectedStatus) {
+        filters.status = selectedStatus;
+    }
+
+    if (paymentFilter) {
+        filters.paymentStatus = paymentFilter;
+    }
+
+    if (archiveFilter === "active") {
+        filters.archived = false;
+    }
+
+    if (archiveFilter === "archived") {
+        filters.archived = true;
+    }
+
+    return filters;
+}
+
+// LOAD ORDERS FROM SOURCE
+async function loadOrdersFromSource() {
+    if (shouldUseApiOrders()) {
+        return window.PXBROrdersApiService.getOrders(getOrderApiFilters());
+    }
+
+    return getFilteredOrders();
+}
+
 // GET FILTERED ORDERS
 function getFilteredOrders() {
     const orders = loadOrders();
@@ -47,32 +93,63 @@ function getFilteredOrders() {
 }
 
 // RENDER ORDERS LIST
-function renderOrdersList() {
-    const orders = getFilteredOrders().sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-    );
-
+async function renderOrdersList() {
     const ordersList = document.getElementById("ordersList");
     const ordersCount = document.getElementById("ordersCount");
 
-    ordersCount.textContent = orders.length;
+    ordersList.innerHTML = `
+        <p class="empty-state">
+            Carregando encomendas...
+        </p>
+    `;
 
-    ordersList.innerHTML = "";
+    try {
+        const orders = (await loadOrdersFromSource()).sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
 
-    orders.forEach((order) => {
-        const card = document.createElement("div");
+        ordersCount.textContent = orders.length;
 
-        card.classList.add("order-card");
+        ordersList.innerHTML = "";
 
-        card.innerHTML = createOrderCard(order);
+        if (orders.length === 0) {
+            ordersList.innerHTML = `
+                <p class="empty-state">
+                    Nenhuma encomenda encontrada.
+                </p>
+            `;
 
-        ordersList.appendChild(card);
-    });
+            return;
+        }
+
+        orders.forEach((order) => {
+            const card = document.createElement("div");
+
+            card.classList.add("order-card");
+
+            card.innerHTML = createOrderCard(order);
+
+            ordersList.appendChild(card);
+        });
+    } catch (error) {
+        ordersCount.textContent = "0";
+
+        ordersList.innerHTML = `
+            <p class="empty-state">
+                Não foi possível carregar as encomendas.
+            </p>
+        `;
+
+        showToast(
+            error?.data?.message || error?.message || "Erro ao carregar encomendas.",
+            "error"
+        );
+    }
 }
 
 // CREATE ORDER CARD
 function createOrderCard(order) {
-    const player = loadPlayers().find((player) => player.id === order.playerId);
+    const player = order.player || loadPlayers().find((player) => player.id === order.playerId);
 
     const statusSummary = getOrderStatusSummary(order);
 
@@ -203,3 +280,5 @@ orderArchiveFilter.addEventListener("change", renderOrdersList);
 orderPaymentFilter.addEventListener("change", renderOrdersList);
 
 window.renderOrdersList = renderOrdersList;
+window.shouldUseApiOrders = shouldUseApiOrders;
+window.loadOrdersFromSource = loadOrdersFromSource;
