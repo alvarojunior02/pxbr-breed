@@ -64,6 +64,48 @@ function getDashboardMetrics() {
     };
 }
 
+// GET DASHBOARD METRICS FROM API
+async function getDashboardMetricsFromApi() {
+    const [summary, statusReport] = await Promise.all([
+        window.PXBRReportsApiService.getDashboardSummary(),
+        window.PXBRReportsApiService.getOrdersByStatus()
+    ]);
+
+    const activeStatusCounts = {};
+    const archivedStatusCounts = {};
+
+    ORDER_STATUS.forEach((status) => {
+        activeStatusCounts[status.value] = 0;
+        archivedStatusCounts[status.value] = 0;
+    });
+
+    statusReport.forEach((item) => {
+        activeStatusCounts[item.status] = item.quantity;
+    });
+
+    return {
+        activeOrders: summary.activeOrders,
+        activePokemons: summary.totalPokemons,
+        players: summary.totalPlayers,
+        archivedOrders: summary.archivedOrders,
+        activeOrdersValue: summary.totalRevenue,
+        totalReceived: summary.paidRevenue,
+        totalPending: summary.pendingRevenue,
+        archivedOrdersValue: 0,
+        activeStatusCounts,
+        archivedStatusCounts
+    };
+}
+
+// GET DASHBOARD METRICS FROM SOURCE
+async function getDashboardMetricsFromSource() {
+    if (window.shouldUseApiOrders?.()) {
+        return getDashboardMetricsFromApi();
+    }
+
+    return getDashboardMetrics();
+}
+
 // CREATE DASHBOARD GROUP
 function createDashboardGroup(title, content, extraClass = "") {
     return `
@@ -84,72 +126,79 @@ function createDashboardGroup(title, content, extraClass = "") {
 }
 
 // RENDER DASHBOARD
-function renderDashboard() {
+async function renderDashboard() {
     const dashboardCards = document.getElementById("dashboardCards");
 
-    const metrics = getDashboardMetrics();
-
-    const overviewCards = `
-        <div class="dashboard-card">
-            <strong>Ativas</strong>
-            <span>${metrics.activeOrders}</span>
-        </div>
-
-        <div class="dashboard-card">
-            <strong>Pokémons em Breed</strong>
-            <span>${metrics.activePokemons}</span>
-        </div>
-
-        <div class="dashboard-card">
-            <strong>Clientes</strong>
-            <span>${metrics.players}</span>
-        </div>
-
-        <div class="dashboard-card">
-            <strong>Arquivadas</strong>
-            <span>${metrics.archivedOrders}</span>
-        </div>
+    dashboardCards.innerHTML = `
+        <p class="empty-state">
+            Carregando dashboard...
+        </p>
     `;
 
-    const financeCards = `
-        <div class="dashboard-card">
-            <strong>Ativas</strong>
-            <span>${formatMoney(metrics.activeOrdersValue)}</span>
-        </div>
+    try {
+        const metrics = await getDashboardMetricsFromSource();
 
-        <div class="dashboard-card">
-            <strong>Recebido</strong>
-            <span>${formatMoney(metrics.totalReceived)}</span>
-        </div>
+        const overviewCards = `
+            <div class="dashboard-card">
+                <strong>Ativas</strong>
+                <span>${metrics.activeOrders}</span>
+            </div>
 
-        <div class="dashboard-card">
-            <strong>A Receber</strong>
-            <span>${formatMoney(metrics.totalPending)}</span>
-        </div>
+            <div class="dashboard-card">
+                <strong>Pokémons em Breed</strong>
+                <span>${metrics.activePokemons}</span>
+            </div>
 
-        <div class="dashboard-card">
-            <strong>Arquivadas</strong>
-            <span>${formatMoney(metrics.archivedOrdersValue)}</span>
-        </div>
-    `;
+            <div class="dashboard-card">
+                <strong>Clientes</strong>
+                <span>${metrics.players}</span>
+            </div>
 
-    const statusCards = ORDER_STATUS.map((status) => {
-        const activeCount = metrics.activeStatusCounts[status.value];
+            <div class="dashboard-card">
+                <strong>Arquivadas</strong>
+                <span>${metrics.archivedOrders}</span>
+            </div>
+        `;
 
-        const archivedCount = metrics.archivedStatusCounts[status.value];
+        const financeCards = `
+            <div class="dashboard-card">
+                <strong>Ativas</strong>
+                <span>${formatMoney(metrics.activeOrdersValue)}</span>
+            </div>
 
-        const archivedHtml =
-            status.value === "DELIVERED" && archivedCount > 0
-                ? `
-                        <small class="dashboard-archived-count">
-                            (+${archivedCount} Arquiv.)
-                        </small>
-                    `
-                : "";
+            <div class="dashboard-card">
+                <strong>Recebido</strong>
+                <span>${formatMoney(metrics.totalReceived)}</span>
+            </div>
 
-        const statusLabel = status.value === "NEEDS_FEMALE" ? "Precisa Cap. F" : status.name;
+            <div class="dashboard-card">
+                <strong>A Receber</strong>
+                <span>${formatMoney(metrics.totalPending)}</span>
+            </div>
 
-        return `
+            <div class="dashboard-card">
+                <strong>Arquivadas</strong>
+                <span>${formatMoney(metrics.archivedOrdersValue)}</span>
+            </div>
+        `;
+
+        const statusCards = ORDER_STATUS.map((status) => {
+            const activeCount = metrics.activeStatusCounts[status.value] || 0;
+
+            const archivedCount = metrics.archivedStatusCounts[status.value] || 0;
+
+            const archivedHtml =
+                status.value === "DELIVERED" && archivedCount > 0
+                    ? `
+                            <small class="dashboard-archived-count">
+                                (+${archivedCount} Arquiv.)
+                            </small>
+                        `
+                    : "";
+
+            const statusLabel = status.value === "NEEDS_FEMALE" ? "Precisa Cap. F" : status.name;
+
+            return `
                 <button
                     type="button"
                     class="dashboard-card dashboard-card-button"
@@ -166,16 +215,29 @@ function renderDashboard() {
 
                 </button>
             `;
-    }).join("");
+        }).join("");
 
-    dashboardCards.innerHTML =
-        createDashboardGroup("Resumo geral", overviewCards) +
-        createDashboardGroup("Valores", financeCards) +
-        createDashboardGroup("Status das Breeds", statusCards, "dashboard-status-group") +
-        createDashboardGroup("Top Compradores", renderTopBuyers(), "dashboard-top-buyers-group");
+        dashboardCards.innerHTML =
+            createDashboardGroup("Resumo geral", overviewCards) +
+            createDashboardGroup("Valores", financeCards) +
+            createDashboardGroup("Status das Breeds", statusCards, "dashboard-status-group") +
+            createDashboardGroup(
+                "Top Compradores",
+                await renderTopBuyers(),
+                "dashboard-top-buyers-group"
+            );
 
-    renderDashboardRecentOrders();
-    renderDashboardRecentTransactions();
+        renderDashboardRecentOrders();
+        renderDashboardRecentTransactions();
+    } catch (error) {
+        dashboardCards.innerHTML = `
+            <p class="empty-state">
+                Não foi possível carregar o dashboard.
+            </p>
+        `;
+
+        showToast(error?.data?.message || error?.message || "Erro ao carregar dashboard.", "error");
+    }
 }
 
 // GET RECENT ORDERS
@@ -248,7 +310,22 @@ function filterOrdersByStatus(statusValue) {
 }
 
 // GET TOP BUYERS
-function getTopBuyers(limit = 5) {
+async function getTopBuyers(limit = 5) {
+    if (window.shouldUseApiOrders?.()) {
+        const payments = await window.PXBRReportsApiService.getPaymentsByPlayer({
+            limit
+        });
+
+        return payments.map((item) => ({
+            player: {
+                id: item.playerId,
+                nick: item.nick,
+                avatarUrl: getMinecraftAvatarUrl(item.nick)
+            },
+            totalPaid: item.totalPaid
+        }));
+    }
+
     const players = loadPlayers();
 
     const transactions = loadTransactions();
@@ -270,8 +347,8 @@ function getTopBuyers(limit = 5) {
 }
 
 // RENDER TOP BUYERS
-function renderTopBuyers() {
-    const topBuyers = getTopBuyers();
+async function renderTopBuyers() {
+    const topBuyers = await getTopBuyers();
 
     if (topBuyers.length === 0) {
         return `
@@ -307,15 +384,23 @@ function renderTopBuyers() {
 }
 
 // GET RECENT TRANSACTIONS
-function getRecentTransactions(limit = 5) {
+async function getRecentTransactions(limit = 5) {
+    if (window.shouldUseApiOrders?.()) {
+        const transactions = await window.PXBRTransactionsApiService.getTransactions();
+
+        return transactions
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+            .slice(0, limit);
+    }
+
     return loadTransactions()
         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         .slice(0, limit);
 }
 
 // RENDER DASHBOARD RECENT TRANSACTIONS
-function renderDashboardRecentTransactions() {
-    const transactions = getRecentTransactions();
+async function renderDashboardRecentTransactions() {
+    const transactions = await getRecentTransactions();
 
     if (transactions.length === 0) {
         dashboardRecentTransactions.innerHTML = `
@@ -329,7 +414,9 @@ function renderDashboardRecentTransactions() {
 
     const rows = transactions
         .map((transaction) => {
-            const player = loadPlayers().find((player) => player.id === transaction.playerId);
+            const player =
+                transaction.player ||
+                loadPlayers().find((player) => player.id === transaction.playerId);
 
             return `
                     <tr>
