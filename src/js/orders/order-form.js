@@ -191,6 +191,65 @@ function buildOrder() {
     };
 }
 
+// MAP ORDER TO API PAYLOAD
+function mapOrderToApiPayload(order) {
+    return {
+        playerId: order.playerId,
+        subtotal: order.subtotal,
+        discount: order.discount,
+        total: order.total,
+        paidAmount: order.paidAmount || 0,
+        paid: Boolean(order.paid),
+        needsFemale: Boolean(order.needsFemale),
+        observations: order.observations || null,
+        archived: Boolean(order.archived),
+        pokemons: order.pokemons.map(mapOrderPokemonToApiPayload)
+    };
+}
+
+// MAP ORDER POKEMON TO API PAYLOAD
+function mapOrderPokemonToApiPayload(pokemon) {
+    return {
+        pokemonId: Number(pokemon.pokemonId),
+        pokemonName: pokemon.pokemonName,
+        sprite: pokemon.sprite || null,
+        breedPokemonId: pokemon.breedPokemonId ? Number(pokemon.breedPokemonId) : null,
+        breedPokemonName: pokemon.breedPokemonName || null,
+        nature: pokemon.nature || "Não definida",
+        abilityName: pokemon.ability?.name || pokemon.abilityName || null,
+        abilityIsHa: Boolean(pokemon.ability?.isHA || pokemon.abilityIsHa),
+        regionalForm: pokemon.regionalForm || null,
+        regionalFormLabel: pokemon.regionalFormLabel || null,
+        regionalFormDisplayName: pokemon.regionalFormDisplayName || null,
+        value: pokemon.value || 0,
+        breedable: Boolean(pokemon.breedable),
+        status: pokemon.status || getInitialPokemonStatus() || "PENDING"
+    };
+}
+
+// CREATE ORDER FROM SOURCE
+async function createOrderFromSource(orderData) {
+    const order = createPersistedOrder(orderData);
+
+    if (shouldUseApiOrders()) {
+        return window.PXBROrdersApiService.create(mapOrderToApiPayload(order));
+    }
+
+    saveOrder(order);
+
+    if (order.paidAmount > 0) {
+        const transaction = createOrderPaymentTransaction({
+            amount: order.paidAmount,
+            playerId: order.playerId,
+            orderId: order.id
+        });
+
+        saveTransaction(transaction);
+    }
+
+    return order;
+}
+
 // VALIDATE ORDER
 function validateOrder(order) {
     if (!order.playerId) {
@@ -1322,39 +1381,38 @@ btnOpenCreateOrderModal.forEach((button) => {
 
 btnClearCreateOrder.addEventListener("click", resetOrderForm);
 
-btnConfirmOrder.addEventListener("click", () => {
+btnConfirmOrder.addEventListener("click", async () => {
     const orderData = buildOrder();
 
-    const order = createPersistedOrder(orderData);
+    btnConfirmOrder.disabled = true;
+    btnConfirmOrder.textContent = "Salvando...";
 
-    saveOrder(order);
+    try {
+        await createOrderFromSource(orderData);
 
-    showSuccessToast("Encomenda cadastrada com sucesso!");
+        showSuccessToast("Encomenda cadastrada com sucesso!");
 
-    if (order.paidAmount > 0) {
-        const transaction = createOrderPaymentTransaction({
-            amount: order.paidAmount,
+        renderDashboard();
+        renderOrdersList();
+        renderPlayersModule();
+        renderFinanceModule();
 
-            playerId: order.playerId,
+        resetOrderForm();
 
-            orderId: order.id
-        });
+        orderModal.classList.add("hidden");
 
-        saveTransaction(transaction);
+        closeCreateOrderModal();
+
+        showSection("ordersSection");
+    } catch (error) {
+        showToast(
+            error?.data?.message || error?.message || "Erro ao cadastrar encomenda.",
+            "error"
+        );
+    } finally {
+        btnConfirmOrder.disabled = false;
+        btnConfirmOrder.textContent = "Confirmar Encomenda";
     }
-
-    renderDashboard();
-    renderOrdersList();
-    renderPlayersModule();
-    renderFinanceModule();
-
-    resetOrderForm();
-
-    orderModal.classList.add("hidden");
-
-    closeCreateOrderModal();
-
-    showSection("ordersSection");
 });
 
 orderPlayerSearch.addEventListener("input", (e) => {
@@ -1404,3 +1462,6 @@ window.closeCreateOrderModal = closeCreateOrderModal;
 window.closeOrderConfirmationModal = closeOrderConfirmationModal;
 window.selectOrderPlayer = selectOrderPlayer;
 window.refreshOrderPokemonOwnedHA = refreshOrderPokemonOwnedHA;
+window.mapOrderToApiPayload = mapOrderToApiPayload;
+window.mapOrderPokemonToApiPayload = mapOrderPokemonToApiPayload;
+window.createOrderFromSource = createOrderFromSource;
