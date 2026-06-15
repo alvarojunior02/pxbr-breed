@@ -7,14 +7,6 @@ const BREEDABLE_UNDISCOVERED_EXCEPTIONS = [
     490 // Manaphy
 ];
 
-const POKEMON_REGIONAL_FORMS = [
-    { value: "", label: "Forma padrão" },
-    { value: "ALOLA", label: "Alola" },
-    { value: "GALAR", label: "Galar" },
-    { value: "HISUI", label: "Hisui" },
-    { value: "PALDEA", label: "Paldea" }
-];
-
 // IS POKEMON BREEDABLE
 function isPokemonBreedable(pokemon) {
     const eggGroups = pokemon.eggGroups || [];
@@ -140,10 +132,17 @@ function getPokemonRowData(row) {
 
     const pokemon = getPokemonById(row.dataset.pokemonId);
 
+    const regionalForm = getPokemonRegionalForm(pokemon.id, regionalFormSelect?.value || "");
+    const selectedSprite = regionalForm?.sprite || getPokemonThumbnail(pokemon.id, pokemon.sprite);
+    const selectedPokemonName = regionalForm?.displayName || row.dataset.pokemonName;
+
     return {
         pokemonId: Number(row.dataset.pokemonId),
-        pokemonName: row.dataset.pokemonName,
-        sprite: getPokemonThumbnail(pokemon.id, pokemon.sprite),
+        pokemonName: selectedPokemonName,
+        sprite: selectedSprite,
+        regionalForm: regionalForm?.value || "",
+        regionalFormLabel: regionalForm?.label || "",
+        regionalFormDisplayName: regionalForm?.displayName || "",
         breedPokemonId: Number(row.dataset.breedPokemonId),
         breedPokemonName: row.dataset.breedPokemonName,
         nature: natureSelect.value,
@@ -697,22 +696,6 @@ function createPokemonOrderRow() {
 
                 <div>
                     <label>
-                        Forma regional
-                    </label>
-
-                    <select
-                        class="pokemon-regional-form"
-                        disabled>
-
-                        <option value="">
-                            Forma padrão
-                        </option>
-
-                    </select>
-                </div>
-
-                <div>
-                    <label>
                         Ability
                     </label>
 
@@ -739,6 +722,22 @@ function createPokemonOrderRow() {
                         disabled>
                 </div>
 
+                <div class="pokemon-regional-form-wrapper hidden">
+                    <label>
+                        Forma regional
+                    </label>
+
+                    <select
+                        class="pokemon-regional-form"
+                        disabled>
+
+                        <option value="">
+                            Forma padrão
+                        </option>
+
+                    </select>
+                </div>
+
             </div>
 
             <div class="owned-ha-order-info hidden"></div>
@@ -756,6 +755,7 @@ function createPokemonOrderRow() {
     const abilitySelect = row.querySelector(".pokemon-ability");
     const natureSelect = row.querySelector(".pokemon-nature");
     const regionalFormSelect = row.querySelector(".pokemon-regional-form");
+    const regionalFormWrapper = row.querySelector(".pokemon-regional-form-wrapper");
     const breedableToggle = row.querySelector(".pokemon-breedable");
     const pokemonSearchInput = row.querySelector(".pokemon-search");
     const pokemonAutocomplete = row.querySelector(".pokemon-autocomplete");
@@ -769,9 +769,12 @@ function createPokemonOrderRow() {
     function enablePokemonFields() {
         abilitySelect.disabled = false;
         natureSelect.disabled = false;
-        regionalFormSelect.disabled = false;
         valueInput.disabled = false;
         breedableToggle.disabled = false;
+
+        if (!regionalFormWrapper.classList.contains("hidden")) {
+            regionalFormSelect.disabled = false;
+        }
 
         pokemonExtraFields.classList.remove("hidden");
         breedableWrapper.classList.remove("hidden");
@@ -796,10 +799,25 @@ function createPokemonOrderRow() {
         natureSelect.value = POKEMON_NATURES[0].name;
     }
 
-    function populateRegionalFormSelect() {
-        regionalFormSelect.innerHTML = "";
+    // POPULATE REGIONAL FORM SELECT
+    function populateRegionalFormSelect(pokemon) {
+        const regionalForms = getPokemonRegionalForms(pokemon.id);
 
-        POKEMON_REGIONAL_FORMS.forEach((form) => {
+        regionalFormSelect.innerHTML = `
+        <option value="">
+            Forma padrão
+        </option>
+    `;
+
+        regionalFormSelect.value = "";
+        regionalFormSelect.disabled = true;
+        regionalFormWrapper.classList.add("hidden");
+
+        if (regionalForms.length === 0) {
+            return;
+        }
+
+        regionalForms.forEach((form) => {
             const option = document.createElement("option");
 
             option.value = form.value;
@@ -808,7 +826,7 @@ function createPokemonOrderRow() {
             regionalFormSelect.appendChild(option);
         });
 
-        regionalFormSelect.value = "";
+        regionalFormWrapper.classList.remove("hidden");
     }
 
     pokemonSearchInput.addEventListener("input", (e) => {
@@ -863,7 +881,7 @@ function createPokemonOrderRow() {
 
                 populateNatureSelect();
 
-                populateRegionalFormSelect();
+                populateRegionalFormSelect(pokemon);
 
                 enablePokemonFields();
 
@@ -892,20 +910,32 @@ function createPokemonOrderRow() {
         applyOwnedHAPriceToRow(row, selectedPokemon);
     });
 
+    regionalFormSelect.addEventListener("change", () => {
+        if (!selectedPokemon) {
+            return;
+        }
+
+        renderPokemonInfo(selectedPokemon);
+    });
+
     function renderPokemonInfo(pokemon) {
         const basePokemon = getBasePokemon(pokemon.id);
+
+        const selectedRegionalForm = getPokemonRegionalForm(pokemon.id, regionalFormSelect.value);
+        const displayName = selectedRegionalForm?.displayName || pokemon.name;
+        const displaySprite = selectedRegionalForm?.sprite || pokemon.sprite;
 
         pokemonSelectedInfo.innerHTML = `
             <div class="pokemon-info-card">
                 <div class="pokemon-info-main">
                     <img
-                        src="${pokemon.sprite}"
+                        src="${displaySprite}"
                         width="64">
 
                     <div>
                         <strong>
                             #${pokemon.id}
-                            ${pokemon.name}
+                            ${displayName}
                         </strong>
 
                         <p>
