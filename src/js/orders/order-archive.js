@@ -54,6 +54,10 @@ async function confirmArchiveOrder() {
 
         closeModal(window.archiveConfirmModal);
 
+        if (typeof unlockPageScroll === "function") {
+            unlockPageScroll();
+        }
+
         orderDetailsModal.classList.add("hidden");
 
         selectedArchiveOrderId = null;

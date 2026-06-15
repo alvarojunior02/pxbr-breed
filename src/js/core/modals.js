@@ -13,16 +13,28 @@ function openModal(modalElement) {
     document.body.classList.add("modal-open");
 }
 
+// UNLOCK PAGE SCROLL
+function unlockPageScroll() {
+    document.body.classList.remove("modal-open");
+    document.body.classList.remove("no-scroll");
+    document.body.classList.remove("overflow-hidden");
+    document.body.style.overflow = "";
+}
+
 // CLOSE MODAL
-function closeModal(modalElement) {
-    if (!modalElement) {
+function closeModal(modal) {
+    if (!modal) {
         return;
     }
 
-    modalElement.classList.add("hidden");
+    modal.classList.add("hidden");
 
-    if (!hasVisibleModal()) {
-        document.body.classList.remove("modal-open");
+    const hasOpenModal = Array.from(document.querySelectorAll(".modal")).some((item) => {
+        return !item.classList.contains("hidden");
+    });
+
+    if (!hasOpenModal) {
+        unlockPageScroll();
     }
 }
 
@@ -59,3 +71,5 @@ document.addEventListener("keydown", (event) => {
         closeModal(lastVisibleModal);
     }
 });
+
+window.unlockPageScroll = unlockPageScroll;
