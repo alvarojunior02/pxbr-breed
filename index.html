@@ -414,6 +414,26 @@
                         <button class="reports-period-button" data-period="all">Tudo</button>
                     </div>
 
+                    <div class="reports-custom-period-filter">
+                        <div class="form-field">
+                            <label for="reportStartDate">Data inicial</label>
+                            <input type="date" id="reportStartDate" />
+                        </div>
+
+                        <div class="form-field">
+                            <label for="reportEndDate">Data final</label>
+                            <input type="date" id="reportEndDate" />
+                        </div>
+
+                        <button type="button" id="btnApplyReportDateRange" class="button-primary">
+                            Aplicar filtro
+                        </button>
+
+                        <button type="button" id="btnClearReportDateRange" class="button-secondary">
+                            Limpar filtro
+                        </button>
+                    </div>
+
                     <div class="reports-tabs">
                         <button type="button" class="reports-tab active" data-report="top-pokemon">
                             🏆 Pokémons mais vendidos

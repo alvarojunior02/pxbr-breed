@@ -373,6 +373,33 @@
     height: 320px;
 }
 
+.reports-custom-period-filter {
+    align-items: end;
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(2, minmax(160px, 220px)) auto auto;
+    margin-bottom: 1rem;
+}
+
+.reports-custom-period-filter .form-field {
+    margin: 0;
+}
+
+.reports-custom-period-filter input[type="date"] {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--text-color);
+    min-height: 42px;
+    padding: 0.65rem 0.75rem;
+}
+
+@media (max-width: 768px) {
+    .reports-custom-period-filter {
+        grid-template-columns: 1fr;
+    }
+}
+
 @media (max-width: 640px) {
     .report-list-header {
         flex-direction: column;

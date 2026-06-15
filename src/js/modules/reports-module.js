@@ -20,22 +20,6 @@ const REPORT_PERIOD_LABELS = {
     all: "Tudo"
 };
 
-const reportsContent = document.getElementById("reportsContent");
-const reportTabs = document.querySelectorAll(".reports-tab");
-const reportPeriodButtons = document.querySelectorAll(".reports-period-button");
-
-const reportCsvExportConfirmModal = document.getElementById("reportCsvExportConfirmModal");
-const reportCsvExportSummary = document.getElementById("reportCsvExportSummary");
-const btnCloseReportCsvExportModal = document.getElementById("btnCloseReportCsvExportModal");
-const btnConfirmReportCsvExport = document.getElementById("btnConfirmReportCsvExport");
-
-let pendingReportCsvExport = null;
-
-let currentReport = "top-pokemon";
-let currentReportsPeriod = "7days";
-
-let currentReportChart = null;
-
 const REPORT_CHART_COLORS = [
     "#3b82f6",
     "#22c55e",
@@ -48,6 +32,45 @@ const REPORT_CHART_COLORS = [
     "#84cc16",
     "#64748b"
 ];
+
+const reportsContent = document.getElementById("reportsContent");
+const reportTabs = document.querySelectorAll(".reports-tab");
+const reportPeriodButtons = document.querySelectorAll(".reports-period-button");
+const reportStartDate = document.getElementById("reportStartDate");
+const reportEndDate = document.getElementById("reportEndDate");
+const btnApplyReportDateRange = document.getElementById("btnApplyReportDateRange");
+const btnClearReportDateRange = document.getElementById("btnClearReportDateRange");
+
+const reportCsvExportConfirmModal = document.getElementById("reportCsvExportConfirmModal");
+const reportCsvExportSummary = document.getElementById("reportCsvExportSummary");
+const btnCloseReportCsvExportModal = document.getElementById("btnCloseReportCsvExportModal");
+const btnConfirmReportCsvExport = document.getElementById("btnConfirmReportCsvExport");
+
+let pendingReportCsvExport = null;
+
+let currentReport = "top-pokemon";
+let currentReportsPeriod = "7days";
+let currentReportsCustomDateRange = {
+    startDate: "",
+    endDate: ""
+};
+
+let currentReportChart = null;
+
+// GET CURRENT REPORT PERIOD LABEL
+function getCurrentReportPeriodLabel() {
+    if (currentReportsPeriod !== "custom") {
+        return REPORT_PERIOD_LABELS[currentReportsPeriod];
+    }
+
+    const { startDate, endDate } = currentReportsCustomDateRange;
+
+    if (!startDate || !endDate) {
+        return "Período customizado";
+    }
+
+    return `${formatDate(startDate)} até ${formatDate(endDate)}`;
+}
 
 // RENDER REPORT CHART SECTION
 function renderReportChartSection(title, description) {
@@ -270,6 +293,20 @@ function getOrderReportDate(order) {
     return new Date(order.createdAt || order.updatedAt || order.archivedAt || 0);
 }
 
+// GET DATE AT START OF DAY
+function getDateAtStartOfDay(dateValue) {
+    const date = new Date(`${dateValue}T00:00:00`);
+
+    return date;
+}
+
+// GET DATE AT END OF DAY
+function getDateAtEndOfDay(dateValue) {
+    const date = new Date(`${dateValue}T23:59:59`);
+
+    return date;
+}
+
 // GET FILTERED ORDERS BY REPORT PERIOD
 function getFilteredOrdersByReportPeriod() {
     const orders = loadOrders();
@@ -283,12 +320,26 @@ function getFilteredOrdersByReportPeriod() {
             return currentReportsPeriod === "all";
         }
 
+        if (currentReportsPeriod === "custom") {
+            const { startDate, endDate } = currentReportsCustomDateRange;
+
+            if (!startDate || !endDate) {
+                return true;
+            }
+
+            const start = getDateAtStartOfDay(startDate);
+            const end = getDateAtEndOfDay(endDate);
+
+            return orderDate >= start && orderDate <= end;
+        }
+
         if (currentReportsPeriod === "today") {
             return orderDate.toDateString() === now.toDateString();
         }
 
         if (currentReportsPeriod === "7days") {
             const limitDate = new Date();
+
             limitDate.setDate(now.getDate() - 7);
             limitDate.setHours(0, 0, 0, 0);
 
@@ -297,6 +348,7 @@ function getFilteredOrdersByReportPeriod() {
 
         if (currentReportsPeriod === "30days") {
             const limitDate = new Date();
+
             limitDate.setDate(now.getDate() - 30);
             limitDate.setHours(0, 0, 0, 0);
 
@@ -897,7 +949,10 @@ function renderTopDebtorsReport() {
 // RENDER REPORTS MODULE
 function renderReportsModule() {
     reportPeriodButtons.forEach((button) => {
-        button.classList.toggle("active", button.dataset.period === currentReportsPeriod);
+        button.classList.toggle(
+            "active",
+            currentReportsPeriod !== "custom" && button.dataset.period === currentReportsPeriod
+        );
     });
 
     reportTabs.forEach((tab) => {
@@ -935,7 +990,12 @@ function renderReportsModule() {
 function getReportCsvFileName(reportType) {
     const reportName = REPORT_FILE_NAMES[reportType] || "report";
 
-    return `pxbr-report-${reportName}-${currentReportsPeriod}-${getCsvTimestamp()}.csv`;
+    const periodName =
+        currentReportsPeriod === "custom"
+            ? `${currentReportsCustomDateRange.startDate}-to-${currentReportsCustomDateRange.endDate}`
+            : currentReportsPeriod;
+
+    return `pxbr-report-${reportName}-${periodName}-${getCsvTimestamp()}.csv`;
 }
 
 // GET TOP POKEMONS CSV ROWS
@@ -1121,7 +1181,7 @@ function openReportCsvExportConfirmModal() {
             </div>
 
             <div class="backup-summary-item">
-                <strong>${REPORT_PERIOD_LABELS[currentReportsPeriod]}</strong>
+                <strong>${getCurrentReportPeriodLabel()}</strong>
                 <span>Período</span>
             </div>
 
@@ -1159,9 +1219,54 @@ function confirmReportCsvExport() {
     closeReportCsvExportConfirmModal();
 }
 
+// APPLY REPORT DATE RANGE
+function applyReportDateRange() {
+    const startDate = reportStartDate.value;
+    const endDate = reportEndDate.value;
+
+    if (!startDate || !endDate) {
+        showWarningToast("Informe a data inicial e a data final.");
+        return;
+    }
+
+    if (getDateAtStartOfDay(startDate) > getDateAtEndOfDay(endDate)) {
+        showWarningToast("A data inicial não pode ser maior que a data final.");
+        return;
+    }
+
+    currentReportsPeriod = "custom";
+    currentReportsCustomDateRange = {
+        startDate,
+        endDate
+    };
+
+    renderReportsModule();
+}
+
+// CLEAR REPORT DATE RANGE
+function clearReportDateRange() {
+    reportStartDate.value = "";
+    reportEndDate.value = "";
+
+    currentReportsPeriod = "7days";
+    currentReportsCustomDateRange = {
+        startDate: "",
+        endDate: ""
+    };
+
+    renderReportsModule();
+}
+
 reportPeriodButtons.forEach((button) => {
     button.addEventListener("click", () => {
         currentReportsPeriod = button.dataset.period;
+        currentReportsCustomDateRange = {
+            startDate: "",
+            endDate: ""
+        };
+
+        reportStartDate.value = "";
+        reportEndDate.value = "";
 
         renderReportsModule();
     });
@@ -1173,6 +1278,9 @@ reportTabs.forEach((tab) => {
         renderReportsModule();
     });
 });
+
+btnApplyReportDateRange.addEventListener("click", applyReportDateRange);
+btnClearReportDateRange.addEventListener("click", clearReportDateRange);
 
 btnConfirmReportCsvExport.addEventListener("click", confirmReportCsvExport);
 
