@@ -44,6 +44,15 @@ async function loadOrdersFromSource() {
     return getFilteredOrders();
 }
 
+// GET ORDER BY ID FROM SOURCE
+async function getOrderByIdFromSource(orderId) {
+    if (shouldUseApiOrders()) {
+        return window.PXBROrdersApiService.getById(orderId);
+    }
+
+    return loadOrders().find((order) => order.id === orderId);
+}
+
 // GET FILTERED ORDERS
 function getFilteredOrders() {
     const orders = loadOrders();
@@ -282,3 +291,4 @@ orderPaymentFilter.addEventListener("change", renderOrdersList);
 window.renderOrdersList = renderOrdersList;
 window.shouldUseApiOrders = shouldUseApiOrders;
 window.loadOrdersFromSource = loadOrdersFromSource;
+window.getOrderByIdFromSource = getOrderByIdFromSource;

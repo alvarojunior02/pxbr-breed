@@ -1,22 +1,29 @@
 // OPEN ORDER DETAILS
-function openOrderDetails(orderId) {
-    const order = loadOrders().find((order) => order.id === orderId);
+async function openOrderDetails(orderId) {
+    try {
+        const order = await getOrderByIdFromSource(orderId);
 
-    if (!order) {
-        showWarningToast("Encomenda não encontrada.");
-        return;
+        if (!order) {
+            showWarningToast("Encomenda não encontrada.");
+            return;
+        }
+
+        renderOrderDetails(order);
+
+        openModal(window.orderDetailsModal);
+    } catch (error) {
+        showToast(
+            error?.data?.message || error?.message || "Erro ao carregar detalhes da encomenda.",
+            "error"
+        );
     }
-
-    renderOrderDetails(order);
-
-    openModal(window.orderDetailsModal);
 }
 
 // RENDER ORDER DETAILS
 function renderOrderDetails(order) {
     window.currentOrderId = order.id;
 
-    const player = loadPlayers().find((player) => player.id === order.playerId);
+    const player = order.player || loadPlayers().find((player) => player.id === order.playerId);
 
     const pokemonHtml = order.pokemons.map((pokemon) => createPokemonDetailsCard(pokemon)).join("");
 
@@ -129,6 +136,30 @@ function renderOrderDetails(order) {
     `;
 }
 
+// RENDER ORDER POKEMON ABILITY TEXT
+function renderOrderPokemonAbilityText(pokemon) {
+    if (pokemon.ability) {
+        return renderAbilityText(pokemon.ability);
+    }
+
+    if (!pokemon.abilityName) {
+        return "-";
+    }
+
+    return `
+        ${pokemon.abilityName}
+        ${
+            pokemon.abilityIsHa
+                ? `
+                    <span class="ability-ha">
+                        (HA)
+                    </span>
+                `
+                : ""
+        }
+    `;
+}
+
 // CREATE POKEMON DETAILS CARD
 function createPokemonDetailsCard(pokemon) {
     const nature = getNatureByName(pokemon.nature);
@@ -185,7 +216,7 @@ function createPokemonDetailsCard(pokemon) {
 
             <p>
                 Ability:
-                ${renderAbilityText(pokemon.ability)}
+                ${renderOrderPokemonAbilityText(pokemon)}
             </p>
 
             <p>
