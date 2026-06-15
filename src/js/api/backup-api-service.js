@@ -5,9 +5,17 @@ async function exportApiBackup() {
     return unwrapPxbrBackupApiData(result);
 }
 
+// NORMALIZE API BACKUP IMPORT PAYLOAD
+function normalizeApiBackupImportPayload(backup) {
+    return backup?.data || backup;
+}
+
 // IMPORT API BACKUP
 async function importApiBackup(backup) {
-    const result = await window.PXBRApiClient.post("/backup/import", backup);
+    const result = await window.PXBRApiClient.post(
+        "/backup/import",
+        normalizeApiBackupImportPayload(backup)
+    );
 
     return unwrapPxbrBackupApiData(result);
 }
