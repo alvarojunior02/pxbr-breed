@@ -163,6 +163,12 @@ body.auth-locked .app-layout {
     display: none;
 }
 
+@media (min-width: 901px) {
+    .sidebar.collapsed .authenticated-user-box {
+        display: none;
+    }
+}
+
 @media (max-width: 520px) {
     .auth-screen {
         padding: 16px;
