@@ -1302,6 +1302,16 @@ function shouldUseApiOwnedPokemons() {
 
 // MAP OWNED POKEMON FROM API
 function mapOwnedPokemonFromApi(item) {
+    const fallbackPokemon = getPokemonById(item.pokemonDexId);
+
+    const fallbackEvolutionLine = fallbackPokemon
+        ? getEvolutionChain(fallbackPokemon).map((chainPokemon) => ({
+              pokemonId: Number(chainPokemon.id),
+              pokemonName: chainPokemon.name.english,
+              sprite: getPokemonThumbnail(chainPokemon.id)
+          }))
+        : [];
+
     return {
         id: item.id,
         pokemonId: item.pokemonDexId,
@@ -1312,8 +1322,10 @@ function mapOwnedPokemonFromApi(item) {
         regionalForm: item.regionalForm || "",
         regionalFormLabel: item.regionalFormLabel || "",
         regionalFormDisplayName: item.regionalFormDisplayName || "",
-        eggGroups: item.eggGroups || [],
-        evolutionLine: item.evolutionLine || [],
+        eggGroups: item.eggGroups?.length
+            ? item.eggGroups
+            : fallbackPokemon?.profile?.egg?.map((eggGroup) => normalizeEggGroup(eggGroup)) || [],
+        evolutionLine: item.evolutionLine?.length ? item.evolutionLine : fallbackEvolutionLine,
         breedLevel: item.status,
         gender: item.gender,
         nature: item.nature || "",
