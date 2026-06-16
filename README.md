@@ -1,360 +1,252 @@
-# 🎮 PXBR Breed
+# PXBR Breed
 
-![Version](https://img.shields.io/badge/version-1.2-blue)
-![Status](https://img.shields.io/badge/status-active-success)
-![License](https://img.shields.io/badge/license-GPL--3.0-blue)
-![JavaScript](https://img.shields.io/badge/JavaScript-Vanilla-yellow)
-![Storage](https://img.shields.io/badge/storage-LocalStorage-green)
+Sistema web para gerenciamento de encomendas de breeds Pixelmon, clientes, Pokemons próprios, Hidden Abilities, financeiro, relatórios e backup.
 
-Sistema web para gerenciamento completo de encomendas, breeds, Hidden Abilities, clientes e controle financeiro em servidores Pixelmon.
+O projeto nasceu como uma aplicação em HTML, CSS e JavaScript puro com persistência local, e evoluiu para uma solução full-stack com autenticação JWT, API REST em NestJS e banco PostgreSQL.
 
----
+## Status
 
-# 📦 Versão Atual
+Projeto em desenvolvimento ativo.
 
-**Versão:** 1.2.x
+Ambientes atuais:
 
-**Status:** Em desenvolvimento ativo
+Produção:
+Frontend Vercel -> API Render -> PostgreSQL Supabase
 
-**Última atualização:** Junho/2026
+Desenvolvimento local:
+Frontend Live Server -> API Docker/local -> PostgreSQL Docker
 
----
+## Links
 
-# 📖 Sobre o Projeto
+Frontend produção:
+https://pxbr-breed.vercel.app
 
-O **PXBR Breed** foi desenvolvido para auxiliar breeders e vendedores de Pokémon em servidores Pixelmon.
+API produção:
+https://pxbr-breed-api.onrender.com/api
 
-O objetivo do projeto é centralizar todo o fluxo operacional de uma encomenda, desde o primeiro contato com o cliente até a entrega final do Pokémon.
+Swagger produção:
+https://pxbr-breed-api.onrender.com/api/docs
 
-O sistema substitui controles realizados através de:
+## Funcionalidades
 
-- Discord
-- Planilhas
-- Blocos de notas
-- Mensagens privadas
+### Autenticação
 
-Concentrando todas as informações em uma única aplicação.
+- Tela de login dedicada
+- Autenticação via JWT
+- Refresh token via cookie HTTP-only
+- Opção "manter-me logado"
+- Bloqueio da aplicação para usuários não autenticados
 
----
+### Dashboard
 
-# 🚀 Principais Funcionalidades
-
-## 📊 Dashboard
-
-- Resumo geral do sistema
-- Clientes cadastrados
+- Resumo geral da operação
 - Encomendas ativas
-- Receita total
-- Valores pendentes
+- Valores recebidos e pendentes
 - Últimas encomendas
 - Últimas transações
-- Estatísticas operacionais
+- Indicadores de status
+- Integração com dados vindos da API
 
----
-
-## 👥 Clientes
+### Clientes
 
 - Cadastro de clientes
 - Edição de clientes
-- Avatar Minecraft automático
-- Histórico de encomendas
-- Histórico financeiro
-- Resumo de compras
-- Controle de pendências
-- Validação de nickname Minecraft
+- Avatar automático por nick Minecraft
+- Histórico de encomendas por cliente
+- = Histórico de transações por cliente
+- Resumo financeiro do cliente
 
----
+### Encomendas
 
-## 📦 Encomendas
+- Criação de encomendas com múltiplos Pokemons
+- Seleção de cliente
+- Seleção de Pokemon, nature, ability, valor e forma regional
+- Suporte a Hidden Ability
+- Identificação de Pokemon próprio já cadastrado
+- Identificação de breed base/evolução
+- Detalhes completos da encomenda
+- Avanço de status por Pokemon
+- Histórico de status
+- Registro de pagamento
+- Arquivamento lógico
 
-- Cadastro de encomendas
-- Múltiplos Pokémon por pedido
-- Controle individual de status
-- Registro de pagamentos
-- Observações
-- Arquivamento
-- Detalhamento completo
-- Integração com Hidden Abilities
+### Pokemons
 
-### Status disponíveis
-
-| Status                    | Descrição                       |
-| ------------------------- | ------------------------------- |
-| 🟣 Precisa Capturar Fêmea | Necessário obter matriz inicial |
-| 🟡 A Começar              | Breed ainda não iniciada        |
-| 🔵 Em Andamento           | Breed sendo produzida           |
-| 🟢 Pronto                 | Pokémon finalizado              |
-| ✅ Entregue               | Pokémon entregue                |
-
----
-
-## 🧬 Hidden Abilities
-
-Sistema completo de gerenciamento de HAs.
-
-### Recursos
-
-- Cadastro manual
-- Edição
-- Exclusão
-- Gerenciamento centralizado
-- Integração automática com Pokédex
-- Integração com encomendas
-- Linha evolutiva completa
-- Preenchimento automático de valores
-- Controle de Pokémon castrados
-- Controle de breedáveis
-
----
-
-## 📚 Pokédex Integrada
-
-Pokédex local completa até a Geração 9.
-
-### Recursos
-
-- Busca por nome
-- Busca por número
-- Filtro por geração
-- Filtro por Egg Group
-- Filtro por Hidden Ability cadastrada
-- Informações detalhadas
-- Base Stats
+- Pokedex integrada
+- Busca por nome ou número
+- Filtros por HA, região, Egg Group e forma regional
+- Paginação
+- Detalhes do Pokemon
 - Linha evolutiva
-- Navegação sequencial
-- Sprites e thumbnails
+- Sprites/thumbnails
+- Cadastro em "Meus Pokemons"
+- Cadastro em "Meus HAs"
 
----
+### Meus Pokemons
 
-## 💰 Financeiro
+- Gerenciamento de Pokemons próprios/capturados
+- Status de breed: F6, F5 PFT, F5, F4 etc.
+- Gênero
+- Nature
+- Forma regional
+- Egg Groups
+- Linha evolutiva
+- Observações
+- Filtros por nome, status, gênero, nature e forma
 
-- Histórico financeiro completo
-- Controle de receitas
-- Controle de pagamentos
-- Valores pendentes
-- Filtros por período
-- Receita diária
-- Receita mensal
-- Receita total
+### Meus HAs
 
----
+- Cadastro manual de HAs
+- Edição de HAs
+- Nature opcional
+- Valores castrado/breedável
+- Linha evolutiva completa
+- Forma regional
+- Filtros por busca, nature e forma
+- Integração com encomendas
 
-## 📈 Relatórios
+### Financeiro
 
-Sistema completo de relatórios operacionais.
-
-### Disponíveis
-
-- Pokémon mais vendidos
-- Hidden Abilities mais vendidas
-- Clientes que mais compraram
-- Clientes que mais devem
-
-### Recursos
-
-- Filtro por período
-- Ranking automático
+- Transações vinculadas a players e encomendas
+- Pagamentos de encomenda
+- Histórico financeiro
+- Valores pagos e pendentes
 - Exportação CSV
-- Métricas agregadas
 
----
+### Relatórios
 
-## ⚙️ Configurações
+- Pokemons mais vendidos
+- HAs mais vendidas
+- Players que mais compraram
+- Players que mais devem
+- Gráficos com Chart.js
+- Filtros por período
+- Filtro customizado por data inicial/final
+- Exportação CSV
 
-- Configurações persistentes
-- Confirmação de alterações
-- Comparação Antes → Depois
-- Controle de comportamento do sistema
-- Integração com Hidden Abilities
+### Configurações e Backup
 
----
+- Configurações do sistema
+- Exportação de backup JSON
+- Importação de backup JSON
+- Prévia de backup antes da importação
+- Integração com API/backend
 
-## 💾 Backup
-
-Sistema completo de backup local.
-
-### Recursos
-
-- Exportação JSON
-- Importação JSON
-- Histórico de backups
-- Validação básica de integridade
-
----
-
-# 🏗️ Arquitetura
-
-O projeto segue arquitetura modular baseada em JavaScript Vanilla.
-
-## Core
-
-Responsável por:
-
-- Storage
-- Utilitários
-- Toasts
-- Modais
-- Exportações CSV
-- Helpers globais
-
-## Services
-
-Responsável pelas regras de negócio.
-
-## Modules
-
-Responsável pelas telas da aplicação.
-
-### Módulos atuais
-
-- Dashboard
-- Clientes
-- Encomendas
-- Pokémon
-- Hidden Abilities
-- Financeiro
-- Relatórios
-- Configurações
-
----
-
-# 🛠️ Tecnologias
-
-## Front-end
+### Tecnologias
 
 - HTML5
 - CSS3
-- JavaScript (Vanilla)
+- JavaScript Vanilla
+- Fetch API
+- Chart.js
+- Toastify
+- Vercel
+- API REST NestJS
+- PostgreSQL
 
-## Persistência
+## Estrutura do Projeto
 
-- LocalStorage
+pxbr-breed/
+assets/
+src/
+css/
+auth.css
+buttons.css
+dashboard.css
+finance.css
+forms.css
+global.css
+layout.css
+modals.css
+orders.css
+players.css
+pokemon.css
+reports.css
+responsive.css
+settings.css
+tables.css
+js/
+api/
+api-client.js
+auth-service.js
+auth-ui.js
+backup-api-service.js
+order-status-history-api-service.js
+orders-api-service.js
+owned-has-api-service.js
+owned-pokemon-api-service.js
+players-api-service.js
+reports-api-service.js
+settings-api-service.js
+transactions-api-service.js
+core/
+modules/
+dashboard-module.js
+finance-module.js
+players-module.js
+pokemon-module.js
+reports-module.js
+settings-module.js
+orders/
+services/
+index.html
+package.json
 
-## Ferramentas
+## Configuração Local
 
-- Node.js
-- JSON
+Instale as dependências:
+npm install
 
-## Serviços Externos
+Abra o index.html com Live Server.
+URL recomendada:
+http://127.0.0.1:5500/index.html
 
-- PokéAPI (manutenção da Pokédex)
-- mc-heads.net (avatar Minecraft)
+Quando aberto em localhost ou 127.0.0.1, o frontend usa automaticamente:
+http://127.0.0.1:3001/api
 
----
+Em produção, usa automaticamente:
+https://pxbr-breed-api.onrender.com/api
 
-# 📱 Responsividade
+### Alternar API Manualmente
 
-O sistema possui suporte para:
+Usar API de produção no frontend local:
+localStorage.setItem("pxbrApiBaseUrl", "https://pxbr-breed-api.onrender.com/api");
+location.reload();
 
-- Desktop
-- Notebook
-- Tablet
-- Smartphone
+Voltar para API local:
+localStorage.removeItem("pxbrApiBaseUrl");
+location.reload();
 
-### Recursos
+## Scripts
 
-- Sidebar responsiva
-- Menu mobile
-- Auto-collapse
-- Modais adaptativos
-- Layout mobile-first
+Formatar arquivos:
+npm run format
 
----
+Checar formatação:
+npm run format:check
 
-# 📊 Estado Atual
+Executar lint:
+npm run lint
 
-## Concluído
+## Backend
 
-- Dashboard
-- Clientes
-- Encomendas
-- Pokémon
-- Hidden Abilities
-- Financeiro
-- Relatórios
-- Configurações
-- Backup
+O backend fica em um projeto separado:
+pxbr-breed-api
 
-## Em evolução
+Ele fornece autenticação, persistência, relatórios, backup, financeiro e demais dados consumidos pelo frontend.
 
-- UX operacional
-- Histórico de status
-- Gestão avançada de breeds
+## Deploy
 
----
+O frontend está publicado na Vercel.
 
-# 🗺️ Roadmap
+A API precisa permitir o domínio do frontend via CORS:
+https://pxbr-breed.vercel.app
 
-## Próxima Versão
+## Licença
 
-### 📦 Encomendas
+GPL-3.0.
 
-- Histórico de mudanças de status
-- Modal de encomendas por cliente
-- Melhorias visuais dos cards
+## Autor
 
-### 📚 Pokédex
-
-- Paginação
-- Otimização de busca
-- Correção de sprites específicos
-
-### 📈 Relatórios
-
-- Novas métricas financeiras
-- Evolução temporal
-- Dashboards avançados
-
-### 🧬 Breed Management
-
-- Controle de Pokémon capturados
-- Sugestões automáticas de breed
-- Integração com encomendas
-
----
-
-# 🌐 Futuro
-
-- Backend próprio
-- API REST
-- Banco de dados relacional
-- Multiusuário
-- Sistema de permissões
-- Sincronização online
-- Login
-- Deploy web
-
----
-
-# 🎯 Objetivos do Projeto
-
-- Centralizar informações
-- Melhorar produtividade
-- Facilitar acompanhamento de breeds
-- Melhorar controle financeiro
-- Reduzir perda de informações
-- Escalar operação de breeders Pixelmon
-
----
-
-# 📜 Licença
-
-Este projeto está licenciado sob a:
-
-**GNU General Public License v3.0 (GPL-3.0)**
-
----
-
-# 👨‍💻 Autor
-
-Desenvolvido por **Alvaro Carneiro Junior**
-
-## 📬 Contato
-
-[![linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/alvaro-carneiro-junior-9a376038a/)
-
-[![mail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:alvarojunior02.dev@gmail.com)
-
----
-
-⭐ Caso o projeto tenha sido útil para você, considere deixar uma estrela no repositório.
+Desenvolvido por Alvaro Carneiro Junior.
+LinkedIn: https://www.linkedin.com/in/alvaro-carneiro-junior-9a376038a/
