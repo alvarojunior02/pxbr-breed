@@ -1,16 +1,42 @@
-const PXBR_API_BASE_URL =
-    window.PXBR_API_BASE_URL ||
-    localStorage.getItem("pxbrApiBaseUrl") ||
-    "http://127.0.0.1:3001/api";
+// GET DEFAULT API BASE URL
+function getDefaultPxbrApiBaseUrl() {
+    const isLocalhost =
+        window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+
+    if (isLocalhost) {
+        return "http://127.0.0.1:3001/api";
+    }
+
+    return "https://pxbr-breed-api.onrender.com/api";
+}
 
 const PXBR_AUTH_STORAGE_KEYS = {
     accessToken: "pxbrAccessToken",
     authUser: "pxbrAuthUser"
 };
 
+// GET API BASE URL
+function getPxbrApiBaseUrl() {
+    return (
+        window.PXBR_API_BASE_URL ||
+        localStorage.getItem("pxbrApiBaseUrl") ||
+        getDefaultPxbrApiBaseUrl()
+    );
+}
+
+// SET API BASE URL
+function setPxbrApiBaseUrl(baseUrl) {
+    if (!baseUrl) {
+        localStorage.removeItem("pxbrApiBaseUrl");
+        return;
+    }
+
+    localStorage.setItem("pxbrApiBaseUrl", baseUrl);
+}
+
 // API CLIENT
 async function pxbrApiRequest(path, options = {}) {
-    const url = `${PXBR_API_BASE_URL}${path}`;
+    const url = `${getPxbrApiBaseUrl()}${path}`;
     const accessToken = localStorage.getItem(PXBR_AUTH_STORAGE_KEYS.accessToken);
 
     const headers = {
@@ -53,9 +79,11 @@ async function parsePxbrApiResponse(response) {
 
 // CREATE API ERROR
 function createPxbrApiError(response, responseData) {
-    const error = new Error(
-        responseData?.message || responseData?.error || "Erro ao comunicar com a API."
-    );
+    const message = Array.isArray(responseData?.message)
+        ? responseData.message.join(", ")
+        : responseData?.message || responseData?.error || "Erro ao comunicar com a API.";
+
+    const error = new Error(message);
 
     error.status = response.status;
     error.data = responseData;
@@ -95,16 +123,6 @@ function pxbrApiDelete(path, options = {}) {
         ...options,
         method: "DELETE"
     });
-}
-
-// SET API BASE URL
-function setPxbrApiBaseUrl(baseUrl) {
-    localStorage.setItem("pxbrApiBaseUrl", baseUrl);
-}
-
-// GET API BASE URL
-function getPxbrApiBaseUrl() {
-    return localStorage.getItem("pxbrApiBaseUrl") || PXBR_API_BASE_URL;
 }
 
 window.PXBRApiClient = {
