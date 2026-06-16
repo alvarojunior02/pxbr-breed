@@ -339,9 +339,64 @@ function renderComingSoonReport(title, description) {
     `;
 }
 
+// PARSE REPORT DATE
+function parseReportDate(dateValue) {
+    if (!dateValue) {
+        return null;
+    }
+
+    if (dateValue instanceof Date) {
+        return Number.isNaN(dateValue.getTime()) ? null : dateValue;
+    }
+
+    if (typeof dateValue === "number") {
+        const date = new Date(dateValue);
+
+        return Number.isNaN(date.getTime()) ? null : date;
+    }
+
+    if (typeof dateValue !== "string") {
+        return null;
+    }
+
+    const trimmedDate = dateValue.trim();
+
+    if (!trimmedDate) {
+        return null;
+    }
+
+    const brDateMatch = trimmedDate.match(/^(\d{2})\/(\d{2})\/(\d{4})(?:,\s*(\d{2}):(\d{2}))?$/);
+
+    if (brDateMatch) {
+        const [, day, month, year, hour = "00", minute = "00"] = brDateMatch;
+        const date = new Date(
+            Number(year),
+            Number(month) - 1,
+            Number(day),
+            Number(hour),
+            Number(minute),
+            0,
+            0
+        );
+
+        return Number.isNaN(date.getTime()) ? null : date;
+    }
+
+    const date = new Date(trimmedDate);
+
+    return Number.isNaN(date.getTime()) ? null : date;
+}
+
 // GET ORDER REPORT DATE
 function getOrderReportDate(order) {
-    return new Date(order.createdAt || order.updatedAt || order.archivedAt || 0);
+    const reportDate =
+        parseReportDate(order.createdAt) ||
+        parseReportDate(order.date) ||
+        parseReportDate(order.created_at) ||
+        parseReportDate(order.updatedAt) ||
+        parseReportDate(order.archivedAt);
+
+    return reportDate || new Date(0);
 }
 
 // GET DATE AT START OF DAY
@@ -385,7 +440,13 @@ function getFilteredOrdersByReportPeriod() {
         }
 
         if (currentReportsPeriod === "today") {
-            return orderDate.toDateString() === now.toDateString();
+            const start = new Date(now);
+            start.setHours(0, 0, 0, 0);
+
+            const end = new Date(now);
+            end.setHours(23, 59, 59, 999);
+
+            return orderDate >= start && orderDate <= end;
         }
 
         if (currentReportsPeriod === "7days") {
@@ -1327,7 +1388,9 @@ function clearReportDateRange() {
 }
 
 reportPeriodButtons.forEach((button) => {
-    button.addEventListener("click", () => {
+    button.addEventListener("click", (event) => {
+        event.preventDefault();
+
         currentReportsPeriod = button.dataset.period;
         currentReportsCustomDateRange = {
             startDate: "",
