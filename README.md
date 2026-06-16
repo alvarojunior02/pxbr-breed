@@ -1,5 +1,13 @@
 # PXBR Breed
 
+![Status](https://img.shields.io/badge/status-active-success)
+![Version](https://img.shields.io/badge/version-2.0-blue)
+![License](https://img.shields.io/badge/license-GPL--3.0-blue)
+![Frontend](https://img.shields.io/badge/frontend-HTML5%20%2B%20CSS3%20%2B%20Vanilla%20JS-yellow)
+![API](https://img.shields.io/badge/api-NestJS-red)
+![Database](https://img.shields.io/badge/database-PostgreSQL-blue)
+![Deploy](https://img.shields.io/badge/deploy-Vercel%20%2B%20Render%20%2B%20Supabase-black)
+
 Sistema web para gerenciamento de encomendas de breeds Pixelmon, clientes, Pokemons próprios, Hidden Abilities, financeiro, relatórios e backup.
 
 O projeto nasceu como uma aplicação em HTML, CSS e JavaScript puro com persistência local, e evoluiu para uma solução full-stack com autenticação JWT, API REST em NestJS e banco PostgreSQL.
