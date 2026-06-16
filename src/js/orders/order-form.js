@@ -4,6 +4,7 @@ applyMoneyMask(paymentAmount);
 
 let orderOwnedPokemonsCache = [];
 let orderOwnedHAsCache = [];
+let orderPlayersCache = [];
 
 const BREEDABLE_UNDISCOVERED_EXCEPTIONS = [
     489, // Phione
@@ -107,6 +108,27 @@ async function loadOrderOwnedDataCache() {
 
     orderOwnedPokemonsCache = ownedPokemons || [];
     orderOwnedHAsCache = ownedHAs || [];
+}
+
+// LOAD ORDER PLAYERS CACHE
+async function loadOrderPlayersCache(search = "") {
+    if (typeof loadPlayersFromSource === "function") {
+        orderPlayersCache = await loadPlayersFromSource(search);
+        return orderPlayersCache;
+    }
+
+    orderPlayersCache = loadPlayers();
+    return orderPlayersCache;
+}
+
+// GET ORDER PLAYERS CACHE
+function getOrderPlayersCache() {
+    return orderPlayersCache.length ? orderPlayersCache : loadPlayers();
+}
+
+// GET ORDER PLAYER BY ID
+function getOrderPlayerById(playerId) {
+    return getOrderPlayersCache().find((player) => player.id === playerId);
 }
 
 // GET ORDER OWNED POKEMONS CACHE
@@ -410,33 +432,46 @@ function resetOrderForm() {
 }
 
 // RENDER PLAYER SEARCH RESULTS
-function renderPlayerSearchResults(searchTerm = "") {
-    const players = loadPlayers();
+async function renderPlayerSearchResults(searchTerm = "") {
+    const players = await loadOrderPlayersCache(searchTerm);
+    const normalizedSearch = searchTerm.trim().toLowerCase();
+
+    const filteredPlayers = shouldUseApiPlayers?.()
+        ? players
+        : players.filter((player) => {
+              return player.nick.toLowerCase().includes(normalizedSearch);
+          });
+
+    const results = filteredPlayers.slice(0, 8);
 
     orderPlayerResults.innerHTML = "";
 
-    const normalizedSearch = searchTerm.trim().toLowerCase();
+    if (!searchTerm.trim()) {
+        return;
+    }
 
-    const filteredPlayers = players.filter(
-        (player) => !normalizedSearch || player.nick.toLowerCase().includes(normalizedSearch)
-    );
+    if (results.length === 0) {
+        orderPlayerResults.innerHTML = `
+            <div class="autocomplete-empty">
+                Nenhum cliente encontrado.
+            </div>
+        `;
 
-    filteredPlayers.slice(0, 10).forEach((player) => {
-        const item = document.createElement("div");
+        return;
+    }
 
-        item.textContent = player.nick;
+    results.forEach((player) => {
+        const item = document.createElement("button");
 
-        item.classList.add("autocomplete-item");
+        item.type = "button";
+        item.className = "autocomplete-item";
+
+        item.innerHTML = `
+            ${renderPlayerInline(player, 28)}
+        `;
 
         item.addEventListener("click", () => {
-            orderPlayer.value = player.id;
-
-            orderPlayerSearch.value = player.nick;
-
-            orderPlayerResults.innerHTML = "";
-
-            updateOrderFormAvailability();
-            renderSelectedPlayerInfo(player);
+            selectOrderPlayer(player);
         });
 
         orderPlayerResults.appendChild(item);
@@ -1228,7 +1263,7 @@ function renderSelectedPlayerInfo(player) {
 function renderOrderSummary(order) {
     orderSummary.innerHTML = "";
 
-    const player = loadPlayers().find((player) => player.id === order.playerId);
+    const player = getOrderPlayerById(order.playerId);
 
     let html = `
         <div class="order-summary-header">
@@ -1374,6 +1409,7 @@ function renderOrderSummary(order) {
 // OPEN CREATE ORDER MODAL
 async function openCreateOrderModal() {
     await loadOrderOwnedDataCache();
+    await loadOrderPlayersCache();
 
     openModal(window.createOrderModal);
 }
@@ -1538,3 +1574,6 @@ window.createOrderFromSource = createOrderFromSource;
 
 window.loadOrderOwnedDataCache = loadOrderOwnedDataCache;
 window.getOrderOwnedHAByPokemonId = getOrderOwnedHAByPokemonId;
+
+window.loadOrderPlayersCache = loadOrderPlayersCache;
+window.getOrderPlayerById = getOrderPlayerById;

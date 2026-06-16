@@ -11,10 +11,14 @@ const btnConfirmFinanceCsvExport = document.getElementById("btnConfirmFinanceCsv
 let currentFinancePeriod = "7days";
 let currentFilteredFinanceTransactions = [];
 
+let financePlayersCache = [];
+
 // RENDER FINANCE MODULE
 async function renderFinanceModule() {
     try {
         const transactions = await loadFinanceTransactionsFromSource();
+        await loadFinancePlayersCache();
+
         const filteredTransactions = getFilteredTransactionsByPeriod(
             transactions,
             currentFinancePeriod
@@ -51,6 +55,31 @@ async function loadFinanceTransactionsFromSource() {
     }
 
     return loadTransactions();
+}
+
+// LOAD FINANCE PLAYERS CACHE
+async function loadFinancePlayersCache() {
+    if (typeof loadPlayersFromSource === "function") {
+        financePlayersCache = await loadPlayersFromSource();
+        return financePlayersCache;
+    }
+
+    financePlayersCache = loadPlayers();
+    return financePlayersCache;
+}
+
+// GET FINANCE PLAYERS CACHE
+function getFinancePlayersCache() {
+    return financePlayersCache.length ? financePlayersCache : loadPlayers();
+}
+
+// GET FINANCE TRANSACTION PLAYER
+function getFinanceTransactionPlayer(transaction) {
+    if (transaction.player) {
+        return transaction.player;
+    }
+
+    return getFinancePlayersCache().find((player) => player.id === transaction.playerId);
 }
 
 // GET FINANCE CSV EXPORT SUMMARY
@@ -124,23 +153,10 @@ function exportFinanceTransactionsToCsv() {
         return;
     }
 
-    const players = loadPlayers();
-
     const headers = ["id", "tipo", "data", "cliente_id", "cliente_nick", "valor", "encomenda_id"];
 
     const rows = currentFilteredFinanceTransactions.map((transaction) => {
-        const player =
-            transaction.player || players.find((player) => player.id === transaction.playerId);
-
-        return [
-            transaction.id,
-            transaction.type,
-            transaction.createdAt,
-            transaction.playerId,
-            player?.nick || "",
-            transaction.amount,
-            transaction.orderId || ""
-        ];
+        const player = getFinanceTransactionPlayer(transaction);
     });
 
     const timestamp = getCsvTimestamp();
@@ -154,7 +170,7 @@ function exportFinanceTransactionsToCsv() {
 
 // GET FINANCE TOP BUYER
 function getFinanceTopBuyer(transactions) {
-    const players = loadPlayers();
+    const players = getFinancePlayersCache();
 
     const totalsByPlayer = {};
     const playersById = {};
@@ -279,8 +295,6 @@ function renderFinanceTransactions(transactions) {
 
     btnExportFinanceCsv.disabled = transactions.length === 0;
 
-    const players = loadPlayers();
-
     const sortedTransactions = [...transactions].sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
@@ -299,8 +313,7 @@ function renderFinanceTransactions(transactions) {
 
     const rows = sortedTransactions
         .map((transaction) => {
-            const player =
-                transaction.player || players.find((player) => player.id === transaction.playerId);
+            const player = getFinanceTransactionPlayer(transaction);
 
             return `
                 <tr>
