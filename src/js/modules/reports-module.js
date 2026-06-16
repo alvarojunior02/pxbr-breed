@@ -382,7 +382,13 @@ function parseReportDate(dateValue) {
         return Number.isNaN(date.getTime()) ? null : date;
     }
 
-    const date = new Date(trimmedDate);
+    const apiDateWithoutTimezoneMatch = trimmedDate.match(
+        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?$/
+    );
+
+    const normalizedDate = apiDateWithoutTimezoneMatch ? `${trimmedDate}Z` : trimmedDate;
+
+    const date = new Date(normalizedDate);
 
     return Number.isNaN(date.getTime()) ? null : date;
 }
