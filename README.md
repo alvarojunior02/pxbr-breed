@@ -7,6 +7,7 @@
 ![API](https://img.shields.io/badge/api-NestJS-red)
 ![Database](https://img.shields.io/badge/database-PostgreSQL-blue)
 ![Deploy](https://img.shields.io/badge/deploy-Vercel%20%2B%20Render%20%2B%20Supabase-black)
+[![Frontend CI](https://github.com/alvarojunior02/pxbr-breed/actions/workflows/ci.yml/badge.svg)](https://github.com/alvarojunior02/pxbr-breed/actions/workflows/ci.yml)
 
 Sistema web para gerenciamento de encomendas de breeds Pixelmon, clientes, Pokemons próprios, Hidden Abilities, financeiro, relatórios e backup.
 
