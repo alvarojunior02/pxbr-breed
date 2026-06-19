@@ -218,8 +218,6 @@ function getPokemonRowData(row) {
         breedPokemonId: Number(row.dataset.breedPokemonId),
         breedPokemonName: row.dataset.breedPokemonName,
         nature: natureSelect.value,
-        regionalForm: regionalFormSelect?.value || "",
-        regionalFormLabel: regionalFormSelect?.selectedOptions?.[0]?.textContent || "Forma padrão",
         ability: {
             name: abilitySelect.value,
             isHA: abilitySelect.selectedOptions[0]?.dataset.isHa === "true"

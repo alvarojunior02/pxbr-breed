@@ -8,10 +8,6 @@ const OUTPUT_PATH = path.join(__dirname, "../src/data/pokedex.updated.json");
 const START_ID = 899;
 const END_ID = 1025;
 
-function padId(id) {
-    return String(id).padStart(3, "0");
-}
-
 function formatName(name) {
     return name
         .split("-")

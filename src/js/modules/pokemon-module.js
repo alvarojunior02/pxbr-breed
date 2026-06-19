@@ -2078,22 +2078,8 @@ function createOwnedHACard(item) {
 }
 
 // DELETE OWNED HA
-function deleteOwnedHA(hiddenAbilityId) {
+function deleteOwnedHA() {
     showWarningToast("A remoção de HAs está desabilitada por segurança.");
-
-    return;
-
-    const confirmed = confirm("Deseja remover esta HA da sua lista?");
-
-    if (!confirmed) {
-        return;
-    }
-
-    removeOwnedHiddenAbility(hiddenAbilityId);
-
-    showSuccessToast("HA removida com sucesso!");
-
-    renderOwnedHAList();
 }
 
 // GET POKEMON HIDDEN ABILITY
