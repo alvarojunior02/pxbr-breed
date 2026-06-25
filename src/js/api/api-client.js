@@ -15,6 +15,8 @@ const PXBR_AUTH_STORAGE_KEYS = {
     authUser: "pxbrAuthUser"
 };
 
+let pxbrRefreshTokenPromise = null;
+
 // GET API BASE URL
 function getPxbrApiBaseUrl() {
     return (
@@ -34,16 +36,85 @@ function setPxbrApiBaseUrl(baseUrl) {
     localStorage.setItem("pxbrApiBaseUrl", baseUrl);
 }
 
+// IS AUTH API PATH
+function isPxbrAuthApiPath(path) {
+    return path.startsWith("/auth/login") || path.startsWith("/auth/refresh");
+}
+
+// SAVE API AUTH SESSION
+function savePxbrApiAuthSession(result) {
+    const payload = result?.data || result;
+
+    if (payload?.accessToken) {
+        localStorage.setItem(PXBR_AUTH_STORAGE_KEYS.accessToken, payload.accessToken);
+    }
+
+    if (payload?.user) {
+        localStorage.setItem(PXBR_AUTH_STORAGE_KEYS.authUser, JSON.stringify(payload.user));
+    }
+}
+
+// CLEAR API AUTH SESSION
+function clearPxbrApiAuthSession() {
+    localStorage.removeItem(PXBR_AUTH_STORAGE_KEYS.accessToken);
+    localStorage.removeItem(PXBR_AUTH_STORAGE_KEYS.authUser);
+}
+
+// REFRESH API ACCESS TOKEN
+async function refreshPxbrApiAccessToken() {
+    if (!pxbrRefreshTokenPromise) {
+        pxbrRefreshTokenPromise = fetch(`${getPxbrApiBaseUrl()}/auth/refresh`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: JSON.stringify({})
+        })
+            .then(async (response) => {
+                const responseData = await parsePxbrApiResponse(response);
+
+                if (!response.ok) {
+                    throw createPxbrApiError(response, responseData);
+                }
+
+                savePxbrApiAuthSession(responseData);
+
+                return responseData;
+            })
+            .finally(() => {
+                pxbrRefreshTokenPromise = null;
+            });
+    }
+
+    return pxbrRefreshTokenPromise;
+}
+
+// HANDLE API AUTH EXPIRED
+function handlePxbrApiAuthExpired() {
+    clearPxbrApiAuthSession();
+
+    window.dispatchEvent(
+        new CustomEvent("pxbr:auth-expired", {
+            detail: {
+                message: "Sua sessão expirou. Faça login novamente."
+            }
+        })
+    );
+}
+
 // API CLIENT
 async function pxbrApiRequest(path, options = {}) {
+    const { skipAuthRefresh = false, ...fetchOptions } = options;
+
     const url = `${getPxbrApiBaseUrl()}${path}`;
     const accessToken = localStorage.getItem(PXBR_AUTH_STORAGE_KEYS.accessToken);
 
     const headers = {
-        ...(options.headers || {})
+        ...(fetchOptions.headers || {})
     };
 
-    if (!(options.body instanceof FormData)) {
+    if (!(fetchOptions.body instanceof FormData)) {
         headers["Content-Type"] = headers["Content-Type"] || "application/json";
     }
 
@@ -52,12 +123,27 @@ async function pxbrApiRequest(path, options = {}) {
     }
 
     const response = await fetch(url, {
-        ...options,
+        ...fetchOptions,
         headers,
         credentials: "include"
     });
 
     const responseData = await parsePxbrApiResponse(response);
+
+    if (response.status === 401 && !skipAuthRefresh && !isPxbrAuthApiPath(path)) {
+        try {
+            await refreshPxbrApiAccessToken();
+
+            return pxbrApiRequest(path, {
+                ...options,
+                skipAuthRefresh: true
+            });
+        } catch (error) {
+            handlePxbrApiAuthExpired();
+
+            throw error;
+        }
+    }
 
     if (!response.ok) {
         throw createPxbrApiError(response, responseData);

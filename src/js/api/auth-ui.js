@@ -14,6 +14,8 @@ function bindPxbrAuthEvents() {
 
     loginForm?.addEventListener("submit", handlePxbrAuthLoginSubmit);
     logoutButton?.addEventListener("click", handlePxbrAuthLogout);
+
+    window.addEventListener("pxbr:auth-expired", handlePxbrAuthExpired);
 }
 
 // BOOTSTRAP AUTH
@@ -64,6 +66,14 @@ async function handlePxbrAuthLogout() {
         lockPxbrApp();
         setPxbrAuthLoading(false);
     }
+}
+
+// HANDLE AUTH EXPIRED
+function handlePxbrAuthExpired(event) {
+    lockPxbrApp();
+
+    setPxbrAuthLoading(false);
+    setPxbrAuthError(event.detail?.message || "Sua sessão expirou. Faça login novamente.");
 }
 
 // LOCK APP
@@ -127,3 +137,4 @@ function setPxbrAuthError(message) {
 }
 
 window.initPxbrAuthUI = initPxbrAuthUI;
+window.addEventListener("pxbr:auth-expired", handlePxbrAuthExpired);
